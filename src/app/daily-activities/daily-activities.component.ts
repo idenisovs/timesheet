@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-daily-activities',
@@ -8,9 +9,38 @@ import { Component, OnInit } from '@angular/core';
 export class DailyActivitiesComponent implements OnInit {
   today = new Date();
 
-  constructor() { }
+  form = this.fb.group({
+    activities: this.fb.array([
+      this.fb.group({
+        name: [''],
+        from: [''],
+        till: [''],
+        duration: ['']
+      })
+    ])
+  });
 
-  ngOnInit(): void {
+  get activities(): FormGroup[] {
+    return (this.form.get('activities') as FormArray).controls as FormGroup[];
   }
+
+  constructor(private fb: FormBuilder) { }
+
+  ngOnInit(): void {}
+
+  addActivityRecord() {
+    this.activities.push(this.fb.group({
+      name: [''],
+      from: [''],
+      till: [''],
+      duration: ['']
+    }));
+  }
+
+  removeActivityRecord(idx: number) {
+    this.activities.splice(idx, 1);
+  }
+
+  save() {}
 
 }

@@ -1,8 +1,8 @@
-<main class="card">
+<section class="card">
   <h2 class="card-header">
     {{ today | date }}
   </h2>
-  <div class="card-body">
+  <form class="card-body" [formGroup]="form">
     <div class="form-row">
       <div class="col-4">
         Activity
@@ -17,24 +17,21 @@
         Duration
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-group col-4">
-        <input id="activity-name" type="text" class="form-control">
-      </div>
-      <div class="form-group col-2">
-        <input id="activity-from" type="text" class="form-control">
-      </div>
-      <div class="form-group col-2">
-        <input id="activity-till" type="text" class="form-control">
-      </div>
-      <div class="form-group col-2">
-        <input id="activity-duration" type="text" class="form-control">
-      </div>
-      <div class="col-2">
-        <button type="button" class="btn btn-outline-primary">
-          <i class="material-icons">add</i>
-        </button>
-      </div>
+    <div formArrayName="activities">
+      <app-daily-activity-item
+        *ngFor="let record of activities; let idx = index"
+        [idx]="idx"
+        [activity]="record"
+        [isLastActivity]="idx === activities.length - 1"
+        (add)="addActivityRecord()"
+        (remove)="removeActivityRecord($event)"
+        (save)="save()"
+      >
+      </app-daily-activity-item>
     </div>
-  </div>
-</main>
+  </form>
+  <footer class="card-footer">
+    <i class="material-icons text-info">schedule</i>
+    0h
+  </footer>
+</section>
