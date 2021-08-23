@@ -1,0 +1,40 @@
+<main class="card">
+  <h2 class="card-header">
+    {{ today | date }}
+  </h2>
+  <div class="card-body">
+    <div class="form-row">
+      <div class="col-4">
+        Activity
+      </div>
+      <div class="col-2">
+        From
+      </div>
+      <div class="col-2">
+        Till
+      </div>
+      <div class="col-2">
+        Duration
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-4">
+        <input id="activity-name" type="text" class="form-control">
+      </div>
+      <div class="form-group col-2">
+        <input id="activity-from" type="text" class="form-control">
+      </div>
+      <div class="form-group col-2">
+        <input id="activity-till" type="text" class="form-control">
+      </div>
+      <div class="form-group col-2">
+        <input id="activity-duration" type="text" class="form-control">
+      </div>
+      <div class="col-2">
+        <button type="button" class="btn btn-outline-primary">
+          <i class="material-icons">add</i>
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
