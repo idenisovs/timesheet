@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { getDateString } from '../utils';
+import { getDateString } from '../../utils';
 
 @Component({
   selector: 'app-daily-activities',
