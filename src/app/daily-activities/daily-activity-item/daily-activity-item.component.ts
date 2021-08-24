@@ -39,26 +39,96 @@ export class DailyActivityItemComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  handleChanges() {
+  handleFromChanges() {
     const from = this.activity.get('from')?.value;
     const isFromDefined = HOURS_PATTERN_24.test(from);
+
+    if (!isFromDefined) {
+      return;
+    }
 
     const till = this.activity.get('till')?.value;
     const isTillDefined = HOURS_PATTERN_24.test(till);
 
-    const duration = this.activity.get('duration')?.value;
-
-    if (isFromDefined && isTillDefined && !duration) {
+    if (isTillDefined) {
       return this.recalculateDuration(from, till);
     }
 
-    if (isFromDefined && !isTillDefined && duration) {
-      return this.recalculateTillTime(from, duration);
+    const duration = this.activity.get('duration')?.value;
+
+    if (duration) {
+      this.recalculateTillTime(from, duration);
+    }
+  }
+
+  handleTillChanges() {
+    const till = this.activity.get('till')?.value;
+    const isTillDefined = HOURS_PATTERN_24.test(till);
+
+    if (!isTillDefined) {
+      return;
     }
 
-    if (!isFromDefined && isTillDefined && duration) {
-      return this.recalculateFromTime();
+    const from = this.activity.get('from')?.value;
+    const isFromDefined = HOURS_PATTERN_24.test(from);
+
+    if (isFromDefined) {
+      return this.recalculateDuration(from, till)
     }
+
+    const duration = this.activity.get('duration')?.value;
+
+    if (duration) {
+      this.recalculateFromTime(till, duration);
+    }
+  }
+
+  handleDurationChanges() {
+    const duration = this.activity.get('duration')?.value;
+
+    const dT = parseDuration(duration);
+
+    if (!dT) {
+      return;
+    }
+
+    const from = this.activity.get('from')?.value;
+    const isFromDefined = HOURS_PATTERN_24.test(from);
+
+    if (isFromDefined) {
+      return this.recalculateTillTime(from, duration)
+    }
+
+    const till = this.activity.get('till')?.value;
+    const isTillDefined = HOURS_PATTERN_24.test(till);
+
+    if (isTillDefined) {
+      return this.recalculateFromTime(till, duration);
+    }
+  }
+
+  recalculateFromTime(till: string, duration: string) {
+    const d2 = this.getDateObj(till);
+
+    const dT = parseDuration(duration);
+
+    const d1 = new Date(d2.getTime() - dT!);
+
+    const fromTime = this.getTimeString(d1);
+
+    this.activity.get('from')?.setValue(fromTime);
+  }
+
+  recalculateTillTime(from: string, duration: string) {
+    const d1 = this.getDateObj(from);
+
+    const dT = parseDuration(duration);
+
+    const d2 = new Date(d1.getTime() + dT!);
+
+    const tillTime = this.getTimeString(d2);
+
+    this.activity.get('till')?.setValue(tillTime);
   }
 
   recalculateDuration(from: string, till: string) {
@@ -76,32 +146,6 @@ export class DailyActivityItemComponent implements OnInit {
     this.activity.get('duration')?.setValue(durationValue);
   }
 
-  recalculateTillTime(from: string, duration: string) {
-    const d1 = this.getDateObj(from);
-
-    const dT = parseDuration(duration);
-
-    console.log(dT);
-
-    const d2 = new Date(d1.getTime() + dT!);
-
-    console.log(d1, d2);
-
-    const hours = d2.getHours();
-
-    const minutes = d2.getMinutes();
-
-    const tillTime = (hours > 10 ? hours : '0' + hours) + ':' + (minutes > 10 ? minutes : '0' + minutes);
-
-    this.activity.get('till')?.setValue(tillTime);
-
-
-  }
-
-  recalculateFromTime() {
-    console.log('Recalculate from time');
-  }
-
   getDateObj(time: string): Date {
     const [ hh, mm] = time.split(':');
 
@@ -111,6 +155,28 @@ export class DailyActivityItemComponent implements OnInit {
     date.setMinutes(Number(mm));
 
     return date;
+  }
+
+  getTimeString(date: Date): string {
+    const result: string[] = [];
+
+    const hours = date.getHours();
+
+    result.push(this.getTwoDigitFormat(hours));
+
+    const minutes = date.getMinutes();
+
+    result.push(this.getTwoDigitFormat(minutes));
+
+    return result.join(':');
+  }
+
+  getTwoDigitFormat(x: number): string {
+    if (x > 10) {
+      return String(x);
+    } else {
+      return `0${x}`;
+    }
   }
 
 }

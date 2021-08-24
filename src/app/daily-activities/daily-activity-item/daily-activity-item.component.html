@@ -3,13 +3,13 @@
     <input id="activity-name" name="name" formControlName="name" type="text" class="form-control">
   </div>
   <div class="form-group col-2 m-0">
-    <input id="activity-from"  name="from" formControlName="from" type="text" class="form-control" (input)="handleChanges()">
+    <input id="activity-from"  name="from" formControlName="from" type="text" class="form-control" (input)="handleFromChanges()">
   </div>
   <div class="form-group col-2 m-0">
-    <input id="activity-till" name="till" formControlName="till" type="text" class="form-control" (input)="handleChanges()">
+    <input id="activity-till" name="till" formControlName="till" type="text" class="form-control" (input)="handleTillChanges()">
   </div>
   <div class="form-group col-2 m-0">
-    <input id="activity-duration" name="duration" formControlName="duration" type="text" class="form-control" (input)="handleChanges()">
+    <input id="activity-duration" name="duration" formControlName="duration" type="text" class="form-control" (input)="handleDurationChanges()">
   </div>
   <div class="col-2 m-0 d-flex align-items-center">
     <button type="button" class="btn btn-outline-info p-1" (click)="add.emit()" [hidden]="idx > 0">
@@ -17,9 +17,6 @@
     </button>
     <button type="button" class="btn btn-outline-info p-1" (click)="remove.emit(idx)" [hidden]="idx === 0">
       <i class="material-icons">remove</i>
-    </button>
-    <button type="button" class="btn btn-outline-primary p-1 ml-2" (click)="save.emit()" [hidden]="!isLastActivity">
-      <i class="material-icons">save</i>
     </button>
   </div>
 </div>
