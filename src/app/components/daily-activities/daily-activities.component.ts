@@ -3,6 +3,9 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { getDateString } from '../../utils';
 import Sheet from '../../dto/Sheet';
 import { SheetStoreService } from '../../services/sheet-store.service';
+import { Activity } from '../../dto/Activity';
+import parseDuration from 'parse-duration';
+import { duration } from 'yet-another-duration';
 
 @Component({
   selector: 'app-daily-activities',
@@ -12,6 +15,7 @@ import { SheetStoreService } from '../../services/sheet-store.service';
 export class DailyActivitiesComponent implements OnInit {
   isChanged = false;
   date = new Date();
+  totalDuration = '0h';
 
   form = this.fb.group({
     id: [''],
@@ -53,6 +57,8 @@ export class DailyActivitiesComponent implements OnInit {
       });
 
       this.form.setControl('activities', this.fb.array(activities));
+
+      this.totalDuration = this.getTotalDuration();
     }
 
     this.form.valueChanges.subscribe(() => {
@@ -72,16 +78,38 @@ export class DailyActivitiesComponent implements OnInit {
   }
 
   removeActivityRecord(idx: number) {
-    this.Activities.splice(idx, 1);
+    (this.form.get('activities') as FormArray).removeAt(idx);
   }
 
   async save() {
     this.isChanged = false;
     console.log('Saving item...');
 
-    // console.log(this.form.value);
+    console.log(this.form.value);
 
     await this.store.save(this.form.value);
     console.log('Item saved!');
+    this.totalDuration = this.getTotalDuration();
   }
+
+  getTotalDuration(): string {
+    const activities = this.form.get('activities')?.value as Activity[];
+
+    const totalDuration = activities.reduce<number>((result: number, activity: Activity) => {
+      const activityDuration = parseDuration(activity.duration);
+
+      if (activityDuration) {
+        return result + activityDuration;
+      }
+
+      return result;
+    }, 0)
+
+    return duration(totalDuration || 0, {
+      units: {
+        min: 'minutes'
+      }
+    }).toString();
+  }
+
 }
