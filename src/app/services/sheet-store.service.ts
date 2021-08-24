@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import SheetStore from '../store/SheetStore';
 import { getDateString } from '../utils';
+import Sheet from '../dto/Sheet';
 
 @Injectable({
   providedIn: 'root'
@@ -13,23 +14,20 @@ export class SheetStoreService {
 
     this.db.open().then(() => {
       console.log('TimeSheet database opened!');
-      return this.prepareForToday();
     }).catch(() => {
       console.error('Error opening TimeSheet database!');
     });
   }
 
-
-  async save() {
-    const date = getDateString();
-
-    await this.db.sheet.put({
-      date,
-      activities: []
-    });
+  async load(): Promise<Sheet[]> {
+    return this.db.sheet.toArray();
   }
 
-  private async prepareForToday() {
+  async save(sheet: Sheet) {
+    await this.db.sheet.put(sheet);
+  }
+
+  async prepareForToday() {
     console.log('Preparing for today...');
 
     const today = getDateString();
