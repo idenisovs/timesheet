@@ -18,5 +18,8 @@
     <button type="button" class="btn btn-outline-info p-1" (click)="remove.emit(idx)" [hidden]="idx === 0">
       <i class="material-icons">remove</i>
     </button>
+    <button type="button" class="btn btn-outline-primary p-1 ml-2" (click)="save.emit()" [hidden]="!isLastActivity">
+      <i class="material-icons">save</i>
+    </button>
   </div>
 </div>

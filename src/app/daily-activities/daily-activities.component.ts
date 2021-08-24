@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { SheetStoreService } from '../services/sheet-store.service';
 
 @Component({
   selector: 'app-daily-activities',
@@ -24,7 +25,10 @@ export class DailyActivitiesComponent implements OnInit {
     return (this.form.get('activities') as FormArray).controls as FormGroup[];
   }
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private store: SheetStoreService
+  ) { }
 
   ngOnInit(): void {}
 
@@ -41,6 +45,9 @@ export class DailyActivitiesComponent implements OnInit {
     this.activities.splice(idx, 1);
   }
 
-  save() {}
-
+  async save() {
+    console.log('Saving item...');
+    await this.store.save();
+    console.log('Item saved!');
+  }
 }
