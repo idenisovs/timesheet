@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 
+const HOURS_PATTERN = /^\d\d:\d\d$/
+
 @Component({
   selector: 'app-daily-activity-item',
   templateUrl: './daily-activity-item.component.html',
@@ -33,7 +35,40 @@ export class DailyActivityItemComponent implements OnInit {
 
   constructor(private fb: FormBuilder) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  handleChanges() {
+    const from = this.activity.get('from')?.value;
+    const isFromDefined = HOURS_PATTERN.test(from);
+
+    const till = this.activity.get('till')?.value;
+    const isTillDefined = HOURS_PATTERN.test(till);
+
+    const duration = this.activity.get('duration')?.value;
+
+    if (isFromDefined && isTillDefined && !duration) {
+      return this.recalculateDuration();
+    }
+
+    if (isFromDefined && !isTillDefined && duration) {
+      return this.recalculateTillTime();
+    }
+
+    if (!isFromDefined && isTillDefined && duration) {
+      return this.recalculateFromTime();
+    }
+  }
+
+  recalculateDuration() {
+    console.log('Recalculate duration!');
+  }
+
+  recalculateTillTime() {
+    console.log('Recalculate till time');
+  }
+
+  recalculateFromTime() {
+    console.log('Recalculate from time');
   }
 
 }
