@@ -25,6 +25,7 @@
     "parse-duration": "^1.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
+    "yet-another-duration": "^1.7.5",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
