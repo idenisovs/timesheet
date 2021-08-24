@@ -141,7 +141,7 @@ export class DailyActivityItemComponent implements OnInit {
       units: {
         min: 'minutes'
       }
-    });
+    }).toString();
 
     this.activity.get('duration')?.setValue(durationValue);
   }

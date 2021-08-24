@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { SheetStoreService } from '../services/sheet-store.service';
+import { getDateString } from '../utils';
 
 @Component({
   selector: 'app-daily-activities',
@@ -8,9 +8,12 @@ import { SheetStoreService } from '../services/sheet-store.service';
   styleUrls: ['./daily-activities.component.scss']
 })
 export class DailyActivitiesComponent implements OnInit {
+  isChanged = false;
   today = new Date();
 
   form = this.fb.group({
+    id: [''],
+    date: [getDateString(this.today)],
     activities: this.fb.array([
       this.fb.group({
         name: [''],
@@ -21,33 +24,44 @@ export class DailyActivitiesComponent implements OnInit {
     ])
   });
 
-  get activities(): FormGroup[] {
+  get Activities(): FormGroup[] {
     return (this.form.get('activities') as FormArray).controls as FormGroup[];
   }
 
   constructor(
-    private fb: FormBuilder,
-    private store: SheetStoreService
+    private fb: FormBuilder
   ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.form.valueChanges.subscribe(() => {
+      this.isChanged = true;
+    });
+  }
 
   addActivityRecord() {
-    this.activities.push(this.fb.group({
+    const activities = this.form.get('activities') as FormArray;
+
+    activities.push(this.fb.group({
       name: [''],
       from: [''],
       till: [''],
       duration: ['']
     }));
+
+    this.isChanged = true;
   }
 
   removeActivityRecord(idx: number) {
-    this.activities.splice(idx, 1);
+    this.Activities.splice(idx, 1);
   }
 
   async save() {
+    this.isChanged = false;
     console.log('Saving item...');
-    await this.store.save();
+
+    console.log(this.form.value);
+
+    // await this.store.save();
     console.log('Item saved!');
   }
 }

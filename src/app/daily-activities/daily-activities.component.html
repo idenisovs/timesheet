@@ -2,6 +2,7 @@
   <h2 class="card-header">
     {{ today | date }}
   </h2>
+
   <form class="card-body" [formGroup]="form">
     <div class="form-row">
       <div class="col-4">
@@ -19,10 +20,10 @@
     </div>
     <div formArrayName="activities">
       <app-daily-activity-item
-        *ngFor="let record of activities; let idx = index"
+        *ngFor="let record of Activities; let idx = index"
         [idx]="idx"
         [activity]="record"
-        [isLastActivity]="idx === activities.length - 1"
+        [isLastActivity]="idx === Activities.length - 1"
         (add)="addActivityRecord()"
         (remove)="removeActivityRecord($event)"
         (save)="save()"
@@ -30,8 +31,16 @@
       </app-daily-activity-item>
     </div>
   </form>
+
   <footer class="card-footer">
-    <i class="material-icons text-info">schedule</i>
-    0h
+    <span class="mr-2">
+      <i class="material-icons text-info">schedule</i>
+      0h
+    </span>
+
+    <span class="mr-2" [hidden]="!isChanged">
+      <i class="material-icons text-warning">warning</i>
+      Unsaved!
+    </span>
   </footer>
 </section>
