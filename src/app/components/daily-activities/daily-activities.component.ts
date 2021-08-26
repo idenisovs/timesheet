@@ -92,12 +92,7 @@ export class DailyActivitiesComponent implements OnInit {
 
   async save() {
     this.isChanged = false;
-    console.log('Saving item...');
-
-    console.log(this.form.value);
-
     await this.store.save(this.form.value);
-    console.log('Item saved!');
     this.totalDuration = this.getTotalDuration();
   }
 

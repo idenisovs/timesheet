@@ -1,6 +1,6 @@
 <section class="card mb-5">
   <h2 class="card-header">
-    {{ date | date }}
+    {{ date | date }} <small class="even-smaller">{{ date | date:'EEEE'}}</small>
   </h2>
 
   <form class="card-body" [formGroup]="form">
