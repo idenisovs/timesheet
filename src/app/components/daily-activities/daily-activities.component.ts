@@ -47,6 +47,15 @@ export class DailyActivitiesComponent implements OnInit {
       this.date = new Date(this.sheet.date);
       this.form.patchValue(this.sheet);
 
+      if (!this.sheet.activities.length) {
+        this.sheet.activities.push({
+          name: '',
+          from: '',
+          till: '',
+          duration: ''
+        })
+      }
+
       const activities = this.sheet.activities.map((activity) => {
         return this.fb.group({
           name: [activity.name],
