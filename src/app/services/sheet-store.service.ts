@@ -19,8 +19,8 @@ export class SheetStoreService {
     });
   }
 
-  async load(): Promise<Sheet[]> {
-    return this.db.sheet.toArray();
+  load(): Promise<Sheet[]> {
+    return this.db.sheet.orderBy('date').reverse().toArray();
   }
 
   async save(sheet: Sheet) {
