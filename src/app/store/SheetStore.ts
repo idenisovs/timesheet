@@ -12,7 +12,5 @@ export default class SheetStore extends Dexie {
     });
 
     this.sheet = this.table('sheet');
-
-    console.log('Instantiating SheetStore');
   }
 }

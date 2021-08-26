@@ -10,13 +10,7 @@ export class SheetStoreService {
   private db = new SheetStore();
 
   constructor() {
-    console.log('Opening TimeSheet database...');
-
-    this.db.open().then(() => {
-      console.log('TimeSheet database opened!');
-    }).catch(() => {
-      console.error('Error opening TimeSheet database!');
-    });
+    this.db.open().then(() => {});
   }
 
   load(): Promise<Sheet[]> {
@@ -28,8 +22,6 @@ export class SheetStoreService {
   }
 
   async prepareForToday() {
-    console.log('Preparing for today...');
-
     const today = getDateString();
 
     const records = await this.db.sheet.where({
@@ -37,18 +29,13 @@ export class SheetStoreService {
     }).toArray();
 
     if (records.length) {
-      console.log('Nothing to do!');
       return;
     }
 
     await this.createRecord();
-
-    console.log('Done!');
   }
 
   private createRecord(): Promise<number> {
-    console.log('Creating record for today...');
-
     return this.db.sheet.put({
       date: getDateString(),
       activities: []
