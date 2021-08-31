@@ -87,7 +87,13 @@ export class DailyActivitiesComponent implements OnInit {
   }
 
   removeActivityRecord(idx: number) {
-    (this.form.get('activities') as FormArray).removeAt(idx);
+    const activities = this.form.get('activities') as FormArray;
+
+    activities.removeAt(idx);
+
+    if (!activities.length) {
+      this.addActivityRecord();
+    }
   }
 
   async save() {

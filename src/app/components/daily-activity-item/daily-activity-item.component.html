@@ -12,13 +12,13 @@
     <input id="activity-duration" name="duration" formControlName="duration" type="text" class="form-control" (input)="handleDurationChanges()">
   </div>
   <div class="col-2 m-0 d-flex align-items-center">
-    <button type="button" class="btn btn-outline-info p-1" (click)="add.emit()" [hidden]="idx > 0">
+    <button type="button" class="btn btn-outline-info p-1 mr-2" [ngClass]="{ 'invisible': !isLastActivity }" (click)="add.emit()">
       <i class="material-icons">add</i>
     </button>
-    <button type="button" class="btn btn-outline-info p-1" (click)="remove.emit(idx)" [hidden]="idx === 0">
+    <button type="button" class="btn btn-outline-info p-1 mr-2" (click)="remove.emit(idx)">
       <i class="material-icons">remove</i>
     </button>
-    <button type="button" class="btn btn-outline-primary p-1 ml-2" (click)="save.emit()" [hidden]="!isLastActivity">
+    <button type="button" class="btn btn-outline-primary p-1" (click)="save.emit()" [hidden]="!isLastActivity">
       <i class="material-icons">save</i>
     </button>
   </div>
