@@ -8,13 +8,15 @@ import { DailyActivitiesComponent } from './components/daily-activities/daily-ac
 import { DailyActivityItemComponent } from './components/daily-activity-item/daily-activity-item.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DailyActivitiesPageComponent } from './pages/daily-activities-page/daily-activities-page.component';
+import { ImportModalComponent } from './components/import-modal/import-modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DailyActivitiesComponent,
     DailyActivityItemComponent,
-    DailyActivitiesPageComponent
+    DailyActivitiesPageComponent,
+    ImportModalComponent
   ],
   imports: [
     BrowserModule,

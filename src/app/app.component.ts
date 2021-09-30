@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { saveAs } from 'file-saver';
 
 import { SheetStoreService } from './services/sheet-store.service';
+import { ImportModalComponent } from './components/import-modal/import-modal.component';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +14,12 @@ import { SheetStoreService } from './services/sheet-store.service';
 export class AppComponent {
   title = 'timesheet';
 
-  constructor(private store: SheetStoreService) {}
+  constructor(
+    private store: SheetStoreService,
+    private modalService: NgbModal
+  ) {}
 
-  async exportCsv() {
+  async exportToCsv() {
     const sheet = await this.store.load();
 
     const file = [ 'date;name;from;till;duration;id' ];
@@ -32,5 +37,15 @@ export class AppComponent {
     const date = today.toISOString().split('T')[0];
 
     saveAs(blob, `timesheet-${date}.csv`);
+  }
+
+  async importFromCsv() {}
+
+  async openImportModal() {
+    const result = await this.modalService.open(ImportModalComponent, {
+      centered: true
+    }).result;
+
+    console.log(result);
   }
 }
