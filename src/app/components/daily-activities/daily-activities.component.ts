@@ -37,6 +37,13 @@ export class DailyActivitiesComponent implements OnInit {
     return (this.form.get('activities') as FormArray).controls as FormGroup[];
   }
 
+  get ImportedActivities(): boolean {
+    if (!this.sheet) {
+      return false;
+    }
+    return this.sheet.activities.some((activity) => activity.isImported);
+  }
+
   constructor(
     private fb: FormBuilder,
     private store: SheetStoreService
@@ -127,6 +134,16 @@ export class DailyActivitiesComponent implements OnInit {
         min: 'minutes'
       }
     }).toString();
+  }
+
+  isImportedActivity(idx: number): boolean {
+    if (!this.sheet || !this.sheet.activities) {
+      return false;
+    }
+
+    const activity = this.sheet.activities[idx];
+
+    return activity ? !!activity.isImported : false;
   }
 
 }

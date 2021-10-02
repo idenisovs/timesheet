@@ -1,4 +1,4 @@
-<div class="form-row mb-2" [formGroup]="activity">
+<div class="form-row mb-2" [ngClass]="{ 'border-left border-info ': isImported }" [formGroup]="activity">
   <div class="form-group col-4 m-0">
     <input id="activity-name" name="name" formControlName="name" type="text" class="form-control">
   </div>

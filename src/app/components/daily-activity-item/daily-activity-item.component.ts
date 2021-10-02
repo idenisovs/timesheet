@@ -26,6 +26,9 @@ export class DailyActivityItemComponent implements OnInit {
   @Input()
   isLastActivity = false;
 
+  @Input()
+  isImported = false;
+
   @Output()
   add = new EventEmitter<void>();
 

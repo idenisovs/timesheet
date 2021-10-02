@@ -3,4 +3,5 @@ export interface Activity {
   from: string;
   till: string;
   duration: string;
+  isImported?: boolean;
 }

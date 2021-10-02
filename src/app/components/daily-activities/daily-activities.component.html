@@ -20,10 +20,11 @@
     </div>
     <div formArrayName="activities">
       <app-daily-activity-item
-        *ngFor="let record of Activities; let idx = index"
+        *ngFor="let activity of Activities; let idx = index"
         [idx]="idx"
-        [activity]="record"
+        [activity]="activity"
         [isLastActivity]="idx === Activities.length - 1"
+        [isImported]="isImportedActivity(idx)"
         (add)="addActivityRecord()"
         (remove)="removeActivityRecord($event)"
         (save)="save()"
@@ -43,7 +44,7 @@
       {{totalDuration}}
     </span>
 
-    <span class="mr-2" [hidden]="!isChanged">
+    <span class="mr-2" [hidden]="!isChanged && !ImportedActivities">
       <i class="material-icons text-warning">warning</i>
       Unsaved!
     </span>
