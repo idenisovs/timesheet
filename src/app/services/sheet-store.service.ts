@@ -24,6 +24,10 @@ export class SheetStoreService {
   }
 
   async save(sheet: Sheet) {
+    if (!sheet.id) {
+      delete sheet.id;
+    }
+
     await this.db.sheet.put(sheet);
   }
 
