@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { saveAs } from 'file-saver';
@@ -12,17 +12,13 @@ import CsvProcessingResult from './services/CsvProcessingResult';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'timesheet';
 
   constructor(
     private store: SheetStoreService,
     private modalService: NgbModal
   ) {}
-
-  ngOnInit() {
-    this.openImportModal();
-  }
 
   async exportToCsv() {
     const sheet = await this.store.load();
