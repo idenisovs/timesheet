@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SheetStoreService } from '../../services/sheet-store.service';
-import { Sheet } from '../../dto';
+import { Activity, CsvRecord, Sheet } from '../../dto';
 
 @Component({
   selector: 'app-daily-activities-page',
@@ -11,12 +11,73 @@ export class DailyActivitiesPageComponent implements OnInit {
 
   sheets: Sheet[] = [];
 
-  constructor(private store: SheetStoreService) { }
+  constructor(
+    private store: SheetStoreService
+  ) { }
 
   async ngOnInit() {
     await this.store.prepareForToday();
 
     this.sheets = await this.store.load();
+
+    this.store.ImportEvent.subscribe(this.importRecords.bind(this));
+  }
+
+  importRecords(records: CsvRecord[]) {
+    for (let record of records) {
+      const dailySheet = this.sheets.find((sheet: Sheet) => sheet.date === record.date);
+      const activity = this.makeActivityFromRecord(record);
+
+      if (dailySheet) {
+        this.updateSheetWithActivity(dailySheet, activity);
+      } else {
+        this.createSheetAndActivity(record.date, activity);
+      }
+    }
+  }
+
+  updateSheetWithActivity(sheet: Sheet, activity: Activity) {
+    const isExistingActivity = sheet.activities.some((item) => {
+      return item.name === activity.name
+        && item.from === activity.from
+        && item.till === activity.till
+    });
+
+    if (isExistingActivity) {
+      console.log('Existing activity', activity.name);
+      return;
+    }
+
+    const activities = [...sheet.activities];
+
+    const insertIdx = sheet.activities.findIndex((item) => {
+      return item.from >= activity.till;
+    });
+
+    console.log('Insert IDX', insertIdx);
+
+    activities.splice(insertIdx, 0, activity);
+
+    sheet.activities = activities;
+
+    const sheetIdx = this.sheets.findIndex((item) => item === sheet);
+
+    this.sheets.splice(sheetIdx, 1, {...sheet});
+  }
+
+  createSheetAndActivity(date: string, activity: Activity) {
+    this.sheets.push({
+      date: date,
+      activities: [activity]
+    });
+  }
+
+  makeActivityFromRecord(record: CsvRecord): Activity {
+    const { name, from, till, duration } = record;
+
+    return {
+      name, from, till, duration
+    };
   }
 
 }

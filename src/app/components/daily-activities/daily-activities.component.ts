@@ -87,6 +87,7 @@ export class DailyActivitiesComponent implements OnInit {
   }
 
   removeActivityRecord(idx: number) {
+    this.sheet?.activities.splice(idx, 1);
     const activities = this.form.get('activities') as FormArray;
 
     activities.removeAt(idx);
@@ -97,9 +98,15 @@ export class DailyActivitiesComponent implements OnInit {
   }
 
   async save() {
-    this.isChanged = false;
     await this.store.save(this.form.value);
+
+    this.isChanged = false;
     this.totalDuration = this.getTotalDuration();
+
+    if (this.sheet && this.sheet.activities) {
+      this.sheet.activities = this.form.get('activities')?.value;
+    }
+
   }
 
   getTotalDuration(): string {

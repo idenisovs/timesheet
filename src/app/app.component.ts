@@ -5,6 +5,7 @@ import { saveAs } from 'file-saver';
 
 import { SheetStoreService } from './services/sheet-store.service';
 import { ImportModalComponent } from './components/import-modal/import-modal.component';
+import CsvProcessingResult from './services/CsvProcessingResult';
 
 @Component({
   selector: 'app-root',
@@ -43,11 +44,13 @@ export class AppComponent implements OnInit {
     saveAs(blob, `timesheet-${date}.csv`);
   }
 
-  async importFromCsv() {}
-
   async openImportModal() {
-    await this.modalService.open(ImportModalComponent, {
+    const processing: CsvProcessingResult = await this.modalService.open(ImportModalComponent, {
       centered: true
     }).result;
+
+    if (processing) {
+      this.store.import(processing.result);
+    }
   }
 }

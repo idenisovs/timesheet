@@ -43,6 +43,11 @@ export class SheetCsvService {
     let till: string|null = null;
 
     for (let line = 1; line < records.length; line++) {
+      if (!records[line].trim().length) {
+        console.log('Skipping line', line);
+        continue;
+      }
+
       const cols = records[line].split(SheetCsvService.DELIMITER);
 
       const recordObj = cols.reduce((result: any, value: string, idx: number) => {
@@ -65,7 +70,7 @@ export class SheetCsvService {
     }
 
     return {
-      recordsCount: result.length - 1,
+      recordsCount: result.length,
       result,
       from: from!,
       till: till!

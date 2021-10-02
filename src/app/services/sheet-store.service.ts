@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import SheetStore from '../store/SheetStore';
 import { getDateString } from '../utils';
-import { Sheet } from '../dto';
+import { CsvRecord, Sheet } from '../dto';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SheetStoreService {
   private db = new SheetStore();
+  private importEvent = new Subject<CsvRecord[]>();
+
+  public get ImportEvent(): Observable<CsvRecord[]> {
+    return this.importEvent.asObservable();
+  }
 
   constructor() {
     this.db.open().then(() => {});
@@ -33,6 +39,10 @@ export class SheetStoreService {
     }
 
     await this.createRecord();
+  }
+
+  import(timesheet: CsvRecord[]) {
+    this.importEvent.next(timesheet);
   }
 
   private createRecord(): Promise<number> {

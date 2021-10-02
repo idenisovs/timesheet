@@ -3,7 +3,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { SheetCsvService } from '../../services/sheet-csv.service';
 import CsvProcessingResult from '../../services/CsvProcessingResult';
-import { SheetStoreService } from '../../services/sheet-store.service';
 
 @Component({
   selector: 'app-import-modal',
@@ -17,8 +16,7 @@ export class ImportModalComponent implements OnInit {
 
   constructor(
     private modal: NgbActiveModal,
-    private csv: SheetCsvService,
-    private store: SheetStoreService
+    private csv: SheetCsvService
   ) { }
 
   ngOnInit(): void {}
@@ -54,6 +52,8 @@ export class ImportModalComponent implements OnInit {
   processTimesheetCsv(csv: string) {
     const records = csv.split('\n');
 
+    console.log('File has', records.length, 'lines');
+
     const header = records[0];
 
     this.csv.validateHeader(header)
@@ -64,7 +64,7 @@ export class ImportModalComponent implements OnInit {
   }
 
   import() {
-    this.modal.close();
+    this.modal.close(this.processingResult);
   }
 
   cancel() {
