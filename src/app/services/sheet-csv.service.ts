@@ -44,7 +44,6 @@ export class SheetCsvService {
 
     for (let line = 1; line < records.length; line++) {
       if (!records[line].trim().length) {
-        console.log('Skipping line', line);
         continue;
       }
 

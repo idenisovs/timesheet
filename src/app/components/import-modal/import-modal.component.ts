@@ -52,8 +52,6 @@ export class ImportModalComponent implements OnInit {
   processTimesheetCsv(csv: string) {
     const records = csv.split('\n');
 
-    console.log('File has', records.length, 'lines');
-
     const header = records[0];
 
     this.csv.validateHeader(header)

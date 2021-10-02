@@ -44,7 +44,6 @@ export class DailyActivitiesPageComponent implements OnInit {
     });
 
     if (isExistingActivity) {
-      console.log('Existing activity', activity.name);
       return;
     }
 
