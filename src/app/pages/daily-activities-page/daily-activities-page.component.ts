@@ -48,17 +48,15 @@ export class DailyActivitiesPageComponent implements OnInit {
       return;
     }
 
-    const activities = [...sheet.activities];
-
-    const insertIdx = sheet.activities.findIndex((item) => {
-      return item.from >= activity.till;
+    const greaterElementPosition = sheet.activities.findIndex((existingActivity) => {
+      return existingActivity.till > activity.from;
     });
 
-    console.log('Insert IDX', insertIdx);
-
-    activities.splice(insertIdx, 0, activity);
-
-    sheet.activities = activities;
+    if (greaterElementPosition === -1) {
+      sheet.activities.push(activity);
+    } else {
+      sheet.activities.splice(greaterElementPosition, 0, activity);
+    }
 
     const sheetIdx = this.sheets.findIndex((item) => item === sheet);
 
@@ -76,7 +74,11 @@ export class DailyActivitiesPageComponent implements OnInit {
     const { name, from, till, duration } = record;
 
     return {
-      name, from, till, duration
+      name,
+      from,
+      till,
+      duration,
+      isImported: true
     };
   }
 
