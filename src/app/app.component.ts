@@ -46,10 +46,8 @@ export class AppComponent implements OnInit {
   async importFromCsv() {}
 
   async openImportModal() {
-    const result = await this.modalService.open(ImportModalComponent, {
+    await this.modalService.open(ImportModalComponent, {
       centered: true
     }).result;
-
-    console.log(result);
   }
 }

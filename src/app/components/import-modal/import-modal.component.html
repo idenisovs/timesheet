@@ -15,11 +15,11 @@
     </div>
 
     <div class="ml-2 my-auto text-danger" *ngIf="errorMessage">
-      {{errorMessage}}
+      <i class="material-icons">error</i> {{errorMessage}}
     </div>
 
     <div class="ml-2 my-auto" *ngIf="processingResult">
-      <pre class="m-0">File: {{filename}}</pre>
+      <pre class="m-0 font-weight-bold">{{filename}}</pre>
       <pre class="m-0">Records: {{processingResult.recordsCount}}</pre>
       <pre class="m-0">From: {{processingResult.from}}</pre>
       <pre class="m-0">Till: {{processingResult.till}}</pre>
@@ -28,11 +28,11 @@
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-outline-primary" (click)="save()">
+  <button type="button" class="btn btn-outline-primary" (click)="import()" [disabled]="!processingResult">
     Import
   </button>
 
-  <button type="button" class="btn btn-outline-secondary" (click)="save()">
+  <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
     Cancel
   </button>
 </div>
