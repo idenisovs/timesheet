@@ -1,4 +1,4 @@
-import CsvRecord from '../dto/CsvRecord';
+import { CsvRecord } from '../dto';
 
 export default interface CsvProcessingResult {
   recordsCount: number;

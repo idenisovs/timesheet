@@ -1,6 +1,6 @@
 import { Activity } from './Activity';
 
-export default interface Sheet {
+export interface Sheet {
   id?: number;
   date: Date|string;
   activities: Activity[];

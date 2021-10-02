@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { getDateString } from '../../utils';
-import Sheet from '../../dto/Sheet';
-import { SheetStoreService } from '../../services/sheet-store.service';
-import { Activity } from '../../dto/Activity';
 import parseDuration from 'parse-duration';
 import { duration } from 'yet-another-duration';
+
+import { getDateString } from '../../utils';
+import { Sheet, Activity } from '../../dto';
+import { SheetStoreService } from '../../services/sheet-store.service';
 
 @Component({
   selector: 'app-daily-activities',

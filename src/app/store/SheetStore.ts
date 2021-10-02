@@ -1,5 +1,5 @@
 import Dexie from 'dexie';
-import Sheet from '../dto/Sheet';
+import { Sheet } from '../dto';
 
 export default class SheetStore extends Dexie {
   sheet: Dexie.Table<Sheet, number>;

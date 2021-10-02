@@ -1,4 +1,4 @@
-export default interface CsvRecord {
+export interface CsvRecord {
   id: number;
   date: string;
   name: string;

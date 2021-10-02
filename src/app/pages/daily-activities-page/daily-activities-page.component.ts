@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SheetStoreService } from '../../services/sheet-store.service';
-import Sheet from '../../dto/Sheet';
+import { Sheet } from '../../dto';
 
 @Component({
   selector: 'app-daily-activities-page',
@@ -15,6 +15,7 @@ export class DailyActivitiesPageComponent implements OnInit {
 
   async ngOnInit() {
     await this.store.prepareForToday();
+
     this.sheets = await this.store.load();
   }
 

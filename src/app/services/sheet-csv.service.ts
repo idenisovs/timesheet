@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import CsvRecord from '../dto/CsvRecord';
+import { CsvRecord } from '../dto';
 import CsvProcessingResult from './CsvProcessingResult';
 
 @Injectable({
