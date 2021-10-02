@@ -1,0 +1,15 @@
+.modal-body {
+  .drop-zone {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    border: 2px solid lightblue;
+    background-color: aliceblue;
+
+    height: 150px;
+    width: 150px;
+  }
+}
+

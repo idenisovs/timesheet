@@ -1,9 +1,38 @@
+<header class="modal-header">
+  <h4 class="modal-title">
+    Import timesheet CSV
+  </h4>
+</header>
+
 <div class="modal-body">
-  Hello world!
+  <div class="d-flex flex-row">
+    <div class="drop-zone text-primary" (drop)="dropHandler($event);" (dragover)="dragOverHandler($event)">
+      <i class="material-icons">add</i>
+    </div>
+
+    <div class="ml-2 my-auto" *ngIf="!processingResult && !errorMessage">
+      Drag a timesheet containing CSV file here!
+    </div>
+
+    <div class="ml-2 my-auto text-danger" *ngIf="errorMessage">
+      {{errorMessage}}
+    </div>
+
+    <div class="ml-2 my-auto" *ngIf="processingResult">
+      <pre class="m-0">File: {{filename}}</pre>
+      <pre class="m-0">Records: {{processingResult.recordsCount}}</pre>
+      <pre class="m-0">From: {{processingResult.from}}</pre>
+      <pre class="m-0">Till: {{processingResult.till}}</pre>
+    </div>
+  </div>
 </div>
 
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-primary" (click)="save()">
-    Save
+    Import
+  </button>
+
+  <button type="button" class="btn btn-outline-secondary" (click)="save()">
+    Cancel
   </button>
 </div>
