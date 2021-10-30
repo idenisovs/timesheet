@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CsvRecord } from '../dto';
+import { Activity, CsvRecord, Sheet } from '../dto';
 import CsvProcessingResult from './CsvProcessingResult';
 import { saveAs } from 'file-saver';
 import { SheetStoreService } from './sheet-store.service';
@@ -108,5 +108,63 @@ export class SheetCsvService {
     const date = today.toISOString().split('T')[0];
 
     saveAs(blob, `timesheet-${date}.csv`);
+  }
+
+  import(sheets: Sheet[], records: CsvRecord[]) {
+    for (let record of records) {
+      const sheet = sheets.find((sheet: Sheet) => sheet.date === record.date);
+      const activity = this.makeActivityFromRecord(record);
+
+      if (sheet) {
+        this.updateSheetWithActivity(sheets, sheet, activity);
+      } else {
+        this.createSheetAndActivity(sheets, record.date, activity);
+      }
+    }
+  }
+
+  makeActivityFromRecord(record: CsvRecord): Activity {
+    const { name, from, till, duration } = record;
+
+    return {
+      name,
+      from,
+      till,
+      duration,
+      isImported: true
+    };
+  }
+
+  updateSheetWithActivity(sheets: Sheet[], sheet: Sheet, activity: Activity) {
+    const isExistingActivity = sheet.activities.some((item) => {
+      return item.name === activity.name
+        && item.from === activity.from
+        && item.till === activity.till
+    });
+
+    if (isExistingActivity) {
+      return;
+    }
+
+    const greaterElementPosition = sheet.activities.findIndex((existingActivity) => {
+      return existingActivity.till > activity.from;
+    });
+
+    if (greaterElementPosition === -1) {
+      sheet.activities.push(activity);
+    } else {
+      sheet.activities.splice(greaterElementPosition, 0, activity);
+    }
+
+    const sheetIdx = sheets.findIndex((item) => item === sheet);
+
+    sheets.splice(sheetIdx, 1, {...sheet});
+  }
+
+  createSheetAndActivity(sheets: Sheet[], date: string, activity: Activity) {
+    sheets.push({
+      date: date,
+      activities: [activity]
+    });
   }
 }
