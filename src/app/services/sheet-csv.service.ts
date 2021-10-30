@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CsvRecord } from '../dto';
 import CsvProcessingResult from './CsvProcessingResult';
+import { saveAs } from 'file-saver';
+import { SheetStoreService } from './sheet-store.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,9 @@ export class SheetCsvService {
     'date', 'name', 'from', 'till', 'duration', 'id'
   ];
 
-  constructor() { }
+  constructor(
+    private store: SheetStoreService
+  ) { }
 
   validateFile(file: File) {
     if (file.name.split('.').pop() !== 'csv') {
@@ -80,5 +84,29 @@ export class SheetCsvService {
       from: from!,
       till: till!
     }
+  }
+
+  async export() {
+    const sheet = await this.store.load();
+
+    const header = SheetCsvService.CSV_COLS.join(SheetCsvService.DELIMITER);
+
+    const file = [ header ];
+
+    for (const dailySheet of sheet) {
+      for (let activity of dailySheet.activities) {
+        const row = [dailySheet.date, activity.name, activity.from, activity.till, activity.duration, dailySheet.id];
+
+        file.push(row.join(SheetCsvService.DELIMITER));
+      }
+    }
+
+    const blob = new Blob([file.join('\n')]);
+
+    const today = new Date();
+
+    const date = today.toISOString().split('T')[0];
+
+    saveAs(blob, `timesheet-${date}.csv`);
   }
 }

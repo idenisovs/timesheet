@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { saveAs } from 'file-saver';
-
 import { SheetStoreService } from './services/sheet-store.service';
 import { ImportModalComponent } from './components/import-modal/import-modal.component';
 import CsvProcessingResult from './services/CsvProcessingResult';
+import { SheetCsvService } from './services/sheet-csv.service';
 
 @Component({
   selector: 'app-root',
@@ -17,27 +16,12 @@ export class AppComponent {
 
   constructor(
     private store: SheetStoreService,
+    private csv: SheetCsvService,
     private modalService: NgbModal
   ) {}
 
   async exportToCsv() {
-    const sheet = await this.store.load();
-
-    const file = [ 'date;name;from;till;duration;id' ];
-
-    for (const dailySheet of sheet) {
-      for (let activity of dailySheet.activities) {
-        file.push(`${dailySheet.date};${activity.name};${activity.from};${activity.till};${activity.duration};${dailySheet.id}`);
-      }
-    }
-
-    const blob = new Blob([file.join('\n')]);
-
-    const today = new Date();
-
-    const date = today.toISOString().split('T')[0];
-
-    saveAs(blob, `timesheet-${date}.csv`);
+    await this.csv.export();
   }
 
   async openImportModal() {
@@ -47,7 +31,7 @@ export class AppComponent {
       }).result;
 
       if (processing && processing.result) {
-        this.store.import(processing.result);
+        this.store.fireImportEvent(processing.result);
       }
     } catch (dismiss) {}
   }

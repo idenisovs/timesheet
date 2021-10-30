@@ -45,7 +45,7 @@ export class SheetStoreService {
     await this.createRecord();
   }
 
-  import(timesheet: CsvRecord[]) {
+  fireImportEvent(timesheet: CsvRecord[]) {
     this.importEvent.next(timesheet);
   }
 
