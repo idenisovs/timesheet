@@ -37,7 +37,9 @@ export class ImportModalComponent implements OnInit {
 
       const text = await file.text();
 
-      this.processTimesheetCsv(text);
+      this.processingResult = this.csv.process(text);
+
+      delete this.errorMessage;
     } catch (e) {
       delete this.processingResult;
       this.errorMessage = e.message;
@@ -47,18 +49,6 @@ export class ImportModalComponent implements OnInit {
 
   dragOverHandler(event: Event) {
     event.preventDefault();
-  }
-
-  processTimesheetCsv(csv: string) {
-    const records = csv.split('\n');
-
-    const header = records[0];
-
-    this.csv.validateHeader(header)
-
-    this.processingResult = this.csv.process(records);
-
-    delete this.errorMessage;
   }
 
   import() {

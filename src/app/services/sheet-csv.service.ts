@@ -34,7 +34,13 @@ export class SheetCsvService {
     }
   }
 
-  process(records: string[]): CsvProcessingResult {
+  process(csv: string): CsvProcessingResult {
+    const records = csv.split('\n');
+
+    const header = records[0];
+
+    this.validateHeader(header)
+
     const result: CsvRecord[] = [];
 
     const headerCols = records[0].split(SheetCsvService.DELIMITER);
