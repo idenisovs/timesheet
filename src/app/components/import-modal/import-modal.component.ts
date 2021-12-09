@@ -42,7 +42,7 @@ export class ImportModalComponent implements OnInit {
       delete this.errorMessage;
     } catch (e) {
       delete this.processingResult;
-      this.errorMessage = e.message;
+      this.errorMessage = (e as Error).message;
       return
     }
   }
