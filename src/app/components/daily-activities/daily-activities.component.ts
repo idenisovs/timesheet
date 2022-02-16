@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import parseDuration from 'parse-duration';
 import { duration } from 'yet-another-duration';
 
-import { getDateString } from '../../utils';
+import { getDateString, calculateTotalDuration } from '../../utils';
 import { Sheet, Activity } from '../../dto';
 import { SheetStoreService } from '../../services/sheet-store.service';
 
@@ -119,15 +118,7 @@ export class DailyActivitiesComponent implements OnInit {
   getTotalDuration(): string {
     const activities = this.form.get('activities')?.value as Activity[];
 
-    const totalDuration = activities.reduce<number>((result: number, activity: Activity) => {
-      const activityDuration = parseDuration(activity.duration);
-
-      if (activityDuration) {
-        return result + activityDuration;
-      }
-
-      return result;
-    }, 0)
+    const totalDuration = calculateTotalDuration(activities);
 
     return duration(totalDuration || 0, {
       units: {
