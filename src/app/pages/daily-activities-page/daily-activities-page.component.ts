@@ -24,8 +24,6 @@ export class DailyActivitiesPageComponent implements OnInit {
     this.sheets = await this.store.load();
     this.weeks = this.groupByWeek(this.sheets);
 
-    console.log(this.weeks);
-
     this.store.ImportEvent.subscribe(this.importRecords.bind(this));
   }
 
