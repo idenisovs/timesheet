@@ -1,4 +1,4 @@
-<div class="card border-primary border-2 mb-4">
+<div class="card bg-secondary text-white mb-4">
   <div class="card-body d-flex justify-content-between py-2">
     <div>
       <strong *ngIf="DatesInterval.min === DatesInterval.max; else twoDates">
@@ -13,12 +13,12 @@
 
     <div>
       <span class="me-2">
-        <i class="material-icons text-primary">assignment</i>
+        <i class="material-icons text-white">assignment</i>
         {{totals.activities}}
       </span>
 
       <span class="me-2">
-        <i class="material-icons text-primary">schedule</i>
+        <i class="material-icons text-white">schedule</i>
         {{TotalHours}}
       </span>
     </div>
