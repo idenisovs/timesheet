@@ -1,4 +1,4 @@
-<div class="form-row mb-2" [ngClass]="{ 'border-left border-info ': isImported }" [formGroup]="activity">
+<div class="row mb-2" [ngClass]="{ 'border-left border-info ': isImported }" [formGroup]="activity">
   <div class="form-group col-4 m-0">
     <input id="activity-name" name="name" formControlName="name" type="text" class="form-control">
   </div>
@@ -12,10 +12,10 @@
     <input id="activity-duration" name="duration" formControlName="duration" type="text" class="form-control" (input)="handleDurationChanges()">
   </div>
   <div class="col-2 m-0 d-flex align-items-center">
-    <button type="button" class="btn btn-outline-info p-1 mr-2" [ngClass]="{ 'invisible': !isLastActivity }" (click)="add.emit()">
+    <button type="button" class="btn btn-outline-info p-1 me-2" [ngClass]="{ 'invisible': !isLastActivity }" (click)="add.emit()">
       <i class="material-icons">add</i>
     </button>
-    <button type="button" class="btn btn-outline-info p-1 mr-2" (click)="remove.emit(idx)">
+    <button type="button" class="btn btn-outline-info p-1 me-2" (click)="remove.emit(idx)">
       <i class="material-icons">remove</i>
     </button>
     <button type="button" class="btn btn-outline-primary p-1" (click)="save.emit()" [hidden]="!isLastActivity">

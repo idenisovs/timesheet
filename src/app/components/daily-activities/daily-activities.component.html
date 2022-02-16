@@ -4,7 +4,7 @@
   </h2>
 
   <form class="card-body" [formGroup]="form">
-    <div class="form-row">
+    <div class="row">
       <div class="col-4">
         Activity
       </div>
@@ -34,17 +34,17 @@
   </form>
 
   <footer class="card-footer">
-    <span class="mr-2">
+    <span class="me-2">
       <i class="material-icons text-info">assignment</i>
       {{Activities.length}}
     </span>
 
-    <span class="mr-2">
+    <span class="me-2">
       <i class="material-icons text-info">schedule</i>
       {{totalDuration}}
     </span>
 
-    <span class="mr-2" [hidden]="!isChanged && !ImportedActivities">
+    <span class="me-2" [hidden]="!isChanged && !ImportedActivities">
       <i class="material-icons text-warning">warning</i>
       Unsaved!
     </span>

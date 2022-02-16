@@ -10,15 +10,15 @@
       <i class="material-icons">add</i>
     </div>
 
-    <div class="ml-2 my-auto" *ngIf="!processingResult && !errorMessage">
+    <div class="ms-2 my-auto" *ngIf="!processingResult && !errorMessage">
       Drag a timesheet containing CSV file here!
     </div>
 
-    <div class="ml-2 my-auto text-danger" *ngIf="errorMessage">
+    <div class="ms-2 my-auto text-danger" *ngIf="errorMessage">
       <i class="material-icons">error</i> {{errorMessage}}
     </div>
 
-    <div class="ml-2 my-auto" *ngIf="processingResult">
+    <div class="ms-2 my-auto" *ngIf="processingResult">
       <pre class="m-0 font-weight-bold">{{filename}}</pre>
       <pre class="m-0">Records: {{processingResult.recordsCount}}</pre>
       <pre class="m-0">From: {{processingResult.from}}</pre>
