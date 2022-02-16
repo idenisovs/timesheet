@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DailyActivitiesPageComponent } from './pages/daily-activities-page/daily-activities-page.component';
 import { ImportModalComponent } from './components/import-modal/import-modal.component';
 import { DailyActivitiesWeekComponent } from './components/daily-activities-week/daily-activities-week.component';
+import { DailyActivitiesWeekHeaderComponent } from './components/daily-activities-week/daily-activities-week-header/daily-activities-week-header.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { DailyActivitiesWeekComponent } from './components/daily-activities-week
     DailyActivityItemComponent,
     DailyActivitiesPageComponent,
     ImportModalComponent,
-    DailyActivitiesWeekComponent
+    DailyActivitiesWeekComponent,
+    DailyActivitiesWeekHeaderComponent
   ],
   imports: [
     BrowserModule,
