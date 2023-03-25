@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { duration } from 'yet-another-duration';
 import parseDuration from 'parse-duration';
 
@@ -38,7 +38,7 @@ export class DailyActivityItemComponent implements OnInit {
   @Output()
   save = new EventEmitter<void>();
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: UntypedFormBuilder) { }
 
   ngOnInit(): void {}
 

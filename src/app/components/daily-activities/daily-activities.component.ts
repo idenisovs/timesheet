@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { duration } from 'yet-another-duration';
 
 import { getDateString, calculateTotalDuration } from '../../utils';
@@ -32,8 +32,8 @@ export class DailyActivitiesComponent implements OnInit {
   @Input()
   sheet?: Sheet;
 
-  get Activities(): FormGroup[] {
-    return (this.form.get('activities') as FormArray).controls as FormGroup[];
+  get Activities(): UntypedFormGroup[] {
+    return (this.form.get('activities') as UntypedFormArray).controls as UntypedFormGroup[];
   }
 
   get ImportedActivities(): boolean {
@@ -44,7 +44,7 @@ export class DailyActivitiesComponent implements OnInit {
   }
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private store: SheetStoreService
   ) { }
 
@@ -82,7 +82,7 @@ export class DailyActivitiesComponent implements OnInit {
   }
 
   addActivityRecord() {
-    const activities = this.form.get('activities') as FormArray;
+    const activities = this.form.get('activities') as UntypedFormArray;
 
     activities.push(this.fb.group({
       name: [''],
@@ -94,7 +94,7 @@ export class DailyActivitiesComponent implements OnInit {
 
   removeActivityRecord(idx: number) {
     this.sheet?.activities.splice(idx, 1);
-    const activities = this.form.get('activities') as FormArray;
+    const activities = this.form.get('activities') as UntypedFormArray;
 
     activities.removeAt(idx);
 
