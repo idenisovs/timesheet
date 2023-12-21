@@ -2,7 +2,7 @@
 
 There is plenty of time tracking apps, and most of them unfortunately have long-standing usability and complexity issues. That the reason why I finally decided to write my own Timesheet application.
 
-Online version of Timesheet App is hosted [here](http://time.e-dreams.lv/).
+[Online version of Timesheet App](http://time.e-dreams.lv/).
 
 ## Goals
 
@@ -20,3 +20,7 @@ Online version of Timesheet App is hosted [here](http://time.e-dreams.lv/).
 npm install
 npm start
 ```
+
+## Documentation
+
+* [Database](./docs/database.md)
