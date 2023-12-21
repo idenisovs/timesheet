@@ -24,3 +24,8 @@ npm start
 ## Documentation
 
 * [Database](./docs/database.md)
+
+## Versions
+
+- `1.1.0` - Daily summary;
+- `1.0.0` - Basic functionality;
