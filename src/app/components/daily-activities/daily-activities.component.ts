@@ -5,6 +5,8 @@ import { duration } from 'yet-another-duration';
 import { getDateString, calculateTotalDuration } from '../../utils';
 import { Sheet, Activity } from '../../dto';
 import { SheetStoreService } from '../../services/sheet-store.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DailyActivitiesSummaryComponent } from './daily-activities-summary/daily-activities-summary.component';
 
 @Component({
   selector: 'app-daily-activities',
@@ -45,7 +47,8 @@ export class DailyActivitiesComponent implements OnInit {
 
   constructor(
     private fb: UntypedFormBuilder,
-    private store: SheetStoreService
+    private store: SheetStoreService,
+    private modal: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -137,4 +140,14 @@ export class DailyActivitiesComponent implements OnInit {
     return activity ? !!activity.isImported : false;
   }
 
+  showDailySummary() {
+    const dailySummaryModalRef =  this.modal.open(DailyActivitiesSummaryComponent, {
+      centered: true,
+      size: 'lg'
+    });
+
+    const dailySummaryModal = (dailySummaryModalRef.componentInstance as DailyActivitiesSummaryComponent)
+
+    dailySummaryModal.sheet = this.sheet;
+  }
 }

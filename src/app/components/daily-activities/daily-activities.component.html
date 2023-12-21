@@ -3,7 +3,7 @@
     <div>
       {{ date | date }} <small class="even-smaller">{{ date | date:'EEEE'}}</small>
     </div>
-    <button class="btn btn-sm btn-light" title="Summary">
+    <button class="btn btn-sm btn-light" title="Summary" (click)="showDailySummary()">
       <i class="material-icons">
         donut_large
       </i>

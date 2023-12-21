@@ -1,0 +1,14 @@
+<header class="modal-header px-3 py-2">
+  <h4 class="modal-title">
+    {{ sheet?.date | date }} <small class="even-smaller">{{ sheet?.date | date:'EEEE'}}</small>
+  </h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</header>
+
+<main class="modal-body">
+  <ng-container *ngIf="sheet">
+    <div *ngFor="let activity of sheet.activities">
+      {{activity.name}} - {{activity.duration}}
+    </div>
+  </ng-container>
+</main>
