@@ -1,27 +1,22 @@
 # Timesheet
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.0.
+There is plenty of time tracking apps, and most of them unfortunately have long-standing usability and complexity issues. That the reason why I finally decided to write my own Timesheet application.
 
-## Development server
+Online version of Timesheet App is hosted [here](http://time.e-dreams.lv/).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Goals
 
-## Code scaffolding
+1. Make the time tracking task as simple as possible;
+2. Make it serverless first. All the data stored in browser;
+3. Make it free and open-source;
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Prerequisites
 
-## Build
+* [Node.js and NPM](https://nodejs.org/en)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Setup
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```bash
+npm install
+npm start
+```
