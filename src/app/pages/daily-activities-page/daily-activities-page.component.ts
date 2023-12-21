@@ -29,6 +29,7 @@ export class DailyActivitiesPageComponent implements OnInit {
 
   importRecords(records: CsvRecord[]) {
     this.csv.import(this.sheets, records);
+    this.weeks = this.groupByWeek(this.sheets);
   }
 
   groupByWeek(sheets: Sheet[]): Week[] {
