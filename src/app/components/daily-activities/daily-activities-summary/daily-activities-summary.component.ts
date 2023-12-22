@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DatePipe, JsonPipe, KeyValuePipe, NgForOf, NgIf } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Sheet } from '../../../dto';
+import { Activity, Sheet } from '../../../dto';
 import { ActivitiesService } from '../../../services/activities.service';
 import { Task } from '../../../services/Task';
 
@@ -24,6 +24,14 @@ export class DailyActivitiesSummaryComponent implements OnInit {
   @Input()
   sheet?: Sheet;
 
+  get ActiveActivities(): Activity[] {
+    if (!this.sheet) {
+      return [];
+    }
+
+    return this.sheet.activities.filter((activity) => !!activity.duration)
+  }
+
   constructor(
     public activeModal: NgbActiveModal,
     private activityService: ActivitiesService
@@ -34,7 +42,9 @@ export class DailyActivitiesSummaryComponent implements OnInit {
       return;
     }
 
-    this.tasks = this.activityService.groupByHeader(this.sheet.activities);
+    if (this.ActiveActivities.length) {
+      this.tasks = this.activityService.groupByHeader(this.ActiveActivities);
+    }
   }
 
   getShortName(activityName: string): string {
