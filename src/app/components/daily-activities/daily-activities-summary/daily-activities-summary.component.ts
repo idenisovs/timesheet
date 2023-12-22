@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Sheet } from '../../../dto';
-import { DatePipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
+import { DatePipe, JsonPipe, KeyValuePipe, NgForOf, NgIf } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Sheet } from '../../../dto';
 import { ActivitiesService } from '../../../services/activities.service';
 import { Task } from '../../../services/Task';
 
@@ -12,7 +12,8 @@ import { Task } from '../../../services/Task';
     NgIf,
     JsonPipe,
     NgForOf,
-    DatePipe
+    DatePipe,
+    KeyValuePipe
   ],
   templateUrl: './daily-activities-summary.component.html',
   styleUrl: './daily-activities-summary.component.scss'
@@ -34,7 +35,9 @@ export class DailyActivitiesSummaryComponent implements OnInit {
     }
 
     this.tasks = this.activityService.groupByHeader(this.sheet.activities);
+  }
 
-    console.log(this.tasks);
+  getShortName(activityName: string): string {
+    return activityName.split(':').pop() ?? 'n/a';
   }
 }
