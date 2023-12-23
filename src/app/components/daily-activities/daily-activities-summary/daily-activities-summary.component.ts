@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DatePipe, JsonPipe, KeyValuePipe, NgForOf, NgIf } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Activity, Sheet } from '../../../dto';
-import { ActivitiesService } from '../../../services/activities.service';
-import { Task } from '../../../services/Task';
+import { Sheet } from '../../../dto';
+import { DailyActivitiesSummary } from './DailyActivitiesSummary';
+import { DailyActivitiesSummaryService } from './daily-activities-summary.service';
 
 @Component({
   selector: 'app-daily-activities-summary',
@@ -19,30 +19,14 @@ import { Task } from '../../../services/Task';
   styleUrl: './daily-activities-summary.component.scss'
 })
 export class DailyActivitiesSummaryComponent implements OnInit {
-  tasks = new Map<string, Task>();
-
   @Input()
   sheet?: Sheet;
 
-  get ActiveActivities(): Activity[] {
-    if (!this.sheet) {
-      return [];
-    }
-
-    return this.sheet.activities.filter((activity) => !!activity.duration)
-  }
-
-  get TotalDuration(): string {
-    if (!this.sheet) {
-      return '0m';
-    }
-
-    return this.activityService.calculateDuration(this.sheet.activities)
-  }
+  summary?: DailyActivitiesSummary;
 
   constructor(
     public activeModal: NgbActiveModal,
-    private activityService: ActivitiesService
+    private summaryService: DailyActivitiesSummaryService
   ) {}
 
   ngOnInit() {
@@ -50,12 +34,6 @@ export class DailyActivitiesSummaryComponent implements OnInit {
       return;
     }
 
-    if (this.ActiveActivities.length) {
-      this.tasks = this.activityService.groupByHeader(this.ActiveActivities);
-    }
-  }
-
-  getShortName(activityName: string): string {
-    return activityName.split(':').pop() ?? 'n/a';
+    this.summary = this.summaryService.build(this.sheet)
   }
 }
