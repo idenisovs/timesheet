@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DatePipe, JsonPipe, KeyValuePipe, NgForOf, NgIf } from '@angular/common';
+import { DatePipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Sheet } from '../../../dto';
 import { DailyActivitiesSummary } from './DailyActivitiesSummary';
@@ -13,7 +13,7 @@ import { DailyActivitiesSummaryService } from './daily-activities-summary.servic
     JsonPipe,
     NgForOf,
     DatePipe,
-    KeyValuePipe
+    NgClass
   ],
   templateUrl: './daily-activities-summary.component.html',
   styleUrl: './daily-activities-summary.component.scss'

@@ -46,6 +46,18 @@ export class DailyActivitiesSummaryService {
 
     tasks.forEach((task) => {
       task.duration = this.activitiesService.calculateDuration(task.activities);
+
+      if (task.activities.length > 1) {
+        return;
+      }
+
+      const activity = task.activities[0];
+
+      if (task.name === activity.name) {
+        return;
+      }
+
+      task.name = `${task.name}: ${activity.name}`;
     });
 
     return tasks;
