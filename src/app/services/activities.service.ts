@@ -11,7 +11,7 @@ export class ActivitiesService {
 
   constructor() { }
 
-  groupByHeader(activities: Activity[]) {
+  public groupByHeader(activities: Activity[]) {
     const tasks = activities.reduce((result: Map<string, Task>, activity: Activity) => {
       const taskNr = activity.name.split(':').shift() as string;
 
@@ -31,7 +31,7 @@ export class ActivitiesService {
     return tasks;
   }
 
-  private calculateDuration(activities: Activity[]): string {
+  public calculateDuration(activities: Activity[]): string {
     return duration(calculateTotalDuration(activities), {
       units: {
         min: 'minutes'

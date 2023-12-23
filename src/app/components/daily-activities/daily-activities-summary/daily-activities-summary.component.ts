@@ -32,6 +32,14 @@ export class DailyActivitiesSummaryComponent implements OnInit {
     return this.sheet.activities.filter((activity) => !!activity.duration)
   }
 
+  get TotalDuration(): string {
+    if (!this.sheet) {
+      return '0m';
+    }
+
+    return this.activityService.calculateDuration(this.sheet.activities)
+  }
+
   constructor(
     public activeModal: NgbActiveModal,
     private activityService: ActivitiesService

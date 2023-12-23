@@ -1,37 +1,45 @@
 <header class="modal-header px-3 py-2">
-    <h4 class="modal-title">
-        {{ sheet?.date | date }} <small class="even-smaller">{{ sheet?.date | date:'EEEE' }}</small>
-    </h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+  <h4 class="modal-title">
+    {{ sheet?.date | date }} <small class="even-smaller">{{ sheet?.date | date:'EEEE' }}</small>
+  </h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
 </header>
 
 <main class="modal-body p-3">
-    <ng-container *ngIf="sheet && ActiveActivities.length; else noActivities">
-        <section *ngFor="let task of tasks | keyvalue" class="mb-3">
-            <h5 class="d-flex justify-content-between border-bottom pb-2 border-1">
-                <span>
-                    {{ task.key }}
-                </span>
-                <span>
-                    <span class="badge text-bg-primary">
-                        {{ task.value.duration }}
-                    </span>
-                </span>
-            </h5>
-            <div *ngFor="let activity of task.value.activities" class="d-flex justify-content-between my-1">
-                <span>
-                    {{ getShortName(activity.name) }}
-                </span>
-                <span class="fw-bold">
-                    {{ activity.duration }}
-                </span>
-            </div>
-        </section>
-    </ng-container>
+  <ng-container *ngIf="sheet && ActiveActivities.length; else noActivities">
+    <section *ngFor="let task of tasks | keyvalue" class="mb-3">
+      <h5 class="d-flex justify-content-between border-bottom pb-2 border-1">
+        <span>
+          {{ task.key }}
+        </span>
+        <span>
+          <span class="badge text-bg-primary">
+            {{ task.value.duration }}
+          </span>
+        </span>
+      </h5>
+      <div *ngFor="let activity of task.value.activities" class="d-flex justify-content-between my-1">
+        <span>
+          {{ getShortName(activity.name) }}
+        </span>
+        <span class="fw-bold">
+          {{ activity.duration }}
+        </span>
+      </div>
+    </section>
+    <footer class="border-top border-1 text-end pt-2">
+      <span class="badge text-bg-primary">
+        <span class="d-flex align-items-center">
+          <i class="material-icons pe-1">schedule</i>
+          {{TotalDuration}}
+        </span>
+      </span>
+    </footer>
+  </ng-container>
 
-    <ng-template #noActivities>
-        <div class="alert alert-info">
-            No registered duration!
-        </div>
-    </ng-template>
+  <ng-template #noActivities>
+    <div class="alert alert-info">
+      No registered duration!
+    </div>
+  </ng-template>
 </main>
