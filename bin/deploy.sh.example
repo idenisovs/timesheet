@@ -1,0 +1,33 @@
+#!/bin/bash
+
+echo "Hello world!";
+
+npm run build
+
+ssh ga5xz2@e-dreams.lv << 'EOF'
+
+if [ -d <DEPLOYMENT_DIR> ]; then
+  echo -e '\nCleanup for deployment directory!'
+  rm -frv <DEPLOYMENT_DIR>
+fi
+
+mkdir <DEPLOYMENT_DIR>
+
+EOF
+
+scp -r ./dist/timesheet/* ga5xz2@e-dreams.lv:<DEPLOYMENT_DIR>
+
+ssh ga5xz2@e-dreams.lv << 'EOF'
+
+if [ -d <DEPLOYMENT_DIR> ]; then
+  echo -e '\nCleanup for target directory!'
+  rm -frv <TARGET_DIR>/*
+fi
+
+echo -e '\nMoving source files for target!'
+
+cp -vR <DEPLOYMENT_DIR>/* <TARGET_DIR>
+
+EOF
+
+echo -e 'Done!'
