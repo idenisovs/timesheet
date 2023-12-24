@@ -4,6 +4,7 @@ import { Activity, Sheet } from '../../../dto';
 import { ActivitiesService } from '../../../services/activities.service';
 import { Task } from '../../../services/Task';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,23 +27,35 @@ export class DailyActivitiesSummaryService {
   }
 
   private makeTaskList(activities: Activity[]): Task[] {
-    const tasks: Task[] = [];
+    const mergedActivities = activities.reduce((result: Activity[], activity: Activity) => {
+      const existingActivity = result.find((item) => item.name === activity.name);
 
-    for (let activity of activities) {
+      if (existingActivity) {
+        existingActivity.duration = this.activitiesService.calculateDuration([ existingActivity, activity ]);
+      } else {
+        result.push(activity);
+      }
+
+      return result;
+    }, []);
+
+    const tasks: Task[] = mergedActivities.reduce<Task[]>((result: Task[], activity: Activity) => {
       const taskNr = this.activitiesService.getTaskNumber(activity.name);
 
-      let task = tasks.find((item) => item.name === taskNr);
+      let task = result.find((item) => item.name === taskNr);
 
       if (!task) {
         task = new Task(taskNr);
-        tasks.push(task);
+        result.push(task);
       }
 
       task.activities.push({
         ...activity,
         name: this.activitiesService.getShortName(activity.name)
       });
-    }
+
+      return result;
+    }, []);
 
     tasks.forEach((task) => {
       task.duration = this.activitiesService.calculateDuration(task.activities);
