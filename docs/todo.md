@@ -14,6 +14,10 @@ Weekly View might be opened in case when you click on the week title (that gray 
 
 I'd like to put some Analytics here, so you'll be able to get all or some project / task overview across any period of time.
 
+### Tags
+
+I think there should be possibility to mark activities with tags. Therefore there will be possibility to make and process metadata.
+
 ## Projects
 
 BTW, it might have the Projects section, so if you save activities in form of `ABC-123: Hello World`, you should be able to define the group or _project_ for them. 
