@@ -8,7 +8,7 @@ import { Week } from '../../dto';
 })
 export class DailyActivitiesWeekComponent implements OnInit {
   @Input()
-  week = new Week();
+  week?: Week;
 
   constructor() { }
 
