@@ -34,16 +34,14 @@ export class DailyActivitiesPageComponent implements OnInit {
 
   groupByWeek(sheets: Sheet[]): Week[] {
     const weeks: Week[] = [];
-    let week = new Week();
-    let currentMonday = getMonday(sheets[0].date);
+    let week = new Week(sheets[0].date);
 
     for (let currentSheet of this.sheets) {
-      const monday = getMonday(currentSheet.date);
+      const currentMonday = getMonday(currentSheet.date);
 
-      if (currentMonday !== monday) {
+      if (week.monday.toDateString() !== currentMonday.toDateString()) {
         weeks.push(week);
-        week = new Week();
-        currentMonday = monday;
+        week = new Week(currentSheet.date);
       }
 
       week.days.push(currentSheet);

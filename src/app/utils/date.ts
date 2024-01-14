@@ -4,7 +4,7 @@ export function getDateString(date = new Date()): string {
   return dateStr;
 }
 
-export function getMonday(date: Date|string): string {
+export function getMonday(date: Date|string): Date {
   let currentDay;
 
   if (typeof date === 'string') {
@@ -19,5 +19,5 @@ export function getMonday(date: Date|string): string {
 
   monday.setDate(currentDay.getDate() - (dayOfWeek - 1));
 
-  return getDateString(monday);
+  return monday;
 }
