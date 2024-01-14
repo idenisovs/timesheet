@@ -11,6 +11,7 @@ import { DailyActivitiesPageComponent } from './pages/daily-activities-page/dail
 import { ImportModalComponent } from './components/import-modal/import-modal.component';
 import { DailyActivitiesWeekComponent } from './components/daily-activities-week/daily-activities-week.component';
 import { DailyActivitiesWeekHeaderComponent } from './components/daily-activities-week/daily-activities-week-header/daily-activities-week-header.component';
+import { MissingDailyActivityComponent } from './components/missing-daily-activity/missing-daily-activity.component';
 
 @NgModule({
   declarations: [
@@ -20,14 +21,15 @@ import { DailyActivitiesWeekHeaderComponent } from './components/daily-activitie
     DailyActivitiesPageComponent,
     ImportModalComponent,
     DailyActivitiesWeekComponent,
-    DailyActivitiesWeekHeaderComponent
+    DailyActivitiesWeekHeaderComponent,
+    MissingDailyActivityComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,12 @@
+<section class="alert alert-info p-2 mb-3" *ngIf="sheet">
+  <div class="d-flex justify-content-between align-items-center">
+    <span>
+      {{sheet.date | date}} {{ sheet.date | date:'EEEE'}}
+    </span>
+    <span>
+      <button class="btn btn-sm btn-link m-0 text-decoration-none">
+        Add <i class="material-icons">add_circle_outline</i>
+      </button>
+    </span>
+  </div>
+</section>

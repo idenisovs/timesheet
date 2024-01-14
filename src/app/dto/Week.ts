@@ -10,10 +10,15 @@ export class Week {
   }
 
   fulfillMissingDays() {
-    const currentDay = new Date(this.monday);
+    const today = getDateString(new Date());
+    const weekDay = new Date(this.monday);
 
     for (let idx = 0; idx < 7; idx++) {
-      const date = getDateString(currentDay);
+      const date = getDateString(weekDay);
+
+      if (date > today) {
+        break;
+      }
 
       const existingDay = this.days.find((sheet) => {
         return sheet.date === date;
@@ -27,7 +32,7 @@ export class Week {
         });
       }
 
-      currentDay.setDate(currentDay.getDate() + 1);
+      weekDay.setDate(weekDay.getDate() + 1);
     }
 
     this.days.sort(sortSheets);
