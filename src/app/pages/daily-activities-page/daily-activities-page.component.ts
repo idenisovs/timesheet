@@ -40,6 +40,7 @@ export class DailyActivitiesPageComponent implements OnInit {
       const currentMonday = getMonday(currentSheet.date);
 
       if (week.monday.toDateString() !== currentMonday.toDateString()) {
+        week.fulfillMissingDays();
         weeks.push(week);
         week = new Week(currentSheet.date);
       }
