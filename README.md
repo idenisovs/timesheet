@@ -24,7 +24,9 @@ npm start
 ## Documentation
 
 * [Database](./docs/database.md)
-* [To Do](./docs/todo.md)
+* Functions:
+  * [To Do](./docs/todo.md)
+  * [Completed](./docs/completed.md)
 
 ## Versions
 
