@@ -28,5 +28,6 @@ npm start
 
 ## Versions
 
+- `1.2.0` - Added possibility to add missing days;
 - `1.1.0` - Daily summary;
 - `1.0.0` - Basic functionality;
