@@ -48,6 +48,7 @@ export class DailyActivitiesPageComponent implements OnInit {
       week.days.push(currentSheet);
     }
 
+    week.fulfillMissingDays();
     weeks.push(week);
 
     return weeks;
