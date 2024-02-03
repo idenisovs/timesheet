@@ -10,4 +10,10 @@ import { Sheet } from '../../dto';
 export class MissingDailyActivityComponent {
   @Input()
   sheet?: Sheet;
+
+  createSheet() {
+    if (this.sheet) {
+      this.sheet.isMissing = false;
+    }
+  }
 }
