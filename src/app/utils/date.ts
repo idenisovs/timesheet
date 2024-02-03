@@ -17,7 +17,7 @@ export function getMonday(date: Date|string): Date {
 
   const dayOfWeek = currentDay.getDay() === 0 ? 7 : currentDay.getDay();
 
-  const monday = new Date();
+  const monday = new Date(currentDay);
 
   monday.setDate(currentDay.getDate() - (dayOfWeek - 1));
 
