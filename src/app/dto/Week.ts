@@ -37,4 +37,13 @@ export class Week {
 
     this.days.sort(sortSheets);
   }
+
+  removeMissingDays() {
+    for (let idx = 0; idx < this.days.length; idx++) {
+      if (this.days[idx].isMissing) {
+        this.days.splice(idx, 1);
+        idx--;
+      }
+    }
+  }
 }
