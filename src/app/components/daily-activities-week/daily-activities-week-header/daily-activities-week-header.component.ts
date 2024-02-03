@@ -28,9 +28,14 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
   week = new Week();
 
   get TotalHours(): string {
+    if (!this.totals.duration) {
+      return '0';
+    }
+
     return duration(this.totals.duration, {
       units: {
-        min: 'minutes'
+        min: 'minutes',
+        max: 'hours'
       }
     }).toString();
   }
