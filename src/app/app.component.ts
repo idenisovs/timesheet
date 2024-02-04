@@ -14,6 +14,10 @@ import { SheetCsvService } from './services/sheet-csv.service';
 export class AppComponent {
   title = 'timesheet';
 
+  get IsUsingHttp(): boolean {
+    return window.location.protocol === 'http';
+  }
+
   constructor(
     private store: SheetStoreService,
     private csv: SheetCsvService,
