@@ -82,7 +82,11 @@
               "buildTarget": "timesheet:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "sslKey": "keys/timesheet.key",
+            "sslCert": "keys/timesheet.pem"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
