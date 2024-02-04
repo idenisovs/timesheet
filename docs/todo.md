@@ -2,10 +2,6 @@
 
 This file contains list of things and thoughts about features I'd like to put in Timesheet App.
 
-## Turn on the HTTPS support
-
-That is required to enable the next feature.
-
 ## Add Copy button
 
 Add the possibility to programmatically copy the Activity name via Copy button (`navigate.clipboard` or something like that).

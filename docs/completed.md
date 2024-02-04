@@ -1,5 +1,9 @@
 # Completed things
 
+## Turn on the HTTPS support (04 Feb 2024)
+
+That is required to enable the next feature.
+
 ## Missing days (03 Feb 2024)
 
 At the moment, if you miss a day, there is no way to write down some activities that day.
