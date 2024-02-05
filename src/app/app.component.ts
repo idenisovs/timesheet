@@ -15,7 +15,8 @@ export class AppComponent {
   title = 'timesheet';
 
   get IsUsingHttp(): boolean {
-    return window.location.protocol === 'http';
+    console.log(window.location.protocol);
+    return window.location.protocol === 'http:';
   }
 
   constructor(

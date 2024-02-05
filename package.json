@@ -3,7 +3,8 @@
   "version": "1.2.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --ssl",
+    "start:https": "ng serve --ssl",
+    "start": "ng serve",
     "build": "ng build",
     "deploy": "./bin/deploy.sh",
     "watch": "ng build --watch --configuration development",
