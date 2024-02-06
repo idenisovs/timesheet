@@ -30,6 +30,9 @@ npm start
 
 ## Versions
 
+- `1.3.0` - Added the following:
+  1. Added the _Copy to Clipboard_ button;
+  2. Added the buttons allowed to set the current time for `From` and `Till` fields;
 - `1.2.0` - Added possibility to add missing days;
 - `1.1.0` - Daily summary;
 - `1.0.0` - Basic functionality;
