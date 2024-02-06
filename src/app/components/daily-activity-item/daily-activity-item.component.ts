@@ -190,4 +190,23 @@ export class DailyActivityItemComponent implements OnInit {
     }
   }
 
+  setCurrentTime(field: 'from'|'till') {
+    const formField = this.activity.get(field);
+
+    if (formField) {
+      formField.setValue(this.getCurrentTime());
+    }
+
+    if (field === 'from') {
+      this.handleFromChanges();
+    } else {
+      this.handleTillChanges();
+    }
+  }
+
+  getCurrentTime(): string {
+    const date = new Date();
+    const [hh, mm] = date.toTimeString().split(':');
+    return `${hh}:${mm}`;
+  }
 }
