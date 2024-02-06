@@ -1,6 +1,11 @@
 <div class="row mb-2" [ngClass]="{ 'border-left border-info ': isImported }" [formGroup]="activity">
   <div class="form-group col-4 m-0">
-    <input id="activity-name" name="name" formControlName="name" type="text" class="form-control">
+    <div class="input-group">
+      <input id="activity-name" name="name" formControlName="name" type="text" class="form-control">
+      <button class="btn btn-outline-secondary" type="button" (click)="copyActivityName()">
+        <i class="material-icons">content_copy</i>
+      </button>
+    </div>
   </div>
   <div class="form-group col-2 m-0">
     <input id="activity-from"  name="from" formControlName="from" type="text" class="form-control" (input)="handleFromChanges()">

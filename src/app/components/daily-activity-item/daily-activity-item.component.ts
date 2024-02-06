@@ -182,4 +182,12 @@ export class DailyActivityItemComponent implements OnInit {
     }
   }
 
+  async copyActivityName() {
+    const activityName = this.activity.get('name')?.value;
+
+    if (navigator.clipboard && activityName) {
+      await navigator.clipboard.writeText(activityName);
+    }
+  }
+
 }
