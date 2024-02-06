@@ -1,5 +1,9 @@
 # Completed things
 
+## Add Copy button (06 Feb 2024)
+
+Add the possibility to programmatically copy the Activity name via Copy button (`navigate.clipboard` or something like that).
+
 ## Turn on the HTTPS support (04 Feb 2024)
 
 That is required to enable the next feature.
