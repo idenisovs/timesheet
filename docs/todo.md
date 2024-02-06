@@ -2,10 +2,6 @@
 
 This file contains list of things and thoughts about features I'd like to put in Timesheet App.
 
-## Add Copy button
-
-Add the possibility to programmatically copy the Activity name via Copy button (`navigate.clipboard` or something like that).
-
 ## Weekly view
 
 At the moment the application creates daily sheet only in case if you open the app in that day.
