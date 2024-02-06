@@ -8,10 +8,20 @@
     </div>
   </div>
   <div class="form-group col-2 m-0">
-    <input id="activity-from"  name="from" formControlName="from" type="text" class="form-control" (input)="handleFromChanges()">
+    <div class="input-group">
+      <input id="activity-from" name="from" formControlName="from" type="text" class="form-control" (input)="handleFromChanges()">
+      <button class="btn btn-outline-secondary" type="button" (click)="setCurrentTime('from')">
+        <i class="material-icons">access_time</i>
+      </button>
+    </div>
   </div>
   <div class="form-group col-2 m-0">
-    <input id="activity-till" name="till" formControlName="till" type="text" class="form-control" (input)="handleTillChanges()">
+    <div class="input-group">
+      <input id="activity-till" name="till" formControlName="till" type="text" class="form-control" (input)="handleTillChanges()">
+      <button class="btn btn-outline-secondary" type="button" (click)="setCurrentTime('till')">
+        <i class="material-icons">access_time</i>
+      </button>
+    </div>
   </div>
   <div class="form-group col-2 m-0">
     <input id="activity-duration" name="duration" formControlName="duration" type="text" class="form-control" (input)="handleDurationChanges()">
