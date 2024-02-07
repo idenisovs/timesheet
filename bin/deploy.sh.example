@@ -1,10 +1,13 @@
 #!/bin/bash
 
+USER=
+HOST=
+
 echo "Hello world!";
 
 npm run build
 
-ssh ga5xz2@e-dreams.lv << 'EOF'
+ssh $USER@$HOST << 'EOF'
 
 if [ -d <DEPLOYMENT_DIR> ]; then
   echo -e '\nCleanup for deployment directory!'
@@ -15,9 +18,9 @@ mkdir <DEPLOYMENT_DIR>
 
 EOF
 
-scp -r ./dist/timesheet/* ga5xz2@e-dreams.lv:<DEPLOYMENT_DIR>
+scp -r ./dist/timesheet/* $USER@$HOST:<DEPLOYMENT_DIR>
 
-ssh ga5xz2@e-dreams.lv << 'EOF'
+ssh $USER@$HOST << 'EOF'
 
 if [ -d <DEPLOYMENT_DIR> ]; then
   echo -e '\nCleanup for target directory!'
