@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <header class="p-1 mb-4 d-block d-md-flex justify-content-between align-items-center">
+  <header class="mb-1 p-1 d-block d-md-flex justify-content-between align-items-center">
     <h1>
       Time sheet
       <a href="https://github.com/idenisovs/timesheet" target="_blank">
@@ -19,6 +19,8 @@
       </button>
     </div>
   </header>
+
+  <app-navbar></app-navbar>
 
   <div class="alert alert-danger" *ngIf="IsUsingHttp">
     <i class="material-icons">warning</i> This app will be migrated to <a href="https://time.e-dreams.lv">HTTPS version</a> soon! Please, import/export your data until <strong>12 Feb 2024</strong>!
