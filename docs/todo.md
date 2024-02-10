@@ -16,7 +16,7 @@ I'd like to put some Analytics here, so you'll be able to get all or some projec
 
 ### Tags
 
-I think there should be possibility to mark activities with tags. Therefore there will be possibility to make and process metadata.
+I think there should be possibility to mark activities with tags. Therefore, there will be possibility to make and process metadata.
 
 ## Projects
 

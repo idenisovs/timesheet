@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-sm bg-body-tertiary mb-4">
+  <div class="container-fluid">
+    <button type="button" class="navbar-toggler" (click)="isMenuCollapsed = !isMenuCollapsed">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" [ngbCollapse]="isMenuCollapsed">
+      <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" [routerLink]="['']" [routerLinkActive]="'active'" [routerLinkActiveOptions]="{ exact: true }">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" [routerLink]="['projects']" [routerLinkActive]="'active'">
+            Projects
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -12,6 +12,7 @@ import { ImportModalComponent } from './components/import-modal/import-modal.com
 import { DailyActivitiesWeekComponent } from './components/daily-activities-week/daily-activities-week.component';
 import { DailyActivitiesWeekHeaderComponent } from './components/daily-activities-week/daily-activities-week-header/daily-activities-week-header.component';
 import { MissingDailyActivityComponent } from './components/missing-daily-activity/missing-daily-activity.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { MissingDailyActivityComponent } from './components/missing-daily-activi
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    NavbarComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
