@@ -87,7 +87,7 @@ export class SheetCsvService {
   }
 
   async export() {
-    const sheet = await this.store.load();
+    const sheet = await this.store.loadTimeSheets();
 
     const header = SheetCsvService.CSV_COLS.join(SheetCsvService.DELIMITER);
 
