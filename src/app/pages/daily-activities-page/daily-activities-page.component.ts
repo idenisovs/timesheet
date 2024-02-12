@@ -21,7 +21,7 @@ export class DailyActivitiesPageComponent implements OnInit {
   async ngOnInit() {
     await this.store.prepareForToday();
 
-    this.sheets = await this.store.load();
+    this.sheets = await this.store.loadTimeSheets();
     this.weeks = this.groupByWeek(this.sheets);
 
     this.store.ImportEvent.subscribe(this.importRecords.bind(this));

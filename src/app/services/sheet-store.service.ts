@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import SheetStore from '../store/SheetStore';
 import { getDateString } from '../utils';
-import { CsvRecord, Sheet } from '../dto';
+import { CsvRecord, Sheet, Task } from '../dto';
 import { Observable, Subject } from 'rxjs';
 
 @Injectable({
@@ -19,8 +19,12 @@ export class SheetStoreService {
     this.db.open().then(() => {});
   }
 
-  load(): Promise<Sheet[]> {
+  loadTimeSheets(): Promise<Sheet[]> {
     return this.db.sheet.orderBy('date').reverse().toArray();
+  }
+
+  loadTasks(): Promise<Task[]> {
+    return this.db.tasks.toArray();
   }
 
   async save(sheet: Sheet) {
