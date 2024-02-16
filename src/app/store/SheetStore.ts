@@ -9,8 +9,11 @@ export default class SheetStore extends Dexie {
   constructor() {
     super('timesheet');
 
-    this.version(2.3).stores({
-      sheet: '++id,date,activities',
+    this.version(1).stores({
+      sheet: '++id,date,activities'
+    });
+
+    this.version(2.7).stores({
       tasks: '++id,&name'
     }).upgrade((trans: Transaction) => migrateV2(this, trans));
 
