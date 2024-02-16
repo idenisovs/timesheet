@@ -1,5 +1,6 @@
 import Dexie, { Transaction } from 'dexie';
 import { Sheet, Task } from '../dto';
+import migrateV2 from './migrate-v2';
 
 export default class SheetStore extends Dexie {
   sheet: Dexie.Table<Sheet, number>;
@@ -8,41 +9,12 @@ export default class SheetStore extends Dexie {
   constructor() {
     super('timesheet');
 
-    this.version(2.2).stores({
+    this.version(2.3).stores({
       sheet: '++id,date,activities',
       tasks: '++id,&name'
-    }).upgrade(this.migrateV2.bind(this));
+    }).upgrade((trans: Transaction) => migrateV2(this, trans));
 
     this.sheet = this.table('sheet');
     this.tasks = this.table('tasks');
-  }
-
-  async migrateV2(trans: Transaction) {
-    const sheets = await this.sheet.orderBy('date').reverse().toArray();
-    const taskNrs = this.getTaskNrs(sheets);
-
-    const tasks = Array.from(taskNrs).map((taskNr) => ({
-      name: taskNr
-    }));
-
-    return trans.table('tasks').bulkAdd(tasks)
-  }
-
-  private getTaskNrs(sheets: Sheet[]): string[] {
-    const taskNrs = new Set<string>();
-
-    sheets.forEach((timesheet) => {
-      timesheet.activities.forEach((activity) => {
-        if (!activity.name.match(/\w+-\d+/)) {
-          return;
-        }
-
-        const taskNr = activity.name.split(':')[0];
-
-        taskNrs.add(taskNr);
-      });
-    });
-
-    return Array.from(taskNrs);
   }
 }
