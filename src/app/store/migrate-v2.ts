@@ -1,34 +1,41 @@
 import SheetStore from './SheetStore';
 import { Transaction } from 'dexie';
-import { Sheet } from '../dto';
+import { Activity, Sheet, Task } from '../dto';
 
 export default async function migrateV2(store: SheetStore, trans: Transaction) {
   const sheets = await store.sheet.orderBy('date').reverse().toArray();
-  const taskNrs = getTaskNrs(sheets);
-
-  const tasks = Array.from(taskNrs).map((taskNr) => ({
-    name: taskNr
-  }));
-
-  console.log(tasks);
-
+  const tasks = getTasks(sheets);
   return trans.table('tasks').bulkAdd(tasks)
 }
 
-function getTaskNrs(sheets: Sheet[]): string[] {
-  const taskNrs = new Set<string>();
+function getTasks(sheets: Sheet[]): Omit<Task, 'id'>[] {
+  const tasks = new Map<string, Omit<Task, 'id'>>();
 
   sheets.forEach((timesheet) => {
     timesheet.activities.forEach((activity) => {
-      if (!activity.name.match(/\w+-\d+/)) {
-        return;
-      }
-
-      const taskNr = activity.name.split(':')[0];
-
-      taskNrs.add(taskNr);
+      upsertTask(tasks, activity);
     });
   });
 
-  return Array.from(taskNrs);
+  return Array.from(tasks.values());
 }
+
+function upsertTask(tasks: Map<string, Omit<Task, 'id'>>, activity: Activity) {
+  if (!activity.name.match(/\w+-\d+/)) {
+    return;
+  }
+
+  const taskNr = activity.name.split(':')[0];
+
+  if (tasks.has(taskNr)) {
+    updateTask(tasks, activity);
+  } else {
+    createTask(tasks, activity);
+  }
+}
+
+function createTask(tasks: Map<string, Omit<Task, 'id'>>, activity: Activity) {}
+
+function updateTask(tasks: Map<string, Omit<Task, 'id'>>, activity: Activity) {}
+
+
