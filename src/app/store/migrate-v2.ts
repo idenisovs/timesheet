@@ -28,14 +28,22 @@ function upsertTask(tasks: Map<string, Omit<Task, 'id'>>, activity: Activity) {
   const taskNr = activity.name.split(':')[0];
 
   if (tasks.has(taskNr)) {
-    updateTask(tasks, activity);
+    updateTask(tasks, taskNr, activity);
   } else {
-    createTask(tasks, activity);
+    createTask(tasks, taskNr, activity);
   }
 }
 
-function createTask(tasks: Map<string, Omit<Task, 'id'>>, activity: Activity) {}
+function createTask(tasks: Map<string, Omit<Task, 'id'>>, taskNr: string, activity: Activity) {
+  console.log('Create task', taskNr);
 
-function updateTask(tasks: Map<string, Omit<Task, 'id'>>, activity: Activity) {}
+  tasks.set(taskNr, {
+    name: taskNr
+  });
+}
+
+function updateTask(tasks: Map<string, Omit<Task, 'id'>>, taskNr: string, activity: Activity) {
+  console.log('Update task', taskNr)
+}
 
 
