@@ -2,11 +2,17 @@
   <thead>
   <tr>
     <th scope="col">Task</th>
+    <th scope="col">Activities</th>
+    <th scope="col">Time</th>
+    <th scope="col">Created At</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let task of tasks">
     <th scope="row">{{task.name}}</th>
+    <td>13</td>
+    <td>8h 30m</td>
+    <td>{{date|date}}</td>
   </tr>
   </tbody>
 </table>
