@@ -2,6 +2,8 @@
 
 Timesheet App uses [IndexedDB](https://en.wikipedia.org/wiki/Indexed_Database_API) to store the data and [Dexie.js](https://dexie.org/) lib to access it.
 
+Dexie docs is pretty messy, so use this [reference](./dexie.md) in order to see the most important articles.
+
 ## Entities
 
 ```mermaid
