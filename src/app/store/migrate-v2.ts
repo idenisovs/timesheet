@@ -1,26 +1,27 @@
 import SheetStore from './SheetStore';
 import { Transaction } from 'dexie';
-import { Activity, Sheet, Task } from '../dto';
+import { Activity, CreateTask, Sheet } from '../dto';
+import { sumDuration } from '../utils';
 
 export default async function migrateV2(store: SheetStore, trans: Transaction) {
   const sheets = await store.sheet.orderBy('date').reverse().toArray();
   const tasks = getTasks(sheets);
-  return trans.table('tasks').bulkAdd(tasks)
+  return trans.table('tasks').bulkAdd(tasks);
 }
 
-function getTasks(sheets: Sheet[]): Omit<Task, 'id'>[] {
-  const tasks = new Map<string, Omit<Task, 'id'>>();
+function getTasks(sheets: Sheet[]): CreateTask[] {
+  const tasks = new Map<string, CreateTask>();
 
   sheets.forEach((timesheet) => {
     timesheet.activities.forEach((activity) => {
-      upsertTask(tasks, activity);
+      upsertTask(tasks, activity, new Date(timesheet.date));
     });
   });
 
   return Array.from(tasks.values());
 }
 
-function upsertTask(tasks: Map<string, Omit<Task, 'id'>>, activity: Activity) {
+function upsertTask(tasks: Map<string, CreateTask>, activity: Activity, sheetDate: Date) {
   if (!activity.name.match(/\w+-\d+/)) {
     return;
   }
@@ -28,22 +29,34 @@ function upsertTask(tasks: Map<string, Omit<Task, 'id'>>, activity: Activity) {
   const taskNr = activity.name.split(':')[0];
 
   if (tasks.has(taskNr)) {
-    updateTask(tasks, taskNr, activity);
+    updateTask(tasks, taskNr, activity, sheetDate);
   } else {
-    createTask(tasks, taskNr, activity);
+    createTask(tasks, taskNr, activity, sheetDate);
   }
 }
 
-function createTask(tasks: Map<string, Omit<Task, 'id'>>, taskNr: string, activity: Activity) {
+function createTask(tasks: Map<string, CreateTask>, taskNr: string, activity: Activity, sheetDate: Date) {
   console.log('Create task', taskNr);
 
   tasks.set(taskNr, {
-    name: taskNr
+    name: taskNr,
+    activities: 1,
+    duration: activity.duration,
+    createdAt: sheetDate
   });
 }
 
-function updateTask(tasks: Map<string, Omit<Task, 'id'>>, taskNr: string, activity: Activity) {
-  console.log('Update task', taskNr)
+function updateTask(tasks: Map<string, CreateTask>, taskNr: string, activity: Activity, sheetDate: Date) {
+  console.log('Update task', taskNr);
+
+  const task = tasks.get(taskNr) as CreateTask;
+
+  task.activities++;
+  task.duration = sumDuration(task.duration, activity.duration);
+
+  if (task.createdAt > sheetDate) {
+    task.createdAt = sheetDate;
+  }
 }
 
 

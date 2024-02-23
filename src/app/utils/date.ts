@@ -1,3 +1,5 @@
+import parse from 'parse-duration';
+import { duration } from 'yet-another-duration';
 import { Sheet } from '../dto';
 
 export function getDateString(date = new Date()): string {
@@ -32,4 +34,15 @@ export function sortSheets(a: Sheet, b: Sheet): number {
   } else {
     return 0;
   }
+}
+
+export function sumDuration(duration1: string, duration2: string): string {
+  const d1 = parse(duration1);
+  const d2 = parse(duration2);
+
+  if (typeof d1 === 'undefined' || typeof d2 === 'undefined') {
+    throw new Error('duration1 or duration2 is not defined!');
+  }
+
+  return duration(d1 + d2).toString();
 }
