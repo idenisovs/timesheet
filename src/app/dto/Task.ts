@@ -1,5 +1,6 @@
 export interface Task {
   id: number;
+  key: string
   name: string;
   activities: number;
   duration: string;
