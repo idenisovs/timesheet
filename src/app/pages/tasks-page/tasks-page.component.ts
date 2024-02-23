@@ -15,7 +15,6 @@ import { Task } from '../../dto';
 })
 export class TasksPageComponent implements OnInit {
   tasks: Task[] = [];
-  date = new Date();
 
   constructor(private sheetStore: SheetStoreService) {
   }
