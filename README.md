@@ -24,6 +24,7 @@ npm start
 ## Documentation
 
 * [Database](./docs/database.md)
+  * [Dexie](./docs/dexie.md)
 * Functions:
   * [To Do](./docs/todo.md)
   * [Completed](./docs/completed.md)
