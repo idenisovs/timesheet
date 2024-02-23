@@ -115,7 +115,6 @@ export class DailyActivitiesComponent implements OnInit {
     if (this.sheet && this.sheet.activities) {
       this.sheet.activities = this.form.get('activities')?.value;
     }
-
   }
 
   getTotalDuration(): string {

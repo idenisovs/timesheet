@@ -36,10 +36,9 @@ function upsertTask(tasks: Map<string, CreateTask>, activity: Activity, sheetDat
 }
 
 function createTask(tasks: Map<string, CreateTask>, taskNr: string, activity: Activity, sheetDate: Date) {
-  console.log('Create task', taskNr);
-
   tasks.set(taskNr, {
-    name: taskNr,
+    key: taskNr,
+    name: '',
     activities: 1,
     duration: activity.duration,
     createdAt: sheetDate
@@ -47,8 +46,6 @@ function createTask(tasks: Map<string, CreateTask>, taskNr: string, activity: Ac
 }
 
 function updateTask(tasks: Map<string, CreateTask>, taskNr: string, activity: Activity, sheetDate: Date) {
-  console.log('Update task', taskNr);
-
   const task = tasks.get(taskNr) as CreateTask;
 
   task.activities++;
