@@ -25,12 +25,12 @@ npm start
 
 * [Database](./docs/database.md)
   * [Dexie](./docs/dexie.md)
-* Functions:
+* Features:
   * [To Do](./docs/todo.md)
   * [Completed](./docs/completed.md)
 
 ## Versions
-
+- `2.0.0` - Application got the basic Tasks view;
 - `1.3.0` - Added the following:
   1. Added the _Copy to Clipboard_ button;
   2. Added the buttons allowed to set the current time for `From` and `Till` fields;
