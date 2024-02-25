@@ -1,21 +1,20 @@
 <table class="table" *ngIf="issues?.length; else no_issues_message">
   <thead>
   <tr>
-    <th scope="col">Issue</th>
-    <th scope="col"></th>
-    <th scope="col">Activities</th>
-    <th scope="col">Time</th>
-    <th scope="col" class="text-end">Created At</th>
+    <th scope="col" colspan="2">Issue</th>
+    <th scope="col" class="text-center">Activities</th>
+    <th scope="col" class="text-center">Time</th>
+    <th scope="col" class="text-center">Created At</th>
     <th scope="col"></th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let issue of issues" class="align-middle">
     <th scope="row">{{issue.key}}</th>
-    <td>{{issue.name}}</td>
-    <td>{{issue.activities}}</td>
-    <td>{{issue.duration}}</td>
-    <td class="text-end">{{issue.createdAt|date}}</td>
+    <td class="w-50">{{issue.name}}</td>
+    <td class="text-center">{{issue.activities}}</td>
+    <td class="text-center">{{issue.duration}}</td>
+    <td class="text-center">{{issue.createdAt|date}}</td>
     <td class="text-center">
         <button class="btn btn-sm btn-link" [routerLink]="[issue.key]">
             <i class="material-icons">
