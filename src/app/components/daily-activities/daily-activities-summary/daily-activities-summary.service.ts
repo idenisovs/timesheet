@@ -53,12 +53,12 @@ export class DailyActivitiesSummaryService {
 
   private buildTasks(activities: Activity[]): Task[] {
     return activities.reduce<Task[]>((tasks: Task[], activity: Activity) => {
-      const taskNr = this.activitiesService.getTaskNumber(activity.name);
+      const taskKey = this.activitiesService.getTaskNumber(activity.name);
 
-      let task = tasks.find((item) => item.name === taskNr);
+      let task = tasks.find((item) => item.name === taskKey);
 
       if (!task) {
-        task = new Task(taskNr);
+        task = new Task(taskKey);
         tasks.push(task);
       }
 

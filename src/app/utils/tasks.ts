@@ -18,18 +18,18 @@ function upsertTask(tasks: Map<string, CreateTask>, activity: Activity, sheetDat
     return;
   }
 
-  const taskNr = activity.name.split(':')[0];
+  const taskKey = activity.name.split(':')[0];
 
-  if (tasks.has(taskNr)) {
-    updateTask(tasks, taskNr, activity, sheetDate);
+  if (tasks.has(taskKey)) {
+    updateTask(tasks, taskKey, activity, sheetDate);
   } else {
-    createTask(tasks, taskNr, activity, sheetDate);
+    createTask(tasks, taskKey, activity, sheetDate);
   }
 }
 
-function createTask(tasks: Map<string, CreateTask>, taskNr: string, activity: Activity, sheetDate: Date) {
-  tasks.set(taskNr, {
-    key: taskNr,
+function createTask(tasks: Map<string, CreateTask>, taskKey: string, activity: Activity, sheetDate: Date) {
+  tasks.set(taskKey, {
+    key: taskKey,
     name: '',
     activities: 1,
     duration: activity.duration,
@@ -37,8 +37,8 @@ function createTask(tasks: Map<string, CreateTask>, taskNr: string, activity: Ac
   });
 }
 
-function updateTask(tasks: Map<string, CreateTask>, taskNr: string, activity: Activity, sheetDate: Date) {
-  const task = tasks.get(taskNr) as CreateTask;
+function updateTask(tasks: Map<string, CreateTask>, taskKey: string, activity: Activity, sheetDate: Date) {
+  const task = tasks.get(taskKey) as CreateTask;
 
   task.activities++;
   task.duration = sumDuration(task.duration, activity.duration);
