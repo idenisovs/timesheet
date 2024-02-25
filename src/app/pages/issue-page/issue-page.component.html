@@ -1,3 +1,9 @@
-<div>
-  Loading issue...
-</div>
+<section *ngIf="issue">
+  <pre>
+    {{issue|json}}
+  </pre>
+</section>
+
+<section *ngIf="isNotFound" class="alert alert-danger">
+  The issue {{issueKey}} is not found!
+</section>

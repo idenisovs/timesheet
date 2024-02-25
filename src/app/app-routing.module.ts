@@ -7,7 +7,7 @@ import { IssuePageComponent } from './pages/issue-page/issue-page.component';
 const routes: Routes = [
   { path: '', component: DailyActivitiesPageComponent },
   { path: 'issues', component: IssuesPageComponent },
-  { path: 'issues/:issueId', component: IssuePageComponent }
+  { path: 'issues/:issueKey', component: IssuePageComponent }
 ];
 
 @NgModule({
