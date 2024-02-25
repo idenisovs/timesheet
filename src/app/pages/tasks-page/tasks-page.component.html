@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table" *ngIf="tasks?.length; else no_tasks_message">
   <thead>
   <tr>
     <th scope="col">Task</th>
@@ -18,3 +18,9 @@
   </tr>
   </tbody>
 </table>
+
+<ng-template #no_tasks_message>
+  <section class="alert alert-info">
+    There is no tasks yet!
+  </section>
+</ng-template>

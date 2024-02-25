@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe, NgForOf, NgIf } from '@angular/common';
 import { SheetStoreService } from '../../services/sheet-store.service';
-import { DatePipe, NgForOf } from '@angular/common';
 import { Task } from '../../dto';
 
 @Component({
@@ -8,7 +8,8 @@ import { Task } from '../../dto';
   standalone: true,
   imports: [
     NgForOf,
-    DatePipe
+    DatePipe,
+    NgIf
   ],
   templateUrl: './tasks-page.component.html',
   styleUrl: './tasks-page.component.scss'

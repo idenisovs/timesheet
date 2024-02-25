@@ -1,5 +1,5 @@
-import { Activity } from '../dto';
 import parseDuration from 'parse-duration';
+import { Activity } from '../dto';
 
 export function calculateTotalDuration(activities: Activity[]): number {
   return activities.reduce<number>((result: number, activity: Activity) => {
