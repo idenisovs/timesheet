@@ -1,9 +1,36 @@
-<section *ngIf="issue">
-  <pre>
-    {{issue|json}}
-  </pre>
-</section>
+<div *ngIf="issue">
+  <section class="card mb-3">
+    <h5 class="card-header">
+      {{ issueKey }}
+    </h5>
+    <main class="card-body">
+      <form [formGroup]="form">
+        <div class="mb-3">
+          <label for="issueNameInput" class="form-label">
+            Issue name
+          </label>
+          <input
+            id="issueNameInput"
+            type="text"
+            class="form-control"
+            placeholder="Issue name"
+            formControlName="name"
+          >
+        </div>
 
-<section *ngIf="isNotFound" class="alert alert-danger">
-  The issue {{issueKey}} is not found!
-</section>
+        <div class="d-flex">
+          <button class="btn btn-primary me-1" (click)="saveIssue()">
+            Save
+          </button>
+          <button class="btn btn-outline-primary" (click)="back()">
+            Back
+          </button>
+        </div>
+      </form>
+    </main>
+  </section>
+</div>
+
+<div *ngIf="isNotFound" class="alert alert-danger">
+  The issue {{ issueKey }} is not found!
+</div>
