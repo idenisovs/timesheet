@@ -15,6 +15,10 @@ export class SheetStoreService {
     return this.importEvent.asObservable();
   }
 
+  public get Instance(): SheetStore {
+    return this.db;
+  }
+
   constructor() {
     this.db.open().then(() => {});
   }
