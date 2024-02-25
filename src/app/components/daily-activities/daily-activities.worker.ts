@@ -29,8 +29,10 @@ addEventListener('message', async ({ data }: { data: 'updateTasks' }) => {
   for (let existingTask of existingTasks) {
     const task = tasks.find((item) => item.key === existingTask.key)
 
-    if (!task) {
-      await db.tasks.delete(existingTask.id);
+    if (!task && existingTask.activities > 0) {
+      existingTask.activities = 0;
+      existingTask.duration = '';
+      await db.tasks.put(existingTask);
     }
   }
 });
