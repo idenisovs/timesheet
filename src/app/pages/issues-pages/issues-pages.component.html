@@ -1,0 +1,26 @@
+<table class="table" *ngIf="issues?.length; else no_issues_message">
+  <thead>
+  <tr>
+    <th scope="col">Issue</th>
+    <th scope="col"></th>
+    <th scope="col">Activities</th>
+    <th scope="col">Time</th>
+    <th scope="col" class="text-end">Created At</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let issue of issues">
+    <th scope="row">{{issue.key}}</th>
+    <td>{{issue.name}}</td>
+    <td>{{issue.activities}}</td>
+    <td>{{issue.duration}}</td>
+    <td class="text-end">{{issue.createdAt|date}}</td>
+  </tr>
+  </tbody>
+</table>
+
+<ng-template #no_issues_message>
+  <section class="alert alert-info">
+    There is no issues yet!
+  </section>
+</ng-template>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DailyActivitiesSummary } from './DailyActivitiesSummary';
 import { Activity, Sheet } from '../../../dto';
 import { ActivitiesService } from '../../../services/activities.service';
-import { Task } from '../../../services/Task';
+import { Issue } from '../../../services/Issue';
 
 @Injectable({
   providedIn: 'root'
@@ -13,28 +13,28 @@ export class DailyActivitiesSummaryService {
   public build(sheet: Sheet): DailyActivitiesSummary {
     const result: DailyActivitiesSummary = {
       date: new Date(sheet.date),
-      tasks: [],
+      issues: [],
       duration: '0m',
     };
 
     const activeActivities = this.activitiesService.filterActive(sheet.activities);
 
-    result.tasks = this.makeTaskList(activeActivities);
+    result.issues = this.makeIssueList(activeActivities);
     result.duration = this.activitiesService.calculateDuration(activeActivities);
 
     return result;
   }
 
-  private makeTaskList(activities: Activity[]): Task[] {
+  private makeIssueList(activities: Activity[]): Issue[] {
     const mergedActivities: Activity[] = this.mergeSameActivities(activities);
 
-    const tasks: Task[] = this.buildTasks(mergedActivities);
+    const issues: Issue[] = this.buildIssueList(mergedActivities);
 
-    this.processTaskList(tasks);
+    this.processIssueList(issues);
 
-    this.sortTaskList(tasks);
+    this.sortIssueList(issues);
 
-    return tasks;
+    return issues;
   }
 
   private mergeSameActivities(activities: Activity[]): Activity[] {
@@ -51,46 +51,46 @@ export class DailyActivitiesSummaryService {
     }, []);
   }
 
-  private buildTasks(activities: Activity[]): Task[] {
-    return activities.reduce<Task[]>((tasks: Task[], activity: Activity) => {
-      const taskKey = this.activitiesService.getTaskNumber(activity.name);
+  private buildIssueList(activities: Activity[]): Issue[] {
+    return activities.reduce<Issue[]>((issues: Issue[], activity: Activity) => {
+      const issueKey = this.activitiesService.getIssueKey(activity.name);
 
-      let task = tasks.find((item) => item.name === taskKey);
+      let issue = issues.find((item) => item.name === issueKey);
 
-      if (!task) {
-        task = new Task(taskKey);
-        tasks.push(task);
+      if (!issue) {
+        issue = new Issue(issueKey);
+        issues.push(issue);
       }
 
-      task.activities.push({
+      issue.activities.push({
         ...activity,
         name: this.activitiesService.getShortName(activity.name)
       });
 
-      return tasks;
+      return issues;
     }, []);
   }
 
-  private processTaskList(tasks: Task[]) {
-    tasks.forEach((task) => {
-      task.duration = this.activitiesService.calculateDuration(task.activities);
+  private processIssueList(issues: Issue[]) {
+    issues.forEach((issue: Issue) => {
+      issue.duration = this.activitiesService.calculateDuration(issue.activities);
 
-      if (task.activities.length > 1) {
+      if (issue.activities.length > 1) {
         return;
       }
 
-      const activity = task.activities[0];
+      const activity = issue.activities[0];
 
-      if (task.name === activity.name) {
+      if (issue.name === activity.name) {
         return;
       }
 
-      task.name = `${task.name}: ${activity.name}`;
+      issue.name = `${issue.name}: ${activity.name}`;
     });
   }
 
-  private sortTaskList(tasks: Task[]) {
-    tasks.sort((a, b) => {
+  private sortIssueList(issues: Issue[]) {
+    issues.sort((a, b) => {
       if (a.name < b.name) {
         return -1;
       }

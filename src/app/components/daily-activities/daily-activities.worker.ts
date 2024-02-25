@@ -1,38 +1,38 @@
 /// <reference lib="webworker" />
 
 import SheetStore from '../../store/SheetStore';
-import { Task } from '../../dto';
-import { getTasks } from '../../utils/tasks';
+import { Issue } from '../../dto';
+import { getIssuesFromSheets } from '../../utils';
 
-addEventListener('message', async ({ data }: { data: 'updateTasks' }) => {
-  if (data !== 'updateTasks') {
+addEventListener('message', async ({ data }: { data: 'issue-sync' }) => {
+  if (data !== 'issue-sync') {
     throw new Error(`Unknown action ${data} is requested!`);
   }
 
   const db = new SheetStore();
 
   const sheets = await db.sheet.toArray()
-  const tasks = getTasks(sheets);
+  const issues = getIssuesFromSheets(sheets);
 
-  for (let task of tasks) {
-    const existingTask = await db.tasks.where('key').equals(task.key).first();
+  for (let issue of issues) {
+    const existingIssue = await db.issues.where('key').equals(issue.key).first();
 
-    if (existingTask) {
-      await db.tasks.update(existingTask, task);
+    if (existingIssue) {
+      await db.issues.update(existingIssue, issue);
     } else {
-      await db.tasks.add(task as Task);
+      await db.issues.add(issue as Issue);
     }
   }
 
-  const existingTasks = await db.tasks.toArray();
+  const existingIssues = await db.issues.toArray();
 
-  for (let existingTask of existingTasks) {
-    const task = tasks.find((item) => item.key === existingTask.key)
+  for (let existingIssue of existingIssues) {
+    const issue = issues.find((item) => item.key === existingIssue.key)
 
-    if (!task && existingTask.activities > 0) {
-      existingTask.activities = 0;
-      existingTask.duration = '';
-      await db.tasks.put(existingTask);
+    if (!issue && existingIssue.activities > 0) {
+      existingIssue.activities = 0;
+      existingIssue.duration = '';
+      await db.issues.put(existingIssue);
     }
   }
 });
