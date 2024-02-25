@@ -18,9 +18,7 @@ export class TasksPageComponent implements OnInit {
 
   constructor(private sheetStore: SheetStoreService) {
   }
-  ngOnInit() {
-    this.sheetStore.loadTasks().then((tasks: Task[]) => {
-      this.tasks = tasks;
-    });
+  async ngOnInit() {
+    this.tasks = await this.sheetStore.loadTasks();
   }
 }

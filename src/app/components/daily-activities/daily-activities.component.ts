@@ -1,12 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { duration } from 'yet-another-duration';
-
-import { getDateString, calculateTotalDuration } from '../../utils';
-import { Sheet, Activity } from '../../dto';
-import { SheetStoreService } from '../../services/sheet-store.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { getDateString } from '../../utils';
+import { Sheet } from '../../dto';
+import { SheetStoreService } from '../../services/sheet-store.service';
 import { DailyActivitiesSummaryComponent } from './daily-activities-summary/daily-activities-summary.component';
+import { DailyActivitiesService } from './daily-activities.service';
 
 @Component({
   selector: 'app-daily-activities',
@@ -48,6 +47,7 @@ export class DailyActivitiesComponent implements OnInit {
   constructor(
     private fb: UntypedFormBuilder,
     private store: SheetStoreService,
+    private dailyActivities: DailyActivitiesService,
     private modal: NgbModal
   ) { }
 
@@ -76,7 +76,7 @@ export class DailyActivitiesComponent implements OnInit {
 
       this.form.setControl('activities', this.fb.array(activities));
 
-      this.totalDuration = this.getTotalDuration();
+      this.totalDuration = this.dailyActivities.getTotalDuration(this.form.get('activities')?.value)
     }
 
     this.form.valueChanges.subscribe(() => {
@@ -110,23 +110,12 @@ export class DailyActivitiesComponent implements OnInit {
     await this.store.save(this.form.value);
 
     this.isChanged = false;
-    this.totalDuration = this.getTotalDuration();
+    this.totalDuration = this.dailyActivities.getTotalDuration(this.form.get('activities')?.value)
 
-    if (this.sheet && this.sheet.activities) {
+    if (this.sheet?.activities) {
       this.sheet.activities = this.form.get('activities')?.value;
+      this.dailyActivities.triggerTaskUpdate();
     }
-  }
-
-  getTotalDuration(): string {
-    const activities = this.form.get('activities')?.value as Activity[];
-
-    const totalDuration = calculateTotalDuration(activities);
-
-    return duration(totalDuration || 0, {
-      units: {
-        min: 'minutes'
-      }
-    }).toString();
   }
 
   isImportedActivity(idx: number): boolean {

@@ -24,7 +24,7 @@ export class SheetStoreService {
   }
 
   loadTasks(): Promise<Task[]> {
-    return this.db.tasks.toArray();
+    return this.db.tasks.orderBy('createdAt').reverse().toArray();
   }
 
   async save(sheet: Sheet) {
