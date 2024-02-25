@@ -2,6 +2,12 @@
 
 This file contains list of things and thoughts about features I'd like to put in Timesheet App.
 
+## Tasks view
+
+I decided to make Tasks view first. This view allow to oversee the summary of Tasks. As it has a lot of different things to do, I decided to move specification into separate file. 
+
+See it [here](./tasks.md).
+
 ## Weekly view
 
 At the moment the application creates daily sheet only in case if you open the app in that day.
