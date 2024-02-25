@@ -2,11 +2,11 @@
 
 This file contains list of things and thoughts about features I'd like to put in Timesheet App.
 
-## Tasks view
+## Issues view
 
-I decided to make Tasks view first. This view allow to oversee the summary of Tasks. As it has a lot of different things to do, I decided to move specification into separate file. 
+I decided to make Issues view first. This view allow to oversee the summary of Issues. As it has a lot of different things to do, I decided to move specification into separate file. 
 
-See it [here](./tasks.md).
+See it [here](./issues).
 
 ## Weekly view
 
@@ -18,7 +18,7 @@ Weekly View might be opened in case when you click on the week title (that gray 
 
 ## Analytics
 
-I'd like to put some Analytics here, so you'll be able to get all or some project / task overview across any period of time.
+I'd like to put some Analytics here, so you'll be able to get all or some project / issue overview across any period of time.
 
 ### Tags
 

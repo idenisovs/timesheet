@@ -26,7 +26,7 @@ export class ActivitiesService {
     return activityName.split(':').pop() ?? 'n/a';
   }
 
-  public getTaskNumber(activityName: string): string {
+  public getIssueKey(activityName: string): string {
     return activityName.split(':').shift() ?? 'n/a';
   }
 }

@@ -28,7 +28,7 @@ export class DailyActivitiesService {
     }).toString();
   }
 
-  public triggerTaskUpdate() {
-    this.worker.postMessage('updateTasks')
+  public triggerIssueSync() {
+    this.worker.postMessage('issue-sync')
   }
 }

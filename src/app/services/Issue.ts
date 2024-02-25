@@ -1,6 +1,6 @@
 import { Activity } from '../dto';
 
-export class Task {
+export class Issue {
   name: string;
   duration: string;
   activities: Activity[];

@@ -9,12 +9,12 @@ Dexie docs is pretty messy, so use this [reference](./dexie.md) in order to see 
 ```mermaid
 flowchart TD
   S[Sheet]
-  T([Tasks])
+  I([Issues])
   A[Activities]
   
-  S -.has many.-> T
+  S -.has many.-> I
   S --has many--> A
-  T -.has many.-> A
+  I -.has many.-> A
 ```
 
 ### Sheet 
@@ -29,9 +29,9 @@ Sheet have the following fields:
 2. `date` - `2023-01-15`
 3. `activities` - `[]`
 
-### Task
+### Issue
 
-Task is some kind of `virtual` entity. Used to group the activities that share the same _Task Number_.
+Issue is some kind of `virtual` entity. Used to group the activities that share the same _Issue Key_.
 
 ### Activity
 
@@ -44,15 +44,15 @@ Activity have the following properties:
 3. `till` - `12:45`
 4. `duration` - `45m`
 
-#### Task Number
+#### Issue Number
 
-Activity might be associated with some task. In order to do so you should specify activity name according to the following pattern:
+Activity might be associated with some issue. In order to do so you should specify activity name according to the following pattern:
 
 ```
-<task number>: <task description>
+<issue key>: <issue description>
 ```
 
-For example, if some activity has the name like `TSA-456: Make Greeting Text green`, then `TSA-456` is the task number.
+For example, if some activity has the name like `TSA-456: Make Greeting Text green`, then `TSA-456` is the issue key.
 
 
 

@@ -1,4 +1,4 @@
-export interface Task {
+export interface Issue {
   id: number;
   key: string
   name: string;
@@ -7,4 +7,4 @@ export interface Task {
   createdAt: Date;
 }
 
-export interface CreateTask extends Omit<Task, 'id'> {}
+export interface CreateIssue extends Omit<Issue, 'id'> {}
