@@ -6,15 +6,23 @@
     <th scope="col">Activities</th>
     <th scope="col">Time</th>
     <th scope="col" class="text-end">Created At</th>
+    <th scope="col"></th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let issue of issues">
+  <tr *ngFor="let issue of issues" class="align-middle">
     <th scope="row">{{issue.key}}</th>
     <td>{{issue.name}}</td>
     <td>{{issue.activities}}</td>
     <td>{{issue.duration}}</td>
     <td class="text-end">{{issue.createdAt|date}}</td>
+    <td class="text-center">
+        <button class="btn btn-sm btn-link" [routerLink]="[issue.key]">
+            <i class="material-icons">
+                edit
+            </i>
+        </button>
+    </td>
   </tr>
   </tbody>
 </table>
