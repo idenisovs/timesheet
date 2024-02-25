@@ -13,8 +13,8 @@ export default class SheetStore extends Dexie {
       sheet: '++id,date,activities'
     });
 
-    this.version(3.3).stores({
-      tasks: '++id,&key,name'
+    this.version(2).stores({
+      tasks: '++id,&key,name,createdAt'
     }).upgrade((trans: Transaction) => migrateV2(this, trans));
 
     this.sheet = this.table('sheet');
