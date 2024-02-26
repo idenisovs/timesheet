@@ -12,7 +12,7 @@
   <tr *ngFor="let issue of issues" class="align-middle">
     <th scope="row">{{issue.key}}</th>
     <td class="w-50">{{issue.name}}</td>
-    <td class="text-center">{{issue.activities}}</td>
+    <td class="text-center">{{issue.activities.length}}</td>
     <td class="text-center">{{issue.duration}}</td>
     <td class="text-center">{{issue.createdAt|date}}</td>
     <td class="text-center">

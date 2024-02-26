@@ -4,7 +4,7 @@ export default function createIssue(issues: Map<string, CreateIssue>, issueKey: 
   issues.set(issueKey, {
     key: issueKey,
     name: '',
-    activities: 1,
+    activities: [activity],
     duration: activity.duration,
     createdAt: sheetDate
   });
