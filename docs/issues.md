@@ -2,10 +2,6 @@
 
 ## To Do
 
-### Particular Issue View
-
-And here comes possibility to see the details or edit separate issue. 
-
 ### Highlight Activity
 
 Depending on what kind of activity it is:
@@ -26,4 +22,6 @@ Add search field to find a issue by specific keyword.
 
 ## Completed
 
-TBD
+### Particular Issue View
+
+And here comes possibility to see the details or edit separate issue. 
