@@ -33,8 +33,8 @@ addEventListener('message', async ({ data }: { data: 'issue-sync' }) => {
   for (let existingIssue of existingIssues) {
     const issue = issues.find((item) => item.key === existingIssue.key)
 
-    if (!issue && existingIssue.activities > 0) {
-      existingIssue.activities = 0;
+    if (!issue && existingIssue.activities.length > 0) {
+      existingIssue.activities = [];
       existingIssue.duration = '';
       await db.issues.put(existingIssue);
     }
