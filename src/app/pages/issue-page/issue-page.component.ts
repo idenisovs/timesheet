@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { JsonPipe, NgIf } from '@angular/common';
+import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SheetStoreService } from '../../services/sheet-store.service';
-import { Activity, Issue } from '../../dto';
+import { Issue } from '../../dto';
 
 @Component({
   selector: 'app-issue-page',
@@ -12,7 +12,8 @@ import { Activity, Issue } from '../../dto';
     NgIf,
     JsonPipe,
     RouterLink,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgForOf
   ],
   templateUrl: './issue-page.component.html',
   styleUrl: './issue-page.component.scss'
@@ -20,8 +21,7 @@ import { Activity, Issue } from '../../dto';
 export class IssuePageComponent implements OnInit {
   issue?: Issue;
   issueKey?: string;
-  isNotFound = false;
-  activities: Activity[] = [];
+  isNotFound: boolean = false;
   form = this.fb.group({
     name: ['']
   });
