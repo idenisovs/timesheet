@@ -59,23 +59,29 @@ export class DailyActivitiesSummaryService {
   }
 
   private buildIssueList(activities: Activity[]): DailyActivitiesSummaryIssue[] {
-    return activities.reduce<DailyActivitiesSummaryIssue[]>((issues: DailyActivitiesSummaryIssue[], activity: Activity) => {
+    const issues = new Map<string, DailyActivitiesSummaryIssue>();
+
+    for (let activity of activities) {
       const issueKey = this.activitiesService.getIssueKey(activity.name);
 
-      let issue = issues.find((item) => item.name === issueKey);
-
-      if (!issue) {
-        issue = new DailyActivitiesSummaryIssue(issueKey);
-        issues.push(issue);
+      if (issues.has(issueKey)) {
+        const issue = issues.get(issueKey) as DailyActivitiesSummaryIssue;
+        this.appendActivityList(issue, activity);
+      } else {
+        const issue = new DailyActivitiesSummaryIssue(issueKey);
+        this.appendActivityList(issue, activity);
+        issues.set(issueKey, issue);
       }
+    }
 
-      issue.activities.push({
-        ...activity,
-        name: this.activitiesService.getShortName(activity.name)
-      });
+    return Array.from(issues.values());
+  }
 
-      return issues;
-    }, []);
+  private appendActivityList(issue: DailyActivitiesSummaryIssue, activity: Activity) {
+    issue.activities.push({
+      ...activity,
+      name: this.activitiesService.getShortName(activity.name)
+    });
   }
 
   private processIssueList(issues: DailyActivitiesSummaryIssue[]) {
