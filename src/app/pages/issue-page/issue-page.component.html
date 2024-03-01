@@ -1,46 +1,11 @@
-<div *ngIf="issue">
-  <section class="card mb-3">
-    <h5 class="card-header">
-      {{ issueKey }}
-    </h5>
-    <main class="card-body">
-      <form [formGroup]="form">
-        <div class="mb-3">
-          <label for="issueNameInput" class="form-label">
-            Issue name
-          </label>
-          <input
-            id="issueNameInput"
-            type="text"
-            class="form-control"
-            placeholder="Issue name"
-            formControlName="name"
-          >
-        </div>
-
-        <div class="d-flex justify-content-between">
-          <span>
-            <button class="btn btn-primary me-1" (click)="saveIssue()">
-              Save
-            </button>
-            <button class="btn btn-outline-primary" (click)="back()">
-              Back
-            </button>
-          </span>
-
-          <span>
-            <button class="btn btn-outline-danger" (click)="displayRemoveConfirmation()">
-              Remove
-            </button>
-          </span>
-        </div>
-      </form>
-    </main>
-  </section>
-
+<div *ngIf="issue; else issueNotFoundAlert">
+  <app-issue-card [issue]="issue" />
   <app-activities-list [activities]="issue.activities" />
 </div>
 
-<div *ngIf="isNotFound" class="alert alert-danger">
-  The issue {{ issueKey }} is not found!
-</div>
+<ng-template #issueNotFoundAlert>
+  <div *ngIf="isNotFound" class="alert alert-danger">
+    The issue {{ issueKey }} is not found!
+  </div>
+</ng-template>
+
