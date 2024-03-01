@@ -4,6 +4,7 @@ import { DatePipe, NgForOf, NgIf } from '@angular/common';
 import { Issue } from '../../dto';
 import { SheetStoreService } from '../../services/sheet-store.service';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { IssueRemoveButtonComponent } from './issue-remove-button/issue-remove-button.component';
 
 @Component({
   selector: 'app-issues-pages',
@@ -14,6 +15,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
     NgIf,
     RouterLink,
     NgbTooltip,
+    IssueRemoveButtonComponent
   ],
   templateUrl: './issues-page.component.html',
   styleUrl: './issues-page.component.scss'
@@ -28,12 +30,10 @@ export class IssuesPageComponent implements OnInit {
   }
 
   async remove(issue: Issue) {
-    if (confirm('Are you sure want to remove this issue?')) {
-      const db = this.sheetStore.Instance;
-      await db.issues.delete(issue.id);
+    const db = this.sheetStore.Instance;
+    await db.issues.delete(issue.id);
 
-      const idx = this.issues.indexOf(issue);
-      this.issues.splice(idx, 1);
-    }
+    const idx = this.issues.indexOf(issue);
+    this.issues.splice(idx, 1);
   }
 }

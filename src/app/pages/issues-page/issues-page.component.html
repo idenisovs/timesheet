@@ -22,11 +22,7 @@
         </i>
       </button>
 
-      <button class="btn btn-sm btn-link" (click)="remove(issue)" *ngIf="!issue.activities.length">
-        <i class="material-icons text-danger">
-          delete
-        </i>
-      </button>
+      <app-issue-remove-button [disabled]="issue.activities.length > 0" (remove)="remove(issue)" />
     </td>
   </tr>
   </tbody>
