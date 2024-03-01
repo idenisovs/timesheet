@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe, NgForOf, NgIf } from '@angular/common';
 import { Issue } from '../../dto';
 import { SheetStoreService } from '../../services/sheet-store.service';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { IssueRemoveButtonComponent } from './issue-remove-button/issue-remove-button.component';
 
 @Component({
   selector: 'app-issues-pages',
@@ -11,7 +13,9 @@ import { SheetStoreService } from '../../services/sheet-store.service';
     DatePipe,
     NgForOf,
     NgIf,
-    RouterLink
+    RouterLink,
+    NgbTooltip,
+    IssueRemoveButtonComponent
   ],
   templateUrl: './issues-page.component.html',
   styleUrl: './issues-page.component.scss'
@@ -23,5 +27,13 @@ export class IssuesPageComponent implements OnInit {
 
   async ngOnInit() {
     this.issues = await this.sheetStore.loadIssues();
+  }
+
+  async remove(issue: Issue) {
+    const db = this.sheetStore.Instance;
+    await db.issues.delete(issue.id);
+
+    const idx = this.issues.indexOf(issue);
+    this.issues.splice(idx, 1);
   }
 }
