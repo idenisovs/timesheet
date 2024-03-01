@@ -5,3 +5,7 @@ export interface Activity {
   duration: string;
   isImported?: boolean;
 }
+
+export interface IssueActivity extends Activity {
+  createdAt: Date;
+}

@@ -6,14 +6,17 @@
     <th scope="col">
       Name
     </th>
-    <th scope="col">
+    <th scope="col" class="text-center">
       Start
     </th>
-    <th scope="col">
+    <th scope="col" class="text-center">
       End
     </th>
-    <th scope="col">
+    <th scope="col" class="text-center">
       Duration
+    </th>
+    <th scope="col" class="text-end">
+      Created At
     </th>
   </tr>
   </thead>
@@ -25,14 +28,17 @@
     <td>
       {{activity.name}}
     </td>
-    <td>
+    <td class="text-center">
       {{activity.from}}
     </td>
-    <td>
+    <td class="text-center">
       {{activity.till}}
     </td>
-    <td>
+    <td class="text-center">
       {{activity.duration}}
+    </td>
+    <td class="text-end">
+      {{activity.createdAt|date}}
     </td>
   </tr>
   </tbody>

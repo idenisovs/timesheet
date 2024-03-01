@@ -26,6 +26,10 @@ Add search field to find a issue by specific keyword.
 
 ## Completed
 
+### Activities should have the Date (2024-03-01)
+
+Activities within Issue object should have the `createdAt` field holding the Date value.
+
 ### Issue name to daily overview (2024-03-01)
 
 Daily Overview Modal should get the issue names. That was one of purposes why I made the whole Issue thing here.
