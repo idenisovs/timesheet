@@ -15,12 +15,14 @@
     <td class="text-center">{{issue.activities.length}}</td>
     <td class="text-center">{{issue.duration}}</td>
     <td class="text-center">{{issue.createdAt|date}}</td>
-    <td class="text-center">
-        <button class="btn btn-sm btn-link" [routerLink]="[issue.key]">
-            <i class="material-icons">
-                edit
-            </i>
-        </button>
+    <td class="text-end">
+      <button class="btn btn-sm btn-link" [routerLink]="[issue.key]">
+        <i class="material-icons">
+          edit
+        </i>
+      </button>
+
+      <app-issue-remove-button [disabled]="issue.activities.length > 0" (remove)="remove(issue)" />
     </td>
   </tr>
   </tbody>
