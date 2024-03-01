@@ -1,0 +1,39 @@
+<table class="table mt-5">
+  <thead>
+  <tr>
+    <th scope="col">
+    </th>
+    <th scope="col">
+      Name
+    </th>
+    <th scope="col">
+      Start
+    </th>
+    <th scope="col">
+      End
+    </th>
+    <th scope="col">
+      Duration
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let activity of activities; let idx = index">
+    <td>
+      {{idx + 1}}.
+    </td>
+    <td>
+      {{activity.name}}
+    </td>
+    <td>
+      {{activity.from}}
+    </td>
+    <td>
+      {{activity.till}}
+    </td>
+    <td>
+      {{activity.duration}}
+    </td>
+  </tr>
+  </tbody>
+</table>
