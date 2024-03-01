@@ -5,6 +5,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SheetStoreService } from '../../services/sheet-store.service';
 import { Issue } from '../../dto';
 import { IssuePageService } from './issue-page.service';
+import { ActivitiesListComponent } from './activities-list/activities-list.component';
 
 @Component({
   selector: 'app-issue-page',
@@ -14,7 +15,8 @@ import { IssuePageService } from './issue-page.service';
     JsonPipe,
     RouterLink,
     ReactiveFormsModule,
-    NgForOf
+    NgForOf,
+    ActivitiesListComponent
   ],
   templateUrl: './issue-page.component.html',
   styleUrl: './issue-page.component.scss'

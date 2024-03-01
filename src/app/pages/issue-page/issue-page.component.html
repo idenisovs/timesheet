@@ -38,53 +38,7 @@
     </main>
   </section>
 
-  <table class="table mt-5">
-    <thead>
-    <tr>
-      <th scope="col">
-      </th>
-      <th scope="col">
-        Name
-      </th>
-      <th scope="col">
-        Start
-      </th>
-      <th scope="col">
-        End
-      </th>
-      <th scope="col">
-        Duration
-      </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let activity of issue.activities; let idx = index">
-      <td>
-        {{idx + 1}}.
-      </td>
-      <td>
-        {{activity.name}}
-      </td>
-      <td>
-        {{activity.from}}
-      </td>
-      <td>
-        {{activity.till}}
-      </td>
-      <td>
-        {{activity.duration}}
-      </td>
-    </tr>
-    </tbody>
-    <tfoot>
-    <tr class="border-bottom-0">
-      <td colspan="4" class="border-bottom-0"></td>
-      <td class="fw-bold border-bottom-0">
-        {{issue.duration}}
-      </td>
-    </tr>
-    </tfoot>
-  </table>
+  <app-activities-list [activities]="issue.activities" />
 </div>
 
 <div *ngIf="isNotFound" class="alert alert-danger">
