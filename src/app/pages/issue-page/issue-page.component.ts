@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { SheetStoreService } from '../../services/sheet-store.service';
-import { Issue } from '../../dto';
+import { Activity, Issue, Sheet } from '../../dto';
 
 @Component({
   selector: 'app-issue-page',
@@ -20,7 +20,7 @@ import { Issue } from '../../dto';
 })
 export class IssuePageComponent implements OnInit {
   issue?: Issue;
-  issueKey?: string;
+  issueKey!: string;
   isNotFound: boolean = false;
   form = this.fb.group({
     name: ['']
@@ -70,5 +70,39 @@ export class IssuePageComponent implements OnInit {
 
   async back() {
     return this.router.navigate(['issues']);
+  }
+
+  async displayRemoveConfirmation() {
+    if (confirm('Are you sure want to remove this issue and all related activities?')) {
+      await this.removeActivities();
+      await this.removeIssue();
+    }
+  }
+
+  async removeActivities() {
+    const collection = this.db.sheet.filter((sheet: Sheet) => {
+      return sheet.activities.some((activity: Activity) => {
+        return activity.name.includes(this.issueKey);
+      })
+    });
+
+    const sheets = await collection.toArray();
+
+    sheets.forEach((sheet: Sheet) => {
+      sheet.activities = sheet.activities.filter((activity: Activity) => {
+        return !activity.name.includes(this.issueKey);
+      })
+    });
+
+    await this.db.sheet.bulkPut(sheets);
+  }
+
+  async removeIssue() {
+    if (!this.issue) {
+      return;
+    }
+
+    await this.db.issues.delete(this.issue.id);
+    await this.router.navigate(['issues']);
   }
 }
