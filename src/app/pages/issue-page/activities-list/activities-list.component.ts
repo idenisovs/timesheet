@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DatePipe, NgForOf } from '@angular/common';
-import { Issue, IssueActivity } from '../../../dto';
+import { IssueActivity } from '../../../dto';
 import { getDateString } from '../../../utils';
 import { ActivitiesTableComponent } from './activities-table/activities-table.component';
 
