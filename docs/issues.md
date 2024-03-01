@@ -6,13 +6,13 @@
 
 Daily Overview Modal should get the issue names. That was one of purposes why I made the whole Issue thing here.
 
-### The name of activity to issue
-
-If activity relates to the issue, which is not in store (a completely new issue), then name of activity should come to issue.
-
 ### Activity names without index
 
 Probably it is good thing to treat activities without indexes as issues.
+
+### Add possibility to remove the issue
+
+SUBJ
 
 ### Highlight Activity
 
@@ -34,6 +34,12 @@ Add search field to find a issue by specific keyword.
 
 ## Completed
 
-### Particular Issue View
+### The name of activity to issue (2024-03-01)
+
+If activity relates to the issue, which is not in store (a completely new issue), then name of activity should come to issue.
+
+### Particular Issue View (2024-02-26)
 
 And here comes possibility to see the details or edit separate issue. 
+
+
