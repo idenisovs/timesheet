@@ -6,7 +6,10 @@ export default function createIssue(issues: Map<string, CreateIssue>, issueKey: 
   issues.set(issueKey, {
     key: issueKey,
     name: issueName.join(':').trim(),
-    activities: [activity],
+    activities: [{
+      ...activity,
+      createdAt: sheetDate,
+    }],
     duration: activity.duration,
     createdAt: sheetDate
   });

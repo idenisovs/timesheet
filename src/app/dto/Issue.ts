@@ -1,10 +1,10 @@
-import { Activity } from './Activity';
+import { IssueActivity } from './Activity';
 
 export interface Issue {
   id: number;
   key: string
   name: string;
-  activities: Activity[];
+  activities: IssueActivity[];
   duration: string;
   createdAt: Date;
 }
