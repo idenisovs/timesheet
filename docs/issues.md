@@ -2,10 +2,6 @@
 
 ## To Do
 
-### Issue name to daily overview
-
-Daily Overview Modal should get the issue names. That was one of purposes why I made the whole Issue thing here.
-
 ### Activity names without index
 
 Probably it is good thing to treat activities without indexes as issues.
@@ -29,6 +25,10 @@ Probably it is wise idea to group issues by months.
 Add search field to find a issue by specific keyword.
 
 ## Completed
+
+### Issue name to daily overview (2024-03-01)
+
+Daily Overview Modal should get the issue names. That was one of purposes why I made the whole Issue thing here.
 
 ### Add possibility to remove the issue (2024-03-01)
 
