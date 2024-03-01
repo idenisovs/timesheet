@@ -16,15 +16,15 @@ Depending on what kind of activity it is:
 
 User should be able to add a issue without related activities. 
 
-### Issues list grouped by month
-
-Probably it is wise idea to group issues by months. 
-
 ### Possibility to search issues
 
 Add search field to find a issue by specific keyword.
 
 ## Completed
+
+### Issues list grouped by month (2024-03-01)
+
+Probably it is wise idea to group issues by months.
 
 ### Activities should have the Date (2024-03-01)
 
