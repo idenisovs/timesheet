@@ -1,7 +1,7 @@
-import { Issue } from '../../../services/Issue';
+import { DailyActivitiesSummaryIssue } from './DailyActivitiesSummaryIssue';
 
 export interface DailyActivitiesSummary {
   date: Date;
-  issues: Issue[];
+  issues: DailyActivitiesSummaryIssue[];
   duration: string;
 }

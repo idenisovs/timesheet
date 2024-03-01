@@ -1,6 +1,6 @@
-import { Activity } from '../dto';
+import { Activity } from '../../../dto';
 
-export class Issue {
+export class DailyActivitiesSummaryIssue {
   name: string;
   duration: string;
   activities: Activity[];

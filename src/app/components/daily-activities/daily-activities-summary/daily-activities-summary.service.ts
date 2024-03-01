@@ -2,13 +2,18 @@ import { Injectable } from '@angular/core';
 import { DailyActivitiesSummary } from './DailyActivitiesSummary';
 import { Activity, Sheet } from '../../../dto';
 import { ActivitiesService } from '../../../services/activities.service';
-import { Issue } from '../../../services/Issue';
+import { DailyActivitiesSummaryIssue } from './DailyActivitiesSummaryIssue';
+import { Issue as IssueRecord } from '../../../dto';
+import { SheetStoreService } from '../../../services/sheet-store.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DailyActivitiesSummaryService {
-  constructor(private activitiesService: ActivitiesService) { }
+  constructor(
+    private activitiesService: ActivitiesService,
+    private sheetStore: SheetStoreService
+  ) { }
 
   public build(sheet: Sheet): DailyActivitiesSummary {
     const result: DailyActivitiesSummary = {
@@ -25,14 +30,16 @@ export class DailyActivitiesSummaryService {
     return result;
   }
 
-  private makeIssueList(activities: Activity[]): Issue[] {
+  private makeIssueList(activities: Activity[]): DailyActivitiesSummaryIssue[] {
     const mergedActivities: Activity[] = this.mergeSameActivities(activities);
 
-    const issues: Issue[] = this.buildIssueList(mergedActivities);
+    const issues: DailyActivitiesSummaryIssue[] = this.buildIssueList(mergedActivities);
 
     this.processIssueList(issues);
 
     this.sortIssueList(issues);
+
+    this.setIssueNames(issues);
 
     return issues;
   }
@@ -51,14 +58,14 @@ export class DailyActivitiesSummaryService {
     }, []);
   }
 
-  private buildIssueList(activities: Activity[]): Issue[] {
-    return activities.reduce<Issue[]>((issues: Issue[], activity: Activity) => {
+  private buildIssueList(activities: Activity[]): DailyActivitiesSummaryIssue[] {
+    return activities.reduce<DailyActivitiesSummaryIssue[]>((issues: DailyActivitiesSummaryIssue[], activity: Activity) => {
       const issueKey = this.activitiesService.getIssueKey(activity.name);
 
       let issue = issues.find((item) => item.name === issueKey);
 
       if (!issue) {
-        issue = new Issue(issueKey);
+        issue = new DailyActivitiesSummaryIssue(issueKey);
         issues.push(issue);
       }
 
@@ -71,25 +78,13 @@ export class DailyActivitiesSummaryService {
     }, []);
   }
 
-  private processIssueList(issues: Issue[]) {
-    issues.forEach((issue: Issue) => {
+  private processIssueList(issues: DailyActivitiesSummaryIssue[]) {
+    issues.forEach((issue: DailyActivitiesSummaryIssue) => {
       issue.duration = this.activitiesService.calculateDuration(issue.activities);
-
-      if (issue.activities.length > 1) {
-        return;
-      }
-
-      const activity = issue.activities[0];
-
-      if (issue.name === activity.name) {
-        return;
-      }
-
-      issue.name = `${issue.name}: ${activity.name}`;
     });
   }
 
-  private sortIssueList(issues: Issue[]) {
+  private sortIssueList(issues: DailyActivitiesSummaryIssue[]) {
     issues.sort((a, b) => {
       if (a.name < b.name) {
         return -1;
@@ -101,5 +96,21 @@ export class DailyActivitiesSummaryService {
 
       return 0;
     });
+  }
+
+  private setIssueNames(issues: DailyActivitiesSummaryIssue[]) {
+    issues.forEach((issue: DailyActivitiesSummaryIssue) => {
+      const issueKey = this.activitiesService.getIssueKey(issue.name);
+
+      this.findIssueRecord(issueKey).then((existingIssueRecord) => {
+        if (existingIssueRecord) {
+          issue.name = `${existingIssueRecord.key}: ${existingIssueRecord.name}`;
+        }
+      });
+    });
+  }
+
+  private async findIssueRecord(issueKey: string): Promise<IssueRecord | undefined> {
+    return this.sheetStore.Instance.issues.where('key').equals(issueKey).first();
   }
 }
