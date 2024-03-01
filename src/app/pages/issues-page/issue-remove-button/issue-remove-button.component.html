@@ -1,0 +1,15 @@
+<button class="btn btn-sm btn-link" *ngIf="!disabled; else disabledButton" (click)="displayConfirmationDialog()">
+  <i class="material-icons-outlined">
+    delete
+  </i>
+</button>
+
+<ng-template #disabledButton>
+  <span placement="top" ngbTooltip="Issue should have no activities in order to be removed from here">
+    <button class="btn btn-sm btn-link" disabled>
+      <i class="material-icons-outlined">
+        delete
+      </i>
+    </button>
+  </span>
+</ng-template>
