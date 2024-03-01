@@ -10,10 +10,6 @@ Daily Overview Modal should get the issue names. That was one of purposes why I 
 
 Probably it is good thing to treat activities without indexes as issues.
 
-### Add possibility to remove the issue
-
-SUBJ
-
 ### Highlight Activity
 
 Depending on what kind of activity it is:
@@ -33,6 +29,10 @@ Probably it is wise idea to group issues by months.
 Add search field to find a issue by specific keyword.
 
 ## Completed
+
+### Add possibility to remove the issue (2024-03-01)
+
+SUBJ
 
 ### The name of activity to issue (2024-03-01)
 
