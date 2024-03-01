@@ -18,13 +18,21 @@
           >
         </div>
 
-        <div class="d-flex">
-          <button class="btn btn-primary me-1" (click)="saveIssue()">
-            Save
-          </button>
-          <button class="btn btn-outline-primary" (click)="back()">
-            Back
-          </button>
+        <div class="d-flex justify-content-between">
+          <span>
+            <button class="btn btn-primary me-1" (click)="saveIssue()">
+              Save
+            </button>
+            <button class="btn btn-outline-primary" (click)="back()">
+              Back
+            </button>
+          </span>
+
+          <span>
+            <button class="btn btn-outline-danger" (click)="displayRemoveConfirmation()">
+              Remove
+            </button>
+          </span>
         </div>
       </form>
     </main>
