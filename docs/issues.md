@@ -2,6 +2,18 @@
 
 ## To Do
 
+### Issue name to daily overview
+
+Daily Overview Modal should get the issue names. That was one of purposes why I made the whole Issue thing here.
+
+### The name of activity to issue
+
+If activity relates to the issue, which is not in store (a completely new issue), then name of activity should come to issue.
+
+### Activity names without index
+
+Probably it is good thing to treat activities without indexes as issues.
+
 ### Highlight Activity
 
 Depending on what kind of activity it is:
