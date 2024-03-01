@@ -18,21 +18,39 @@
       </div>
 
       <div class="d-flex justify-content-between">
-          <span>
-            <button class="btn btn-primary me-1" (click)="saveIssue()">
-              Save
-            </button>
-            <button class="btn btn-outline-primary" (click)="back()">
-              Back
-            </button>
-          </span>
+        <span>
+          <button class="btn btn-primary me-1" (click)="saveIssue()">
+            Save
+          </button>
+          <button class="btn btn-outline-primary" (click)="back()">
+            Back
+          </button>
+        </span>
 
         <span>
-            <button class="btn btn-outline-danger" (click)="displayRemoveConfirmation()">
-              Remove
-            </button>
-          </span>
+          <button class="btn btn-outline-danger" (click)="displayRemoveConfirmation()">
+            Remove
+          </button>
+        </span>
       </div>
     </form>
   </main>
+
+  <footer class="card-footer">
+    <span class="me-2">
+      <i class="material-icons-outlined">
+        assignment
+      </i>
+
+      {{issue.activities.length}}
+    </span>
+
+    <span class="me-2">
+      <i class="material-icons-outlined">
+        schedule
+      </i>
+
+      {{issue.duration}}
+    </span>
+  </footer>
 </section>
