@@ -30,6 +30,8 @@ npm start
   * [Completed](./docs/completed.md)
 
 ## Versions
+
+- `2.2.0` - Issues section got possibility to remove Issue;
 - `2.1.0` - Application got the basic Edit Issue view;
 - `2.0.0` - Application got the basic Issues view;
 - `1.3.0` - Added the following:
