@@ -2,6 +2,18 @@
 
 ## To Do
 
+### Possibility to define an issue
+
+User should be able to add a issue without related activities. 
+
+### Possibility to search issues
+
+Add search field to find a issue by specific keyword.
+
+### Issues Page date grouping
+
+In Issues Page, group issues by date (Month and Year).
+
 ### Activity names without index
 
 Probably it is good thing to treat activities without indexes as issues.
@@ -11,14 +23,6 @@ Probably it is good thing to treat activities without indexes as issues.
 Depending on what kind of activity it is:
 
 - If activity has a name specific to issues, like `ABC-123: Testing`, then it might be highlighting like green.
-
-### Possibility to define an issue
-
-User should be able to add a issue without related activities. 
-
-### Possibility to search issues
-
-Add search field to find a issue by specific keyword.
 
 ## Completed
 
