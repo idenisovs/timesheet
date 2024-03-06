@@ -2,10 +2,6 @@
 
 ## To Do
 
-### Possibility to define an issue
-
-User should be able to add a issue without related activities. 
-
 ### Possibility to search issues
 
 Add search field to find a issue by specific keyword.
@@ -25,6 +21,10 @@ Depending on what kind of activity it is:
 - If activity has a name specific to issues, like `ABC-123: Testing`, then it might be highlighting like green.
 
 ## Completed
+
+### Possibility to define an issue (2024-03-06)
+
+User should be able to add an issue without related activities.
 
 ### Issues list grouped by month (2024-03-01)
 
