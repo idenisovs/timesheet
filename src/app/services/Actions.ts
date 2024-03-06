@@ -1,4 +1,4 @@
 export enum Actions {
-  ImportFromCsv,
-  ExportToCsv
+  ImportFromCsv = 'ImportFromCsv',
+  ExportToCsv = 'ExportToCsv'
 }

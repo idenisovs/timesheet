@@ -1,9 +1,8 @@
-<button class="btn btn-sm btn-outline-primary me-2" (click)="importFromCsv()">
-  <i class="material-icons">file_download</i>
+<app-page-action-button icon="file_download" [action]="Actions.ImportFromCsv" class="me-2">
   Import from CSV
-</button>
+</app-page-action-button>
 
-<button class="btn btn-sm btn-outline-primary" (click)="exportToCsv()">
-  <i class="material-icons">file_upload</i>
+<app-page-action-button icon="file_upload" [action]="Actions.ExportToCsv">
   Export to CSV
-</button>
+</app-page-action-button>
+
