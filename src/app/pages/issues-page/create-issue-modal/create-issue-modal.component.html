@@ -5,11 +5,34 @@
 </header>
 
 <main class="modal-body">
-  Issue Form
+  <form [formGroup]="form" class="needs-validation" novalidate>
+    <div class="mb-3">
+      <label for="issue-name" class="form-label">
+        Issue name
+      </label>
+      <input id="issue-name"
+             type="text"
+             class="form-control"
+             aria-describedby="issue-name-help"
+             formControlName="name"
+      >
+      <div id="issue-name-help" class="form-text">
+        Specify issue name like <code>ABC-123: Hello World</code>.
+      </div>
+      <ng-container *ngIf="NameInput.dirty">
+        <div class="text-danger" *ngIf="NameInput.dirty && NameInput.errors?.['required']">
+          * Required!
+        </div>
+        <div class="text-danger" *ngIf="NameInput.dirty && NameInput.errors?.['format']">
+          * Issue name should match the <i>ABC-123: The name of issue</i> format!
+        </div>
+      </ng-container>
+    </div>
+  </form>
 </main>
 
 <footer class="modal-footer">
-  <button type="button" class="btn btn-outline-primary">
+  <button type="button" class="btn btn-outline-primary" (click)="create()" [disabled]="form.invalid">
     Create
   </button>
 
