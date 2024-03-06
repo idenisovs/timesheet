@@ -19,24 +19,30 @@
       <div id="issue-name-help" class="form-text">
         Specify issue name like <code>ABC-123: Hello World</code>.
       </div>
-      <ng-container *ngIf="NameInput.dirty">
-        <div class="text-danger" *ngIf="NameInput.dirty && NameInput.errors?.['required']">
-          * Required!
-        </div>
-        <div class="text-danger" *ngIf="NameInput.dirty && NameInput.errors?.['format']">
-          * Issue name should match the <i>ABC-123: The name of issue</i> format!
-        </div>
-      </ng-container>
     </div>
   </form>
 </main>
 
-<footer class="modal-footer">
-  <button type="button" class="btn btn-outline-primary" (click)="create()" [disabled]="form.invalid">
-    Create
-  </button>
+<footer class="modal-footer justify-content-between flex-nowrap">
+  <div>
+    <div *ngIf="NameInput.errors?.['required']">
+      Issue name is required!
+    </div>
+    <div *ngIf="!NameInput.errors?.['required'] && NameInput.errors?.['format']">
+      Issue name should match the <i>ABC-123: The name of issue</i> format!
+    </div>
+    <div *ngIf="NameInput.errors?.['unique']">
+      Issue name should have the unique key!
+    </div>
+  </div>
 
-  <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
-    Cancel
-  </button>
+  <div class="text-nowrap">
+    <button type="button" class="btn btn-outline-primary me-2" (click)="create()" [disabled]="form.invalid || form.pending">
+      Create
+    </button>
+
+    <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+      Cancel
+    </button>
+  </div>
 </footer>

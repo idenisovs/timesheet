@@ -65,6 +65,8 @@ export class IssuesPageComponent implements OnInit, OnDestroy {
 
     const result = await handleModalResult<Issue|null>(createIssueModal.result);
 
-    console.log(result);
+    if (result) {
+      this.issues.unshift(result);
+    }
   }
 }
