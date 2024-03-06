@@ -1,25 +1,51 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { Observable, timer } from 'rxjs';
+import { first, map, switchMap } from 'rxjs/operators';
+import { SheetStoreService } from '../../../services/sheet-store.service';
+import { Issue } from '../../../dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreateIssueModalService {
+  db = this.store.Instance;
 
-  constructor() { }
+  constructor(private store: SheetStoreService) { }
+
+  async save(name: string) {
+    const [key, ...nameParts] = name.split(':');
+
+    const id = await this.db.issues.add({
+      key,
+      name: nameParts.join(':').trim(),
+      activities: [],
+      duration: '',
+      createdAt: new Date()
+    } as unknown as Issue);
+
+    return await this.db.issues.get(id) as Issue;
+  }
 
   existingIssueNameValidator(): AsyncValidatorFn {
-    return async (control: AbstractControl): Promise<ValidationErrors|null> => {
-      console.log('Control:');
-      console.log(control.value);
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      return timer(300)
+        .pipe(
+          switchMap(() => {
+            const issueKey = control.value.split(':')[0];
+            return this.db.issues.where('key').equals(issueKey).first();
+          }),
+          map((issue: Issue | undefined) => {
+            if (!issue) {
+              return null;
+            }
 
-      if (!control.value.length) {
-        return {
-          issueNameLength: true
-        }
-      }
-
-      return null;
+            return {
+              unique: true
+            }
+          }),
+          first()
+        );
     }
   }
 

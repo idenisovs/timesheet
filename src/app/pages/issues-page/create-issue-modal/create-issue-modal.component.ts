@@ -9,7 +9,7 @@ import { CreateIssueModalService } from './create-issue-modal.service';
   standalone: true,
   imports: [
     NgIf,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './create-issue-modal.component.html',
   styleUrl: './create-issue-modal.component.scss'
@@ -36,10 +36,10 @@ export class CreateIssueModalComponent implements OnInit {
 
   ngOnInit() {}
 
-  create() {
-    console.log(this.form.value);
-    console.log(this.form.status);
-    console.log(this.form.controls.name.errors);
+  async create() {
+    const issue = await this.createIssueService.save(this.form.controls.name.value as string);
+
+    this.activeModal.close(issue);
   }
 
   cancel() {
