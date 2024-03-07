@@ -1,0 +1,29 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col" colspan="2">Issue</th>
+    <th scope="col" class="text-center">Activities</th>
+    <th scope="col" class="text-center">Time</th>
+    <th scope="col" class="text-center">Created At</th>
+    <th scope="col"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let issue of issues" class="align-middle">
+    <th scope="row">{{issue.key}}</th>
+    <td class="w-50">{{issue.name}}</td>
+    <td class="text-center">{{issue.activities.length}}</td>
+    <td class="text-center">{{issue.duration}}</td>
+    <td class="text-center">{{issue.createdAt|date}}</td>
+    <td class="text-end">
+      <button class="btn btn-sm btn-link" [routerLink]="[issue.key]">
+        <i class="material-icons">
+          edit
+        </i>
+      </button>
+
+      <app-issue-remove-button [disabled]="issue.activities.length > 0" (remove)="remove.emit(issue)" />
+    </td>
+  </tr>
+  </tbody>
+</table>
