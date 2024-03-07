@@ -54,7 +54,7 @@ export class IssuesPageComponent implements OnInit, OnDestroy {
 
   groupIssuesByDate() {
     this.issues.forEach((issue: Issue) => {
-      const date = this.datePipe.transform(issue.createdAt, 'MM, YYYY') as string;
+      const date = this.getDateString(issue.createdAt);
 
       if (this.issuesGroupedByDate.has(date)) {
         this.issuesGroupedByDate.get(date)?.push(issue);
@@ -62,14 +62,6 @@ export class IssuesPageComponent implements OnInit, OnDestroy {
         this.issuesGroupedByDate.set(date, [issue]);
       }
     });
-  }
-
-  async remove(issue: Issue) {
-    const db = this.sheetStore.Instance;
-    await db.issues.delete(issue.id);
-
-    const idx = this.issues.indexOf(issue);
-    this.issues.splice(idx, 1);
   }
 
   handleActions(action: Actions) {
@@ -83,10 +75,26 @@ export class IssuesPageComponent implements OnInit, OnDestroy {
       centered: true
     });
 
-    const result = await handleModalResult<Issue|null>(createIssueModal.result);
+    const createdIssue = await handleModalResult<Issue|null>(createIssueModal.result);
 
-    if (result) {
-      this.issues.unshift(result);
+    if (createdIssue) {
+      this.appendCreatedIssue(createdIssue);
     }
+  }
+
+  appendCreatedIssue(issue: Issue) {
+    this.issues.unshift(issue);
+
+    const date = this.getDateString(issue.createdAt);
+
+    if (this.issuesGroupedByDate.has(date)) {
+      this.issuesGroupedByDate.get(date)?.unshift(issue);
+    } else {
+      this.issuesGroupedByDate.set(date, [issue]);
+    }
+  }
+
+  getDateString(issueDate: Date): string {
+    return this.datePipe.transform(issueDate, 'MM, YYYY') as string;
   }
 }

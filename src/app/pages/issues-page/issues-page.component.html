@@ -1,4 +1,4 @@
-<app-issues-list [issues]="issuesGroupedByDate" />
+<app-issues-list [issues]="issuesGroupedByDate" *ngIf="issues.length; else no_issues_message" />
 
 <ng-template #no_issues_message>
   <section class="alert alert-info">
