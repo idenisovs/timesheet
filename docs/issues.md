@@ -18,6 +18,11 @@ Depending on what kind of activity it is:
 
 ## Completed
 
+### Issues estimation (2024-03-07)
+
+1. Added possibility to set estimated Issue development time;
+2. Added estimation accuracy scoring;
+
 ### Issues Page date grouping (2024-03-07)
 
 In Issues Page, group issues by date (Month and Year).
