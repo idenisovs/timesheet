@@ -28,6 +28,8 @@ npm start
 * Features:
   * [To Do](./docs/todo.md)
   * [Completed](./docs/completed.md)
+* Issues View:
+  * [Accuracy Points](./docs/accuracy_points.md)
 
 ## Versions
 

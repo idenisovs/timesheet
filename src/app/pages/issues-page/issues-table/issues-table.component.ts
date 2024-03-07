@@ -46,8 +46,8 @@ export class IssuesTableComponent {
     const actualHours = duration / HOUR;
     const error = Math.abs(estimatedHours - actualHours);
 
-    const scalingFraction = 0.2;
-    const power = Math.pow(2, -error * scalingFraction);
+    const scalingFactor = 0.2;
+    const power = Math.pow(2, -error * scalingFactor);
     const maxPoints = 1000;
     const points = power * maxPoints;
 
