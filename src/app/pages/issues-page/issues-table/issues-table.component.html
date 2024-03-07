@@ -16,7 +16,7 @@
     <td class="w-50">{{issue.name}}</td>
     <td class="text-center">{{issue.activities.length}}</td>
     <td class="text-center">{{issue.duration}}</td>
-    <td class="text-center">{{issue.estimate ?? '--'}}</td>
+    <td class="text-center">{{issue.estimate && issue.estimate.length ? issue.estimate : '--'}}</td>
     <td class="text-center">{{issue.createdAt|date}}</td>
     <td class="text-end">
       <button class="btn btn-sm btn-link" [routerLink]="[issue.key]">
