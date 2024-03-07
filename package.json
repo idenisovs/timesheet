@@ -1,6 +1,6 @@
 {
   "name": "timesheet",
-  "version": "2.3.6",
+  "version": "2.3.7",
   "scripts": {
     "ng": "ng",
     "start:https": "ng serve --ssl",
