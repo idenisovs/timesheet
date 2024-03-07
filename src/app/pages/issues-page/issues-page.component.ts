@@ -10,6 +10,7 @@ import { ActionsService } from '../../services/actions.service';
 import { Actions } from '../../services/Actions';
 import { CreateIssueModalComponent } from './create-issue-modal/create-issue-modal.component';
 import { handleModalResult } from '../../utils';
+import { IssuesTableComponent } from './issues-table/issues-table.component';
 
 @Component({
   selector: 'app-issues-pages',
@@ -20,7 +21,8 @@ import { handleModalResult } from '../../utils';
     NgIf,
     RouterLink,
     NgbTooltip,
-    IssueRemoveButtonComponent
+    IssueRemoveButtonComponent,
+    IssuesTableComponent
   ],
   templateUrl: './issues-page.component.html',
   styleUrl: './issues-page.component.scss'
