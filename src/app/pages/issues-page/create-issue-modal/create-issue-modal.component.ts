@@ -21,11 +21,18 @@ export class CreateIssueModalComponent implements OnInit {
       this.createIssueService.issueNameFormatValidator()
     ], [
       this.createIssueService.existingIssueNameValidator()
+    ]],
+    estimate: ['', [
+      this.createIssueService.durationFieldValidator()
     ]]
   });
 
   get NameInput() {
     return this.form.controls.name;
+  }
+
+  get EstimateInput() {
+    return this.form.controls.estimate;
   }
 
   constructor(
@@ -37,7 +44,10 @@ export class CreateIssueModalComponent implements OnInit {
   ngOnInit() {}
 
   async create() {
-    const issue = await this.createIssueService.save(this.form.controls.name.value as string);
+    const issueName = this.form.controls.name.value as string;
+    const issueEstimate = this.form.controls.estimate.value as string;
+
+    const issue = await this.createIssueService.save(issueName, issueEstimate);
 
     this.activeModal.close(issue);
   }
