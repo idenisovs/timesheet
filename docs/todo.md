@@ -26,6 +26,12 @@ I think there should be possibility to mark activities with tags. Therefore, the
 
 ## Projects
 
+### Update (2024-03-07)
+
+Probably, the better name for this section is **Categories**.
+
+### Initial version
+
 BTW, it might have the Projects section, so if you save activities in form of `ABC-123: Hello World`, you should be able to define the group or _project_ for them. 
 
 Like define a rule for all activities starting with `ABC-XXX:` - _Those activities are belongs to some project with name ABC._
