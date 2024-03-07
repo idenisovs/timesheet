@@ -4,6 +4,7 @@ import { Issue } from '../../../dto';
 import { IssuePageService } from '../issue-page.service';
 import { Router } from '@angular/router';
 import { SheetStoreService } from '../../../services/sheet-store.service';
+import { CreateIssueModalService } from '../../issues-page/create-issue-modal/create-issue-modal.service';
 
 @Component({
   selector: 'app-issue-card',
@@ -18,7 +19,8 @@ import { SheetStoreService } from '../../../services/sheet-store.service';
 export class IssueCardComponent implements OnInit {
 
   form = this.fb.group({
-    name: ['']
+    name: [''],
+    estimate: ['', [this.createIssueService.durationFieldValidator()]]
   });
 
   @Input()
@@ -27,12 +29,14 @@ export class IssueCardComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private issuePageService: IssuePageService,
+    private createIssueService: CreateIssueModalService,
     private router: Router,
     private sheetStore: SheetStoreService,
   ) {}
 
   ngOnInit() {
     this.form.get('name')?.setValue(this.issue.name);
+    this.form.get('estimate')?.setValue(this.issue.estimate ?? '');
   }
 
   async saveIssue() {
@@ -43,9 +47,11 @@ export class IssueCardComponent implements OnInit {
     const db = this.sheetStore.Instance;
 
     const issueName = this.form.controls['name'].value || '';
+    const issueEstimate = this.form.controls['estimate'].value || '';
 
     await db.issues.update(this.issue, {
-      name: issueName
+      name: issueName,
+      estimate: this.createIssueService.normalizeDuration(issueEstimate)
     })
 
     await this.back();
