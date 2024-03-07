@@ -9,7 +9,7 @@ import { IssueRemoveButtonComponent } from './issue-remove-button/issue-remove-b
 import { ActionsService } from '../../services/actions.service';
 import { Actions } from '../../services/Actions';
 import { CreateIssueModalComponent } from './create-issue-modal/create-issue-modal.component';
-import { getDateString, handleModalResult } from '../../utils';
+import { handleModalResult } from '../../utils';
 import { IssuesTableComponent } from './issues-table/issues-table.component';
 import { IssuesListComponent } from './issues-list/issues-list.component';
 
@@ -26,6 +26,7 @@ import { IssuesListComponent } from './issues-list/issues-list.component';
     IssuesTableComponent,
     IssuesListComponent
   ],
+  providers: [ DatePipe ],
   templateUrl: './issues-page.component.html',
   styleUrl: './issues-page.component.scss'
 })
@@ -37,7 +38,8 @@ export class IssuesPageComponent implements OnInit, OnDestroy {
   constructor(
     private sheetStore: SheetStoreService,
     private actionsService: ActionsService,
-    private modal: NgbModal
+    private modal: NgbModal,
+    private datePipe: DatePipe
   ) {}
 
   async ngOnInit() {
@@ -52,7 +54,7 @@ export class IssuesPageComponent implements OnInit, OnDestroy {
 
   groupIssuesByDate() {
     this.issues.forEach((issue: Issue) => {
-      const date = getDateString(issue.createdAt);
+      const date = this.datePipe.transform(issue.createdAt, 'MM, YYYY') as string;
 
       if (this.issuesGroupedByDate.has(date)) {
         this.issuesGroupedByDate.get(date)?.push(issue);

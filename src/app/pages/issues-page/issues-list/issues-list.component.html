@@ -1,3 +1,8 @@
-<section *ngFor="let group of issues|keyvalue:sortByDate">
-  {{group.key}} - {{group.value.length}}
+<section class="card mb-3" *ngFor="let group of issues|keyvalue:sortByDate">
+  <h2 class="card-header">
+    {{group.key|dateIndex}}
+  </h2>
+  <main class="card-body">
+    <app-issues-table [issues]="group.value" />
+  </main>
 </section>

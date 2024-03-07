@@ -1,0 +1,7 @@
+tbody {
+  tr:last-child {
+    th, td {
+      border-bottom: none;
+    }
+  }
+}
