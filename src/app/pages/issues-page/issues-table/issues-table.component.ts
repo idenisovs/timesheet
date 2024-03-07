@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { DatePipe, NgForOf, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import parseDuration from 'parse-duration';
 import { IssueRemoveButtonComponent } from '../issue-remove-button/issue-remove-button.component';
 import { Issue } from '../../../dto';
 import { SheetStoreService } from '../../../services/sheet-store.service';
+import { HOUR } from '../../../constants';
 
 @Component({
   selector: 'app-issues-table',
@@ -30,5 +32,20 @@ export class IssuesTableComponent {
 
     const idx = this.issues.indexOf(issue);
     this.issues.splice(idx, 1);
+  }
+
+  getPenaltyPoints(issue: Issue): string {
+    const estimate = parseDuration(issue.estimate ?? '');
+    const duration = parseDuration(issue.duration ?? '');
+
+    if (!estimate || !duration) {
+      return '--';
+    }
+
+    const estimatedHours = estimate / HOUR;
+    const actualHours = duration / HOUR;
+    const error = Math.abs(estimatedHours - actualHours);
+
+    return Math.round(error).toString();
   }
 }

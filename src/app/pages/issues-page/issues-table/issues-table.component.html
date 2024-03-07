@@ -5,6 +5,7 @@
     <th scope="col" class="text-center">Activities</th>
     <th scope="col" class="text-center">Time</th>
     <th scope="col" class="text-center">Estimate</th>
+    <th scope="col" class="text-center text-wrap">Penalty<br>Points</th>
     <th scope="col" class="text-center">Created At</th>
     <th scope="col"></th>
   </tr>
@@ -13,10 +14,11 @@
   <tbody>
   <tr *ngFor="let issue of issues" class="align-middle">
     <th scope="row">{{issue.key}}</th>
-    <td class="w-50">{{issue.name}}</td>
+    <td>{{issue.name}}</td>
     <td class="text-center">{{issue.activities.length}}</td>
     <td class="text-center">{{issue.duration}}</td>
     <td class="text-center">{{issue.estimate && issue.estimate.length ? issue.estimate : '--'}}</td>
+    <td class="text-center">{{getPenaltyPoints(issue)}}</td>
     <td class="text-center">{{issue.createdAt|date}}</td>
     <td class="text-end">
       <button class="btn btn-sm btn-link" [routerLink]="[issue.key]">
