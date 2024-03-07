@@ -1,4 +1,4 @@
-<app-issues-table [issues]="issues" (remove)="remove($event)" *ngIf="issues.length; else no_issues_message"/>
+<app-issues-list [issues]="issuesGroupedByDate" />
 
 <ng-template #no_issues_message>
   <section class="alert alert-info">
