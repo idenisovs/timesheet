@@ -9,8 +9,9 @@ import { IssueRemoveButtonComponent } from './issue-remove-button/issue-remove-b
 import { ActionsService } from '../../services/actions.service';
 import { Actions } from '../../services/Actions';
 import { CreateIssueModalComponent } from './create-issue-modal/create-issue-modal.component';
-import { handleModalResult } from '../../utils';
+import { getDateString, handleModalResult } from '../../utils';
 import { IssuesTableComponent } from './issues-table/issues-table.component';
+import { IssuesListComponent } from './issues-list/issues-list.component';
 
 @Component({
   selector: 'app-issues-pages',
@@ -22,7 +23,8 @@ import { IssuesTableComponent } from './issues-table/issues-table.component';
     RouterLink,
     NgbTooltip,
     IssueRemoveButtonComponent,
-    IssuesTableComponent
+    IssuesTableComponent,
+    IssuesListComponent
   ],
   templateUrl: './issues-page.component.html',
   styleUrl: './issues-page.component.scss'
@@ -30,6 +32,7 @@ import { IssuesTableComponent } from './issues-table/issues-table.component';
 export class IssuesPageComponent implements OnInit, OnDestroy {
   issues: Issue[] = [];
   actionsSubscription?: Subscription;
+  issuesGroupedByDate = new Map<string, Issue[]>();
 
   constructor(
     private sheetStore: SheetStoreService,
@@ -39,11 +42,24 @@ export class IssuesPageComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.issues = await this.sheetStore.loadIssues();
+    this.groupIssuesByDate();
     this.actionsSubscription = this.actionsService.on.subscribe(this.handleActions.bind(this));
   }
 
   ngOnDestroy() {
     this.actionsSubscription?.unsubscribe();
+  }
+
+  groupIssuesByDate() {
+    this.issues.forEach((issue: Issue) => {
+      const date = getDateString(issue.createdAt);
+
+      if (this.issuesGroupedByDate.has(date)) {
+        this.issuesGroupedByDate.get(date)?.push(issue);
+      } else {
+        this.issuesGroupedByDate.set(date, [issue]);
+      }
+    });
   }
 
   async remove(issue: Issue) {
