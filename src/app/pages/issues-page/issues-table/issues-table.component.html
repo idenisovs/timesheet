@@ -23,7 +23,7 @@
         </i>
       </button>
 
-      <app-issue-remove-button [disabled]="issue.activities.length > 0" (remove)="remove.emit(issue)" />
+      <app-issue-remove-button [disabled]="issue.activities.length > 0" (remove)="remove(issue)" />
     </td>
   </tr>
   </tbody>
