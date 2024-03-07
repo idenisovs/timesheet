@@ -20,6 +20,21 @@
         Specify issue name like <code>ABC-123: Hello World</code>.
       </div>
     </div>
+
+    <div class="mb-3">
+      <label for="issue-estimate" class="form-label">
+        Estimate
+      </label>
+      <input id="issue-estimate"
+             type="text"
+             class="form-control"
+             aria-describedby="issue-estimate-help"
+             formControlName="estimate"
+      >
+      <div id="issue-estimate-help" class="form-text">
+        Specify estimate in hours and minutes, like <code>8h</code>, <code>16h</code> or <code>1h 30m</code>.
+      </div>
+    </div>
   </form>
 </main>
 
@@ -33,6 +48,9 @@
     </div>
     <div *ngIf="NameInput.errors?.['unique']">
       Issue name should have the unique key!
+    </div>
+    <div *ngIf="EstimateInput.errors?.['format']">
+      Estimate field misformatted!
     </div>
   </div>
 

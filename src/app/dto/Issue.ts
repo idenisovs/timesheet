@@ -6,6 +6,7 @@ export interface Issue {
   name: string;
   activities: IssueActivity[];
   duration: string;
+  estimate?: string;
   createdAt: Date;
 }
 
