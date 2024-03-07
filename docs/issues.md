@@ -6,10 +6,6 @@
 
 Add search field to find a issue by specific keyword.
 
-### Issues Page date grouping
-
-In Issues Page, group issues by date (Month and Year).
-
 ### Activity names without index
 
 Probably it is good thing to treat activities without indexes as issues.
@@ -21,6 +17,10 @@ Depending on what kind of activity it is:
 - If activity has a name specific to issues, like `ABC-123: Testing`, then it might be highlighting like green.
 
 ## Completed
+
+### Issues Page date grouping (2024-03-07)
+
+In Issues Page, group issues by date (Month and Year).
 
 ### Possibility to define an issue (2024-03-06)
 
@@ -49,5 +49,3 @@ If activity relates to the issue, which is not in store (a completely new issue)
 ### Particular Issue View (2024-02-26)
 
 And here comes possibility to see the details or edit separate issue. 
-
-
