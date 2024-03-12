@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
+import Dexie from 'dexie';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProjectsService } from '../../../services/projects.service';
 import { Project } from '../../../dto';
@@ -39,9 +40,17 @@ export class CreateProjectModalComponent {
       keys: rawKeys.split(',').map(key => key.trim())
     };
 
-    const createdProject = await this.projects.create(project);
+    try {
+      const createdProject = await this.projects.create(project);
 
-    this.modal.close(createdProject);
+      this.modal.close(createdProject);
+    } catch (e) {
+      const error = e as Error;
+
+      if (error.name === Dexie.errnames.Constraint) {
+        alert('Project name must be unique!');
+      }
+    }
   }
 
   cancel() {
