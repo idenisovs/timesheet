@@ -24,12 +24,12 @@ export class ProjectsPageComponent implements OnInit, OnDestroy {
     id: crypto.randomUUID().toString(),
     name: 'Timesheet',
     description: 'A time tracking application for personal use.',
-    keys: 'TST',
+    keys: ['TST'],
     createdAt: new Date()
   }, {
     id: crypto.randomUUID().toString(),
     name: 'Money Saver',
-    keys: 'MS',
+    keys: ['MS'],
     createdAt: new Date()
   }];
 

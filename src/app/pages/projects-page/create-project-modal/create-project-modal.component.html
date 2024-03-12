@@ -5,12 +5,42 @@
 </header>
 
 <main class="modal-body">
-  Create Project Form here
+  <form [formGroup]="form">
+    <div class="mb-3">
+      <label for="project-name" class="form-label">
+        Project name
+      </label>
+      <input id="project-name"
+             type="text"
+             class="form-control"
+             formControlName="name"
+      >
+    </div>
+
+    <div class="mb-3">
+      <label for="project-keys" class="form-label">
+        Keys
+      </label>
+      <input id="project-keys"
+             type="text"
+             class="form-control"
+             formControlName="keys"
+      >
+    </div>
+
+    <div class="mb-3">
+      <label for="project-description" class="form-label">
+        Description
+      </label>
+      <textarea id="project-description" class="form-control" formControlName="description" rows="2">
+      </textarea>
+    </div>
+  </form>
 </main>
 
 <footer class="modal-footer justify-content-between flex-nowrap">
   <div class="text-nowrap">
-    <button type="button" class="btn btn-outline-primary me-2">
+    <button type="button" class="btn btn-outline-primary me-2" (click)="create()">
       Create
     </button>
 
