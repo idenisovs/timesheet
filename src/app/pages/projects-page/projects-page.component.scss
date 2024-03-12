@@ -1,12 +1,4 @@
-a {
-  text-decoration: none;
-}
-
-.card {
-  transition: border-color 0.15s ease;
+app-project-card {
   width: 20%;
 }
 
-.card:hover {
-  border-color: var(--bs-primary);
-}
