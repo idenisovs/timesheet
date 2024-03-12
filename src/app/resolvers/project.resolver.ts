@@ -1,9 +1,9 @@
 import { ResolveFn } from '@angular/router';
-import { Project } from '../dto';
 import { inject } from '@angular/core';
+import { Project } from '../dto';
 import { ProjectsService } from '../services/projects.service';
 
-export const projectResolver: ResolveFn<Project | null> = async (route, state) => {
+export const projectResolver: ResolveFn<Project | null> = async (route) => {
   const projectId = route.paramMap.get('projectId');
 
   if (!projectId) {

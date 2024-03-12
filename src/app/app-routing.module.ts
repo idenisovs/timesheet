@@ -12,7 +12,7 @@ import {
   ProjectsPageActionsComponent
 } from './pages/projects-page/projects-page-actions/projects-page-actions.component';
 import { ProjectPageComponent } from './pages/project-page/project-page.component';
-import { projectResolver } from './resolvers/project.resolver';
+import { projectResolver } from './resolvers';
 
 const routes: Routes = [
   {
