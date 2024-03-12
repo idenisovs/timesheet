@@ -15,6 +15,10 @@ export class ProjectsService {
     return this.db.projects.orderBy('createdAt').reverse().toArray();
   }
 
+  getById(projectId: string) {
+    return this.db.projects.get(projectId);
+  }
+
   async create(project: Omit<Project, 'id' | 'createdAt'>) {
     const record: Project = {
       ...project,

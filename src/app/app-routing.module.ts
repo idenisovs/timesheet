@@ -11,6 +11,8 @@ import { ProjectsPageComponent } from './pages/projects-page/projects-page.compo
 import {
   ProjectsPageActionsComponent
 } from './pages/projects-page/projects-page-actions/projects-page-actions.component';
+import { ProjectPageComponent } from './pages/project-page/project-page.component';
+import { projectResolver } from './resolvers/project.resolver';
 
 const routes: Routes = [
   {
@@ -55,6 +57,13 @@ const routes: Routes = [
         outlet: 'page-actions'
       }
     ]
+  },
+  {
+    path: 'projects/:projectId',
+    component: ProjectPageComponent,
+    resolve: {
+      project: projectResolver
+    }
   }
 ];
 
