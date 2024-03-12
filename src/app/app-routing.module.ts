@@ -7,6 +7,7 @@ import {
   DailyActivitiesPageActionsComponent
 } from './pages/daily-activities-page/daily-activities-page-actions/daily-activities-page-actions.component';
 import { IssuesPageActionsComponent } from './pages/issues-page/issues-page-actions/issues-page-actions.component';
+import { ProjectsPageComponent } from './pages/projects-page/projects-page.component';
 
 const routes: Routes = [
   {
@@ -34,7 +35,19 @@ const routes: Routes = [
       outlet: 'page-actions'
     }]
   },
-  { path: 'issues/:issueKey', component: IssuePageComponent }
+  {
+    path: 'issues/:issueKey',
+    component: IssuePageComponent
+  },
+  {
+    path: 'projects',
+    children: [
+      {
+        path: '',
+        component: ProjectsPageComponent
+      }
+    ]
+  }
 ];
 
 @NgModule({
