@@ -8,5 +8,10 @@
     <div class="mt-2" *ngIf="project.description">
       {{project.description}}
     </div>
+    <div class="mt-2">
+      <small class="text-muted">
+        {{project.createdAt|date}}
+      </small>
+    </div>
   </main>
 </section>

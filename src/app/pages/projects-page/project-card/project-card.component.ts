@@ -1,14 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Project } from '../../../dto';
-import { NgIf } from '@angular/common';
+import { DatePipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-project-card',
   standalone: true,
   imports: [
     RouterLink,
-    NgIf
+    NgIf,
+    DatePipe
   ],
   templateUrl: './project-card.component.html',
   styleUrl: './project-card.component.scss'
