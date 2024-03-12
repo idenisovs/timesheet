@@ -7,12 +7,12 @@ import { Project } from '../dto';
   providedIn: 'root'
 })
 export class ProjectsService {
-  db: SheetStore = this.sheetStore.Instance;
+  private db: SheetStore = this.sheetStore.Instance;
 
   constructor(private sheetStore: SheetStoreService) { }
 
   getAll() {
-    this.db.projects.orderBy('createdAt').reverse().toArray();
+    return this.db.projects.orderBy('createdAt').reverse().toArray();
   }
 
   async create(project: Omit<Project, 'id' | 'createdAt'>) {

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgForOf } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Project } from '../../dto';
@@ -8,40 +8,33 @@ import { ActionsService } from '../../services/actions.service';
 import { Actions } from '../../services/Actions';
 import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
 import { handleModalResult } from '../../utils';
+import { ProjectsService } from '../../services/projects.service';
 
 @Component({
   selector: 'app-projects-page',
   standalone: true,
   imports: [
     ProjectCardComponent,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './projects-page.component.html',
   styleUrl: './projects-page.component.scss'
 })
 export class ProjectsPageComponent implements OnInit, OnDestroy {
-  projects: Project[] = [{
-    id: crypto.randomUUID().toString(),
-    name: 'Timesheet',
-    description: 'A time tracking application for personal use.',
-    keys: ['TST'],
-    createdAt: new Date()
-  }, {
-    id: crypto.randomUUID().toString(),
-    name: 'Money Saver',
-    keys: ['MS'],
-    createdAt: new Date()
-  }];
+  projects: Project[] = [];
 
   actionsSubscription?: Subscription;
 
   constructor(
     private modal: NgbModal,
-    private actions: ActionsService
+    private actions: ActionsService,
+    private projectsService: ProjectsService,
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.actionsSubscription = this.actions.on.subscribe(this.actionsHandler.bind(this));
+    this.projects = await this.projectsService.getAll()
   }
 
   ngOnDestroy() {
@@ -59,6 +52,8 @@ export class ProjectsPageComponent implements OnInit, OnDestroy {
 
     const createdProject = await handleModalResult<Project|null>(createProjectModal.result);
 
-    console.log(createdProject);
+    if (createdProject) {
+      this.projects.unshift(createdProject);
+    }
   }
 }
