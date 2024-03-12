@@ -29,7 +29,6 @@
     "parse-duration": "^1.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
-    "uuid": "^9.0.1",
     "yet-another-duration": "^1.7.5",
     "zone.js": "~0.14.2"
   },
