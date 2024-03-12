@@ -1,5 +1,6 @@
 export enum Actions {
   ImportFromCsv = 'ImportFromCsv',
   ExportToCsv = 'ExportToCsv',
-  CreateIssue = 'CreateIssue'
+  CreateIssue = 'CreateIssue',
+  AddProject = 'AddProject'
 }

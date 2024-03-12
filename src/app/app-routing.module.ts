@@ -8,6 +8,9 @@ import {
 } from './pages/daily-activities-page/daily-activities-page-actions/daily-activities-page-actions.component';
 import { IssuesPageActionsComponent } from './pages/issues-page/issues-page-actions/issues-page-actions.component';
 import { ProjectsPageComponent } from './pages/projects-page/projects-page.component';
+import {
+  ProjectsPageActionsComponent
+} from './pages/projects-page/projects-page-actions/projects-page-actions.component';
 
 const routes: Routes = [
   {
@@ -45,6 +48,11 @@ const routes: Routes = [
       {
         path: '',
         component: ProjectsPageComponent
+      },
+      {
+        path: '',
+        component: ProjectsPageActionsComponent,
+        outlet: 'page-actions'
       }
     ]
   }
