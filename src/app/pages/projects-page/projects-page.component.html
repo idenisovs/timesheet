@@ -1,3 +1,9 @@
-<section class="d-flex flex-wrap align-items-start">
+<section class="d-flex flex-wrap align-items-start" *ngIf="projects.length; else no_projects_message">
   <app-project-card *ngFor="let project of projects" [project]="project"/>
 </section>
+
+<ng-template #no_projects_message>
+  <section class="alert alert-info">
+    There is no projects yet!
+  </section>
+</ng-template>

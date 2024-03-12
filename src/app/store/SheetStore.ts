@@ -24,7 +24,7 @@ export default class SheetStore extends Dexie {
     }).upgrade((tx: Transaction) => migrateV3(this, tx));
 
     this.version(4).stores({
-      projects: 'id,name,description,&*keys,createdAt'
+      projects: 'id,&name,description,*keys,createdAt'
     });
 
     this.sheet = this.table('sheet');
