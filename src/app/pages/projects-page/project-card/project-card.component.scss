@@ -1,0 +1,11 @@
+a {
+  text-decoration: none;
+}
+
+.card {
+  transition: border-color 0.15s ease;
+}
+
+.card:hover {
+  border-color: var(--bs-primary);
+}

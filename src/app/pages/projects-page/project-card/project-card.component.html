@@ -1,0 +1,12 @@
+<section class="card me-2">
+  <main class="card-body">
+    <div>
+      <a [routerLink]="'/projects/' + project.id" class="stretched-link">
+        {{project.name}}
+      </a>
+    </div>
+    <div class="mt-2" *ngIf="project.description">
+      {{project.description}}
+    </div>
+  </main>
+</section>
