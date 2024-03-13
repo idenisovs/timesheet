@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { JsonPipe } from '@angular/common';
-import { Project } from '../../dto';
+import { Activity, Project } from '../../dto';
 import { ProjectPageService } from './project-page.service';
 
 @Component({
@@ -13,8 +13,11 @@ import { ProjectPageService } from './project-page.service';
   templateUrl: './project-page.component.html',
   styleUrl: './project-page.component.scss'
 })
-export class ProjectPageComponent implements OnInit {
+export class ProjectPageComponent implements OnInit, OnDestroy {
   project?: Project;
+  activities: Activity[] = [];
+  issuesArrivedSubscription = this.subscribeToIssuesEvent();
+  routeDataSubscription = this.subscribeToRouteData();
 
   constructor(
     private route: ActivatedRoute,
@@ -22,11 +25,27 @@ export class ProjectPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.data.subscribe(({ project }) => {
+  }
+
+  ngOnDestroy() {
+    this.issuesArrivedSubscription.unsubscribe();
+    this.routeDataSubscription.unsubscribe();
+  }
+
+  private subscribeToRouteData() {
+    return this.route.data.subscribe(({ project }) => {
       if (project) {
         this.project = project;
         this.service.getProjectIssues(project);
       }
+    });
+  }
+
+  private subscribeToIssuesEvent() {
+    return this.service.IssuesArrived.subscribe((activities: Activity[]) => {
+      this.activities = activities;
+
+      console.log(this.activities);
     });
   }
 }

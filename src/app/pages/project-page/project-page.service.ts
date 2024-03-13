@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { ProjectPageWorkerTasks } from './ProjectPageWorkerTasks';
 import { Activity, Issue, Project } from '../../dto';
 
@@ -7,6 +7,11 @@ import { Activity, Issue, Project } from '../../dto';
 })
 export class ProjectPageService {
   private worker: Worker | null = null;
+  private issuesArrived = new EventEmitter<Activity[]>();
+
+  get IssuesArrived() {
+    return this.issuesArrived.asObservable();
+  }
 
   constructor() {
     if (typeof Worker !== 'undefined') {
@@ -27,7 +32,6 @@ export class ProjectPageService {
   }
 
   private handleWorkerResponse({ data }: MessageEvent<Activity[]>) {
-    console.log(`page got message`);
-    console.log(data);
+    this.issuesArrived.emit(data);
   }
 }
