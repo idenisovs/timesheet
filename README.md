@@ -33,6 +33,7 @@ npm start
 
 ## Versions
 
+- `2.4.0` - Application got the Projects view;
 - `2.3.0` - Daily Overview showing the predefined issue name;
 - `2.2.0` - Issues section got possibility to remove Issue;
 - `2.1.0` - Application got the basic Edit Issue view;
