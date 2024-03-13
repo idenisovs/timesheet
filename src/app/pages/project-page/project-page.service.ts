@@ -1,37 +1,25 @@
-import { EventEmitter, Injectable } from '@angular/core';
-import { ProjectPageWorkerTasks } from './ProjectPageWorkerTasks';
-import { Activity, Issue, Project } from '../../dto';
+import { Injectable } from '@angular/core';
+import { Issue, Project } from '../../dto';
+import { IssuesService } from '../../services/issues.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectPageService {
-  private worker: Worker | null = null;
-  private issuesArrived = new EventEmitter<Activity[]>();
 
-  get IssuesArrived() {
-    return this.issuesArrived.asObservable();
-  }
+  constructor(private issues: IssuesService) {}
 
-  constructor() {
-    if (typeof Worker !== 'undefined') {
-      this.setupWorker();
+  async getProjectIssues(project: Project): Promise<Issue[]> {
+    const result: Issue[] = []
+
+    for (let key of project.keys) {
+      const issues = await this.issues.getByKey(key);
+
+      result.push(...issues);
     }
-  }
 
-  getProjectIssues(project: Project) {
-    this.worker?.postMessage({
-      task: ProjectPageWorkerTasks.AGGREGATE_ISSUES,
-      project
-    });
-  }
+    result.sort(this.issues.sort);
 
-  private setupWorker() {
-    this.worker = new Worker(new URL('./project-page.worker', import.meta.url));
-    this.worker.onmessage = this.handleWorkerResponse.bind(this);
-  }
-
-  private handleWorkerResponse({ data }: MessageEvent<Activity[]>) {
-    this.issuesArrived.emit(data);
+    return result;
   }
 }

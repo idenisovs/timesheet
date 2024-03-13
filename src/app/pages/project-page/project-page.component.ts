@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { JsonPipe, NgForOf, NgIf } from '@angular/common';
-import { Activity, Project } from '../../dto';
-import { ProjectPageService } from './project-page.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Issue, Project } from '../../dto';
+import { ProjectPageService } from './project-page.service';
 import { ProjectsService } from '../../services/projects.service';
+import { IssuesTableComponent } from '../issues-page/issues-table/issues-table.component';
 
 @Component({
   selector: 'app-project-page',
@@ -14,7 +15,8 @@ import { ProjectsService } from '../../services/projects.service';
     ReactiveFormsModule,
     RouterLink,
     NgForOf,
-    NgIf
+    NgIf,
+    IssuesTableComponent
   ],
   templateUrl: './project-page.component.html',
   styleUrl: './project-page.component.scss'
@@ -27,8 +29,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   });
 
   project?: Project;
-  activities: Activity[] = [];
-  issuesArrivedSubscription = this.subscribeToIssuesEvent();
+  issues: Issue[] = [];
   routeDataSubscription = this.subscribeToRouteData();
 
   constructor(
@@ -43,7 +44,6 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.issuesArrivedSubscription.unsubscribe();
     this.routeDataSubscription.unsubscribe();
   }
 
@@ -58,7 +58,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
 
     await this.projects.update(this.project);
 
-    this.service.getProjectIssues(this.project);
+    this.issues = await this.service.getProjectIssues(this.project);
   }
 
   async remove() {
@@ -75,24 +75,20 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToRouteData() {
-    return this.route.data.subscribe(({ project }) => {
+    return this.route.data.subscribe(async ({ project }) => {
       if (project) {
-        this.project = project;
-
-        this.form.get('name')?.setValue(project.name);
-        this.form.get('keys')?.setValue(project.keys.join(', '));
-        this.form.get('description')?.setValue(project.description);
-
-        this.service.getProjectIssues(project);
+        await this.updateProjectData(project);
       }
     });
   }
 
-  private subscribeToIssuesEvent() {
-    return this.service.IssuesArrived.subscribe((activities: Activity[]) => {
-      console.log('Issues arrived!');
-      console.log(activities);
-      this.activities = activities;
-    });
+  private async updateProjectData(project: Project) {
+    this.project = project;
+
+    this.form.get('name')?.setValue(project.name);
+    this.form.get('keys')?.setValue(project.keys.join(', '));
+    this.form.get('description')?.setValue(project.description ?? null);
+
+    this.issues = await this.service.getProjectIssues(project);
   }
 }

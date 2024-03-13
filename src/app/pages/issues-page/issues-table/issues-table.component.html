@@ -21,7 +21,7 @@
     <td class="text-center">{{getPenaltyPoints(issue)}}</td>
     <td class="text-center">{{issue.createdAt|date}}</td>
     <td class="text-end">
-      <button class="btn btn-sm btn-link" [routerLink]="[issue.key]">
+      <button class="btn btn-sm btn-link" [routerLink]="['/', 'issues', issue.key]">
         <i class="material-icons">
           edit
         </i>
