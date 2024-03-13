@@ -36,19 +36,26 @@
       </div>
     </form>
 
-    <div>
-      <button class="btn btn-primary me-2" (click)="save()">
-        Save
-      </button>
+    <div class="d-flex justify-content-between">
+      <div>
+        <button class="btn btn-primary me-2" (click)="save()">
+          Save
+        </button>
 
-      <button class="btn btn-outline-secondary" [routerLink]="['..']">
-        Cancel
-      </button>
+        <button class="btn btn-outline-secondary" [routerLink]="['..']">
+          Cancel
+        </button>
+      </div>
+      <div>
+        <button class="btn btn-outline-danger" (click)="remove()">
+          Remove
+        </button>
+      </div>
     </div>
   </main>
 </section>
 
-<table class="table mb-3">
+<table class="table mb-3" *ngIf="activities.length; else no_activities_message">
   <thead>
   <tr>
     <th scope="col">Name</th>
@@ -74,4 +81,11 @@
   </tr>
   </tbody>
 </table>
+
+<ng-template #no_activities_message>
+  <div class="alert alert-info" >
+    There is no Activities yet!
+  </div>
+</ng-template>
+
 
