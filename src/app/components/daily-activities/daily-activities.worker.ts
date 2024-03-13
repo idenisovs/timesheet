@@ -17,9 +17,9 @@ addEventListener('message', async ({ data }: { data: 'issue-sync' }) => {
   for (let issue of issues) {
     const existingIssue = await db.issues.where('key').equals(issue.key).first();
 
-    const { duration, activities, createdAt } = issue;
-
     if (existingIssue) {
+      const { duration, activities, createdAt } = issue;
+
       await db.issues.update(existingIssue, {
         duration, activities, createdAt
       });

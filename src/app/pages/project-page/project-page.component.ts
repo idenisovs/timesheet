@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Project } from '../../dto';
 import { JsonPipe } from '@angular/common';
+import { Project } from '../../dto';
+import { ProjectPageService } from './project-page.service';
 
 @Component({
   selector: 'app-project-page',
@@ -15,11 +16,17 @@ import { JsonPipe } from '@angular/common';
 export class ProjectPageComponent implements OnInit {
   project?: Project;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private service: ProjectPageService
+  ) {}
 
   ngOnInit() {
     this.route.data.subscribe(({ project }) => {
-      this.project = project;
+      if (project) {
+        this.project = project;
+        this.service.getProjectIssues(project);
+      }
     });
   }
 }
