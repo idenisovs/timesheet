@@ -34,4 +34,8 @@ export class ProjectsService {
   async update(project: Project): Promise<void> {
     await this.db.projects.update(project.id, project)
   }
+
+  async remove(project: Project): Promise<void> {
+    await this.db.projects.delete(project.id);
+  }
 }

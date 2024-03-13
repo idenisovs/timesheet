@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { JsonPipe, NgForOf } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { Activity, Project } from '../../dto';
 import { ProjectPageService } from './project-page.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -13,7 +13,8 @@ import { ProjectsService } from '../../services/projects.service';
     JsonPipe,
     ReactiveFormsModule,
     RouterLink,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './project-page.component.html',
   styleUrl: './project-page.component.scss'
@@ -32,6 +33,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private service: ProjectPageService,
     private projects: ProjectsService,
     private fb: FormBuilder,
@@ -57,6 +59,19 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     await this.projects.update(this.project);
 
     this.service.getProjectIssues(this.project);
+  }
+
+  async remove() {
+    if (!this.project) {
+      return;
+    }
+
+    if (!confirm(`Are you sure want to remove the project ${this.project.name}?`)) {
+      return;
+    }
+
+    await this.projects.remove(this.project);
+    await this.router.navigate(['projects']);
   }
 
   private subscribeToRouteData() {
