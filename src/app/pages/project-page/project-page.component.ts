@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { JsonPipe } from '@angular/common';
+import { JsonPipe, NgForOf } from '@angular/common';
 import { Activity, Project } from '../../dto';
 import { ProjectPageService } from './project-page.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -12,7 +12,8 @@ import { ProjectsService } from '../../services/projects.service';
   imports: [
     JsonPipe,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    NgForOf
   ],
   templateUrl: './project-page.component.html',
   styleUrl: './project-page.component.scss'
@@ -49,13 +50,13 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const update = { ...this.project };
+    this.project.name = this.form.get('name')?.value as string;
+    this.project.description = this.form.get('description')?.value as string;
+    this.project.keys = (this.form.get('keys')?.value as string).split(',').map(key => key.trim());
 
-    update.name = this.form.get('name')?.value as string;
-    update.description = this.form.get('description')?.value as string;
-    update.keys = (this.form.get('keys')?.value as string).split(',').map(key => key.trim());
+    await this.projects.update(this.project);
 
-    await this.projects.update(update);
+    this.service.getProjectIssues(this.project);
   }
 
   private subscribeToRouteData() {
@@ -74,9 +75,9 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
 
   private subscribeToIssuesEvent() {
     return this.service.IssuesArrived.subscribe((activities: Activity[]) => {
+      console.log('Issues arrived!');
+      console.log(activities);
       this.activities = activities;
-
-      console.log(this.activities);
     });
   }
 }

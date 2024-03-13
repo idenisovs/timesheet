@@ -1,4 +1,4 @@
-<section class="card">
+<section class="card mb-3">
   <h2 class="card-header">
     Project
   </h2>
@@ -47,4 +47,31 @@
     </div>
   </main>
 </section>
+
+<table class="table mb-3">
+  <thead>
+  <tr>
+    <th scope="col">Name</th>
+    <th scope="col">From</th>
+    <th scope="col">Till</th>
+    <th scope="col">Duration</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let activity of activities">
+    <th scope="row">
+      {{activity.name}}
+    </th>
+    <td>
+      {{activity.from}}
+    </td>
+    <td>
+      {{activity.till}}
+    </td>
+    <td>
+      {{activity.duration}}
+    </td>
+  </tr>
+  </tbody>
+</table>
 
