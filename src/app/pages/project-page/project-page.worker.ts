@@ -24,7 +24,7 @@ addEventListener('message', async ({ data }: MessageEvent<Task>) => {
 });
 
 async function getProjectActivities(db: SheetStore, project: Project): Promise<Activity[]> {
-  const sheets = await db.sheet.filter((sheet: Sheet) => {
+  const sheets = await db.sheet.orderBy('date').reverse().filter((sheet: Sheet) => {
     return sheet.activities.some((activity: Activity) => relatesToProject(activity, project));
   }).toArray();
 
