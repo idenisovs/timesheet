@@ -17,6 +17,14 @@
       </div>
 
       <div class="mb-3">
+        <label for="project-description" class="form-label">
+          Description
+        </label>
+        <textarea id="project-description" class="form-control" formControlName="description" rows="2">
+        </textarea>
+      </div>
+
+      <div class="mb-3">
         <label for="project-keys" class="form-label">
           Keys
         </label>
@@ -26,14 +34,6 @@
                formControlName="keys"
         >
       </div>
-
-      <div class="mb-3">
-        <label for="project-description" class="form-label">
-          Description
-        </label>
-        <textarea id="project-description" class="form-control" formControlName="description" rows="2">
-      </textarea>
-      </div>
     </form>
 
     <div class="d-flex justify-content-between">
@@ -42,50 +42,30 @@
           Save
         </button>
 
-        <button class="btn btn-outline-secondary" [routerLink]="['..']">
-          Cancel
-        </button>
-      </div>
-      <div>
         <button class="btn btn-outline-danger" (click)="remove()">
           Remove
+        </button>
+      </div>
+
+      <div>
+        <button class="btn btn-outline-primary" [routerLink]="['..']">
+          Back
         </button>
       </div>
     </div>
   </main>
 </section>
 
-<table class="table mb-3" *ngIf="activities.length; else no_activities_message">
-  <thead>
-  <tr>
-    <th scope="col">Name</th>
-    <th scope="col">From</th>
-    <th scope="col">Till</th>
-    <th scope="col">Duration</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let activity of activities">
-    <th scope="row">
-      {{activity.name}}
-    </th>
-    <td>
-      {{activity.from}}
-    </td>
-    <td>
-      {{activity.till}}
-    </td>
-    <td>
-      {{activity.duration}}
-    </td>
-  </tr>
-  </tbody>
-</table>
+<section class="mb-5">
+  <app-issues-table *ngIf="issues.length; else no_activities_message" [issues]="issues" />
 
-<ng-template #no_activities_message>
-  <div class="alert alert-info" >
-    There is no Activities yet!
-  </div>
-</ng-template>
+  <ng-template #no_activities_message>
+    <div class="alert alert-info" >
+      There is no Activities yet!
+    </div>
+  </ng-template>
+</section>
+
+
 
 

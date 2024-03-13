@@ -12,6 +12,7 @@ import { CreateIssueModalComponent } from './create-issue-modal/create-issue-mod
 import { handleModalResult } from '../../utils';
 import { IssuesTableComponent } from './issues-table/issues-table.component';
 import { IssuesListComponent } from './issues-list/issues-list.component';
+import { IssuesService } from '../../services/issues.service';
 
 @Component({
   selector: 'app-issues-pages',
@@ -37,6 +38,7 @@ export class IssuesPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private sheetStore: SheetStoreService,
+    private issuesService: IssuesService,
     private actionsService: ActionsService,
     private modal: NgbModal,
     private datePipe: DatePipe
@@ -44,6 +46,8 @@ export class IssuesPageComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.issues = await this.sheetStore.loadIssues();
+    this.issues.sort(this.issuesService.sort);
+
     this.groupIssuesByDate();
     this.actionsSubscription = this.actionsService.on.subscribe(this.handleActions.bind(this));
   }

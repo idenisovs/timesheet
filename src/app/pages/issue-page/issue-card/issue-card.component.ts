@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { Issue } from '../../../dto';
 import { IssuePageService } from '../issue-page.service';
-import { Router } from '@angular/router';
 import { SheetStoreService } from '../../../services/sheet-store.service';
 import { CreateIssueModalService } from '../../issues-page/create-issue-modal/create-issue-modal.service';
 
@@ -31,6 +32,7 @@ export class IssueCardComponent implements OnInit {
     private issuePageService: IssuePageService,
     private createIssueService: CreateIssueModalService,
     private router: Router,
+    private location: Location,
     private sheetStore: SheetStoreService,
   ) {}
 
@@ -67,6 +69,6 @@ export class IssueCardComponent implements OnInit {
   }
 
   async back() {
-    return this.router.navigate(['issues']);
+    return this.location.back();
   }
 }
