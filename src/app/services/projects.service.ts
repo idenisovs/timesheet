@@ -11,15 +11,15 @@ export class ProjectsService {
 
   constructor(private sheetStore: SheetStoreService) { }
 
-  getAll() {
+  getAll(): Promise<Project[]> {
     return this.db.projects.orderBy('createdAt').reverse().toArray();
   }
 
-  getById(projectId: string) {
+  getById(projectId: string): Promise<Project|undefined> {
     return this.db.projects.get(projectId);
   }
 
-  async create(project: Omit<Project, 'id' | 'createdAt'>) {
+  async create(project: Omit<Project, 'id' | 'createdAt'>): Promise<Project> {
     const record: Project = {
       ...project,
       id: crypto.randomUUID().toString(),
@@ -29,5 +29,9 @@ export class ProjectsService {
     await this.db.projects.add(record);
 
     return record;
+  }
+
+  async update(project: Project): Promise<void> {
+    await this.db.projects.update(project.id, project)
   }
 }
