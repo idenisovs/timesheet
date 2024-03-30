@@ -5,61 +5,66 @@
   </small>
 </h2>
 
-<main class="mb-4 px-2">
-    <div class="row mb-2">
-      <div class="col-3">
+<div class="card mb-4">
+  <div class="card-body">
+    <main>
+      <div class="row mb-2">
+        <div class="col-3">
         <span class="fw-bold">
           Issues:
         </span>
-        <span class="float-end">
+          <span class="float-end">
           {{issues.length}}
         </span>
-      </div>
+        </div>
 
-      <div class="col-3">
+        <div class="col-3">
         <span class="fw-bold">
           Duration:
         </span>
-        <span class="float-end">
+          <span class="float-end">
           {{totalDuration}}
         </span>
-      </div>
+        </div>
 
-      <div class="col-3">
+        <div class="col-3">
         <span class="fw-bold">
           Average Accuracy:
         </span>
-        <span class="float-end">
+          <span class="float-end">
           {{averageAccuracy}} of 1000 ({{averageAccuracyRate|percent}})
         </span>
+        </div>
       </div>
-    </div>
 
-    <div class="row mb-2">
-      <div class="col-3">
+      <div class="row">
+        <div class="col-3">
         <span class="fw-bold">
           Created At:
         </span>
-        <span class="float-end">
+          <span class="float-end">
           {{project.createdAt|date}}
         </span>
-      </div>
+        </div>
 
-      <div class="col-3">
+        <div class="col-3">
         <span class="fw-bold">
           Keys:
         </span>
-        <span class="float-end">
+          <span class="float-end">
           <span class="badge bg-primary" *ngFor="let key of project.keys">
             {{key}}
           </span>
         </span>
+        </div>
       </div>
-    </div>
-</main>
+    </main>
+  </div>
+</div>
+
 
 <footer class="mb-4">
-  <button class="btn btn-sm btn-outline-primary">
+  <button class="btn btn-sm btn-outline-primary" (click)="edit.emit()">
     <div class="d-flex align-items-center">
       <i class="material-icons">edit</i>
       Edit

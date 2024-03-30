@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DatePipe, NgForOf, NgIf, PercentPipe } from '@angular/common';
 import { Issue, Project } from '../../../dto';
 import { IssuesService } from '../../../services/issues.service';
@@ -25,6 +25,9 @@ export class ProjectDetailsComponent implements OnInit {
 
   @Input()
   issues!: Issue[];
+
+  @Output()
+  edit = new EventEmitter<void>();
 
   constructor(private issuesService: IssuesService) {}
 
