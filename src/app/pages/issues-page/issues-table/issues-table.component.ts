@@ -1,11 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { DatePipe, NgForOf, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import parseDuration from 'parse-duration';
 import { IssueRemoveButtonComponent } from '../issue-remove-button/issue-remove-button.component';
 import { Issue } from '../../../dto';
 import { SheetStoreService } from '../../../services/sheet-store.service';
-import { HOUR } from '../../../constants';
+import { IssuesService } from '../../../services/issues.service';
 
 @Component({
   selector: 'app-issues-table',
@@ -24,7 +23,10 @@ export class IssuesTableComponent {
   @Input()
   issues: Issue[] = [];
 
-  constructor(private sheetStore: SheetStoreService) {}
+  constructor(
+    private sheetStore: SheetStoreService,
+    private issuesService: IssuesService
+  ) {}
 
   async remove(issue: Issue) {
     const db = this.sheetStore.Instance;
@@ -35,22 +37,12 @@ export class IssuesTableComponent {
   }
 
   getPenaltyPoints(issue: Issue): string {
-    const estimate = parseDuration(issue.estimate ?? '');
-    const duration = parseDuration(issue.duration ?? '');
+    const penaltyPoints = this.issuesService.calculatePenaltyPoints(issue);
 
-    if (!estimate || !duration) {
+    if (penaltyPoints === null) {
       return '--';
+    } else {
+      return penaltyPoints.toString();
     }
-
-    const estimatedHours = estimate / HOUR;
-    const actualHours = duration / HOUR;
-    const error = Math.abs(estimatedHours - actualHours);
-
-    const scalingFactor = 0.2;
-    const power = Math.pow(2, -error * scalingFactor);
-    const maxPoints = 1000;
-    const points = power * maxPoints;
-
-    return Math.round(points).toString();
   }
 }

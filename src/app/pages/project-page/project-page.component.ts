@@ -7,6 +7,7 @@ import { ProjectPageService } from './project-page.service';
 import { IssuesTableComponent } from '../issues-page/issues-table/issues-table.component';
 import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { ProjectIssuesComponent } from './project-issues/project-issues.component';
+import { ProjectDetailsComponent } from './project-details/project-details.component';
 
 @Component({
   selector: 'app-project-page',
@@ -19,7 +20,8 @@ import { ProjectIssuesComponent } from './project-issues/project-issues.componen
     NgIf,
     IssuesTableComponent,
     ProjectEditComponent,
-    ProjectIssuesComponent
+    ProjectIssuesComponent,
+    ProjectDetailsComponent
   ],
   templateUrl: './project-page.component.html',
   styleUrl: './project-page.component.scss'
@@ -28,7 +30,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   project?: Project;
   issues: Issue[] = [];
   routeDataSubscription = this.subscribeToRouteData();
-  isEditMode = true;
+  isEditMode = false;
 
   constructor(
     private route: ActivatedRoute,

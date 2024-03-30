@@ -1,7 +1,11 @@
-<ng-container *ngIf="project; else no_project_message">
-  <app-project-edit *ngIf="isEditMode" [project]="project" (changes)="updateProjectData($event)"/>
+<ng-container *ngIf="project && issues.length; else no_project_message">
+  <section class="container-fluid">
+    <app-project-details *ngIf="!isEditMode" [project]="project" [issues]="issues" />
 
-  <app-project-issues [issues]="issues" />
+    <app-project-edit *ngIf="isEditMode" [project]="project" (changes)="updateProjectData($event)"/>
+
+    <app-project-issues [issues]="issues" />
+  </section>
 </ng-container>
 
 <ng-template #no_project_message>
