@@ -1,0 +1,68 @@
+<h2 class="mb-4">
+  {{project.name}}
+  <small class="text-muted">
+    {{project.description}}
+  </small>
+</h2>
+
+<main class="mb-4 px-2">
+    <div class="row mb-2">
+      <div class="col-3">
+        <span class="fw-bold">
+          Issues:
+        </span>
+        <span class="float-end">
+          {{issues.length}}
+        </span>
+      </div>
+
+      <div class="col-3">
+        <span class="fw-bold">
+          Duration:
+        </span>
+        <span class="float-end">
+          {{totalDuration}}
+        </span>
+      </div>
+
+      <div class="col-3">
+        <span class="fw-bold">
+          Average Accuracy:
+        </span>
+        <span class="float-end">
+          {{averageAccuracy}} of 1000 ({{averageAccuracyRate|percent}})
+        </span>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-3">
+        <span class="fw-bold">
+          Created At:
+        </span>
+        <span class="float-end">
+          {{project.createdAt|date}}
+        </span>
+      </div>
+
+      <div class="col-3">
+        <span class="fw-bold">
+          Keys:
+        </span>
+        <span class="float-end">
+          <span class="badge bg-primary" *ngFor="let key of project.keys">
+            {{key}}
+          </span>
+        </span>
+      </div>
+    </div>
+</main>
+
+<footer class="mb-4">
+  <button class="btn btn-sm btn-outline-primary">
+    <div class="d-flex align-items-center">
+      <i class="material-icons">edit</i>
+      Edit
+    </div>
+  </button>
+</footer>
