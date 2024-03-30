@@ -27,6 +27,9 @@ export class ProjectEditComponent implements OnInit {
   @Output()
   changes = new EventEmitter<Project>();
 
+  @Output()
+  cancel = new EventEmitter<void>();
+
   constructor(
     private fb: FormBuilder,
     private projectsService: ProjectsService,

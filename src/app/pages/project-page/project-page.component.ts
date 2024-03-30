@@ -37,16 +37,27 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     private service: ProjectPageService,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isEditMode = false;
+  }
 
   ngOnDestroy() {
     this.routeDataSubscription.unsubscribe();
+  }
+
+  async handleProjectChanges(changes: Project) {
+    await this.updateProjectData(changes);
+    this.toggleEditMode();
   }
 
   async updateProjectData(project: Project) {
     this.project = project;
 
     this.issues = await this.service.getProjectIssues(project);
+  }
+
+  toggleEditMode() {
+    this.isEditMode = !this.isEditMode;
   }
 
   private subscribeToRouteData() {

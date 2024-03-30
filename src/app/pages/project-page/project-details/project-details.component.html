@@ -52,7 +52,7 @@
           Keys:
         </span>
           <span class="float-end">
-          <span class="badge bg-primary" *ngFor="let key of project.keys">
+          <span class="badge bg-primary ms-1" *ngFor="let key of project.keys">
             {{key}}
           </span>
         </span>
@@ -64,6 +64,13 @@
 
 
 <footer class="mb-4">
+  <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/projects']">
+    <div class="d-flex align-items-center">
+      <i class="material-icons">arrow_back</i>
+      Back
+    </div>
+  </button>
+
   <button class="btn btn-sm btn-outline-primary" (click)="edit.emit()">
     <div class="d-flex align-items-center">
       <i class="material-icons">edit</i>
