@@ -1,23 +1,12 @@
-<section class="card mb-3">
-  <h2 class="card-header">
-    Project
-  </h2>
+<ng-container *ngIf="project; else no_project_message">
+  <app-project-edit *ngIf="isEditMode" [project]="project" (changes)="updateProjectData($event)"/>
 
-  <main class="card-body">
-    <app-project-edit *ngIf="project" [project]="project" (changes)="updateProjectData($event)"/>
-  </main>
-</section>
+  <app-project-issues [issues]="issues" />
+</ng-container>
 
-<section class="mb-5">
-  <app-issues-table *ngIf="issues.length; else no_activities_message" [issues]="issues" />
-
-  <ng-template #no_activities_message>
-    <div class="alert alert-info" >
-      There is no Activities yet!
-    </div>
-  </ng-template>
-</section>
-
-
-
+<ng-template #no_project_message>
+  <div class="alert alert-warning">
+    The project is not found!
+  </div>
+</ng-template>
 

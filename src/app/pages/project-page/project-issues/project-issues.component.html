@@ -1,0 +1,9 @@
+<section class="mb-5">
+  <app-issues-table *ngIf="issues.length; else no_activities_message" [issues]="issues"/>
+
+  <ng-template #no_activities_message>
+    <div class="alert alert-info">
+      There is no Issues yet!
+    </div>
+  </ng-template>
+</section>
