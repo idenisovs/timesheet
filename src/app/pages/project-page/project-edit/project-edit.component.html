@@ -1,6 +1,6 @@
 <section class="card mb-3">
   <h2 class="card-header">
-    Project
+    {{project.name}}
   </h2>
 
   <main class="card-body">
@@ -41,8 +41,8 @@
           Save
         </button>
 
-        <button class="btn btn-outline-primary" [routerLink]="['..']">
-          Back
+        <button class="btn btn-outline-primary" (click)="cancel.emit()">
+          Cancel
         </button>
       </div>
 
