@@ -46,18 +46,26 @@ export class IssuesService {
       }
 
       return result;
-    }, 0)
+    }, 0);
 
-    return duration(totalDuration, {
+    const result = duration(totalDuration, {
       units: {
         min: 'minutes'
       }
     }).toString();
+
+    return result || '0';
   }
 
   calculateAverageAccuracy(issues: Issue[]): number {
-    const penaltyPoints = this.sumPenaltyPoints(issues);
     const estimatedIssues = this.calculateEstimatedIssues(issues);
+
+    if (!estimatedIssues) {
+      return 0;
+    }
+
+    const penaltyPoints = this.sumPenaltyPoints(issues);
+
     return Math.round(penaltyPoints / estimatedIssues);
   }
 
