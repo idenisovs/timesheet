@@ -31,9 +31,14 @@
         <span class="fw-bold">
           Average Accuracy:
         </span>
-          <span class="float-end">
-          {{averageAccuracy}} of 1000 ({{averageAccuracyRate|percent}})
-        </span>
+          <span class="float-end" *ngIf="averageAccuracy; else average_accuracy_not_available">
+            {{averageAccuracy}} of 1000 ({{averageAccuracyRate|percent}})
+          </span>
+          <ng-template #average_accuracy_not_available>
+            <span class="float-end">
+              n/a
+            </span>
+          </ng-template>
         </div>
       </div>
 

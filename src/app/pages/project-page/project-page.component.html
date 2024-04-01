@@ -1,4 +1,4 @@
-<ng-container *ngIf="project && issues.length; else no_project_message">
+<ng-container *ngIf="project; else no_project_message">
   <app-project-details *ngIf="!isEditMode" [project]="project" [issues]="issues" (edit)="toggleEditMode()" />
 
   <app-project-edit *ngIf="isEditMode" [project]="project" (changes)="handleProjectChanges($event)" (cancel)="toggleEditMode()" />

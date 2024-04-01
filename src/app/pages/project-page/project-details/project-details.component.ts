@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DatePipe, NgForOf, NgIf, PercentPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+
 import { Issue, Project } from '../../../dto';
 import { IssuesService } from '../../../services/issues.service';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-project-details',
