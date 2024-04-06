@@ -124,15 +124,17 @@ export class SheetCsvService {
   }
 
   makeActivityFromRecord(record: CsvRecord): Activity {
-    const { name, from, till, duration } = record;
+    // const { name, from, till, duration } = record;
 
-    return {
-      name,
-      from,
-      till,
-      duration,
-      isImported: true
-    };
+    throw new Error('Not implemented yet!');
+
+    // return {
+    //   name,
+    //   from,
+    //   till,
+    //   duration,
+    //   isImported: true
+    // };
   }
 
   updateSheetWithActivity(sheets: Sheet[], sheet: Sheet, activity: Activity) {
