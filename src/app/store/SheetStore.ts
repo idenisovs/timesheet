@@ -34,7 +34,7 @@ export default class SheetStore extends Dexie {
     });
 
     // TODO: Fix version number
-    this.version(5).stores({
+    this.version(11).stores({
       weeks: 'id,from,till',
       days: 'id,date,weekId',
       activities: 'id,name,date,weekId,dayId'
