@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Week } from '../../dto';
+import { Activity, Week } from '../../dto';
+import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 
 @Component({
   selector: 'app-daily-activities-week',
@@ -8,11 +9,15 @@ import { Week } from '../../dto';
 })
 export class DailyActivitiesWeekComponent implements OnInit {
   @Input()
-  week?: Week;
+  week!: Week;
 
-  constructor() { }
+  activities: Activity[] = [];
 
-  ngOnInit(): void {
+  constructor(private activityRepo: ActivitiesRepositoryService) { }
 
+  async ngOnInit() {
+    this.activities = await this.activityRepo.getByWeek(this.week);
+
+    console.log(this.activities);
   }
 }

@@ -42,29 +42,6 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
     }).toString();
   }
 
-  get DatesInterval(): DateInterval {
-    return {
-      min: '',
-      max: ''
-    };
-    // return this.week.days.reduce<DateInterval>((result: DateInterval, sheet: Sheet) => {
-    //   const currentDate = typeof sheet.date === 'string' ? sheet.date : getDateString(sheet.date);
-    //
-    //   if (currentDate < result.min) {
-    //     result.min = currentDate
-    //   }
-    //
-    //   if (currentDate > result.max) {
-    //     result.max = currentDate;
-    //   }
-    //
-    //   return result;
-    // }, {
-    //   min: '3000-12-31',
-    //   max: '1980-01-01'
-    // });
-  }
-
   get MissingDaysButtonLabel(): string {
     if (this.showingMissingDays) {
       return 'Hide missing days';

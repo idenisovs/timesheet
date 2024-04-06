@@ -2,14 +2,9 @@
   <div class="card-body d-flex justify-content-between py-2">
     <div>
       <i class="material-icons text-white">today</i>
-
-      <span *ngIf="DatesInterval.min === DatesInterval.max; else twoDates">
-        {{DatesInterval.min|date}}
-      </span>
-
-      <ng-template #twoDates>
-          {{DatesInterval.min|date}} <span class="mx-2">—</span> {{DatesInterval.max|date}}
-      </ng-template>
+      {{week.from|date}}
+      <span class="mx-2">-</span>
+      {{week.till|date}}
     </div>
 
     <div>

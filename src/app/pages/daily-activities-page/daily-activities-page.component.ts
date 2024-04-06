@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { SheetStoreService } from '../../services/sheet-store.service';
 import { SheetCsvService } from '../../services/sheet-csv.service';
 import { CsvRecord, Sheet, Week } from '../../dto';
-import { WeeksService } from '../../repository/weeks.service';
+import { WeeksRepositoryService } from '../../repository/weeks-repository.service';
+import { DaysRepositoryService } from '../../repository/days-repository.service';
+import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 
 @Component({
   selector: 'app-daily-activities-page',
@@ -16,7 +18,9 @@ export class DailyActivitiesPageComponent implements OnInit {
 
   constructor(
     private store: SheetStoreService,
-    private weeksRepo: WeeksService,
+    private weeksRepo: WeeksRepositoryService,
+    private daysRepo: DaysRepositoryService,
+    private activitiesRepo: ActivitiesRepositoryService,
     private csv: SheetCsvService,
   ) { }
 
@@ -25,7 +29,17 @@ export class DailyActivitiesPageComponent implements OnInit {
 
     this.weeks = await this.weeksRepo.getAll();
 
+    for (let week of this.weeks) {
+      week.days = await this.daysRepo.getByWeek(week);
+
+      for (let day of week.days) {
+        day.activities = await this.activitiesRepo.getByDay(day);
+      }
+    }
+
+    console.log('++++++++++');
     console.log(this.weeks);
+    console.log('++++++++++');
     //
     // this.sheets = await this.store.loadTimeSheets();
     // this.weeks = this.groupByWeek(this.sheets);
