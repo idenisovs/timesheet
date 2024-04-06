@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import SheetStore from '../store/SheetStore';
-import { getDateString } from '../utils';
-import { CsvRecord, Sheet, Issue } from '../dto';
 import { Observable, Subject } from 'rxjs';
+
+import SheetStore from '../store/SheetStore';
+import { CsvRecord, Sheet, Issue, Week } from '../dto';
 
 @Injectable({
   providedIn: 'root'
@@ -39,28 +39,23 @@ export class SheetStoreService {
     await this.db.sheet.put(sheet);
   }
 
-  async prepareForToday() {
-    const today = getDateString();
+  async prepareForToday(): Promise<void> {
+    const today = new Date();
 
-    const records = await this.db.sheet.where({
-      date: today
-    }).toArray();
+    today.setHours(0, 0, 0, 0);
 
-    if (records.length) {
+    const currentWeek = await this.db.weeks.where('till').aboveOrEqual(today).first();
+
+    if (currentWeek) {
       return;
     }
 
-    await this.createRecord();
+    const week = new Week(today);
+
+    await this.db.weeks.add(week);
   }
 
   fireImportEvent(timesheet: CsvRecord[]) {
     this.importEvent.next(timesheet);
-  }
-
-  private createRecord(): Promise<number> {
-    return this.db.sheet.put({
-      date: getDateString(),
-      activities: []
-    });
   }
 }

@@ -52,36 +52,40 @@ export class DailyActivitiesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.sheet) {
-      this.date = new Date(this.sheet.date);
-      this.form.patchValue(this.sheet);
-
-      if (!this.sheet.activities.length) {
-        this.sheet.activities.push({
-          name: '',
-          from: '',
-          till: '',
-          duration: ''
-        })
-      }
-
-      const activities = this.sheet.activities.map((activity) => {
-        return this.fb.group({
-          name: [activity.name],
-          from: [activity.from],
-          till: [activity.till],
-          duration: [activity.duration]
-        })
-      });
-
-      this.form.setControl('activities', this.fb.array(activities));
-
-      this.totalDuration = this.dailyActivities.getTotalDuration(this.form.get('activities')?.value)
-    }
-
-    this.form.valueChanges.subscribe(() => {
-      this.isChanged = true;
-    });
+    throw new Error('Not implemented yet!');
+    //
+    // if (this.sheet) {
+    //   this.date = new Date(this.sheet.date);
+    //   this.form.patchValue(this.sheet);
+    //
+    //
+    //   if (!this.sheet.activities.length) {
+    //     // this.sheet.activities.push({
+    //     //   name: '',
+    //     //   date: new Date(),
+    //     //   from: '',
+    //     //   till: '',
+    //     //   duration: ''
+    //     // })
+    //   }
+    //
+    //   const activities = this.sheet.activities.map((activity) => {
+    //     return this.fb.group({
+    //       name: [activity.name],
+    //       from: [activity.from],
+    //       till: [activity.till],
+    //       duration: [activity.duration]
+    //     })
+    //   });
+    //
+    //   this.form.setControl('activities', this.fb.array(activities));
+    //
+    //   this.totalDuration = this.dailyActivities.getTotalDuration(this.form.get('activities')?.value)
+    // }
+    //
+    // this.form.valueChanges.subscribe(() => {
+    //   this.isChanged = true;
+    // });
   }
 
   addActivityRecord() {
