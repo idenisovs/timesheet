@@ -1,16 +1,24 @@
 import { Transaction } from 'dexie';
 
 import SheetStore from './SheetStore';
-import { getMonday } from '../utils';
+import { getDateString, getMonday, startOfDay } from '../utils';
 import { Activity, Sheet, Week } from '../dto';
+import { Day } from '../dto/Day';
 
 export default async function migrateV5(store: SheetStore, trans: Transaction) {
+  console.log('MIGRATION!!!');
+
   const sheets = await store.sheet.orderBy('date').reverse().toArray();
   const weeks = groupByWeek(sheets);
   const activities = getAllActivities(sheets);
+  const days = groupByDay(activities);
+
+  console.log('Days:');
+  console.log(days);
 
   return Promise.all([
     trans.table('weeks').bulkPut(weeks),
+    trans.table('days').bulkPut(days),
     trans.table('activities').bulkPut(activities)
   ]);
 }
@@ -44,4 +52,28 @@ function getAllActivities(sheets: Sheet[]): Activity[] {
     result.push(...sheet.activities);
     return result;
   }, []);
+}
+
+function groupByDay(activities: Activity[]): Day[] {
+  const days = new Map<string, Day>();
+
+  for (let activity of activities) {
+    const date = getDateString(activity.date);
+
+    if (days.has(date)) {
+      const day = days.get(date) as Day;
+
+      activity.dayId = day.id;
+    } else {
+      const day = new Day();
+      day.date = startOfDay(activity.date);
+      day.weekId = activity.weekId;
+
+      days.set(date, day);
+
+      activity.dayId = day.id;
+    }
+  }
+
+  return Array.from(days.values());
 }
