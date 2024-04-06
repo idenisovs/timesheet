@@ -6,6 +6,7 @@ export interface Activity {
   till: string;
   duration: string;
   weekId: string;
+  dayId: string;
   isImported?: boolean;
 }
 
