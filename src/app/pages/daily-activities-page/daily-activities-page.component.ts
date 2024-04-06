@@ -29,14 +29,6 @@ export class DailyActivitiesPageComponent implements OnInit {
 
     this.weeks = await this.weeksRepo.getAll();
 
-    for (let week of this.weeks) {
-      week.days = await this.daysRepo.getByWeek(week);
-
-      for (let day of week.days) {
-        day.activities = await this.activitiesRepo.getByDay(day);
-      }
-    }
-
     console.log('++++++++++');
     console.log(this.weeks);
     console.log('++++++++++');

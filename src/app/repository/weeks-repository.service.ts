@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Week } from '../dto';
 import { SheetStoreService } from '../services/sheet-store.service';
 import { WeekEntity } from '../store/entities';
+import { Day } from '../dto/Day';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,19 @@ export class WeeksRepositoryService {
   async getAll(): Promise<Week[]> {
     const raw = await this.db.weeks.orderBy('till').reverse().toArray();
 
-    return this.map(raw);
+    const weeks = this.map(raw);
+
+    for (let week of weeks) {
+      const dayEntities = await this.db.days.where('weekId').equals(week.id).toArray();
+
+      week.days = dayEntities.map((entity) => Day.build(entity));
+
+      for (let day of week.days) {
+        day.activities = await this.db.activities.where('dayId').equals(day.id).toArray();
+      }
+    }
+
+    return weeks;
   }
 
   save(week: Week) {
