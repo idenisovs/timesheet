@@ -1,12 +1,12 @@
-import { getMonday, getSunday } from '../utils';
+import { endOfDay, getMonday, getSunday, startOfDay } from '../utils';
 
 export class Week {
   id: string = crypto.randomUUID();
-  monday = new Date();
-  sunday = new Date();
+  from = new Date();
+  till = new Date();
 
   constructor(date = new Date()) {
-    this.monday = getMonday(date);
-    this.sunday = getSunday(date);
+    this.from = startOfDay(getMonday(date));
+    this.till = endOfDay(getSunday(date));
   }
 }
