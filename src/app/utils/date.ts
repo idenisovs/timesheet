@@ -26,6 +26,12 @@ export function getMonday(date: Date|string): Date {
   return monday;
 }
 
+export function getSunday(currentDay: Date|string): Date {
+  const monday = getMonday(currentDay);
+  monday.setDate(monday.getDate() + 6);
+  return monday;
+}
+
 export function sortSheets(a: Sheet, b: Sheet): number {
   if (a.date < b.date) {
     return 1;
