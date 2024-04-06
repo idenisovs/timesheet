@@ -1,49 +1,12 @@
-import { Sheet } from './Sheet';
-import { getDateString, getMonday, sortSheets } from '../utils';
+import { getMonday, getSunday } from '../utils';
 
 export class Week {
-  monday: Date;
-  days: Sheet[] = [];
+  id: string = crypto.randomUUID();
+  monday = new Date();
+  sunday = new Date();
 
-  constructor(date: Date|string = new Date()) {
+  constructor(date = new Date()) {
     this.monday = getMonday(date);
-  }
-
-  fulfillMissingDays() {
-    const today = getDateString(new Date());
-    const weekDay = new Date(this.monday);
-
-    for (let idx = 0; idx < 7; idx++) {
-      const date = getDateString(weekDay);
-
-      if (date > today) {
-        break;
-      }
-
-      const existingDay = this.days.find((sheet) => {
-        return sheet.date === date;
-      });
-
-      if (!existingDay) {
-        this.days.push({
-          date,
-          activities: [],
-          isMissing: true
-        });
-      }
-
-      weekDay.setDate(weekDay.getDate() + 1);
-    }
-
-    this.days.sort(sortSheets);
-  }
-
-  removeMissingDays() {
-    for (let idx = 0; idx < this.days.length; idx++) {
-      if (this.days[idx].isMissing) {
-        this.days.splice(idx, 1);
-        idx--;
-      }
-    }
+    this.sunday = getSunday(date);
   }
 }
