@@ -22,7 +22,7 @@ function groupByWeek(sheets: Sheet[]): Week[] {
   for (let currentSheet of sheets) {
     const currentMonday = getMonday(currentSheet.date);
 
-    if (week.monday.toDateString() !== currentMonday.toDateString()) {
+    if (week.from.toDateString() !== currentMonday.toDateString()) {
       weeks.push(week);
       week = new Week(new Date(currentSheet.date));
     }
