@@ -1,19 +1,1 @@
-<section class="card border-primary mb-3" *ngIf="isImportMessageShown">
-  <main class="card-body">
-    <div class="d-flex align-items-center justify-content-between">
-      <div>
-        Do you want to save all imported activities?
-      </div>
-      <div>
-        <button class="btn btn-sm btn-primary mx-1" (click)="saveImportedActivities()">
-          Yes
-        </button>
-        <button class="btn btn-sm btn-primary mx-1" (click)="hideImportMessage()">
-          No
-        </button>
-      </div>
-    </div>
-  </main>
-</section>
-
 <app-daily-activities-week *ngFor="let week of weeks" [week]="week"></app-daily-activities-week>
