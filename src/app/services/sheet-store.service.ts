@@ -52,7 +52,7 @@ export class SheetStoreService {
 
     const week = new Week(today);
 
-    await this.db.weeks.add(week);
+    await this.db.weeks.add(Week.entity(week));
   }
 
   fireImportEvent(timesheet: CsvRecord[]) {
