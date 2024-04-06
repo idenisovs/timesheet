@@ -17,7 +17,5 @@ export class DailyActivitiesWeekComponent implements OnInit {
 
   async ngOnInit() {
     this.activities = await this.activityRepo.getByWeek(this.week);
-
-    console.log(this.activities);
   }
 }
