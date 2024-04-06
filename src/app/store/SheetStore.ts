@@ -3,13 +3,15 @@ import { Sheet, Issue, Project, Week, Activity } from '../dto';
 import migrateV2 from './migrate-v2';
 import migrateV3 from './migrate-v3';
 import migrateV5 from './migrate-v5';
+import { WeekEntity, DayEntity } from './entities';
 
 export default class SheetStore extends Dexie {
   sheet: Dexie.Table<Sheet, number>;
   issues: Dexie.Table<Issue, number>;
   projects: Dexie.Table<Project, string>;
 
-  weeks: Dexie.Table<Week, string>;
+  weeks: Dexie.Table<WeekEntity, string>;
+  days: Dexie.Table<DayEntity, string>;
   activities: Dexie.Table<Activity, string>;
 
   constructor() {
@@ -32,9 +34,10 @@ export default class SheetStore extends Dexie {
     });
 
     // TODO: Fix version number
-    this.version(20).stores({
+    this.version(5).stores({
       weeks: 'id,from,till',
-      activities: 'id,name,date,weekId'
+      days: 'id,date,weekId',
+      activities: 'id,name,date,weekId,dayId'
     }).upgrade((tx: Transaction) => migrateV5(this, tx));
 
     this.sheet = this.table('sheet');
@@ -42,6 +45,7 @@ export default class SheetStore extends Dexie {
     this.projects = this.table('projects');
 
     this.weeks = this.table('weeks');
+    this.days = this.table('days');
     this.activities = this.table('activities');
   }
 }
