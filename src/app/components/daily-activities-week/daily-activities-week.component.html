@@ -1,5 +1,7 @@
-<ng-container *ngIf="week">
-  <app-daily-activities-week-header [week]="week"></app-daily-activities-week-header>
+<app-daily-activities-week-header [week]="week" />
+
+<!--<ng-container *ngIf="week">-->
+<!--  <app-daily-activities-week-header [week]="week"></app-daily-activities-week-header>-->
 
 <!--  <ng-container *ngFor="let sheet of week.days">-->
 <!--    <app-missing-daily-activity *ngIf="sheet.isMissing; else dailyActivity" [sheet]="sheet"  />-->
@@ -7,5 +9,5 @@
 <!--      <app-daily-activities [sheet]="sheet" />-->
 <!--    </ng-template>-->
 <!--  </ng-container>-->
-</ng-container>
+<!--</ng-container>-->
 
