@@ -7,6 +7,14 @@ export class Day {
   weekId: string = '';
   activities: Activity[] = [];
 
+  constructor(date?: Date) {
+    if (date) {
+      this.date = date;
+    }
+
+    this.date.setHours(0, 0, 0, 0);
+  }
+
   static build(source: DayEntity): Day {
     const day = new Day();
     Object.assign(day, source)
