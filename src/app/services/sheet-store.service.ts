@@ -1,19 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
 
 import SheetStore from '../store/SheetStore';
-import { CsvRecord, Sheet, Issue, Week } from '../dto';
+import { Sheet, Issue, Week, Day } from '../dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SheetStoreService {
   private db = new SheetStore();
-  private importEvent = new Subject<CsvRecord[]>();
-
-  public get ImportEvent(): Observable<CsvRecord[]> {
-    return this.importEvent.asObservable();
-  }
 
   public get Instance(): SheetStore {
     return this.db;
@@ -44,18 +38,20 @@ export class SheetStoreService {
 
     today.setHours(0, 0, 0, 0);
 
-    const currentWeek = await this.db.weeks.where('till').aboveOrEqual(today).first();
+    let currentWeek = await this.db.weeks.where('till').aboveOrEqual(today).first();
 
-    if (currentWeek) {
-      return;
+    if (!currentWeek) {
+      const week = new Week(today);
+      currentWeek = Week.entity(week);
+      await this.db.weeks.add(currentWeek);
     }
 
-    const week = new Week(today);
+    const currentDay = await this.db.days.where('date').equals(today.toISOString()).first();
 
-    await this.db.weeks.add(Week.entity(week));
-  }
-
-  fireImportEvent(timesheet: CsvRecord[]) {
-    this.importEvent.next(timesheet);
+    if (!currentDay) {
+      const day = new Day();
+      day.weekId = currentWeek.id;
+      await this.db.days.add(Day.entity(day));
+    }
   }
 }
