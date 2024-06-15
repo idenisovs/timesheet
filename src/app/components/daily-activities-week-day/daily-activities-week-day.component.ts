@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Day } from '../../dto';
 import { DatePipe, JsonPipe } from '@angular/common';
-import { Form, FormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-daily-activities-week-day',
