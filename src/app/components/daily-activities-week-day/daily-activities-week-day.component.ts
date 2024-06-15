@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Day } from '../../dto';
 import { DatePipe, JsonPipe } from '@angular/common';
 import { FormBuilder } from '@angular/forms';
@@ -13,7 +13,7 @@ import { FormBuilder } from '@angular/forms';
   templateUrl: './daily-activities-week-day.component.html',
   styleUrl: './daily-activities-week-day.component.scss'
 })
-export class DailyActivitiesWeekDayComponent {
+export class DailyActivitiesWeekDayComponent implements OnInit {
   @Input()
   day!: Day;
 
@@ -29,4 +29,28 @@ export class DailyActivitiesWeekDayComponent {
   });
 
   constructor(private fb: FormBuilder) {}
+
+  ngOnInit() {
+    if (!this.day.activities.length) {
+      this.day.activities.push({
+        id: crypto.randomUUID(),
+        name: '',
+        date: new Date(),
+        from: '',
+        till: '',
+        duration: '',
+        weekId: this.day.weekId,
+        dayId: this.day.id
+      })
+    }
+
+    const activities = this.day.activities.map((activity) => this.fb.group({
+      name: [activity.name],
+      from: [activity.from],
+      till: [activity.till],
+      duration: [activity.duration],
+    }));
+
+    this.form.setControl('activities', this.fb.array(activities));
+  }
 }
