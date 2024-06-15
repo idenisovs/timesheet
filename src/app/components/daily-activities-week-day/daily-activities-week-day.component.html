@@ -1,5 +1,17 @@
-<div>
-  <pre>
-    {{day|json}}
-  </pre>
-</div>
+<section class="card mb-3">
+  <h2 class="card-header d-flex justify-content-between">
+    <div>
+      <span>
+        {{day.date | date}}
+      </span>
+      <small class="even-smaller">
+        {{ day.date | date:'EEEE'}}
+      </small>
+    </div>
+  </h2>
+  <main class="card-body">
+    <pre>
+      {{day.activities|json}}
+    </pre>
+  </main>
+</section>
