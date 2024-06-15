@@ -1,4 +1,8 @@
-<app-daily-activities-week-header [week]="week" />
+<ng-container *ngIf="week">
+  <app-daily-activities-week-header [week]="week" />
+
+  <app-daily-activities-week-day *ngFor="let day of week.days" [day]="day"/>
+</ng-container>
 
 <!--<ng-container *ngIf="week">-->
 <!--  <app-daily-activities-week-header [week]="week"></app-daily-activities-week-header>-->

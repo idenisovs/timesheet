@@ -14,6 +14,9 @@ import { DailyActivitiesWeekComponent } from './components/daily-activities-week
 import { DailyActivitiesWeekHeaderComponent } from './components/daily-activities-week/daily-activities-week-header/daily-activities-week-header.component';
 import { MissingDailyActivityComponent } from './components/missing-daily-activity/missing-daily-activity.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import {
+	DailyActivitiesWeekDayComponent
+} from './components/daily-activities-week-day/daily-activities-week-day.component';
 
 @NgModule({
   declarations: [
@@ -26,15 +29,16 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     DailyActivitiesWeekHeaderComponent,
     MissingDailyActivityComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    RouterOutlet,
-    FormsModule,
-    ReactiveFormsModule,
-    NgbModule,
-    NavbarComponent,
-  ],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		RouterOutlet,
+		FormsModule,
+		ReactiveFormsModule,
+		NgbModule,
+		NavbarComponent,
+		DailyActivitiesWeekDayComponent,
+	],
   providers: [],
   bootstrap: [AppComponent]
 })
