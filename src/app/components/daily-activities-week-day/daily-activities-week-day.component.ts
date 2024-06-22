@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, UntypedFormArray, UntypedFormGroup } from '@angular/forms';
 import { DatePipe, JsonPipe, NgForOf } from '@angular/common';
-import { Day } from '../../dto';
+import { Activity, Day } from '../../dto';
+import { DailyActivityItemComponent } from '../daily-activity-item/daily-activity-item.component';
+import { DailyActivitiesService } from '../daily-activities/daily-activities.service';
 
 @Component({
   selector: 'app-daily-activities-week-day',
@@ -11,14 +13,13 @@ import { Day } from '../../dto';
     DatePipe,
     ReactiveFormsModule,
     NgForOf,
+    DailyActivityItemComponent,
   ],
   templateUrl: './daily-activities-week-day.component.html',
   styleUrl: './daily-activities-week-day.component.scss'
 })
 export class DailyActivitiesWeekDayComponent implements OnInit {
-  @Input()
-  day!: Day;
-
+  totalDuration = '0h';
   form = this.fb.group({
     activities: this.fb.array([
       this.fb.group({
@@ -34,20 +35,17 @@ export class DailyActivitiesWeekDayComponent implements OnInit {
     return (this.form.get('activities') as UntypedFormArray).controls as UntypedFormGroup[];
   }
 
-  constructor(private fb: FormBuilder) {}
+  @Input()
+  day!: Day;
+
+  constructor(
+    private fb: FormBuilder,
+    private dailyActivitiesService: DailyActivitiesService,
+  ) {}
 
   ngOnInit() {
     if (!this.day.activities.length) {
-      this.day.activities.push({
-        id: crypto.randomUUID(),
-        name: '',
-        date: new Date(),
-        from: '',
-        till: '',
-        duration: '',
-        weekId: this.day.weekId,
-        dayId: this.day.id
-      })
+      this.day.activities.push(new Activity())
     }
 
     const activities = this.day.activities.map((activity) => this.fb.group({
@@ -58,5 +56,6 @@ export class DailyActivitiesWeekDayComponent implements OnInit {
     }));
 
     this.form.setControl('activities', this.fb.array(activities));
+    this.totalDuration = this.dailyActivitiesService.getTotalDuration(this.day.activities);
   }
 }
