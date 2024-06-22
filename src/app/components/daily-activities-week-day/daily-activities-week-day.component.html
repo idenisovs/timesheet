@@ -24,12 +24,24 @@
         </div>
       </div>
       <div formArrayName="activities">
-<!--        <app-daily-activity-item-->
-<!--          *ngFor="let activity of Activities; let idx = index"-->
-<!--          [idx]="idx"-->
-<!--          [activity]="activity"-->
-<!--        />-->
+        <app-daily-activity-item
+          *ngFor="let activity of Activities; let idx = index"
+          [idx]="idx"
+          [activity]="activity"
+          [isLastActivity]="idx === Activities.length - 1"
+        />
       </div>
     </form>
   </main>
+
+  <footer class="card-footer">
+    <span class="me-2">
+      <i class="material-icons text-info">assignment</i>
+      {{Activities.length}}
+    </span>
+    <span class="me-2">
+      <i class="material-icons text-info">schedule</i>
+      {{totalDuration}}
+    </span>
+  </footer>
 </section>
