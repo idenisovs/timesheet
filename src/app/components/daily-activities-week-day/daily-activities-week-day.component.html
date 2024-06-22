@@ -1,17 +1,31 @@
 <section class="card mb-3">
-  <h2 class="card-header d-flex justify-content-between">
-    <div>
-      <span>
-        {{day.date | date}}
-      </span>
-      <small class="even-smaller">
-        {{ day.date | date:'EEEE'}}
-      </small>
-    </div>
+  <h2 class="card-header">
+    <span>
+      {{day.date | date}}
+    </span>
+    <small class="even-smaller">
+      {{ day.date | date:'EEEE'}}
+    </small>
   </h2>
   <main class="card-body">
-    <pre>
-      {{day.activities|json}}
-    </pre>
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-4">
+          Activity
+        </div>
+        <div class="col-2">
+          From
+        </div>
+        <div class="col-2">
+          Till
+        </div>
+        <div class="col-2">
+          Durations
+        </div>
+      </div>
+      <div formArrayName="activities">
+        Activities here {{day.activities.length}}
+      </div>
+    </form>
   </main>
 </section>
