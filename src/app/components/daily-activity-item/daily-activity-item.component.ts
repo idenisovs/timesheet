@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
+import { NgClass } from '@angular/common';
 import { duration } from 'yet-another-duration';
 import parseDuration from 'parse-duration';
 
@@ -8,7 +9,12 @@ const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/
 @Component({
   selector: 'app-daily-activity-item',
   templateUrl: './daily-activity-item.component.html',
-  styleUrls: ['./daily-activity-item.component.scss']
+  standalone: true,
+  styleUrls: ['./daily-activity-item.component.scss'],
+  imports: [
+    ReactiveFormsModule,
+    NgClass,
+  ],
 })
 export class DailyActivityItemComponent implements OnInit {
 
