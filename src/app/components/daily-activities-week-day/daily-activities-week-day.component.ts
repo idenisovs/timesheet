@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { DatePipe, JsonPipe } from '@angular/common';
+import { FormBuilder, ReactiveFormsModule, UntypedFormArray, UntypedFormGroup } from '@angular/forms';
+import { DatePipe, JsonPipe, NgForOf } from '@angular/common';
 import { Day } from '../../dto';
 
 @Component({
@@ -10,6 +10,7 @@ import { Day } from '../../dto';
     JsonPipe,
     DatePipe,
     ReactiveFormsModule,
+    NgForOf,
   ],
   templateUrl: './daily-activities-week-day.component.html',
   styleUrl: './daily-activities-week-day.component.scss'
@@ -28,6 +29,10 @@ export class DailyActivitiesWeekDayComponent implements OnInit {
       })
     ])
   });
+
+  get Activities(): UntypedFormGroup[] {
+    return (this.form.get('activities') as UntypedFormArray).controls as UntypedFormGroup[];
+  }
 
   constructor(private fb: FormBuilder) {}
 
