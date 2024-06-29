@@ -40,10 +40,14 @@ export class DailyActivityItemComponent implements OnInit {
   add = new EventEmitter<void>();
 
   @Output()
-  remove = new EventEmitter<number>();
+  remove = new EventEmitter<string>();
 
   @Output()
   save = new EventEmitter<void>();
+
+  get ActivityId(): string {
+    return this.activity.get('id')?.value;
+  }
 
   constructor(private fb: UntypedFormBuilder) { }
 
