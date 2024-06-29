@@ -31,8 +31,12 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   valueChangesHandler?: Subscription;
   removableActivityIds: string[] = [];
 
+  get ActivityForm(): UntypedFormArray {
+    return this.form.get('activities') as UntypedFormArray;
+  }
+
   get Activities(): UntypedFormGroup[] {
-    return (this.form.get('activities') as UntypedFormArray).controls as UntypedFormGroup[];
+    return this.ActivityForm.controls as UntypedFormGroup[];
   }
 
   @Input()
@@ -67,20 +71,17 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   }
 
   add() {
-    const activityFormItems = this.form.get('activities') as UntypedFormArray;
-
-    activityFormItems.push(this.service.makeActivityFormGroup());
+    this.ActivityForm.push(this.service.makeActivityFormGroup());
   }
 
-  remove(idx: number) {
-    const activityFormItems = this.form.get('activities') as UntypedFormArray;
+  remove(activityId: string) {
+    this.removableActivityIds.push(activityId);
 
-    const activityFormItem = activityFormItems.value[idx];
-    this.removableActivityIds.push(activityFormItem.id);
+    const idx = this.ActivityForm.value.findIndex((item: any) => item.id === activityId);
 
-    activityFormItems.removeAt(idx);
+    this.ActivityForm.removeAt(idx);
 
-    if (!activityFormItems.length) {
+    if (!this.ActivityForm.length) {
       this.add();
     }
   }
@@ -91,9 +92,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
       this.removableActivityIds = [];
     }
 
-    const activitiesFormArray = this.form.get('activities') as UntypedFormArray;
-
-    this.day.activities = activitiesFormArray.value.map((item: any) => {
+    this.day.activities = this.ActivityForm.value.map((item: any) => {
       const existingActivity = this.day.activities.find((activity: Activity) => activity.id === item.id);
 
       if (existingActivity) {
