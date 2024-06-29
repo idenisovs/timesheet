@@ -30,7 +30,7 @@
           [activity]="activity"
           [isLastActivity]="idx === Activities.length - 1"
           (add)="add()"
-          (remove)="remove()"
+          (remove)="remove($event)"
           (save)="save()"
         />
       </div>
