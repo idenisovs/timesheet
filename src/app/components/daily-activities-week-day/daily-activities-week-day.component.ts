@@ -8,7 +8,6 @@ import { DailyActivityItemComponent } from '../daily-activity-item/daily-activit
 import { DailyActivitiesService } from '../daily-activities/daily-activities.service';
 import { DailyActivitiesWeekDayService } from './daily-activities-week-day.service';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
-import { ActivityFormItem } from './ActivityFormItem';
 
 @Component({
   selector: 'app-daily-activities-week-day',
@@ -27,8 +26,11 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   totalDuration = '0h';
   isChanged = false;
   form = this.fb.group({
-    activities: this.fb.array([new ActivityFormItem()])
+    activities: this.fb.array([
+      this.service.makeActivityFormItem()
+    ])
   });
+
   valueChangesHandler?: Subscription;
   removableActivityIds: string[] = [];
 
@@ -52,7 +54,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const activityFormItems = this.day.activities.map((activity: Activity) => {
-      return new ActivityFormItem(activity);
+      return this.service.makeActivityFormItem(activity);
     });
 
     if (activityFormItems.length) {
@@ -73,7 +75,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   }
 
   add() {
-    this.ActivityForm.push(new ActivityFormItem());
+    this.ActivityForm.push(this.service.makeActivityFormItem());
   }
 
   remove(activityId: string) {
