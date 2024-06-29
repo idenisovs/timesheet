@@ -29,7 +29,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     activities: this.fb.array([this.service.makeActivityFormGroup()])
   });
   valueChangesHandler?: Subscription;
-  removableActivities: Activity[] = [];
+  removableActivityIds: string[] = [];
 
   get Activities(): UntypedFormGroup[] {
     return (this.form.get('activities') as UntypedFormArray).controls as UntypedFormGroup[];
@@ -46,12 +46,12 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const activities = this.day.activities.map((activity: Activity) => {
+    const activityFormItems = this.day.activities.map((activity: Activity) => {
       return this.service.makeActivityFormGroup(activity);
     });
 
-    if (activities.length) {
-      this.form.setControl('activities', this.fb.array(activities));
+    if (activityFormItems.length) {
+      this.form.setControl('activities', this.fb.array(activityFormItems));
     }
 
     this.totalDuration = this.activitiesService.getTotalDuration(this.day.activities);
@@ -67,38 +67,28 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   }
 
   add() {
-    const activities = this.form.get('activities') as UntypedFormArray;
-    activities.push(this.service.makeActivityFormGroup());
+    const activityFormItems = this.form.get('activities') as UntypedFormArray;
+
+    activityFormItems.push(this.service.makeActivityFormGroup());
   }
 
   remove(idx: number) {
-    this.removeActivityFromForm(idx);
-    this.removeActivityFromDay(idx);
-  }
+    const activityFormItems = this.form.get('activities') as UntypedFormArray;
 
-  removeActivityFromForm(idx: number) {
-    const activities = this.form.get('activities') as UntypedFormArray;
+    const activityFormItem = activityFormItems.value[idx];
+    this.removableActivityIds.push(activityFormItem.id);
 
-    activities.removeAt(idx);
+    activityFormItems.removeAt(idx);
 
-    if (!activities.length) {
+    if (!activityFormItems.length) {
       this.add();
     }
   }
 
-  removeActivityFromDay(idx: number) {
-    const activity = this.day.activities[idx];
-
-    if (activity) {
-      this.removableActivities.push(activity);
-      this.day.activities.splice(idx, 1);
-    }
-  }
-
   async save() {
-    if (this.removableActivities.length) {
-      await this.activitiesRepository.remove(this.removableActivities);
-      this.removableActivities = [];
+    if (this.removableActivityIds.length) {
+      await this.activitiesRepository.remove(this.removableActivityIds);
+      this.removableActivityIds = [];
     }
 
     const activitiesFormArray = this.form.get('activities') as UntypedFormArray;
