@@ -46,5 +46,9 @@
       <i class="material-icons text-info">schedule</i>
       {{totalDuration}}
     </span>
+    <span class="me-2" [hidden]="!isChanged">
+      <i class="material-icons text-warning">warning</i>
+      Unsaved!
+    </span>
   </footer>
 </section>
