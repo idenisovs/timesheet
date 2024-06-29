@@ -20,6 +20,7 @@ export class DailyActivityItemComponent implements OnInit {
 
   @Input()
   activity = this.fb.group({
+    id: [''],
     name: [''],
     from: [''],
     till: [''],
