@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SheetStoreService } from '../services/sheet-store.service';
-import { Activity, Week } from '../dto';
-import { Day } from '../dto/Day';
+import { Activity, Week, Day } from '../dto';
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +16,14 @@ export class ActivitiesRepositoryService {
 
   getByDay(day: Day): Promise<Activity[]> {
     return this.db.activities.where('dayId').equals(day.id).toArray();
+  }
+
+  async save(activities: Activity[]): Promise<void> {
+    await this.db.activities.bulkPut(activities);
+  }
+
+  async remove(activities: Activity[]): Promise<void> {
+    const ids = activities.map((activity: Activity) => activity.id);
+    await this.db.activities.bulkDelete(ids);
   }
 }

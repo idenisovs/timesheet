@@ -7,6 +7,7 @@ import { Activity, Day } from '../../dto';
 import { DailyActivityItemComponent } from '../daily-activity-item/daily-activity-item.component';
 import { DailyActivitiesService } from '../daily-activities/daily-activities.service';
 import { DailyActivitiesWeekDayService } from './daily-activities-week-day.service';
+import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 
 @Component({
   selector: 'app-daily-activities-week-day',
@@ -28,6 +29,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     activities: this.fb.array([this.service.makeActivityFormGroup()])
   });
   valueChangesHandler?: Subscription;
+  removableActivities: Activity[] = [];
 
   get Activities(): UntypedFormGroup[] {
     return (this.form.get('activities') as UntypedFormArray).controls as UntypedFormGroup[];
@@ -39,7 +41,8 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private service: DailyActivitiesWeekDayService,
-    private dailyActivitiesService: DailyActivitiesService,
+    private activitiesService: DailyActivitiesService,
+    private activitiesRepository: ActivitiesRepositoryService
   ) {}
 
   ngOnInit() {
@@ -52,7 +55,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     });
 
     this.form.setControl('activities', this.fb.array(activities));
-    this.totalDuration = this.dailyActivitiesService.getTotalDuration(this.day.activities);
+    this.totalDuration = this.activitiesService.getTotalDuration(this.day.activities);
     this.valueChangesHandler = this.form.valueChanges.subscribe(() => {
       this.isChanged = true;
     });
@@ -70,16 +73,49 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   }
 
   remove(idx: number) {
+    this.removeActivityFromForm(idx);
+    this.removeActivityFromDay(idx);
+  }
+
+  removeActivityFromForm(idx: number) {
     const activities = this.form.get('activities') as UntypedFormArray;
+
     activities.removeAt(idx);
+
     if (!activities.length) {
       this.add();
     }
-
-    this.day.activities.splice(idx, 1);
   }
 
-  save() {
-    console.log('Save!');
+  removeActivityFromDay(idx: number) {
+    const activity = this.day.activities[idx];
+
+    if (activity) {
+      this.removableActivities.push(activity);
+      this.day.activities.splice(idx, 1);
+    }
+  }
+
+  async save() {
+    if (this.removableActivities.length) {
+      await this.activitiesRepository.remove(this.removableActivities);
+      this.removableActivities = [];
+    }
+
+    const activitiesFormArray = this.form.get('activities') as UntypedFormArray;
+
+    const activities = activitiesFormArray.value.map((item: any) => {
+      const existingActivity = this.day.activities.find((activity: Activity) => activity.id === item.id);
+
+      if (existingActivity) {
+        return Object.assign(existingActivity, item);
+      } else {
+        return this.service.createActivity(item, this.day);
+      }
+    });
+
+    await this.activitiesRepository.save(activities);
+
+    this.isChanged = false;
   }
 }
