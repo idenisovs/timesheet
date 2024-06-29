@@ -55,7 +55,19 @@ export class DailyActivitiesWeekDayComponent implements OnInit {
       duration: [activity.duration],
     }));
 
-    this.form.setControl('activities', this.fb.array(activities));
     this.totalDuration = this.dailyActivitiesService.getTotalDuration(this.day.activities);
+    this.form.setControl('activities', this.fb.array(activities));
+  }
+
+  add() {
+    console.log('Add!');
+  }
+
+  remove() {
+    console.log('Remove!');
+  }
+
+  save() {
+    console.log('Save!');
   }
 }
