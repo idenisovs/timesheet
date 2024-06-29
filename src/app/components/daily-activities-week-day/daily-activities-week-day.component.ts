@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { Activity, Day } from '../../dto';
 import { DailyActivityItemComponent } from '../daily-activity-item/daily-activity-item.component';
 import { DailyActivitiesService } from '../daily-activities/daily-activities.service';
+import { DailyActivitiesWeekDayService } from './daily-activities-week-day.service';
 
 @Component({
   selector: 'app-daily-activities-week-day',
@@ -22,18 +23,11 @@ import { DailyActivitiesService } from '../daily-activities/daily-activities.ser
 })
 export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   totalDuration = '0h';
+  isChanged = false;
   form = this.fb.group({
-    activities: this.fb.array([
-      this.fb.group({
-        name: [''],
-        from: [''],
-        till: [''],
-        duration: ['']
-      })
-    ])
+    activities: this.fb.array([this.service.makeActivityFormGroup()])
   });
   valueChangesHandler?: Subscription;
-  isChanged = false;
 
   get Activities(): UntypedFormGroup[] {
     return (this.form.get('activities') as UntypedFormArray).controls as UntypedFormGroup[];
@@ -44,6 +38,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
+    private service: DailyActivitiesWeekDayService,
     private dailyActivitiesService: DailyActivitiesService,
   ) {}
 
@@ -52,12 +47,10 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
       this.day.activities.push(new Activity())
     }
 
-    const activities = this.day.activities.map((activity) => this.fb.group({
-      name: [activity.name],
-      from: [activity.from],
-      till: [activity.till],
-      duration: [activity.duration],
-    }));
+    const activities = this.day.activities.map((activity: Activity) => {
+      return this.service.makeActivityFormGroup(activity);
+    });
+
     this.form.setControl('activities', this.fb.array(activities));
     this.totalDuration = this.dailyActivitiesService.getTotalDuration(this.day.activities);
     this.valueChangesHandler = this.form.valueChanges.subscribe(() => {
