@@ -1,5 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, UntypedFormArray, UntypedFormGroup } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule
+} from '@angular/forms';
 import { DatePipe, JsonPipe, NgForOf } from '@angular/common';
 import { Subscription } from 'rxjs';
 
@@ -8,6 +13,7 @@ import { DailyActivityItemComponent } from '../daily-activity-item/daily-activit
 import { DailyActivitiesService } from '../daily-activities/daily-activities.service';
 import { DailyActivitiesWeekDayService } from './daily-activities-week-day.service';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
+import { DailyActivitiesForm, ActivityFormGroup } from './DailyActivitiesForm';
 
 @Component({
   selector: 'app-daily-activities-week-day',
@@ -25,7 +31,7 @@ import { ActivitiesRepositoryService } from '../../repository/activities-reposit
 export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   totalDuration = '0h';
   isChanged = false;
-  form = this.fb.group({
+  form: FormGroup<DailyActivitiesForm> = this.fb.group({
     activities: this.fb.array([
       this.service.makeActivityFormItem()
     ])
@@ -34,12 +40,12 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   valueChangesHandler?: Subscription;
   removableActivityIds: string[] = [];
 
-  get ActivityForm(): UntypedFormArray {
-    return this.form.get('activities') as UntypedFormArray;
+  get ActivityFormArray(): FormArray<ActivityFormGroup> {
+    return this.form.get('activities') as FormArray<ActivityFormGroup>;
   }
 
-  get Activities(): UntypedFormGroup[] {
-    return this.ActivityForm.controls as UntypedFormGroup[];
+  get ActivityFormArrayItems(): ActivityFormGroup[] {
+    return this.ActivityFormArray.controls;
   }
 
   @Input()
@@ -75,17 +81,17 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   }
 
   add() {
-    this.ActivityForm.push(this.service.makeActivityFormItem());
+    this.ActivityFormArray.push(this.service.makeActivityFormItem());
   }
 
   remove(activityId: string) {
     this.removableActivityIds.push(activityId);
 
-    const idx = this.ActivityForm.value.findIndex((item: any) => item.id === activityId);
+    const idx = this.ActivityFormArray.value.findIndex((item: any) => item.id === activityId);
 
-    this.ActivityForm.removeAt(idx);
+    this.ActivityFormArray.removeAt(idx);
 
-    if (!this.ActivityForm.length) {
+    if (!this.ActivityFormArray.length) {
       this.add();
     }
   }
@@ -96,7 +102,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
       this.removableActivityIds = [];
     }
 
-    this.day.activities = this.ActivityForm.value.map((item: any) => {
+    this.day.activities = this.ActivityFormArray.value.map((item: any) => {
       const existingActivity = this.day.activities.find((activity: Activity) => {
         return activity.id === item.id;
       });
