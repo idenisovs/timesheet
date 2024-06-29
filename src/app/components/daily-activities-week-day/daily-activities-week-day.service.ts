@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+
 import { Activity, Day } from '../../dto';
 
 @Injectable({
@@ -7,27 +7,7 @@ import { Activity, Day } from '../../dto';
 })
 export class DailyActivitiesWeekDayService {
 
-  constructor(private fb: FormBuilder) { }
-
-  makeActivityFormItem(activity?: Activity) {
-    if (activity) {
-      return this.fb.group({
-        id: [activity.id],
-        name: [activity.name],
-        from: [activity.from],
-        till: [activity.till],
-        duration: [activity.duration]
-      });
-    } else {
-      return this.fb.group({
-        id: [crypto.randomUUID()],
-        name: [''],
-        from: [''],
-        till: [''],
-        duration: ['']
-      });
-    }
-  }
+  constructor() { }
 
   createActivity(formValue: any, day?: Day) {
     const activity = new Activity();
