@@ -29,6 +29,9 @@
           [idx]="idx"
           [activity]="activity"
           [isLastActivity]="idx === Activities.length - 1"
+          (add)="add()"
+          (remove)="remove()"
+          (save)="save()"
         />
       </div>
     </form>
