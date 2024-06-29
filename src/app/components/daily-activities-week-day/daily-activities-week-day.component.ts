@@ -65,11 +65,18 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   }
 
   add() {
-    console.log('Add!');
+    const activities = this.form.get('activities') as UntypedFormArray;
+    activities.push(this.service.makeActivityFormGroup());
   }
 
-  remove() {
-    console.log('Remove!');
+  remove(idx: number) {
+    const activities = this.form.get('activities') as UntypedFormArray;
+    activities.removeAt(idx);
+    if (!activities.length) {
+      this.add();
+    }
+
+    this.day.activities.splice(idx, 1);
   }
 
   save() {
