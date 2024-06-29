@@ -26,7 +26,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   totalDuration = '0h';
   isChanged = false;
   form = this.fb.group({
-    activities: this.fb.array([this.service.makeActivityFormGroup()])
+    activities: this.fb.array([this.service.makeActivityFormItem()])
   });
   valueChangesHandler?: Subscription;
   removableActivityIds: string[] = [];
@@ -51,7 +51,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const activityFormItems = this.day.activities.map((activity: Activity) => {
-      return this.service.makeActivityFormGroup(activity);
+      return this.service.makeActivityFormItem(activity);
     });
 
     if (activityFormItems.length) {
@@ -59,6 +59,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     }
 
     this.totalDuration = this.activitiesService.getTotalDuration(this.day.activities);
+
     this.valueChangesHandler = this.form.valueChanges.subscribe(() => {
       this.isChanged = true;
     });
@@ -71,7 +72,8 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   }
 
   add() {
-    this.ActivityForm.push(this.service.makeActivityFormGroup());
+    const activityFormItem = this.service.makeActivityFormItem()
+    this.ActivityForm.push(activityFormItem);
   }
 
   remove(activityId: string) {

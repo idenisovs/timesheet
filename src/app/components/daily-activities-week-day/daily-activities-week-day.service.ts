@@ -9,7 +9,7 @@ export class DailyActivitiesWeekDayService {
 
   constructor(private fb: FormBuilder) { }
 
-  makeActivityFormGroup(activity?: Activity) {
+  makeActivityFormItem(activity?: Activity) {
     if (activity) {
       return this.fb.group({
         id: [activity.id],
