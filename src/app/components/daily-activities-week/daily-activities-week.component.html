@@ -3,15 +3,3 @@
 
   <app-daily-activities-week-day *ngFor="let day of week.days" [day]="day"/>
 </ng-container>
-
-<!--<ng-container *ngIf="week">-->
-<!--  <app-daily-activities-week-header [week]="week"></app-daily-activities-week-header>-->
-
-<!--  <ng-container *ngFor="let sheet of week.days">-->
-<!--    <app-missing-daily-activity *ngIf="sheet.isMissing; else dailyActivity" [sheet]="sheet"  />-->
-<!--    <ng-template #dailyActivity>-->
-<!--      <app-daily-activities [sheet]="sheet" />-->
-<!--    </ng-template>-->
-<!--  </ng-container>-->
-<!--</ng-container>-->
-
