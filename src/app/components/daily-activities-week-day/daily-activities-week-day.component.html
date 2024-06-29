@@ -25,10 +25,10 @@
       </div>
       <div formArrayName="activities">
         <app-daily-activity-item
-          *ngFor="let activity of Activities; let idx = index"
+          *ngFor="let activity of ActivityFormArrayItems; let idx = index"
           [idx]="idx"
           [activity]="activity"
-          [isLastActivity]="idx === Activities.length - 1"
+          [isLastActivity]="idx === ActivityFormArrayItems.length - 1"
           (add)="add()"
           (remove)="remove($event)"
           (save)="save()"
@@ -40,7 +40,7 @@
   <footer class="card-footer">
     <span class="me-2">
       <i class="material-icons text-info">assignment</i>
-      {{Activities.length}}
+      {{ActivityFormArrayItems.length}}
     </span>
     <span class="me-2">
       <i class="material-icons text-info">schedule</i>
