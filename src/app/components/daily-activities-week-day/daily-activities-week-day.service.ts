@@ -15,7 +15,7 @@ export class DailyActivitiesWeekDayService {
     return this.fb.group(new ActivityFormItem(activity));
   }
 
-  createActivity(formValue: any, day?: Day) {
+  createActivity(formValue: any, day?: Day): Activity {
     const activity = new Activity();
 
     Object.assign(activity, formValue);
@@ -26,5 +26,9 @@ export class DailyActivitiesWeekDayService {
     }
 
     return activity;
+  }
+
+  updateActivity(activity: Activity, formValue: any) {
+    return Object.assign(activity, formValue);
   }
 }
