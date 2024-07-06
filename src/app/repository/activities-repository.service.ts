@@ -19,7 +19,7 @@ export class ActivitiesRepositoryService {
   }
 
   getByIssueKey(issueKey: string): Promise<Activity[]> {
-    return this.db.activities.where('name').startsWith(issueKey).toArray();
+    return this.db.activities.where('name').startsWith(issueKey).reverse().sortBy('date');
   }
 
   async save(activities: Activity[]): Promise<void> {

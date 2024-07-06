@@ -29,7 +29,11 @@ export class ActivitiesService {
   public getIssueKeys(activities: Activity[]): string[] {
     const issueKeys = activities.reduce<Set<string>>((result: Set<string>, activity: Activity) => {
       const issueKey = this.getIssueKey(activity.name);
-      result.add(issueKey);
+
+      if (issueKey) {
+        result.add(issueKey);
+      }
+
       return result;
     }, new Set<string>());
 
