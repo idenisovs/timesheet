@@ -7,16 +7,7 @@ import { calculateTotalDuration } from '../../utils';
   providedIn: 'root'
 })
 export class DailyActivitiesService {
-  worker!: Worker;
-
-  constructor() {
-    if (typeof Worker !== 'undefined') {
-      this.worker = new Worker(new URL('./daily-activities.worker', import.meta.url));
-    } else {
-      // Web Workers are not supported in this environment.
-      // You should add a fallback so that your program still executes correctly.
-    }
-  }
+  constructor() {}
 
   public getTotalDuration(activities: Activity[]): string {
     const totalDuration = calculateTotalDuration(activities);
@@ -28,9 +19,5 @@ export class DailyActivitiesService {
     }).toString();
 
     return result ? result : '0h';
-  }
-
-  public triggerIssueSync() {
-    this.worker.postMessage('issue-sync')
   }
 }
