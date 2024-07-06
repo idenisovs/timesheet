@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+
 import { SheetStoreService } from '../../services/sheet-store.service';
 import { SheetCsvService } from '../../services/sheet-csv.service';
-import { CsvRecord, Sheet, Week } from '../../dto';
+import {Activity, CsvRecord, Sheet, Week} from '../../dto';
 import { getMonday } from '../../utils';
 
 @Component({
@@ -12,6 +13,7 @@ import { getMonday } from '../../utils';
 export class DailyActivitiesPageComponent implements OnInit {
   sheets: Sheet[] = [];
   weeks: Week[] = [];
+  isImportMessageShown = false;
 
   constructor(
     private store: SheetStoreService,
@@ -30,6 +32,7 @@ export class DailyActivitiesPageComponent implements OnInit {
   importRecords(records: CsvRecord[]) {
     this.csv.import(this.sheets, records);
     this.weeks = this.groupByWeek(this.sheets);
+    this.isImportMessageShown = true;
   }
 
   groupByWeek(sheets: Sheet[]): Week[] {
@@ -50,5 +53,21 @@ export class DailyActivitiesPageComponent implements OnInit {
     weeks.push(week);
 
     return weeks;
+  }
+
+  async saveImportedActivities() {
+    for (const sheet of this.sheets) {
+      sheet.activities.forEach((activity: Activity) => {
+        activity.isImported = false;
+      });
+
+      await this.store.save(sheet);
+    }
+
+    this.isImportMessageShown = false;
+  }
+
+  hideImportMessage() {
+    this.isImportMessageShown = false;
   }
 }
