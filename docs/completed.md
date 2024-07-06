@@ -1,5 +1,25 @@
 # Completed things
 
+## Projects
+
+### Update (2024-03-07)
+
+Probably, the better name for this section is **Categories**.
+
+### Initial version
+
+BTW, it might have the Projects section, so if you save activities in form of `ABC-123: Hello World`, you should be able to define the group or _project_ for them.
+
+Like define a rule for all activities starting with `ABC-XXX:` - _Those activities are belongs to some project with name ABC._
+
+And you should be able to set the Project description and get here some overview / analytics too.
+
+## Issues view
+
+I decided to make Issues view first. This view allow to oversee the summary of Issues. As it has a lot of different things to do, I decided to move specification into separate file.
+
+See it [here](./issues).
+
 ## Add Copy button (06 Feb 2024)
 
 Add the possibility to programmatically copy the Activity name via Copy button (`navigate.clipboard` or something like that).
