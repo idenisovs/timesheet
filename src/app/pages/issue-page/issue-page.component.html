@@ -1,6 +1,6 @@
 <div *ngIf="issue; else issueNotFoundAlert">
   <app-issue-card [issue]="issue" />
-  <app-activities-list [activities]="issue.activities" />
+  <app-activities-list *ngIf="activities.length; else noActivitiesAlert" [activities]="activities" />
 </div>
 
 <ng-template #issueNotFoundAlert>
@@ -9,3 +9,8 @@
   </div>
 </ng-template>
 
+<ng-template #noActivitiesAlert>
+  <div class="alert alert-info">
+    There is no activities at the moment!
+  </div>
+</ng-template>
