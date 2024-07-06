@@ -7,7 +7,7 @@ import { WeekEntity, DayEntity } from './entities';
 
 export default class SheetStore extends Dexie {
   sheet: Dexie.Table<Sheet, number>;
-  issues: Dexie.Table<Issue, number>;
+  issues: Dexie.Table<Issue, string>;
   projects: Dexie.Table<Project, string>;
 
   weeks: Dexie.Table<WeekEntity, string>;

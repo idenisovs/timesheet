@@ -9,11 +9,18 @@ export default async function migrateV5(store: SheetStore, trans: Transaction) {
   const weeks = groupByWeek(sheets);
   const activities = getAllActivities(sheets);
   const days = groupByDay(activities);
+  const issues = await store.issues.toArray();
+
+  for (let issue of issues) {
+    await store.issues.delete(issue.id);
+    issue.id = crypto.randomUUID();
+    await store.issues.add(issue);
+  }
 
   return Promise.all([
     trans.table('weeks').bulkPut(weeks),
     trans.table('days').bulkPut(days),
-    trans.table('activities').bulkPut(activities)
+    trans.table('activities').bulkPut(activities),
   ]);
 }
 
