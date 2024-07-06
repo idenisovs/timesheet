@@ -1,7 +1,7 @@
 import { IssueActivity } from './Activity';
 
 export interface Issue {
-  id: number;
+  id: string;
   key: string
   name: string;
   activities: IssueActivity[];
@@ -11,5 +11,5 @@ export interface Issue {
 }
 
 export interface CreateIssue extends Omit<Issue, 'id'> {
-  id?: number;
+  id?: string;
 }
