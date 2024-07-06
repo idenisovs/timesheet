@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import {FormArray, FormBuilder} from '@angular/forms';
 
 import { Activity, Day } from '../../dto';
 import { ActivityFormItem } from './ActivityFormItem';
@@ -16,6 +16,20 @@ export class DailyActivitiesWeekDayService {
     return this.fb.group(new ActivityFormItem(activity));
   }
 
+  processActivityFormArray(activityFormArray: FormArray<ActivityFormGroup>, day: Day): Activity[] {
+    return activityFormArray.value.map((item) => {
+      const existingActivity = day.activities.find((activity: Activity) => {
+        return activity.id === item.id;
+      });
+
+      if (existingActivity) {
+        return this.updateActivity(item, existingActivity);
+      } else {
+        return this.createActivity(item, day);
+      }
+    });
+  }
+
   createActivity(formValue: any, day?: Day): Activity {
     const activity = new Activity();
 
@@ -29,7 +43,7 @@ export class DailyActivitiesWeekDayService {
     return activity;
   }
 
-  updateActivity(activity: Activity, formValue: any) {
+  updateActivity(formValue: any, activity: Activity) {
     return Object.assign(activity, formValue);
   }
 }

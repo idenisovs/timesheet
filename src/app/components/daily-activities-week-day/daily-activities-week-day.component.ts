@@ -102,17 +102,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
       this.removableActivityIds = [];
     }
 
-    this.day.activities = this.ActivityFormArray.value.map((item: any) => {
-      const existingActivity = this.day.activities.find((activity: Activity) => {
-        return activity.id === item.id;
-      });
-
-      if (existingActivity) {
-        return this.service.updateActivity(existingActivity, item);
-      } else {
-        return this.service.createActivity(item, this.day);
-      }
-    });
+    this.day.activities = this.service.processActivityFormArray(this.ActivityFormArray, this.day);
 
     await this.activitiesRepository.save(this.day.activities);
 
