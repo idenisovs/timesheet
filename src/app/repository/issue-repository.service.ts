@@ -14,6 +14,10 @@ export class IssueRepositoryService {
     return this.db.issues.where('key').equals(issueKey).first();
   }
 
+  async getByKeyPrefix(issueKeyPrefix: string): Promise<Issue[]> {
+    return this.db.issues.where('key').startsWith(issueKeyPrefix).toArray();
+  }
+
   async create(issue: Issue): Promise<Issue> {
     await this.db.issues.add(issue);
     return issue;

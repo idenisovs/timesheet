@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import parseDuration from 'parse-duration';
-import { SheetStoreService } from './sheet-store.service';
+
 import { Issue } from '../dto';
 import { duration } from 'yet-another-duration';
 import { HOUR } from '../constants';
@@ -9,13 +9,7 @@ import { HOUR } from '../constants';
   providedIn: 'root'
 })
 export class IssuesService {
-  db = this.sheetStore.Instance;
-
-  constructor(private sheetStore: SheetStoreService) { }
-
-  getByKey(key: string) {
-    return this.db.issues.where('key').startsWith(key).toArray();
-  }
+  constructor() { }
 
   sort(issue1: Issue, issue2: Issue) {
     if (issue1.createdAt > issue2.createdAt) {
