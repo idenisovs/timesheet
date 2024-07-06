@@ -1,4 +1,5 @@
-import { Activity, CreateIssue } from '../../../dto';
+import { Activity } from '../../../dto';
+import { CreateIssue } from '../types';
 
 export default function createIssue(issues: Map<string, CreateIssue>, issueKey: string, activity: Activity, sheetDate: Date) {
   const [, ...issueName] = activity.name.split(':')

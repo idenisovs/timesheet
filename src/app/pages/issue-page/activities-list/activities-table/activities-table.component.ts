@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { DatePipe, NgForOf } from '@angular/common';
-import { IssueActivity } from '../../../../dto';
+import { Activity } from '../../../../dto';
 
 @Component({
   selector: 'app-activities-table',
@@ -14,5 +14,5 @@ import { IssueActivity } from '../../../../dto';
 })
 export class ActivitiesTableComponent {
   @Input()
-  activities: IssueActivity[] = [];
+  activities: Activity[] = [];
 }

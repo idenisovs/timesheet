@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DatePipe, NgForOf } from '@angular/common';
-import { IssueActivity } from '../../../dto';
+
 import { getDateString } from '../../../utils';
 import { ActivitiesTableComponent } from './activities-table/activities-table.component';
+import { Activity } from '../../../dto';
 
 @Component({
   selector: 'app-activities-list',
@@ -17,9 +18,9 @@ import { ActivitiesTableComponent } from './activities-table/activities-table.co
 })
 export class ActivitiesListComponent implements OnInit {
   @Input()
-  activities: IssueActivity[] = [];
+  activities: Activity[] = [];
 
-  activitiesByDate = new Map<string, IssueActivity[]>();
+  activitiesByDate = new Map<string, Activity[]>();
   activityDates: string[] = [];
 
   ngOnInit() {
@@ -28,8 +29,8 @@ export class ActivitiesListComponent implements OnInit {
   }
 
   private groupByDate() {
-    this.activities.forEach((activity: IssueActivity) => {
-      const activityDate = getDateString(activity.createdAt);
+    this.activities.forEach((activity: Activity) => {
+      const activityDate = getDateString(activity.date);
 
       if (this.activitiesByDate.has(activityDate)) {
         this.activitiesByDate.get(activityDate)?.push(activity);

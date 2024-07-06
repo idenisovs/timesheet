@@ -21,7 +21,3 @@ export class Activity {
     this.isImported = false;
   }
 }
-
-export interface IssueActivity extends Activity {
-  createdAt: Date;
-}

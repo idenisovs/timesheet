@@ -1,6 +1,7 @@
-import { Activity, CreateIssue } from '../../../dto';
+import { Activity } from '../../../dto';
 import updateIssue from './update-issue';
 import createIssue from './create-issue';
+import { CreateIssue } from '../types';
 
 
 export default function upsertIssue(issues: Map<string, CreateIssue>, activity: Activity, sheetDate: Date) {
