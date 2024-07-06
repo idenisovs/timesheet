@@ -18,7 +18,7 @@ export class WeeksRepositoryService {
     const weeks = this.map(raw);
 
     for (let week of weeks) {
-      const dayEntities = await this.db.days.where('weekId').equals(week.id).toArray();
+      const dayEntities = await this.db.days.where('weekId').equals(week.id).reverse().sortBy('date');
 
       week.days = dayEntities.map((entity) => Day.build(entity));
 

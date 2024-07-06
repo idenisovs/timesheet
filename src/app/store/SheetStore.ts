@@ -1,5 +1,5 @@
 import Dexie, { Transaction } from 'dexie';
-import { Sheet, Issue, Project, Week, Activity } from '../dto';
+import { Sheet, Issue, Project, Activity } from '../dto';
 import migrateV2 from './migrate-v2';
 import migrateV3 from './migrate-v3';
 import migrateV5 from './migrate-v5';
