@@ -18,6 +18,10 @@ export class ActivitiesRepositoryService {
     return this.db.activities.where('dayId').equals(day.id).toArray();
   }
 
+  getByIssueKey(issueKey: string): Promise<Activity[]> {
+    return this.db.activities.where('name').startsWith(issueKey).toArray();
+  }
+
   async save(activities: Activity[]): Promise<void> {
     await this.db.activities.bulkPut(activities);
   }
