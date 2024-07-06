@@ -2,12 +2,6 @@
 
 This file contains list of things and thoughts about features I'd like to put in Timesheet App.
 
-## Issues view
-
-I decided to make Issues view first. This view allow to oversee the summary of Issues. As it has a lot of different things to do, I decided to move specification into separate file. 
-
-See it [here](./issues).
-
 ## Weekly view
 
 At the moment the application creates daily sheet only in case if you open the app in that day.
@@ -23,20 +17,6 @@ I'd like to put some Analytics here, so you'll be able to get all or some projec
 ### Tags
 
 I think there should be possibility to mark activities with tags. Therefore, there will be possibility to make and process metadata.
-
-## Projects
-
-### Update (2024-03-07)
-
-Probably, the better name for this section is **Categories**.
-
-### Initial version
-
-BTW, it might have the Projects section, so if you save activities in form of `ABC-123: Hello World`, you should be able to define the group or _project_ for them. 
-
-Like define a rule for all activities starting with `ABC-XXX:` - _Those activities are belongs to some project with name ABC._
-
-And you should be able to set the Project description and get here some overview / analytics too. 
 
 ## Sync
 
