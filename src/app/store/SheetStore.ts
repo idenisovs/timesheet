@@ -1,7 +1,8 @@
 import Dexie, { Transaction } from 'dexie';
+
 import { Sheet, Issue, Project, Activity } from '../dto';
 import index from './migrate-v2';
-import migrateV3 from './migrate-v3/migrate-v3';
+import migrateV3 from './migrate-v3';
 import migrateV5 from './migrate-v5';
 import { WeekEntity, DayEntity } from './entities';
 

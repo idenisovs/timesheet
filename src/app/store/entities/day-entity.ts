@@ -1,5 +1,5 @@
 export interface DayEntity {
   id: string;
-  date: string;
+  date: Date;
   weekId: string;
 }
