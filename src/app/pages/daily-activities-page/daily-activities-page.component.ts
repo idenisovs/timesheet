@@ -38,7 +38,7 @@ export class DailyActivitiesPageComponent implements OnInit {
       await db.weeks.add(currentWeek);
     }
 
-    const currentDay = await db.days.where('date').equals(today.toISOString()).first();
+    const currentDay = await db.days.where('date').equals(today).first();
 
     if (!currentDay) {
       const day = new Day();
