@@ -5,31 +5,27 @@ import { first, map, switchMap } from 'rxjs/operators';
 import parseDuration from 'parse-duration';
 import { duration } from 'yet-another-duration';
 
-import { SheetStoreService } from '../../../services/sheet-store.service';
 import { Issue } from '../../../dto';
+import { IssueRepositoryService } from '../../../repository/issue-repository.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreateIssueModalService {
-  db = this.store.Instance;
-
-  constructor(private store: SheetStoreService) { }
+  constructor(
+    private issueRepository: IssueRepositoryService
+  ) { }
 
   async save(name: string, estimate: string) {
     const [key, ...nameParts] = name.split(':');
 
-    const id = await this.db.issues.add({
-      id: crypto.randomUUID(),
+    const issue = new Issue({
       key,
       name: nameParts.join(':').trim(),
-      activities: [],
-      duration: '',
-      estimate: this.normalizeDuration(estimate),
-      createdAt: new Date()
-    } as unknown as Issue);
+      estimate: this.normalizeDuration(estimate)
+    })
 
-    return await this.db.issues.get(id) as Issue;
+    return this.issueRepository.create(issue);
   }
 
   existingIssueNameValidator(): AsyncValidatorFn {
@@ -38,7 +34,7 @@ export class CreateIssueModalService {
         .pipe(
           switchMap(() => {
             const issueKey = control.value.split(':')[0];
-            return this.db.issues.where('key').equals(issueKey).first();
+            return this.issueRepository.getByKey(issueKey);
           }),
           map((issue: Issue | undefined) => {
             if (!issue) {
