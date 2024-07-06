@@ -41,6 +41,7 @@ export class ActivityWorkflowService {
         issue = await this.createIssue(issueKey, activityGroup[activityGroup.length-1]);
       }
 
+      issue.activities = activityGroup.map(activity => activity.id);
       issue.duration = this.activitiesService.calculateDuration(activityGroup);
       await this.issueRepository.update(issue);
     }

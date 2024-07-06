@@ -18,6 +18,10 @@ export class ActivitiesRepositoryService {
     return this.db.activities.where('dayId').equals(day.id).toArray();
   }
 
+  getByIds(ids: string[]): Promise<Activity[]> {
+    return this.db.activities.where('id').anyOf(ids).reverse().sortBy('date');
+  }
+
   getByIssueKey(issueKey: string): Promise<Activity[]> {
     return this.db.activities.where('name').startsWith(issueKey).reverse().sortBy('date');
   }
