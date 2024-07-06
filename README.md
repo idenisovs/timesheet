@@ -30,8 +30,10 @@ npm start
   * [Completed](./docs/completed.md)
 * Refactorings:
   * [Database Structure](./docs/refactoring/database_structure.md)
-* Issues View:
-  * [Accuracy Points](./docs/accuracy_points.md)
+* Views
+  * [Daily Activities View](./docs/views/daily_activity.md)
+  * [Issues View](./docs/views/issues.md)
+    * [Accuracy Points](./docs/accuracy_points.md)
 
 ## Versions
 
