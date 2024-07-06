@@ -2,19 +2,13 @@ import { Transaction } from 'dexie';
 
 import SheetStore from './SheetStore';
 import { getDateString, getMonday, startOfDay } from '../utils';
-import { Activity, Sheet, Week } from '../dto';
-import { Day } from '../dto/Day';
+import { Activity, Sheet, Week, Day } from '../dto';
 
 export default async function migrateV5(store: SheetStore, trans: Transaction) {
-  console.log('MIGRATION!!!');
-
   const sheets = await store.sheet.orderBy('date').reverse().toArray();
   const weeks = groupByWeek(sheets);
   const activities = getAllActivities(sheets);
   const days = groupByDay(activities);
-
-  console.log('Days:');
-  console.log(days);
 
   return Promise.all([
     trans.table('weeks').bulkPut(weeks),
