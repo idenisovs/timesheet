@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Activity } from '../dto';
+import { Activity, Issue } from '../dto';
 import {ActivitiesRepositoryService} from '../repository/activities-repository.service';
 import { ActivitiesService } from '../services/activities.service';
 import { IssueRepositoryService } from '../repository/issue-repository.service';
@@ -38,23 +38,18 @@ export class ActivityWorkflowService {
       let issue = await this.issueRepository.getByKey(issueKey);
 
       if (!issue) {
-        issue = await this.createIssue(issueKey, activityGroup[activityGroup.length-1]);
+        const firstActivity = activityGroup[activityGroup.length-1];
+        issue = new Issue({
+          key: issueKey,
+          name: this.activitiesService.getShortName(firstActivity.name),
+          createdAt: firstActivity.date
+        });
       }
 
       issue.activities = activityGroup.map(activity => activity.id);
       issue.duration = this.activitiesService.calculateDuration(activityGroup);
+
       await this.issueRepository.update(issue);
     }
-  }
-
-  private async createIssue(key: string, activity: Activity) {
-    return {
-      id: crypto.randomUUID() as string,
-      key,
-      name: this.activitiesService.getShortName(activity.name),
-      activities: [],
-      duration: '0m',
-      createdAt: activity.date
-    };
   }
 }
