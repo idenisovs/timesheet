@@ -27,7 +27,7 @@ export class Day {
 
     return {
       id,
-      date: date.toISOString(),
+      date,
       weekId
     };
   }
