@@ -118,7 +118,6 @@ export class DailyActivitiesComponent implements OnInit {
 
     if (this.sheet?.activities) {
       this.sheet.activities = this.form.get('activities')?.value;
-      this.dailyActivities.triggerIssueSync();
     }
   }
 
