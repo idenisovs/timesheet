@@ -4,6 +4,7 @@ import { Observable, timer } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
 import parseDuration from 'parse-duration';
 import { duration } from 'yet-another-duration';
+
 import { SheetStoreService } from '../../../services/sheet-store.service';
 import { Issue } from '../../../dto';
 
@@ -19,6 +20,7 @@ export class CreateIssueModalService {
     const [key, ...nameParts] = name.split(':');
 
     const id = await this.db.issues.add({
+      id: crypto.randomUUID(),
       key,
       name: nameParts.join(':').trim(),
       activities: [],

@@ -18,14 +18,14 @@ export class ActivityWorkflowService {
 
   public async save(activities: Activity[]) {
     await this.activitiesRepository.save(activities);
-    await this.processIssues(activities);
+    await this.updateIssues(activities);
   }
 
   public async remove(activityIds: string[]) {
     await this.activitiesRepository.remove(activityIds);
   }
 
-  private async processIssues(activities: Activity[]) {
+  private async updateIssues(activities: Activity[]) {
     const issueKeys = this.activitiesService.getIssueKeys(activities);
 
     for (const issueKey of issueKeys) {
