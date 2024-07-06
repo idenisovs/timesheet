@@ -28,7 +28,7 @@ The data migration task means that application should able to migrate user's dat
 
 It should be able to properly perform all required operations with new data structure.
 
-## Rework of Isses view
+## Rework of Issues view
 
 It should be able to calculate activity metrics from new structure.
 

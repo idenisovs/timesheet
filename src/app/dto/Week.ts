@@ -1,6 +1,6 @@
 import { endOfDay, getMonday, getSunday, startOfDay } from '../utils';
 import { Day } from './Day';
-import { WeekEntity } from '../store/entities/week-entity';
+import { WeekEntity } from '../store/entities';
 
 export class Week {
   id: string = crypto.randomUUID();

@@ -1,6 +1,6 @@
 # Completed things
 
-## Projects
+## Projects (2024-03-13)
 
 ### Update (2024-03-07)
 
@@ -14,7 +14,7 @@ Like define a rule for all activities starting with `ABC-XXX:` - _Those activiti
 
 And you should be able to set the Project description and get here some overview / analytics too.
 
-## Issues view
+## Issues view (2024-03-01)
 
 I decided to make Issues view first. This view allow to oversee the summary of Issues. As it has a lot of different things to do, I decided to move specification into separate file.
 

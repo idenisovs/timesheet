@@ -28,6 +28,8 @@ npm start
 * Features:
   * [To Do](./docs/todo.md)
   * [Completed](./docs/completed.md)
+* Refactorings:
+  * [Database Structure](./docs/refactoring/database_structure.md)
 * Issues View:
   * [Accuracy Points](./docs/accuracy_points.md)
 
