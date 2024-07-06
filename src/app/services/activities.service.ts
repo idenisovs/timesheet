@@ -26,6 +26,16 @@ export class ActivitiesService {
     return activityName.split(':').pop() ?? 'n/a';
   }
 
+  public getIssueKeys(activities: Activity[]): string[] {
+    const issueKeys = activities.reduce<Set<string>>((result: Set<string>, activity: Activity) => {
+      const issueKey = this.getIssueKey(activity.name);
+      result.add(issueKey);
+      return result;
+    }, new Set<string>());
+
+    return Array.from(issueKeys);
+  }
+
   public getIssueKey(activityName: string): string {
     return activityName.split(':').shift() ?? 'n/a';
   }
