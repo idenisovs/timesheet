@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { duration } from 'yet-another-duration';
-import { Sheet, Week } from '../../../dto';
-import { calculateTotalDuration, getDateString } from '../../../utils';
+
+import { Day, Week } from '../../../dto';
+import { calculateTotalDuration } from '../../../utils';
 
 type Totals = {
   duration: number;
@@ -53,14 +54,18 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // this.totals = this.week.days.reduce<Totals>((result: Totals, sheet: Sheet) => {
-    //   result.duration += calculateTotalDuration(sheet.activities);
-    //   result.activities += sheet.activities.length;
-    //   return result;
-    // }, {
-    //   activities: 0,
-    //   duration: 0
-    // });
+    this.calculateWeekSummary();
+  }
+
+  calculateWeekSummary() {
+    this.totals = this.week.days.reduce<Totals>((result: Totals, day: Day) => {
+      result.duration += calculateTotalDuration(day.activities);
+      result.activities += day.activities.length;
+      return result;
+    }, {
+      activities: 0,
+      duration: 0
+    });
   }
 
   toggleMissingDays() {
@@ -72,5 +77,4 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
     //   this.week.removeMissingDays();
     // }
   }
-
 }
