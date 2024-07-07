@@ -19,11 +19,7 @@ export class ActivitiesService {
   }
 
   public filterActive(activities: Activity[]): Activity[] {
-    return activities.filter((activity) => !!activity.duration)
-  }
-
-  public getShortName(activityName: string): string {
-    return activityName.split(':').pop() ?? 'n/a';
+    return activities.filter((activity) => activity.isActive());
   }
 
   public getIssueKeys(activities: Activity[]): string[] {
