@@ -1,5 +1,11 @@
 <ng-container *ngIf="week">
   <app-daily-activities-week-header [week]="week" />
 
-  <app-daily-activities-week-day *ngFor="let day of week.days" [day]="day"/>
+  <ng-container *ngFor="let day of week.days">
+    <app-daily-activities-week-day *ngIf="!day.isMissing; else MissingDay" [day]="day" />
+    <ng-template #MissingDay>
+      <app-daily-activities-week-day-missing />
+    </ng-template>
+  </ng-container>
+
 </ng-container>
