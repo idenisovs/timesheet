@@ -17,7 +17,7 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
   @Input()
   week = new Week();
 
-  showingMissingDays = false;
+  isMissingDaysVisible = false;
 
   get TotalHours(): string {
     if (!this.totals.duration) {
@@ -33,7 +33,7 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
   }
 
   get MissingDaysButtonLabel(): string {
-    if (this.showingMissingDays) {
+    if (this.isMissingDaysVisible) {
       return 'Hide missing days';
     } else {
       return 'Show missing days';
@@ -47,12 +47,12 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
   }
 
   toggleMissingDays() {
-    this.showingMissingDays = !this.showingMissingDays;
+    this.isMissingDaysVisible = !this.isMissingDaysVisible;
 
-    // if (this.showingMissingDays) {
-    //   this.week.fulfillMissingDays();
-    // }  else {
-    //   this.week.removeMissingDays();
-    // }
+    if (this.isMissingDaysVisible) {
+      this.week.showMissingDays();
+    }  else {
+      this.week.hideMissingDays();
+    }
   }
 }

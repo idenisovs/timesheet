@@ -1,4 +1,4 @@
-import { calculateTotalDuration, endOfDay, getMonday, getSunday, startOfDay } from '../utils';
+import { calculateTotalDuration, endOfDay, getDateString, getMonday, getSunday, startOfDay } from '../utils';
 import { Day } from './Day';
 import { WeekEntity } from '../store/entities';
 
@@ -26,6 +26,40 @@ export class Week {
     }, {
       activities: 0,
       duration: 0
+    });
+  }
+
+  showMissingDays() {
+    const schedule: Day[] = [];
+    const currentDate = startOfDay(this.till);
+
+    for (let idx = 0; idx < 7; idx++) {
+      const expectedDay = this.findByDate(currentDate);
+
+      if (expectedDay) {
+        schedule.push(expectedDay);
+      } else {
+        const missingDay = new Day(currentDate);
+        missingDay.weekId = this.id;
+        missingDay.isMissing = true;
+        schedule.push(missingDay);
+      }
+
+      currentDate.setDate(currentDate.getDate() - 1);
+    }
+
+    this.days = schedule;
+  }
+
+  hideMissingDays() {
+    this.days = this.days.filter((day: Day) => !day.isMissing);
+  }
+
+  private findByDate(date: Date): Day | undefined {
+    const targetDate = getDateString(date);
+    return this.days.find((day: Day) => {
+      const matchingDate = getDateString(day.date);
+      return targetDate === matchingDate;
     });
   }
 

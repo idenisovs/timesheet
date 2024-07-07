@@ -6,10 +6,11 @@ export class Day {
   date: Date = new Date();
   weekId: string = '';
   activities: Activity[] = [];
+  isMissing?: boolean;
 
   constructor(date?: Date) {
     if (date) {
-      this.date = date;
+      this.date = new Date(date);
     }
 
     this.date.setHours(0, 0, 0, 0);
