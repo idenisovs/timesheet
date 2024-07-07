@@ -16,6 +16,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import {
 	DailyActivitiesWeekDayComponent
 } from './components/daily-activities-week-day/daily-activities-week-day.component';
+import {
+	DailyActivitiesWeekDayMissingComponent
+} from './components/daily-activities-week-day-missing/daily-activities-week-day-missing.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,7 @@ import {
 		NgbModule,
 		NavbarComponent,
 		DailyActivitiesWeekDayComponent,
+		DailyActivitiesWeekDayMissingComponent,
 	],
   providers: [],
   bootstrap: [AppComponent]
