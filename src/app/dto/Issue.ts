@@ -1,4 +1,6 @@
 export class Issue {
+  public static readonly KEY_PATTERN = /^\w+-\d+/;
+
   id = crypto.randomUUID();
   key = '';
   name = '';

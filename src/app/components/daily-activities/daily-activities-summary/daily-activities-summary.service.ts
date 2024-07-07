@@ -51,7 +51,7 @@ export class DailyActivitiesSummaryService {
       if (existingActivity) {
         existingActivity.duration = this.activitiesService.calculateDuration([ existingActivity, activity ]);
       } else {
-        mergedActivities.push({ ...activity });
+        // mergedActivities.push({ ...activity });
       }
 
       return mergedActivities;
@@ -62,7 +62,7 @@ export class DailyActivitiesSummaryService {
     const issues = new Map<string, DailyActivitiesSummaryIssue>();
 
     for (let activity of activities) {
-      const issueKey = this.activitiesService.getIssueKey(activity.name);
+      const issueKey = activity.getIssueKey();
 
       if (!issueKey) {
         continue;
@@ -82,10 +82,10 @@ export class DailyActivitiesSummaryService {
   }
 
   private appendActivityList(issue: DailyActivitiesSummaryIssue, activity: Activity) {
-    issue.activities.push({
-      ...activity,
-      name: this.activitiesService.getShortName(activity.name)
-    });
+    // issue.activities.push({
+    //   ...activity,
+    //   name: this.activitiesService.getShortName(activity.name)
+    // });
   }
 
   private processIssueList(issues: DailyActivitiesSummaryIssue[]) {
@@ -109,19 +109,19 @@ export class DailyActivitiesSummaryService {
   }
 
   private setIssueNames(issues: DailyActivitiesSummaryIssue[]) {
-    issues.forEach((issue: DailyActivitiesSummaryIssue) => {
-      const issueKey = this.activitiesService.getIssueKey(issue.name);
-
-      if (!issueKey) {
-        return;
-      }
-
-      this.findIssueRecord(issueKey).then((existingIssueRecord) => {
-        if (existingIssueRecord) {
-          issue.name = `${existingIssueRecord.key}: ${existingIssueRecord.name}`;
-        }
-      });
-    });
+    // issues.forEach((issue: DailyActivitiesSummaryIssue) => {
+    //   const issueKey = this.activitiesService.getIssueKey(issue.name);
+    //
+    //   if (!issueKey) {
+    //     return;
+    //   }
+    //
+    //   this.findIssueRecord(issueKey).then((existingIssueRecord) => {
+    //     if (existingIssueRecord) {
+    //       issue.name = `${existingIssueRecord.key}: ${existingIssueRecord.name}`;
+    //     }
+    //   });
+    // });
   }
 
   private async findIssueRecord(issueKey: string): Promise<IssueRecord | undefined> {
