@@ -64,6 +64,10 @@ export class DailyActivitiesSummaryService {
     for (let activity of activities) {
       const issueKey = this.activitiesService.getIssueKey(activity.name);
 
+      if (!issueKey) {
+        continue;
+      }
+
       if (issues.has(issueKey)) {
         const issue = issues.get(issueKey) as DailyActivitiesSummaryIssue;
         this.appendActivityList(issue, activity);
@@ -107,6 +111,10 @@ export class DailyActivitiesSummaryService {
   private setIssueNames(issues: DailyActivitiesSummaryIssue[]) {
     issues.forEach((issue: DailyActivitiesSummaryIssue) => {
       const issueKey = this.activitiesService.getIssueKey(issue.name);
+
+      if (!issueKey) {
+        return;
+      }
 
       this.findIssueRecord(issueKey).then((existingIssueRecord) => {
         if (existingIssueRecord) {
