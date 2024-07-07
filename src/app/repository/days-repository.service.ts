@@ -29,7 +29,8 @@ export class DaysRepositoryService {
   }
 
   async create(day: Day): Promise<Day> {
-    await this.db.days.add(day);
+    const entity = Day.entity(day);
+    await this.db.days.add(entity);
     return day;
   }
 
