@@ -27,20 +27,20 @@ export class ActivitiesService {
   }
 
   public getIssueKeys(activities: Activity[]): string[] {
-    const issueKeys = activities.reduce<Set<string>>((result: Set<string>, activity: Activity) => {
-      const issueKey = this.getIssueKey(activity.name);
+    const issueKeys: string[] = activities
+      .map(activity => this.getIssueKey(activity.name))
+      .filter(issueKey => issueKey !== null) as string[];
 
-      if (issueKey) {
-        result.add(issueKey);
-      }
+    const uniqueIssueKeys = new Set(issueKeys);
 
-      return result;
-    }, new Set<string>());
-
-    return Array.from(issueKeys);
+    return Array.from(uniqueIssueKeys);
   }
 
-  public getIssueKey(activityName: string): string {
-    return activityName.split(':').shift() ?? 'n/a';
+  public getIssueKey(activityName: string): string | null {
+    if (activityName.match(/\w+-\d+:/)) {
+      return activityName.split(':').shift() as string;
+    } else {
+      return null;
+    }
   }
 }
