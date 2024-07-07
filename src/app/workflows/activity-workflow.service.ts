@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { Activity, Issue } from '../dto';
+import { Activity, Day, Issue } from '../dto';
 import {ActivitiesRepositoryService} from '../repository/activities-repository.service';
 import { ActivitiesService } from '../services/activities.service';
 import { IssueRepositoryService } from '../repository/issue-repository.service';
+import { DaysRepositoryService } from '../repository/days-repository.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,24 @@ export class ActivityWorkflowService {
 
   constructor(
     private issueRepository: IssueRepositoryService,
+    private dayRepository: DaysRepositoryService,
     private activitiesRepository: ActivitiesRepositoryService,
     private activitiesService: ActivitiesService
   ) { }
 
-  public async save(activities: Activity[]) {
+  public async save(day: Day, activities: Activity[], removableActivityIds: string[]) {
+    await this.createDayIfNotExists(day);
+    await this.activitiesRepository.remove(removableActivityIds);
     await this.activitiesRepository.save(activities);
     await this.updateIssues(activities);
+  }
+
+  private async createDayIfNotExists(day: Day) {
+    const existingDay = await this.dayRepository.getById(day.id);
+
+    if (!existingDay) {
+      await this.dayRepository.create(day);
+    }
   }
 
   public async remove(activityIds: string[]) {
