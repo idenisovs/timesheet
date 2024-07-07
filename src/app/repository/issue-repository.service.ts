@@ -9,10 +9,15 @@ import { Issue } from '../dto';
 export class IssueRepositoryService {
   private db = this.store.Instance;
 
-  constructor(private store: SheetStoreService) { }
+  constructor(private store: SheetStoreService) {
+  }
 
-  async getByKey(issueKey: string): Promise<Issue|undefined> {
+  async getByKey(issueKey: string): Promise<Issue | undefined> {
     return this.db.issues.where('key').equals(issueKey).first();
+  }
+
+  async getByActivityIds(activityIds: string[]): Promise<Issue[]> {
+    return this.db.issues.where('activities').anyOf(activityIds).toArray();
   }
 
   async getByKeyPrefix(issueKeyPrefix: string): Promise<Issue[]> {
