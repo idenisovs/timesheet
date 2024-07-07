@@ -14,6 +14,7 @@ import { DailyActivitiesService } from '../daily-activities/daily-activities.ser
 import { DailyActivitiesWeekDayService } from './daily-activities-week-day.service';
 import { DailyActivitiesForm, ActivityFormGroup } from './DailyActivitiesForm';
 import { ActivityWorkflowService } from '../../workflows/activity-workflow.service';
+import { DaysRepositoryService } from '../../repository/days-repository.service';
 
 @Component({
   selector: 'app-daily-activities-week-day',
@@ -55,7 +56,8 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private service: DailyActivitiesWeekDayService,
     private activitiesService: DailyActivitiesService,
-    private activityWorkflow: ActivityWorkflowService
+    private activityWorkflow: ActivityWorkflowService,
+    private dayRepository: DaysRepositoryService
   ) {}
 
   ngOnInit() {
@@ -103,6 +105,13 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     }
 
     this.day.activities = this.service.processActivityFormArray(this.ActivityFormArray, this.day);
+
+    const existingDay = await this.dayRepository.getById(this.day.id);
+
+    if (!existingDay) {
+      await this.dayRepository.create(this.day);
+    }
+
     await this.activityWorkflow.save(this.day.activities);
 
     this.totalDuration = this.activitiesService.getTotalDuration(this.day.activities);
