@@ -22,4 +22,28 @@ export class Activity {
 
     return issueKey;
   }
+
+  getShortName(): string {
+    const issueKey = this.getIssueKey();
+
+    let name = this.name;
+
+    if (issueKey) {
+      name = name.replace(issueKey, '');
+    }
+
+    if (name.startsWith(':')) {
+      name = name.slice(1);
+    }
+
+    return name.trim();
+  }
+
+  isActive(): boolean {
+    if (!this.duration.trim().length) {
+      return false;
+    }
+
+    return !this.duration.startsWith('0');
+  }
 }

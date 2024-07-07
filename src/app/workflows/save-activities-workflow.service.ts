@@ -89,7 +89,7 @@ export class SaveActivitiesWorkflowService {
 
     return new Issue({
       key: issueKey,
-      name: this.activitiesService.getShortName(firstActivity.name),
+      name: firstActivity.getShortName(),
       createdAt: firstActivity.date
     });
   }
