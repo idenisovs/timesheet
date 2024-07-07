@@ -19,10 +19,10 @@ export class ActivityWorkflowService {
   ) { }
 
   public async save(day: Day, activities: Activity[], removableActivityIds: string[]) {
-    await this.createDayIfNotExists(day);
     await this.activitiesRepository.remove(removableActivityIds);
+    await this.createDayIfNotExists(day);
     await this.activitiesRepository.save(activities);
-    await this.updateIssues(activities);
+    await this.processAffectedIssues(activities);
   }
 
   private async createDayIfNotExists(day: Day) {
@@ -33,11 +33,7 @@ export class ActivityWorkflowService {
     }
   }
 
-  public async remove(activityIds: string[]) {
-    await this.activitiesRepository.remove(activityIds);
-  }
-
-  private async updateIssues(activities: Activity[]) {
+  private async processAffectedIssues(activities: Activity[]) {
     const issueKeys = this.activitiesService.getIssueKeys(activities);
 
     for (const issueKey of issueKeys) {
@@ -45,23 +41,31 @@ export class ActivityWorkflowService {
         continue;
       }
 
-      const activityGroup = await this.activitiesRepository.getByIssueKey(issueKey);
-
-      let issue = await this.issueRepository.getByKey(issueKey);
-
-      if (!issue) {
-        const firstActivity = activityGroup[activityGroup.length-1];
-        issue = new Issue({
-          key: issueKey,
-          name: this.activitiesService.getShortName(firstActivity.name),
-          createdAt: firstActivity.date
-        });
-      }
-
-      issue.activities = activityGroup.map(activity => activity.id);
-      issue.duration = this.activitiesService.calculateDuration(activityGroup);
-
-      await this.issueRepository.update(issue);
+      await this.updateIssue(issueKey);
     }
+  }
+
+  private async updateIssue(issueKey: string) {
+    let issue = await this.issueRepository.getByKey(issueKey);
+    const activities = await this.activitiesRepository.getByIssueKey(issueKey);
+
+    if (!issue) {
+      issue = this.createMissingIssue(issueKey, activities);
+    }
+
+    issue.activities = activities.map(activity => activity.id);
+    issue.duration = this.activitiesService.calculateDuration(activities);
+
+    await this.issueRepository.update(issue);
+  }
+
+  private createMissingIssue(issueKey: string, activities: Activity[]) {
+    const firstActivity = activities[activities.length-1];
+
+    return new Issue({
+      key: issueKey,
+      name: this.activitiesService.getShortName(firstActivity.name),
+      createdAt: firstActivity.date
+    });
   }
 }
