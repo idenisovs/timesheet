@@ -1,23 +1,25 @@
+import { Issue } from './Issue';
+
 export class Activity {
-  id: string;
-  name: string;
-  date: Date;
-  from: string;
-  till: string;
-  duration: string;
-  weekId: string;
-  dayId: string;
+  id = crypto.randomUUID() as string;
+  name = '';
+  date = new Date();
+  from = '';
+  till = '';
+  duration = '0m';
+  weekId = '';
+  dayId = '';
   isImported?: boolean;
 
-  constructor() {
-    this.id = crypto.randomUUID();
-    this.name = '';
-    this.date = new Date();
-    this.from = '';
-    this.till = '';
-    this.duration = '';
-    this.weekId = '';
-    this.dayId = '';
-    this.isImported = false;
+  getIssueKey(): string | null {
+    const match = this.name.match(Issue.KEY_PATTERN);
+
+    if (!match) {
+      return null;
+    }
+
+    const [issueKey] = match;
+
+    return issueKey;
   }
 }

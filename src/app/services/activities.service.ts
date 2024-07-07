@@ -28,19 +28,11 @@ export class ActivitiesService {
 
   public getIssueKeys(activities: Activity[]): string[] {
     const issueKeys: string[] = activities
-      .map(activity => this.getIssueKey(activity.name))
+      .map(activity => activity.getIssueKey())
       .filter(issueKey => issueKey !== null) as string[];
 
     const uniqueIssueKeys = new Set(issueKeys);
 
     return Array.from(uniqueIssueKeys);
-  }
-
-  public getIssueKey(activityName: string): string | null {
-    if (activityName.match(/\w+-\d+:/)) {
-      return activityName.split(':').shift() as string;
-    } else {
-      return null;
-    }
   }
 }

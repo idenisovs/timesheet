@@ -1,6 +1,5 @@
 import { sumDuration } from '../../../utils';
-import { Activity } from '../../../dto';
-import { CreateIssue } from '../types';
+import { Activity, CreateIssue } from '../types';
 
 export default function updateIssue(issues: Map<string, CreateIssue>, issueKey: string, activity: Activity, sheetDate: Date) {
   const issue = issues.get(issueKey) as CreateIssue;
