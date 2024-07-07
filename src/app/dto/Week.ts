@@ -1,6 +1,11 @@
-import { endOfDay, getMonday, getSunday, startOfDay } from '../utils';
+import { calculateTotalDuration, endOfDay, getMonday, getSunday, startOfDay } from '../utils';
 import { Day } from './Day';
 import { WeekEntity } from '../store/entities';
+
+export interface WeekSummary {
+  duration: number;
+  activities: number;
+}
 
 export class Week {
   id: string = crypto.randomUUID();
@@ -11,6 +16,17 @@ export class Week {
   constructor(date = new Date()) {
     this.from = startOfDay(getMonday(date));
     this.till = endOfDay(getSunday(date));
+  }
+
+  getSummary(): WeekSummary {
+    return this.days.reduce<WeekSummary>((result: WeekSummary, day: Day) => {
+      result.duration += calculateTotalDuration(day.activities);
+      result.activities += day.activities.length;
+      return result;
+    }, {
+      activities: 0,
+      duration: 0
+    });
   }
 
   static build(source: WeekEntity): Week {

@@ -1,18 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { duration } from 'yet-another-duration';
 
-import { Day, Week } from '../../../dto';
-import { calculateTotalDuration } from '../../../utils';
-
-type Totals = {
-  duration: number;
-  activities: number;
-}
-
-type DateInterval = {
-  min: string,
-  max: string
-}
+import { Week, WeekSummary } from '../../../dto';
 
 @Component({
   selector: 'app-daily-activities-week-header',
@@ -20,7 +9,7 @@ type DateInterval = {
   styleUrls: ['./daily-activities-week-header.component.scss']
 })
 export class DailyActivitiesWeekHeaderComponent implements OnInit {
-  totals: Totals = {
+  totals: WeekSummary = {
     duration: 0,
     activities: 0
   };
@@ -32,7 +21,7 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
 
   get TotalHours(): string {
     if (!this.totals.duration) {
-      return '0';
+      return '0m';
     }
 
     return duration(this.totals.duration, {
@@ -54,18 +43,7 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.calculateWeekSummary();
-  }
-
-  calculateWeekSummary() {
-    this.totals = this.week.days.reduce<Totals>((result: Totals, day: Day) => {
-      result.duration += calculateTotalDuration(day.activities);
-      result.activities += day.activities.length;
-      return result;
-    }, {
-      activities: 0,
-      duration: 0
-    });
+    this.totals = this.week.getSummary();
   }
 
   toggleMissingDays() {
