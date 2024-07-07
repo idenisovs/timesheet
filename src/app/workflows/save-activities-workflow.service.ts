@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 
-import { Activity, Day, Issue } from '../dto';
-import {ActivitiesRepositoryService} from '../repository/activities-repository.service';
-import { ActivitiesService } from '../services/activities.service';
 import { IssueRepositoryService } from '../repository/issue-repository.service';
 import { DaysRepositoryService } from '../repository/days-repository.service';
+import { ActivitiesRepositoryService } from '../repository/activities-repository.service';
+import { ActivitiesService } from '../services/activities.service';
+import { Activity, Day, Issue } from '../dto';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ActivityWorkflowService {
+export class SaveActivitiesWorkflowService {
 
   constructor(
     private issueRepository: IssueRepositoryService,
