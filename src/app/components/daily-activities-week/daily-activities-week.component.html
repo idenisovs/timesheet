@@ -4,7 +4,7 @@
   <ng-container *ngFor="let day of week.days">
     <app-daily-activities-week-day *ngIf="!day.isMissing; else MissingDay" [day]="day" />
     <ng-template #MissingDay>
-      <app-daily-activities-week-day-missing />
+      <app-daily-activities-week-day-missing [day]="day" />
     </ng-template>
   </ng-container>
 
