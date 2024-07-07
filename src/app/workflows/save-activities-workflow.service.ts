@@ -22,7 +22,7 @@ export class SaveActivitiesWorkflowService {
     await this.activitiesRepository.remove(removableActivityIds);
     await this.createDayIfNotExists(day);
     await this.activitiesRepository.save(activities);
-    await this.processAffectedIssues(activities);
+    await this.processAffectedIssues(activities, removableActivityIds);
   }
 
   private async createDayIfNotExists(day: Day) {
@@ -33,8 +33,8 @@ export class SaveActivitiesWorkflowService {
     }
   }
 
-  private async processAffectedIssues(activities: Activity[]) {
-    const issueKeys = this.activitiesService.getIssueKeys(activities);
+  private async processAffectedIssues(activities: Activity[], removedActivityIds: string[]) {
+    const issueKeys = await this.getAffectedIssueKeys(activities, removedActivityIds);
 
     for (const issueKey of issueKeys) {
       if (!issueKey.match(/^\w+-\d+/)) {
@@ -43,6 +43,31 @@ export class SaveActivitiesWorkflowService {
 
       await this.updateIssue(issueKey);
     }
+  }
+
+  private async getAffectedIssueKeys(activities: Activity[], removedActivityIds: string[]) {
+    const issueKeys = this.activitiesService.getIssueKeys(activities);
+    const linkedIssueKeys = await this.getLinkedIssueKeys(activities);
+    const removedActivityIssueKeys = await this.getRemovedActivityIssueKeys(removedActivityIds);
+
+    const uniqueIssueKeysSet = new Set([
+      ...issueKeys,
+      ...linkedIssueKeys,
+      ...removedActivityIssueKeys
+    ]);
+
+    return Array.from(uniqueIssueKeysSet);
+  }
+
+  private async getLinkedIssueKeys(activities: Activity[]) {
+    const activityIds = activities.map(activity => activity.id);
+    const issues = await this.issueRepository.getByActivityIds(activityIds);
+    return issues.map(issue => issue.key);
+  }
+
+  private async getRemovedActivityIssueKeys(removedActivityIds: string[]) {
+    const issues = await this.issueRepository.getByActivityIds(removedActivityIds);
+    return issues.map(issue => issue.key);
   }
 
   private async updateIssue(issueKey: string) {
