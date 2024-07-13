@@ -40,6 +40,26 @@ export class DailySummaryService {
     return result;
   }
 
+  squashIssueActivities(activities: DailySummaryActivity[]): DailySummaryActivity[] {
+    const result = [...activities];
+
+    for (let idx = 0; idx < result.length; idx++) {
+      const activity = result[idx];
+
+      for (let jdx = idx + 1; jdx < result.length; jdx++) {
+        const nextActivity = result[jdx];
+
+        if (activity.name === nextActivity.name) {
+          activity.duration = this.sum([activity.duration, nextActivity.duration]);
+          result.splice(jdx, 1);
+          jdx--;
+        }
+      }
+    }
+
+    return result;
+  }
+
   groupActivities(activities: Activity[]) {
     const activityGroups = new Map<string, Activity[]>();
 
@@ -69,10 +89,13 @@ export class DailySummaryService {
   }
 
   async makeIssue(issueKey: string, issueActivities: Activity[]): Promise<DailySummaryIssue> {
+    const activities: DailySummaryActivity[] = issueActivities.map(this.makeDailySummaryActivity);
+    const squashedIssueActivities = this.squashIssueActivities(activities);
+
     return {
       key: issueKey,
       name: await this.getIssueName(issueKey, issueActivities),
-      activities: issueActivities.map(this.makeDailySummaryActivity),
+      activities: squashedIssueActivities,
       duration: this.activitiesService.calculateDuration(issueActivities)
     };
   }
@@ -96,8 +119,13 @@ export class DailySummaryService {
     };
   }
 
-  recalculateDuration(dailySummaryIssues: DailySummaryIssue[]) {
-    const durationStrings = dailySummaryIssues.map((issue) => issue.duration);
+  recalculateDuration(dailySummaryIssues: DailySummaryIssue[]): string {
+    const durationStrings: string[] = dailySummaryIssues.map<string>((issue: DailySummaryIssue) => issue.duration);
+
+    return this.sum(durationStrings);
+  }
+
+  sum(durationStrings: string[]): string {
     const durationMs: number[] = durationStrings.map((duration) => parseDuration(duration) ?? 0);
 
     const totalDuration = durationMs.reduce((result, duration) => {
