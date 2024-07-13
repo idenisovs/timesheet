@@ -5,6 +5,7 @@ import { Day, Week } from '../../dto';
 import { WeeksRepositoryService } from '../../repository/weeks-repository.service';
 import { Actions } from '../../services/Actions';
 import { ActionsService } from '../../services/actions.service';
+import { ExportWorkflowService } from '../../workflows/export-workflow.service';
 
 @Component({
   selector: 'app-daily-activities-page',
@@ -19,7 +20,8 @@ export class DailyActivitiesPageComponent implements OnInit, OnDestroy {
   constructor(
     private store: SheetStoreService,
     private weeksRepo: WeeksRepositoryService,
-    private actionsService: ActionsService
+    private actionsService: ActionsService,
+    private exportWorkflow: ExportWorkflowService
   ) { }
 
   async ngOnInit() {
@@ -57,6 +59,13 @@ export class DailyActivitiesPageComponent implements OnInit, OnDestroy {
   }
 
   private handlePageActions(action: Actions) {
-    console.log(action);
+    switch (action) {
+      case Actions.Export:
+        return this.export();
+    }
+  }
+
+  private export() {
+    this.exportWorkflow.export();
   }
 }
