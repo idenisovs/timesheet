@@ -61,11 +61,8 @@ export class DailyActivitiesPageComponent implements OnInit, OnDestroy {
   private handlePageActions(action: Actions) {
     switch (action) {
       case Actions.Export:
-        return this.export();
+        void this.exportWorkflow.export();
+        break;
     }
-  }
-
-  private export() {
-    this.exportWorkflow.export();
   }
 }
