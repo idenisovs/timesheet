@@ -10,7 +10,12 @@ export interface DailySummaryIssue {
   duration: string;
 }
 
-export interface DailySummary {
+export class DailySummary {
   issues: DailySummaryIssue[];
   duration: string;
+
+  constructor() {
+    this.issues = [];
+    this.duration = '0m';
+  }
 }
