@@ -1,12 +1,21 @@
 <section class="card mb-3">
-  <h2 class="card-header">
-    <span>
-      {{day.date | date}}
-    </span>
-    <small class="even-smaller">
-      {{ day.date | date:'EEEE'}}
-    </small>
-  </h2>
+  <header class="card-header d-flex justify-content-between align-items-center">
+    <h2 class="m-0">
+      <span>
+        {{day.date | date}}
+      </span>
+      <small class="even-smaller">
+        {{ day.date | date:'EEEE'}}
+      </small>
+    </h2>
+    <div>
+      <button class="btn btn-sm btn-light" title="Summary" (click)="showDailySummary()">
+        <i class="material-icons">
+          donut_large
+        </i>
+      </button>
+    </div>
+  </header>
   <main class="card-body">
     <form [formGroup]="form">
       <div class="row">
