@@ -11,6 +11,14 @@ export class Activity {
   dayId = '';
   isImported?: boolean;
 
+  constructor(entity?: Activity) {
+    if (!entity) {
+      return;
+    }
+
+    Object.assign(this, entity);
+  }
+
   getIssueKey(): string | null {
     const match = this.name.match(Issue.KEY_PATTERN);
 
