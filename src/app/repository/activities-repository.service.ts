@@ -18,12 +18,16 @@ export class ActivitiesRepositoryService {
     return this.db.activities.where('dayId').equals(day.id).toArray();
   }
 
-  getByIds(ids: string[]): Promise<Activity[]> {
-    return this.db.activities.where('id').anyOf(ids).reverse().sortBy('date');
+  async getByIds(ids: string[]): Promise<Activity[]> {
+    const entities = await this.db.activities.where('id').anyOf(ids).reverse().sortBy('date');
+
+    return entities.map(entity => new Activity(entity));
   }
 
-  getByIssueKey(issueKey: string): Promise<Activity[]> {
-    return this.db.activities.where('name').startsWith(`${issueKey}:`).reverse().sortBy('date');
+  async getByIssueKey(issueKey: string): Promise<Activity[]> {
+    const entities = await this.db.activities.where('name').startsWith(`${issueKey}:`).reverse().sortBy('date');
+
+    return entities.map(entity => new Activity(entity));
   }
 
   async save(activities: Activity[]): Promise<void> {
