@@ -29,6 +29,7 @@
     "parse-duration": "^1.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
+    "xlsx": "file:vendor/xlsx-0.20.3.tgz",
     "yet-another-duration": "^1.7.5",
     "zone.js": "~0.14.2"
   },
