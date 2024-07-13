@@ -11,14 +11,11 @@ import { Subscription } from 'rxjs';
 
 import { Activity, Day } from '../../dto';
 import { DailyActivityItemComponent } from '../daily-activity-item/daily-activity-item.component';
-import { DailyActivitiesService } from '../daily-activities/daily-activities.service';
 import { DailyActivitiesWeekDayService } from './daily-activities-week-day.service';
 import { DailyActivitiesForm, ActivityFormGroup } from './DailyActivitiesForm';
 import { SaveActivitiesWorkflowService } from '../../workflows/save-activities-workflow.service';
-import {
-  DailyActivitiesSummaryComponent
-} from '../daily-activities/daily-activities-summary/daily-activities-summary.component';
 import { DailySummaryComponent } from './daily-summary/daily-summary.component';
+import { ActivitiesService } from '../../services/activities.service';
 
 @Component({
   selector: 'app-daily-activities-week-day',
@@ -60,7 +57,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private modal: NgbModal,
     private service: DailyActivitiesWeekDayService,
-    private activitiesService: DailyActivitiesService,
+    private activitiesService: ActivitiesService,
     private saveActivitiesWorkflow: SaveActivitiesWorkflowService,
   ) {}
 
@@ -73,7 +70,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
       this.form.setControl('activities', this.fb.array(activityFormItems));
     }
 
-    this.totalDuration = this.activitiesService.getTotalDuration(this.day.activities);
+    this.totalDuration = this.activitiesService.calculateDuration(this.day.activities)
 
     this.valueChangesHandler = this.form.valueChanges.subscribe(() => {
       this.isChanged = true;
@@ -107,7 +104,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 
     await this.saveActivitiesWorkflow.save(this.day, this.day.activities, this.removableActivityIds);
 
-    this.totalDuration = this.activitiesService.getTotalDuration(this.day.activities);
+    this.totalDuration = this.activitiesService.calculateDuration(this.day.activities);
     this.isChanged = false;
     this.removableActivityIds = [];
   }
