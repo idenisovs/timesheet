@@ -1,26 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { SheetStoreService } from '../../services/sheet-store.service';
 import { Day, Week } from '../../dto';
 import { WeeksRepositoryService } from '../../repository/weeks-repository.service';
+import { Actions } from '../../services/Actions';
+import { ActionsService } from '../../services/actions.service';
 
 @Component({
   selector: 'app-daily-activities-page',
   templateUrl: './daily-activities-page.component.html',
   styleUrls: ['./daily-activities-page.component.scss']
 })
-export class DailyActivitiesPageComponent implements OnInit {
+export class DailyActivitiesPageComponent implements OnInit, OnDestroy {
   weeks: Week[] = [];
+
+  private actionSubs = this.actionsService.on.subscribe(this.handlePageActions.bind(this));
 
   constructor(
     private store: SheetStoreService,
     private weeksRepo: WeeksRepositoryService,
+    private actionsService: ActionsService
   ) { }
 
   async ngOnInit() {
     await this.prepareForToday();
 
     this.weeks = await this.weeksRepo.getAll();
+  }
+
+  ngOnDestroy() {
+    this.actionSubs.unsubscribe();
   }
 
   private async prepareForToday(): Promise<void> {
@@ -45,5 +54,9 @@ export class DailyActivitiesPageComponent implements OnInit {
       day.weekId = currentWeek.id;
       await db.days.add(Day.entity(day));
     }
+  }
+
+  private handlePageActions(action: Actions) {
+    console.log(action);
   }
 }
