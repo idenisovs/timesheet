@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 import { DatePipe, JsonPipe, NgForOf } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
 import { Activity, Day } from '../../dto';
@@ -14,6 +15,10 @@ import { DailyActivitiesService } from '../daily-activities/daily-activities.ser
 import { DailyActivitiesWeekDayService } from './daily-activities-week-day.service';
 import { DailyActivitiesForm, ActivityFormGroup } from './DailyActivitiesForm';
 import { SaveActivitiesWorkflowService } from '../../workflows/save-activities-workflow.service';
+import {
+  DailyActivitiesSummaryComponent
+} from '../daily-activities/daily-activities-summary/daily-activities-summary.component';
+import { DailySummaryComponent } from './daily-summary/daily-summary.component';
 
 @Component({
   selector: 'app-daily-activities-week-day',
@@ -53,6 +58,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
+    private modal: NgbModal,
     private service: DailyActivitiesWeekDayService,
     private activitiesService: DailyActivitiesService,
     private saveActivitiesWorkflow: SaveActivitiesWorkflowService,
@@ -104,5 +110,16 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     this.totalDuration = this.activitiesService.getTotalDuration(this.day.activities);
     this.isChanged = false;
     this.removableActivityIds = [];
+  }
+
+  showDailySummary() {
+    const dailySummaryModalRef =  this.modal.open(DailySummaryComponent, {
+      centered: true,
+      size: 'lg'
+    });
+
+    const dailySummaryModal = (dailySummaryModalRef.componentInstance as DailySummaryComponent)
+
+    dailySummaryModal.day = this.day;
   }
 }
