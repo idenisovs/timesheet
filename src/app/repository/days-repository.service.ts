@@ -12,6 +12,11 @@ export class DaysRepositoryService {
 
   constructor(private store: SheetStoreService) { }
 
+  async getAll(): Promise<Day[]> {
+    const dayEntities = await this.db.days.toArray();
+    return this.map(dayEntities);
+  }
+
   async getById(id: string): Promise<Day|null> {
     const record = await this.db.days.where('id').equals(id).first();
 

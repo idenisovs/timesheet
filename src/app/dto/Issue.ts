@@ -1,7 +1,7 @@
 export class Issue {
   public static readonly KEY_PATTERN = /^\w+-\d+/;
 
-  id = crypto.randomUUID();
+  id = crypto.randomUUID() as string;
   key = '';
   name = '';
   activities: string[] = [];

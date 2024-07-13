@@ -10,6 +10,16 @@ export class ActivitiesRepositoryService {
 
   constructor(private store: SheetStoreService) { }
 
+  async getAll(raw = false) {
+    const entities = await this.db.activities.toArray();
+
+    if (raw) {
+      return entities;
+    } else {
+      return entities.map((entity) => new Activity(entity));
+    }
+  }
+
   getByWeek(week: Week): Promise<Activity[]> {
     return this.db.activities.where('weekId').equals(week.id).toArray();
   }
