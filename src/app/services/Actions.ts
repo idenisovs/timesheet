@@ -3,5 +3,6 @@ export enum Actions {
   ExportToCsv = 'ExportToCsv',
   CreateIssue = 'CreateIssue',
   AddProject = 'AddProject',
-  Export = 'Export'
+  Export = 'Export',
+  Import = 'Import'
 }

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { SheetStoreService } from '../../services/sheet-store.service';
 import { Day, Week } from '../../dto';
@@ -21,7 +22,8 @@ export class DailyActivitiesPageComponent implements OnInit, OnDestroy {
     private store: SheetStoreService,
     private weeksRepo: WeeksRepositoryService,
     private actionsService: ActionsService,
-    private exportWorkflow: ExportWorkflowService
+    private exportWorkflow: ExportWorkflowService,
+    private router: Router
   ) { }
 
   async ngOnInit() {
@@ -58,10 +60,13 @@ export class DailyActivitiesPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  private handlePageActions(action: Actions) {
+  private async handlePageActions(action: Actions) {
     switch (action) {
       case Actions.Export:
-        void this.exportWorkflow.export();
+        await this.exportWorkflow.export();
+        break;
+      case Actions.Import:
+        await this.router.navigate(['import']);
         break;
     }
   }
