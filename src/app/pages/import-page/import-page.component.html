@@ -1,7 +1,13 @@
-<div class="card">
-  <div class="card-body">
-    <h2 class="m-0">
-      Import Data
-    </h2>
-  </div>
-</div>
+<section class="card">
+  <header class="card-header">
+    Import
+  </header>
+  <main class="card-body">
+    <div class="mb-3">
+      <label for="formFile" class="form-label">
+        Default file input example
+      </label>
+      <input class="form-control" type="file" id="formFile" (change)="getFile($event)">
+    </div>
+  </main>
+</section>

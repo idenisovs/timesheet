@@ -8,5 +8,19 @@ import { Component } from '@angular/core';
   styleUrl: './import-page.component.scss'
 })
 export class ImportPageComponent {
+  getFile(event: Event) {
+    const target = event.target as HTMLInputElement;
 
+    if (!target.files) {
+      return;
+    }
+
+    const file = target.files.item(0);
+
+    if (!file) {
+      return;
+    }
+
+    console.log(file);
+  }
 }
