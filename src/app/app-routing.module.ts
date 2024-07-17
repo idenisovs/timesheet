@@ -13,6 +13,7 @@ import {
 } from './pages/projects-page/projects-page-actions/projects-page-actions.component';
 import { ProjectPageComponent } from './pages/project-page/project-page.component';
 import { projectResolver } from './resolvers';
+import { ImportPageComponent } from './pages/import-page/import-page.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,10 @@ const routes: Routes = [
     resolve: {
       project: projectResolver
     }
+  },
+  {
+    path: 'import',
+    component: ImportPageComponent
   }
 ];
 
