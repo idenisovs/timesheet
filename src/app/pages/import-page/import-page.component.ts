@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-import-page',
@@ -8,7 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './import-page.component.scss'
 })
 export class ImportPageComponent {
-  getFile(event: Event) {
+  async getFile(event: Event) {
     const target = event.target as HTMLInputElement;
 
     if (!target.files) {
@@ -22,5 +23,15 @@ export class ImportPageComponent {
     }
 
     console.log(file);
+
+    const workbook = XLSX.read(await file.arrayBuffer());
+
+    console.log(workbook);
+
+    const activitiesSheet = workbook.Sheets['Activities'];
+
+    const activities = XLSX.utils.sheet_to_json(activitiesSheet);
+
+    console.log(activities);
   }
 }
