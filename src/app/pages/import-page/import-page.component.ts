@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
 
+import { ImportedProject, ImportedIssue, ImportedActivity } from './Imports';
+
 @Component({
   selector: 'app-import-page',
   standalone: true,
@@ -9,6 +11,10 @@ import * as XLSX from 'xlsx';
   styleUrl: './import-page.component.scss'
 })
 export class ImportPageComponent {
+  projects: ImportedProject[] = [];
+  issues: ImportedIssue[] = [];
+  activities: ImportedActivity[] = [];
+
   async getFile(event: Event) {
     const target = event.target as HTMLInputElement;
 
@@ -22,16 +28,18 @@ export class ImportPageComponent {
       return;
     }
 
-    console.log(file);
-
     const workbook = XLSX.read(await file.arrayBuffer());
 
-    console.log(workbook);
+    const projectsSheet = workbook.Sheets['Projects'];
+
+    this.projects = XLSX.utils.sheet_to_json(projectsSheet);
+
+    const issuesSheet = workbook.Sheets['Issues'];
+
+    this.issues = XLSX.utils.sheet_to_json(issuesSheet);
 
     const activitiesSheet = workbook.Sheets['Activities'];
 
-    const activities = XLSX.utils.sheet_to_json(activitiesSheet);
-
-    console.log(activities);
+    this.activities = XLSX.utils.sheet_to_json(activitiesSheet);
   }
 }
