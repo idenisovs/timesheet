@@ -3,8 +3,6 @@
     Imported Projects
   </header>
   <main class="card-body">
-    <div *ngFor="let project of projects">
-      {{project.name}}
-    </div>
+    <app-imported-project-diff *ngFor="let project of importedProjects" [importedProject]="project" />
   </main>
 </section>
