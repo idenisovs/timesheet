@@ -1,5 +1,10 @@
-<section class="card mb-2">
+<section class="card mb-2" [ngClass]="{ 'border-primary': status === DiffStatus.created }">
   <main class="card-body">
-    {{importedProject.name}}
+    <div>
+      {{importedProject.name}}
+    </div>
+    <div>
+      {{existingProject ? existingProject.name : 'null' }}
+    </div>
   </main>
 </section>
