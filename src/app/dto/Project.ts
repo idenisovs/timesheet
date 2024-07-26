@@ -8,6 +8,22 @@ export class Project {
   keys: string[] = [];
   createdAt = new Date();
 
+  equals(other: Project): boolean {
+    if (this.id !== other.id) {
+      return false;
+    }
+
+    if (this.name !== other.name || this.description !== other.description) {
+      return false;
+    }
+
+    if (this.keys.length !== other.keys.length) {
+      return false;
+    }
+
+    return this.keys.every((key: string) => other.keys.includes(key));
+  }
+
   static fromImport(importedProject: ImportedProject): Project {
     const project = new Project();
 
