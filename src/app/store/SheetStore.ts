@@ -4,13 +4,12 @@ import { Sheet, Issue, Activity } from '../dto';
 import index from './migrate-v2';
 import migrateV3 from './migrate-v3';
 import migrateV5 from './migrate-v5';
-import { WeekEntity, DayEntity } from './entities';
-import { ProjectRecord } from '../repository/entities/ProjectRecord';
+import { WeekEntity, DayEntity, ProjectEntity } from './entities';
 
 export default class SheetStore extends Dexie {
   sheet: Dexie.Table<Sheet, number>;
   issues: Dexie.Table<Issue, string>;
-  projects: Dexie.Table<ProjectRecord, string>;
+  projects: Dexie.Table<ProjectEntity, string>;
 
   weeks: Dexie.Table<WeekEntity, string>;
   days: Dexie.Table<DayEntity, string>;

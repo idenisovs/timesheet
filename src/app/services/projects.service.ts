@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
+
 import { SheetStoreService } from './sheet-store.service';
 import SheetStore from '../store/SheetStore';
 import { Project } from '../dto';
-import { ProjectRecord } from '../repository/entities/ProjectRecord';
+import { ProjectEntity } from '../store/entities';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class ProjectsService {
   }
 
   async create(project: Omit<Project, 'id' | 'createdAt'>): Promise<Project> {
-    const record: ProjectRecord = {
+    const record: ProjectEntity = {
       ...project,
       id: crypto.randomUUID().toString(),
       createdAt: new Date()
