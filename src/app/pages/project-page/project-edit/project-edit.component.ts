@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+
 import { Project } from '../../../dto';
-import { ProjectsService } from '../../../services/projects.service';
+import { ProjectRepositoryService } from '../../../repository/project-repository.service';
 
 @Component({
   selector: 'app-project-edit',
@@ -32,7 +33,7 @@ export class ProjectEditComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private projectsService: ProjectsService,
+    private projectsService: ProjectRepositoryService,
     private router: Router
   ) {}
 
@@ -43,8 +44,9 @@ export class ProjectEditComponent implements OnInit {
   }
 
   async save() {
-    const project = { ... this.project };
+    const project = new Project();
 
+    project.id = this.project.id;
     project.name = this.form.get('name')?.value as string;
     project.description = this.form.get('description')?.value as string;
     project.keys = (this.form.get('keys')?.value as string).split(',').map(key => key.trim());

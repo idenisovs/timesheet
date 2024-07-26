@@ -8,7 +8,7 @@ import { ActionsService } from '../../services/actions.service';
 import { Actions } from '../../services/Actions';
 import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
 import { handleModalResult } from '../../utils';
-import { ProjectsService } from '../../services/projects.service';
+import { ProjectRepositoryService } from '../../repository/project-repository.service';
 
 @Component({
   selector: 'app-projects-page',
@@ -29,7 +29,7 @@ export class ProjectsPageComponent implements OnInit, OnDestroy {
   constructor(
     private modal: NgbModal,
     private actions: ActionsService,
-    private projectsService: ProjectsService,
+    private projectsService: ProjectRepositoryService,
   ) {}
 
   async ngOnInit() {

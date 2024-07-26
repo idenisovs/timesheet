@@ -3,8 +3,9 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import Dexie from 'dexie';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ProjectsService } from '../../../services/projects.service';
+
 import { Project } from '../../../dto';
+import { ProjectRepositoryService } from '../../../repository/project-repository.service';
 
 @Component({
   selector: 'app-create-project-modal',
@@ -27,21 +28,21 @@ export class CreateProjectModalComponent {
   constructor(
     private modal: NgbActiveModal,
     private fb: FormBuilder,
-    private projects: ProjectsService,
+    private projectRepository: ProjectRepositoryService,
   ) {}
 
   async create() {
     const rawValues = this.form.value;
     const rawKeys = rawValues.keys ?? '';
 
-    const project: Omit<Project, 'id' | 'createdAt'> = {
-      name: rawValues.name as string,
-      description: rawValues.description as string,
-      keys: rawKeys.split(',').map(key => key.trim())
-    };
+    const project = new Project();
+
+    project.name = rawValues.name as string;
+    project.description = rawValues.description as string;
+    project.keys = rawKeys.split(',').map(key => key.trim());
 
     try {
-      const createdProject = await this.projects.create(project);
+      const createdProject = await this.projectRepository.create(project);
 
       this.modal.close(createdProject);
     } catch (e) {
