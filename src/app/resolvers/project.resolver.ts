@@ -1,7 +1,7 @@
 import { ResolveFn } from '@angular/router';
 import { inject } from '@angular/core';
 import { Project } from '../dto';
-import { ProjectsService } from '../services/projects.service';
+import { ProjectRepositoryService } from '../repository/project-repository.service';
 
 export const projectResolver: ResolveFn<Project | null> = async (route) => {
   const projectId = route.paramMap.get('projectId');
@@ -10,9 +10,7 @@ export const projectResolver: ResolveFn<Project | null> = async (route) => {
     return null;
   }
 
-  const projects = inject(ProjectsService);
+  const projects = inject(ProjectRepositoryService);
 
-  const project = await projects.getById(projectId);
-
-  return project ?? null;
+  return await projects.getById(projectId);
 };

@@ -11,8 +11,22 @@ export class ProjectRepositoryService {
 
   constructor(private store: SheetStoreService) { }
 
+  async create(project: Project): Promise<void> {
+    await this.db.projects.add(project);
+  }
+
+  async update(project: Project): Promise<void> {
+    await this.db.projects.update(project.id, project)
+  }
+
+  async remove(project: Project): Promise<void> {
+    await this.db.projects.delete(project.id);
+  }
+
   async getAll() {
-    return this.db.projects.toArray();
+    const records = await this.db.projects.toArray();
+
+    return records.map(Project.fromRecord);
   }
 
   async getById(projectId: string): Promise<Project|null> {
