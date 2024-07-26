@@ -1,4 +1,5 @@
 import { ImportedProject } from '../pages/import-page/Imports';
+import { ProjectRecord } from '../repository/entities/ProjectRecord';
 
 export class Project {
   id = crypto.randomUUID() as string;
@@ -15,6 +16,12 @@ export class Project {
     project.keys = importedProject.keys.split(',').map((key: string) => key.trim());
     project.createdAt = new Date(importedProject.createdAt);
 
+    return project;
+  }
+
+  static fromRecord(projectRecord: ProjectRecord): Project {
+    const project = new Project();
+    Object.assign(project, projectRecord);
     return project;
   }
 }
