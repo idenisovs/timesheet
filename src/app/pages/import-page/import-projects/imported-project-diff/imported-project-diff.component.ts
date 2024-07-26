@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+
 import { Project } from '../../../../dto';
 import { ProjectRepositoryService } from '../../../../repository/project-repository.service';
 import { DiffStatus } from '../../DiffStatus';
-import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-imported-project-diff',
@@ -32,7 +33,15 @@ export class ImportedProjectDiffComponent implements OnInit {
 
     if (!this.existingProject) {
       this.status = DiffStatus.created;
+      return;
     }
+
+    if (!this.existingProject.equals(this.importedProject)) {
+      this.status = DiffStatus.changed;
+      return;
+    }
+
+    this.status = DiffStatus.no_changes;
   }
 
   protected readonly DiffStatus = DiffStatus;
