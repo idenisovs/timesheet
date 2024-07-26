@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
 
 import { ImportedProject, ImportedIssue, ImportedActivity } from './Imports';
+import { Project } from '../../dto';
 
 @Component({
   selector: 'app-import-page',
@@ -11,7 +12,7 @@ import { ImportedProject, ImportedIssue, ImportedActivity } from './Imports';
   styleUrl: './import-page.component.scss'
 })
 export class ImportPageComponent {
-  projects: ImportedProject[] = [];
+  projects: Project[] = [];
   issues: ImportedIssue[] = [];
   activities: ImportedActivity[] = [];
 
@@ -32,7 +33,9 @@ export class ImportPageComponent {
 
     const projectsSheet = workbook.Sheets['Projects'];
 
-    this.projects = XLSX.utils.sheet_to_json(projectsSheet);
+    const importedProject: ImportedProject[] = XLSX.utils.sheet_to_json(projectsSheet);
+
+    this.projects = importedProject.map(Project.fromImport);
 
     const issuesSheet = workbook.Sheets['Issues'];
 
