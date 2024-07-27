@@ -20,7 +20,8 @@ export class ImportIssuesComponent {
   @Input()
   importedIssues: Issue[] = [];
 
-  removeCompletedIssue($event: Issue) {
-    console.log('Remove completed issue');
+  removeCompletedIssue(issue: Issue) {
+    const idx = this.importedIssues.indexOf(issue);
+    this.importedIssues.splice(idx, 1);
   }
 }

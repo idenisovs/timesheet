@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DatePipe, NgClass, NgIf } from '@angular/common';
 
 import { Issue } from '../../../../dto';
 import { DiffStatus } from '../../DiffStatus';
@@ -7,7 +8,11 @@ import { IssueRepositoryService } from '../../../../repository/issue-repository.
 @Component({
   selector: 'app-imported-issue-diff',
   standalone: true,
-  imports: [],
+  imports: [
+    DatePipe,
+    NgIf,
+    NgClass,
+  ],
   templateUrl: './imported-issue-diff.component.html',
   styleUrl: './imported-issue-diff.component.scss'
 })
@@ -62,4 +67,17 @@ export class ImportedIssueDiffComponent implements OnInit {
   async cancel() {
     this.completed.emit(this.importedIssue);
   }
+
+  getRowStyle() {
+    switch (this.status) {
+      case DiffStatus.new:
+        return 'text-primary';
+      case DiffStatus.updated:
+        return 'text-success';
+      default:
+        return '';
+    }
+  }
+
+  protected readonly DiffStatus = DiffStatus;
 }
