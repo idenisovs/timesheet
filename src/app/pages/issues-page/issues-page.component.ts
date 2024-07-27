@@ -4,7 +4,6 @@ import { DatePipe, NgForOf, NgIf } from '@angular/common';
 import { NgbModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Issue } from '../../dto';
-import { SheetStoreService } from '../../services/sheet-store.service';
 import { IssueRemoveButtonComponent } from './issue-remove-button/issue-remove-button.component';
 import { ActionsService } from '../../services/actions.service';
 import { Actions } from '../../services/Actions';
@@ -13,6 +12,7 @@ import { handleModalResult } from '../../utils';
 import { IssuesTableComponent } from './issues-table/issues-table.component';
 import { IssuesListComponent } from './issues-list/issues-list.component';
 import { IssuesService } from '../../services/issues.service';
+import { IssueRepositoryService } from '../../repository/issue-repository.service';
 
 @Component({
   selector: 'app-issues-pages',
@@ -37,15 +37,15 @@ export class IssuesPageComponent implements OnInit, OnDestroy {
   issuesGroupedByDate = new Map<string, Issue[]>();
 
   constructor(
-    private sheetStore: SheetStoreService,
     private issuesService: IssuesService,
     private actionsService: ActionsService,
     private modal: NgbModal,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private issueRepository: IssueRepositoryService
   ) {}
 
   async ngOnInit() {
-    this.issues = await this.sheetStore.loadIssues();
+    this.issues = await this.issueRepository.getAll();
     this.issues.sort(this.issuesService.sort);
 
     this.groupIssuesByDate();

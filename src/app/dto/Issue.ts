@@ -1,3 +1,5 @@
+import { IssueEntity } from '../store/entities';
+
 export class Issue {
   public static readonly KEY_PATTERN = /^\w+-\d+/;
 
@@ -19,5 +21,15 @@ export class Issue {
     if (props.createdAt) {
       this.createdAt = new Date(props.createdAt);
     }
+  }
+
+  static fromRecord(record: IssueEntity): Issue {
+    const issue = new Issue();
+
+    Object.assign(issue, record);
+
+    issue.createdAt = new Date(record.createdAt);
+
+    return issue;
   }
 }
