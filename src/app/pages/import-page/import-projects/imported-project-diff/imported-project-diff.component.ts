@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { DatePipe, NgClass, NgIf } from '@angular/common';
 
 import { Project } from '../../../../dto';
 import { ProjectRepositoryService } from '../../../../repository/project-repository.service';
@@ -10,6 +10,8 @@ import { DiffStatus } from '../../DiffStatus';
   standalone: true,
   imports: [
     NgClass,
+    NgIf,
+    DatePipe,
   ],
   templateUrl: './imported-project-diff.component.html',
   styleUrl: './imported-project-diff.component.scss'
