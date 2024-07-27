@@ -20,6 +20,7 @@ export class ImportPageComponent {
   projects: Project[] = [];
   issues: ImportedIssue[] = [];
   activities: ImportedActivity[] = [];
+  isImportSectionsVisible = false;
 
   async getFile(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -33,6 +34,8 @@ export class ImportPageComponent {
     if (!file) {
       return;
     }
+
+    this.isImportSectionsVisible = true;
 
     const workbook = XLSX.read(await file.arrayBuffer());
 
