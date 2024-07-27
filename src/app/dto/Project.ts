@@ -13,8 +13,14 @@ export class Project {
       return false;
     }
 
-    if (this.name !== other.name || this.description !== other.description) {
+    if (this.name !== other.name) {
       return false;
+    }
+
+    if (this.description && other.description) {
+      if (this.description !== other.description) {
+        return false;
+      }
     }
 
     if (this.keys.length !== other.keys.length) {
