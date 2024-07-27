@@ -21,7 +21,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
+      <tr class="align-middle">
         <td class="w-25" [ngClass]="getRowStyle()">
           {{importedProject.name}}
         </td>
@@ -36,11 +36,15 @@
         </td>
         <td class="text-end align-middle" [rowSpan]="status === DiffStatus.new ? 1 : 2">
           <button class="btn btn-sm btn-primary" *ngIf="status === DiffStatus.new" (click)="save()">
-            Save
+            <i class="material-icons">done</i>
           </button>
 
           <button class="btn btn-sm btn-success" *ngIf="status === DiffStatus.updated" (click)="update()">
-            Save
+            <i class="material-icons">done</i>
+          </button>
+
+          <button class="btn btn-sm btn-outline-dark ms-1" (click)="cancel()">
+            <i class="material-icons">clear</i>
           </button>
         </td>
       </tr>
