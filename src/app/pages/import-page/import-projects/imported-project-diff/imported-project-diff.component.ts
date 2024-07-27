@@ -59,7 +59,10 @@ export class ImportedProjectDiffComponent implements OnInit {
 
   async update() {
     await this.projectsRepository.update(this.importedProject);
-    this.status = DiffStatus.same;
+    this.completed.emit(this.importedProject);
+  }
+
+  async cancel() {
     this.completed.emit(this.importedProject);
   }
 
