@@ -25,7 +25,22 @@ export class Issue {
   }
 
   equals(other: Issue): boolean {
-    return false;
+    if (
+      this.id !== other.id
+      || this.name !== other.name
+      || this.key !== other.key
+      || this.duration !== other.duration
+    ) {
+      return false;
+    }
+
+    if (!!this.estimate || !!other.estimate) {
+      if (this.estimate !== other.estimate) {
+        return false;
+      }
+    }
+
+    return this.createdAt.getTime() === other.createdAt.getTime();
   }
 
   static fromRecord(record: IssueEntity): Issue {
