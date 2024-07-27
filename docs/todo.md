@@ -2,6 +2,12 @@
 
 This file contains list of things and thoughts about features I'd like to put in Timesheet App.
 
+## Minor changes
+
+- The Project View should have the Remove button from Project Edit View;
+- Switch the Import and Export buttons;
+- Probably Import / Export should have the separate view;
+
 ## Weekly view
 
 At the moment the application creates daily sheet only in case if you open the app in that day.

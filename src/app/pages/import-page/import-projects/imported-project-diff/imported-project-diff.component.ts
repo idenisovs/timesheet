@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DatePipe, NgClass, NgIf } from '@angular/common';
 
 import { Project } from '../../../../dto';
@@ -18,11 +18,13 @@ import { DiffStatus } from '../../DiffStatus';
 })
 export class ImportedProjectDiffComponent implements OnInit {
   status = DiffStatus.same;
+  existingProject: Project|null = null;
 
   @Input()
   importedProject!: Project;
 
-  existingProject: Project|null = null;
+  @Output()
+  completed = new EventEmitter<Project>();
 
   constructor(
     private projectsRepository: ProjectRepositoryService
@@ -46,16 +48,19 @@ export class ImportedProjectDiffComponent implements OnInit {
     }
 
     this.status = DiffStatus.same;
+    this.completed.emit(this.importedProject);
   }
 
   async save() {
     await this.projectsRepository.create(this.importedProject);
     this.status = DiffStatus.same;
+    this.completed.emit(this.importedProject);
   }
 
   async update() {
     await this.projectsRepository.update(this.importedProject);
     this.status = DiffStatus.same;
+    this.completed.emit(this.importedProject);
   }
 
   getRowStyle() {
