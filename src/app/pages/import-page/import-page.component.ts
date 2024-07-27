@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { NgIf } from '@angular/common';
 import * as XLSX from 'xlsx';
 
 import { ImportedProject, ImportedIssue, ImportedActivity } from './Imports';
 import { Project } from '../../dto';
 import { ImportProjectsComponent } from './import-projects/import-projects.component';
-import { NgIf } from '@angular/common';
+import { ImportIssuesComponent } from './import-issues/import-issues.component';
 
 @Component({
   selector: 'app-import-page',
@@ -12,6 +13,7 @@ import { NgIf } from '@angular/common';
   imports: [
     ImportProjectsComponent,
     NgIf,
+    ImportIssuesComponent,
   ],
   templateUrl: './import-page.component.html',
   styleUrl: './import-page.component.scss'
