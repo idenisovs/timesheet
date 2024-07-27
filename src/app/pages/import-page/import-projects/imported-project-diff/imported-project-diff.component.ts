@@ -37,18 +37,23 @@ export class ImportedProjectDiffComponent implements OnInit {
 
     this.existingProject = await this.projectsRepository.getById(this.importedProject.id);
 
+    this.status = this.getDiffStatus();
+
+    if (this.status === DiffStatus.same) {
+      this.completed.emit(this.importedProject);
+    }
+  }
+
+  getDiffStatus(): DiffStatus {
     if (!this.existingProject) {
-      this.status = DiffStatus.new;
-      return;
+      return DiffStatus.new;
     }
 
     if (!this.existingProject.equals(this.importedProject)) {
-      this.status = DiffStatus.updated;
-      return;
+      return DiffStatus.updated;
     }
 
-    this.status = DiffStatus.same;
-    this.completed.emit(this.importedProject);
+    return DiffStatus.same;
   }
 
   async save() {

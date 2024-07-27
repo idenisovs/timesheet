@@ -24,13 +24,42 @@ export class ImportedIssueDiffComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    console.log(this.importedIssue);
     if (!this.importedIssue) {
       return;
     }
 
     this.existingIssue = await this.issuesRepository.getById(this.importedIssue.id);
+    this.status = this.getDiffStatus();
 
-    console.log(this.existingIssue);
+    if (this.status === DiffStatus.same) {
+      this.completed.emit(this.importedIssue);
+    }
+  }
+
+  getDiffStatus(): DiffStatus {
+    if (!this.existingIssue) {
+      return DiffStatus.new;
+    }
+
+    if (!this.existingIssue.equals(this.importedIssue)) {
+      return DiffStatus.updated;
+    }
+
+    return DiffStatus.same;
+  }
+
+  async save() {
+    await this.issuesRepository.create(this.importedIssue);
+    this.status = DiffStatus.same;
+    this.completed.emit(this.importedIssue);
+  }
+
+  async update() {
+    await this.issuesRepository.update(this.importedIssue);
+    this.completed.emit(this.importedIssue);
+  }
+
+  async cancel() {
+    this.completed.emit(this.importedIssue);
   }
 }

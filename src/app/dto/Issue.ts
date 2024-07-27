@@ -24,6 +24,10 @@ export class Issue {
     }
   }
 
+  equals(other: Issue): boolean {
+    return false;
+  }
+
   static fromRecord(record: IssueEntity): Issue {
     const issue = new Issue();
 
