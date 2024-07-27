@@ -36,7 +36,7 @@ export class CreateIssueModalService {
             const issueKey = control.value.split(':')[0];
             return this.issueRepository.getByKey(issueKey);
           }),
-          map((issue: Issue | undefined) => {
+          map((issue: Issue | null) => {
             if (!issue) {
               return null;
             }

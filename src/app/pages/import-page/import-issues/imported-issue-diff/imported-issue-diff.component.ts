@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { Issue, Project } from '../../../../dto';
+import { Issue } from '../../../../dto';
 import { DiffStatus } from '../../DiffStatus';
-import { ProjectRepositoryService } from '../../../../repository/project-repository.service';
 import { IssueRepositoryService } from '../../../../repository/issue-repository.service';
 
 @Component({

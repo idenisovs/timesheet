@@ -20,16 +20,4 @@ export class SheetStoreService {
   loadTimeSheets(): Promise<Sheet[]> {
     return this.db.sheet.orderBy('date').reverse().toArray();
   }
-
-  loadIssues(): Promise<Issue[]> {
-    return this.db.issues.orderBy('createdAt').reverse().toArray();
-  }
-
-  async save(sheet: Sheet) {
-    if (!sheet.id) {
-      delete sheet.id;
-    }
-
-    await this.db.sheet.put(sheet);
-  }
 }

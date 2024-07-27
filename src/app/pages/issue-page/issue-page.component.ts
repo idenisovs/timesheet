@@ -3,11 +3,11 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { SheetStoreService } from '../../services/sheet-store.service';
 import { Activity, Issue } from '../../dto';
 import { ActivitiesListComponent } from './activities-list/activities-list.component';
 import { IssueCardComponent } from './issue-card/issue-card.component';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
+import { IssueRepositoryService } from '../../repository/issue-repository.service';
 
 @Component({
   selector: 'app-issue-page',
@@ -32,8 +32,8 @@ export class IssuePageComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private sheetStore: SheetStoreService,
-    private activityRepository: ActivitiesRepositoryService
+    private activityRepository: ActivitiesRepositoryService,
+    private issueRepository: IssueRepositoryService
   ) {}
 
   ngOnInit() {
@@ -44,15 +44,13 @@ export class IssuePageComponent implements OnInit {
   }
 
   async loadIssue(issueKey: string) {
-    const db = this.sheetStore.Instance;
-    const existingIssue = await db.issues.where('key').equals(issueKey).first();
+    const existingIssue = await this.issueRepository.getByKey(issueKey);
 
-    if (!existingIssue) {
+    if (existingIssue) {
+      this.issue = existingIssue;
+      this.activities = await this.activityRepository.getByIds(this.issue.activities);
+    } else {
       this.isNotFound = true;
-      return;
     }
-
-    this.issue = existingIssue;
-    this.activities = await this.activityRepository.getByIds(this.issue.activities);
   }
 }

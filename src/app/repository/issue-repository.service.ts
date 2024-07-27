@@ -12,19 +12,28 @@ export class IssueRepositoryService {
   constructor(private store: SheetStoreService) {}
 
   async getAll(): Promise<Issue[]> {
-    return this.db.issues.toArray();
+    const records = await this.db.issues.toArray();
+    return records.map(Issue.fromRecord);
   }
 
-  async getByKey(issueKey: string): Promise<Issue | undefined> {
-    return this.db.issues.where('key').equals(issueKey).first();
+  async getById(issueId: string): Promise<Issue | null> {
+    const record = await this.db.issues.where('id').equals(issueId).first();
+    return record ? Issue.fromRecord(record) : null;
+  }
+
+  async getByKey(issueKey: string): Promise<Issue | null> {
+    const record = await this.db.issues.where('key').equals(issueKey).first();
+    return record ? Issue.fromRecord(record) : null;
   }
 
   async getByActivityIds(activityIds: string[]): Promise<Issue[]> {
-    return this.db.issues.where('activities').anyOf(activityIds).toArray();
+    const records = await this.db.issues.where('activities').anyOf(activityIds).toArray();
+    return records.map(Issue.fromRecord);
   }
 
   async getByKeyPrefix(issueKeyPrefix: string): Promise<Issue[]> {
-    return this.db.issues.where('key').startsWith(issueKeyPrefix).toArray();
+    const records = await this.db.issues.where('key').startsWith(issueKeyPrefix).toArray();
+    return records.map(Issue.fromRecord);
   }
 
   async create(issue: Issue): Promise<Issue> {
