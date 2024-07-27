@@ -1,10 +1,52 @@
 <section class="card mb-2" [ngClass]="{ 'border-primary': status === DiffStatus.created }">
   <main class="card-body">
-    <div>
-      {{importedProject.name}}
-    </div>
-    <div>
-      {{existingProject ? existingProject.name : 'null' }}
-    </div>
+    <table class="table table-sm">
+      <thead>
+      <tr>
+        <th scope="col" class="w-25">
+          Name
+        </th>
+        <th scope="col" class="w-50">
+          Description
+        </th>
+        <th scope="col">
+          Keys
+        </th>
+        <th scope="col" class="text-end">
+          Created At
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td class="w-25">
+          {{importedProject.name}}
+        </td>
+        <td class="w-50">
+          {{importedProject.description}}
+        </td>
+        <td>
+          {{importedProject.keys.join(', ')}}
+        </td>
+        <td class="text-end">
+          {{importedProject.createdAt|date}}
+        </td>
+      </tr>
+      <tr *ngIf="existingProject">
+        <td>
+          {{existingProject.name}}
+        </td>
+        <td>
+          {{existingProject.description}}
+        </td>
+        <td>
+          {{existingProject.keys.join(', ')}}
+        </td>
+        <td class="text-end">
+          {{existingProject.createdAt|date}}
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </main>
 </section>
