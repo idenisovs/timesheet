@@ -15,7 +15,7 @@
         <th scope="col" class="text-end">
           Created At
         </th>
-        <th scope="col" class="text-end">
+        <th scope="col" class="text-center">
           Actions
         </th>
       </tr>
@@ -34,7 +34,7 @@
         <td class="text-end" [ngClass]="getRowStyle()">
           {{importedProject.createdAt|date}}
         </td>
-        <td class="text-end align-middle" [rowSpan]="status === DiffStatus.new ? 1 : 2">
+        <td class="text-center align-middle" [rowSpan]="status === DiffStatus.new ? 1 : 2">
           <button class="btn btn-sm btn-primary" *ngIf="status === DiffStatus.new" (click)="save()">
             <i class="material-icons">done</i>
           </button>
