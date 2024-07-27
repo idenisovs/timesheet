@@ -17,14 +17,16 @@ import { DiffStatus } from '../../DiffStatus';
   styleUrl: './imported-project-diff.component.scss'
 })
 export class ImportedProjectDiffComponent implements OnInit {
-  status = DiffStatus.no_changes;
+  status = DiffStatus.same;
 
   @Input()
   importedProject!: Project;
 
   existingProject: Project|null = null;
 
-  constructor(private projectsRepository: ProjectRepositoryService) {}
+  constructor(
+    private projectsRepository: ProjectRepositoryService
+  ) {}
 
   async ngOnInit() {
     if (!this.importedProject) {
@@ -34,16 +36,21 @@ export class ImportedProjectDiffComponent implements OnInit {
     this.existingProject = await this.projectsRepository.getById(this.importedProject.id);
 
     if (!this.existingProject) {
-      this.status = DiffStatus.created;
+      this.status = DiffStatus.new;
       return;
     }
 
     if (!this.existingProject.equals(this.importedProject)) {
-      this.status = DiffStatus.changed;
+      this.status = DiffStatus.updated;
       return;
     }
 
-    this.status = DiffStatus.no_changes;
+    this.status = DiffStatus.same;
+  }
+
+  async save() {
+    await this.projectsRepository.create(this.importedProject);
+    this.status = DiffStatus.same;
   }
 
   protected readonly DiffStatus = DiffStatus;

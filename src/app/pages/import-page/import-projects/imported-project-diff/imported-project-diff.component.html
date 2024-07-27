@@ -1,4 +1,4 @@
-<section class="card mb-2" [ngClass]="{ 'border-primary': status === DiffStatus.created }">
+<section class="card mb-2" [ngClass]="{ 'border-primary': status === DiffStatus.new }" *ngIf="status !== DiffStatus.same">
   <main class="card-body">
     <table class="table table-sm">
       <thead>
@@ -15,6 +15,9 @@
         <th scope="col" class="text-end">
           Created At
         </th>
+        <th scope="col" class="text-end">
+          Actions
+        </th>
       </tr>
       </thead>
       <tbody>
@@ -30,6 +33,11 @@
         </td>
         <td class="text-end">
           {{importedProject.createdAt|date}}
+        </td>
+        <td class="text-end">
+          <button class="btn btn-sm btn-primary" *ngIf="status === DiffStatus.new" (click)="save()">
+            Save
+          </button>
         </td>
       </tr>
       <tr *ngIf="existingProject">

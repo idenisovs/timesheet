@@ -1,5 +1,5 @@
 export enum DiffStatus {
-  created,
-  changed,
-  no_changes
+  new,
+  updated,
+  same
 }
