@@ -1,4 +1,4 @@
-<section class="card mb-3">
+<section class="card">
   <header class="card-header">
     Import
   </header>
@@ -12,4 +12,6 @@
   </main>
 </section>
 
-<app-import-projects [importedProjects]="projects" *ngIf="projects.length" />
+<app-import-projects *ngIf="projects.length" [importedProjects]="projects" />
+
+<app-import-issues *ngIf="issues.length" />

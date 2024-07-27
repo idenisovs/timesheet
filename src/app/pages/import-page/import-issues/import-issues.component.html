@@ -1,0 +1,13 @@
+<section class="card mt-3">
+  <header class="card-header">
+    Issue Import
+  </header>
+
+  <main class="card-body">
+    <app-imported-issue-diff
+      *ngFor="let issue of importedIssues"
+      [importedIssue]="issue"
+      (completed)="removeCompletedIssue($event)"
+    />
+  </main>
+</section>
