@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgForOf } from '@angular/common';
+
 import { Issue } from '../../../dto';
 import { ImportedProjectDiffComponent } from '../import-projects/imported-project-diff/imported-project-diff.component';
 import { ImportedIssueDiffComponent } from './imported-issue-diff/imported-issue-diff.component';

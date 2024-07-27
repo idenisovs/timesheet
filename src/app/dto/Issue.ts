@@ -1,4 +1,5 @@
 import { IssueEntity } from '../store/entities';
+import { ImportedIssue } from '../pages/import-page/Imports';
 
 export class Issue {
   public static readonly KEY_PATTERN = /^\w+-\d+/;
@@ -29,6 +30,16 @@ export class Issue {
     Object.assign(issue, record);
 
     issue.createdAt = new Date(record.createdAt);
+
+    return issue;
+  }
+
+  static fromImport(importedIssue: ImportedIssue): Issue {
+    const issue = new Issue();
+
+    Object.assign(issue, importedIssue);
+
+    issue.createdAt = new Date(importedIssue.createdAt);
 
     return issue;
   }

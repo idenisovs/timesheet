@@ -3,7 +3,7 @@ import { NgIf } from '@angular/common';
 import * as XLSX from 'xlsx';
 
 import { ImportedProject, ImportedIssue, ImportedActivity } from './Imports';
-import { Project } from '../../dto';
+import { Issue, Project } from '../../dto';
 import { ImportProjectsComponent } from './import-projects/import-projects.component';
 import { ImportIssuesComponent } from './import-issues/import-issues.component';
 
@@ -20,7 +20,7 @@ import { ImportIssuesComponent } from './import-issues/import-issues.component';
 })
 export class ImportPageComponent {
   projects: Project[] = [];
-  issues: ImportedIssue[] = [];
+  issues: Issue[] = [];
   activities: ImportedActivity[] = [];
   isImportSectionsVisible = false;
 
@@ -41,18 +41,27 @@ export class ImportPageComponent {
 
     const workbook = XLSX.read(await file.arrayBuffer());
 
+    this.readProjectImports(workbook);
+    this.readIssueImports(workbook);
+
+    const activitiesSheet = workbook.Sheets['Activities'];
+
+    this.activities = XLSX.utils.sheet_to_json(activitiesSheet);
+  }
+
+  readProjectImports(workbook: XLSX.WorkBook) {
     const projectsSheet = workbook.Sheets['Projects'];
 
     const importedProjects: ImportedProject[] = XLSX.utils.sheet_to_json(projectsSheet);
 
     this.projects = importedProjects.map(Project.fromImport);
+  }
 
+  readIssueImports(workbook: XLSX.WorkBook) {
     const issuesSheet = workbook.Sheets['Issues'];
 
-    this.issues = XLSX.utils.sheet_to_json(issuesSheet);
+    const importedIssues: ImportedIssue[] = XLSX.utils.sheet_to_json(issuesSheet);
 
-    const activitiesSheet = workbook.Sheets['Activities'];
-
-    this.activities = XLSX.utils.sheet_to_json(activitiesSheet);
+    this.issues = importedIssues.map(Issue.fromImport);
   }
 }

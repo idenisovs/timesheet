@@ -24,10 +24,13 @@ export class ImportedIssueDiffComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    console.log(this.importedIssue);
     if (!this.importedIssue) {
       return;
     }
 
-    // this.existingIssue = await this.issuesRepository.get
+    this.existingIssue = await this.issuesRepository.getById(this.importedIssue.id);
+
+    console.log(this.existingIssue);
   }
 }
