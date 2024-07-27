@@ -22,20 +22,24 @@
       </thead>
       <tbody>
       <tr>
-        <td class="w-25">
+        <td class="w-25" [ngClass]="getRowStyle()">
           {{importedProject.name}}
         </td>
-        <td class="w-50">
+        <td class="w-50" [ngClass]="getRowStyle()">
           {{importedProject.description}}
         </td>
-        <td>
+        <td [ngClass]="getRowStyle()">
           {{importedProject.keys.join(', ')}}
         </td>
-        <td class="text-end">
+        <td class="text-end" [ngClass]="getRowStyle()">
           {{importedProject.createdAt|date}}
         </td>
-        <td class="text-end">
+        <td class="text-end align-middle" [rowSpan]="status === DiffStatus.new ? 1 : 2">
           <button class="btn btn-sm btn-primary" *ngIf="status === DiffStatus.new" (click)="save()">
+            Save
+          </button>
+
+          <button class="btn btn-sm btn-success" *ngIf="status === DiffStatus.updated" (click)="update()">
             Save
           </button>
         </td>

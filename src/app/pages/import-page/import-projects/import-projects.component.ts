@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Project } from '../../../dto';
 import { NgForOf } from '@angular/common';
+
+import { Project } from '../../../dto';
 import { ImportedProjectDiffComponent } from './imported-project-diff/imported-project-diff.component';
 
 @Component({
