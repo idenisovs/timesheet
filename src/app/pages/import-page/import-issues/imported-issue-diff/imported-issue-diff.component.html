@@ -1,1 +1,77 @@
-<p>imported-issue-diff works!</p>
+<section class="card mb-2" [ngClass]="{ 'border-primary': status === DiffStatus.new }">
+  <main class="card-body">
+    <table class="table table-sm">
+      <thead>
+      <tr>
+        <th scope="col">
+          Key
+        </th>
+        <th scope="col" class="w-50">
+          Name
+        </th>
+        <th scope="col" class="text-center">
+          Duration
+        </th>
+        <th scope="col" class="text-center">
+          Estimate
+        </th>
+        <th scope="col" class="text-end">
+          Created At
+        </th>
+        <th scope="col" class="text-center">
+          Actions
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="align-middle">
+        <td [ngClass]="getRowStyle()">
+          {{importedIssue.key}}
+        </td>
+        <td [ngClass]="getRowStyle()">
+          {{importedIssue.name}}
+        </td>
+        <td class="text-center" [ngClass]="getRowStyle()">
+          {{importedIssue.duration}}
+        </td>
+        <td class="text-center" [ngClass]="getRowStyle()">
+          {{importedIssue.estimate}}
+        </td>
+        <td class="text-end" [ngClass]="getRowStyle()">
+          {{importedIssue.createdAt|date}}
+        </td>
+        <td class="text-center align-middle" [rowSpan]="status === DiffStatus.new ? 1 : 2">
+          <button class="btn btn-sm btn-primary" *ngIf="status === DiffStatus.new" (click)="save()">
+            <i class="material-icons">done</i>
+          </button>
+
+          <button class="btn btn-sm btn-success" *ngIf="status === DiffStatus.updated" (click)="update()">
+            <i class="material-icons">done</i>
+          </button>
+
+          <button class="btn btn-sm btn-outline-dark ms-1" (click)="cancel()">
+            <i class="material-icons">clear</i>
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="existingIssue">
+        <td [ngClass]="getRowStyle()">
+          {{existingIssue.key}}
+        </td>
+        <td [ngClass]="getRowStyle()">
+          {{existingIssue.name}}
+        </td>
+        <td class="text-center" [ngClass]="getRowStyle()">
+          {{existingIssue.duration}}
+        </td>
+        <td class="text-center" [ngClass]="getRowStyle()">
+          {{existingIssue.estimate}}
+        </td>
+        <td class="text-end" [ngClass]="getRowStyle()">
+          {{existingIssue.createdAt|date}}
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </main>
+</section>
