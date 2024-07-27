@@ -53,5 +53,21 @@ export class ImportedProjectDiffComponent implements OnInit {
     this.status = DiffStatus.same;
   }
 
+  async update() {
+    await this.projectsRepository.update(this.importedProject);
+    this.status = DiffStatus.same;
+  }
+
+  getRowStyle() {
+    switch (this.status) {
+      case DiffStatus.new:
+        return 'text-primary';
+      case DiffStatus.updated:
+        return 'text-success';
+      default:
+        return '';
+    }
+  }
+
   protected readonly DiffStatus = DiffStatus;
 }
