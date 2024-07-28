@@ -4,6 +4,7 @@ import { NgForOf } from '@angular/common';
 import { Activity } from '../../../dto';
 import { ImportedIssueDiffComponent } from '../import-issues/imported-issue-diff/imported-issue-diff.component';
 import { ImportedActivityDiffComponent } from './imported-activity-diff/imported-activity-diff.component';
+import { ImportActivitiesService } from './import-activities.service';
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
 
 @Component({
@@ -22,6 +23,7 @@ export class ImportActivitiesComponent {
   importedActivities!: Activity[];
 
   constructor(
+    private service: ImportActivitiesService,
     private activityRepository: ActivitiesRepositoryService
   ) {}
 
@@ -30,20 +32,34 @@ export class ImportActivitiesComponent {
     this.importedActivities.splice(idx, 1);
   }
 
-  saveAll() {}
+  async saveAll() {
+    let savedActivitiesCount = 0;
+
+    for (let idx = 0; idx < this.importedActivities.length; idx++) {
+      const activity = this.importedActivities[idx];
+      await this.service.save(activity);
+      this.removeCompletedActivity(activity);
+      idx--;
+      savedActivitiesCount++;
+    }
+
+    alert(`Saved ${savedActivitiesCount} activities!`);
+  }
 
   async saveNewActivities() {
     let savedActivitiesCount = 0;
 
-    for (let activity of this.importedActivities) {
+    for (let idx = 0; idx < this.importedActivities.length; idx++) {
+      const activity = this.importedActivities[idx];
       const existingActivity = await this.activityRepository.getById(activity.id);
 
       if (existingActivity) {
         continue;
       }
 
-      await this.activityRepository.save([activity]);
+      await this.service.save(activity);
       this.removeCompletedActivity(activity);
+      idx--;
       savedActivitiesCount++;
     }
 

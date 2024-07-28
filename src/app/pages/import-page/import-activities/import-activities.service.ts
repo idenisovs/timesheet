@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { Activity, Day, Week } from '../../../../dto';
-import { WeeksRepositoryService } from '../../../../repository/weeks-repository.service';
-import { DaysRepositoryService } from '../../../../repository/days-repository.service';
-import { SaveActivitiesWorkflowService } from '../../../../workflows/save-activities-workflow.service';
+import { WeeksRepositoryService } from '../../../repository/weeks-repository.service';
+import { DaysRepositoryService } from '../../../repository/days-repository.service';
+import { SaveActivitiesWorkflowService } from '../../../workflows/save-activities-workflow.service';
+import { Activity, Day, Week } from '../../../dto';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ImportedActivityDiffService {
-
+export class ImportActivitiesService {
   constructor(
     private weekRepository: WeeksRepositoryService,
     private dayRepository: DaysRepositoryService,
