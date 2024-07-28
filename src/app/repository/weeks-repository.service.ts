@@ -25,7 +25,7 @@ export class WeeksRepositoryService {
       for (let day of week.days) {
         const activityEntities = await this.db.activities.where('dayId').equals(day.id).sortBy('from');
 
-        day.activities = activityEntities.map((entity) => new Activity(entity));
+        day.activities = activityEntities.map(Activity.fromRecord);
       }
     }
 
