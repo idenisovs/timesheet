@@ -55,19 +55,19 @@
         </td>
       </tr>
       <tr *ngIf="existingIssue">
-        <td [ngClass]="getRowStyle()">
+        <td>
           {{existingIssue.key}}
         </td>
-        <td [ngClass]="getRowStyle()">
+        <td>
           {{existingIssue.name}}
         </td>
-        <td class="text-center" [ngClass]="getRowStyle()">
+        <td class="text-center">
           {{existingIssue.duration}}
         </td>
-        <td class="text-center" [ngClass]="getRowStyle()">
+        <td class="text-center">
           {{existingIssue.estimate}}
         </td>
-        <td class="text-end" [ngClass]="getRowStyle()">
+        <td class="text-end">
           {{existingIssue.createdAt|date}}
         </td>
       </tr>

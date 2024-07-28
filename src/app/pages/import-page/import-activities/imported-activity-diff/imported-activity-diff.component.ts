@@ -18,7 +18,7 @@ import { ImportedActivityDiffService } from './imported-activity-diff.service';
   styleUrl: './imported-activity-diff.component.scss'
 })
 export class ImportedActivityDiffComponent implements OnInit {
-  status = DiffStatus.same;
+  status: DiffStatus = DiffStatus.same;
   existingActivity: Activity|null = null;
 
   @Input()
@@ -55,6 +55,17 @@ export class ImportedActivityDiffComponent implements OnInit {
     }
 
     return DiffStatus.same;
+  }
+
+  getBtnStyle() {
+    switch (this.status) {
+      case DiffStatus.new:
+        return 'btn-primary';
+      case DiffStatus.updated:
+        return 'btn-success';
+      default:
+        return '';
+    }
   }
 
   getRowStyle() {
