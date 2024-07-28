@@ -33,7 +33,7 @@
           <button
             *ngIf="status !== DiffStatus.same"
             class="btn btn-sm"
-            [ngClass]="{ 'btn-primary': status === DiffStatus.new, 'btn-success': status === DiffStatus.updated }"
+            [ngClass]="getBtnStyle()"
             (click)="save()"
           >
             <i class="material-icons">done</i>
@@ -45,13 +45,13 @@
         </td>
       </tr>
       <tr *ngIf="existingActivity">
-        <td [ngClass]="getRowStyle()">
+        <td>
           {{existingActivity.name}}
         </td>
-        <td class="text-center" [ngClass]="getRowStyle()">
+        <td class="text-center">
           {{existingActivity.duration}}
         </td>
-        <td class="text-end" [ngClass]="getRowStyle()">
+        <td class="text-end">
           {{existingActivity.date|date}}
         </td>
       </tr>

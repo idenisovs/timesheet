@@ -73,7 +73,19 @@ export class Activity {
     return activity;
   }
 
-  equals(other: Activity) {
-    return false;
+  equals(other: Activity): boolean {
+    if (
+      this.id !== other.id
+      || this.name !== other.name
+      || this.from !== other.from
+      || this.till !== other.till
+      || this.duration !== other.duration
+      || this.weekId !== other.weekId
+      || this.dayId !== other.dayId
+    ) {
+      return false;
+    }
+
+    return this.date.getTime() === other.date.getTime();
   }
 }
