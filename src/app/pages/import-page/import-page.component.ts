@@ -3,9 +3,10 @@ import { NgIf } from '@angular/common';
 import * as XLSX from 'xlsx';
 
 import { ImportedProject, ImportedIssue, ImportedActivity } from './Imports';
-import { Issue, Project } from '../../dto';
+import { Activity, Issue, Project } from '../../dto';
 import { ImportProjectsComponent } from './import-projects/import-projects.component';
 import { ImportIssuesComponent } from './import-issues/import-issues.component';
+import { ImportActivitiesComponent } from './import-activities/import-activities.component';
 
 @Component({
   selector: 'app-import-page',
@@ -14,6 +15,7 @@ import { ImportIssuesComponent } from './import-issues/import-issues.component';
     ImportProjectsComponent,
     NgIf,
     ImportIssuesComponent,
+    ImportActivitiesComponent,
   ],
   templateUrl: './import-page.component.html',
   styleUrl: './import-page.component.scss'
@@ -21,7 +23,7 @@ import { ImportIssuesComponent } from './import-issues/import-issues.component';
 export class ImportPageComponent {
   projects: Project[] = [];
   issues: Issue[] = [];
-  activities: ImportedActivity[] = [];
+  activities: Activity[] = [];
   isImportSectionsVisible = false;
 
   async getFile(event: Event) {
@@ -43,25 +45,24 @@ export class ImportPageComponent {
 
     this.readProjectImports(workbook);
     this.readIssueImports(workbook);
-
-    const activitiesSheet = workbook.Sheets['Activities'];
-
-    this.activities = XLSX.utils.sheet_to_json(activitiesSheet);
+    this.readActivityImports(workbook);
   }
 
   readProjectImports(workbook: XLSX.WorkBook) {
     const projectsSheet = workbook.Sheets['Projects'];
-
     const importedProjects: ImportedProject[] = XLSX.utils.sheet_to_json(projectsSheet);
-
     this.projects = importedProjects.map(Project.fromImport);
   }
 
   readIssueImports(workbook: XLSX.WorkBook) {
     const issuesSheet = workbook.Sheets['Issues'];
-
     const importedIssues: ImportedIssue[] = XLSX.utils.sheet_to_json(issuesSheet);
-
     this.issues = importedIssues.map(Issue.fromImport);
+  }
+
+  readActivityImports(workbook: XLSX.WorkBook) {
+    const activitySheet = workbook.Sheets['Activities'];
+    const importedActivities: ImportedActivity[] = XLSX.utils.sheet_to_json(activitySheet);
+    this.activities = importedActivities.map(Activity.fromImport);
   }
 }
