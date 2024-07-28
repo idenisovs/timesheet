@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SheetStoreService } from '../services/sheet-store.service';
 import { Activity, Week, Day } from '../dto';
+import { ActivityEntity } from '../store/entities';
 
 @Injectable({
   providedIn: 'root'
@@ -10,34 +11,34 @@ export class ActivitiesRepositoryService {
 
   constructor(private store: SheetStoreService) { }
 
-  async getAll(raw = false) {
-    const entities = await this.db.activities.toArray();
+  async getAll(raw = false): Promise<Activity[] | ActivityEntity[]> {
+    const records: ActivityEntity[] = await this.db.activities.toArray();
 
     if (raw) {
-      return entities;
+      return records;
     } else {
-      return entities.map((entity) => new Activity(entity));
+      return records.map(Activity.fromRecord);
     }
   }
 
-  getByWeek(week: Week): Promise<Activity[]> {
-    return this.db.activities.where('weekId').equals(week.id).toArray();
+  async getByWeek(week: Week): Promise<Activity[]> {
+    const records = await this.db.activities.where('weekId').equals(week.id).toArray();
+    return records.map(Activity.fromRecord);
   }
 
-  getByDay(day: Day): Promise<Activity[]> {
-    return this.db.activities.where('dayId').equals(day.id).toArray();
+  async getByDay(day: Day): Promise<Activity[]> {
+    const records = await this.db.activities.where('dayId').equals(day.id).toArray();
+    return records.map(Activity.fromRecord);
   }
 
   async getByIds(ids: string[]): Promise<Activity[]> {
-    const entities = await this.db.activities.where('id').anyOf(ids).reverse().sortBy('date');
-
-    return entities.map(entity => new Activity(entity));
+    const records = await this.db.activities.where('id').anyOf(ids).reverse().sortBy('date');
+    return records.map(Activity.fromRecord);
   }
 
   async getByIssueKey(issueKey: string): Promise<Activity[]> {
-    const entities = await this.db.activities.where('name').startsWith(`${issueKey}:`).reverse().sortBy('date');
-
-    return entities.map(entity => new Activity(entity));
+    const records = await this.db.activities.where('name').startsWith(`${issueKey}:`).reverse().sortBy('date');
+    return records.map(Activity.fromRecord);
   }
 
   async save(activities: Activity[]): Promise<void> {

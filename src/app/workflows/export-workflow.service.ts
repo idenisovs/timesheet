@@ -38,7 +38,7 @@ export class ExportWorkflowService {
 
   async getActivitiesSheet() {
     const days = await this.daysRepository.getAll();
-    const activities = await this.activitiesRepository.getAll();
+    const activities = await this.activitiesRepository.getAll() as Activity[];
 
     const activitiesJson = activities.map((activity: Activity) => {
       return {
