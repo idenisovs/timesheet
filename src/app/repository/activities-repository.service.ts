@@ -31,6 +31,11 @@ export class ActivitiesRepositoryService {
     return records.map(Activity.fromRecord);
   }
 
+  async getById(id: string): Promise<Activity|null> {
+    const record = await this.db.activities.where('id').equals(id).first();
+    return record ? Activity.fromRecord(record) : null;
+  }
+
   async getByIds(ids: string[]): Promise<Activity[]> {
     const records = await this.db.activities.where('id').anyOf(ids).reverse().sortBy('date');
     return records.map(Activity.fromRecord);

@@ -19,7 +19,10 @@ export class SaveActivitiesWorkflowService {
   ) { }
 
   public async save(day: Day, activities: Activity[], removableActivityIds: string[]) {
-    await this.activitiesRepository.remove(removableActivityIds);
+    if (removableActivityIds.length) {
+      await this.activitiesRepository.remove(removableActivityIds);
+    }
+
     await this.createDayIfNotExists(day);
     await this.activitiesRepository.save(activities);
     await this.processAffectedIssues(activities, removableActivityIds);

@@ -20,9 +20,11 @@ export class ImportedIssueDiffComponent implements OnInit {
   status = DiffStatus.same;
   existingIssue: Issue|null = null;
 
-  @Input() importedIssue!: Issue;
+  @Input()
+  importedIssue!: Issue;
 
-  @Output() completed = new EventEmitter<Issue>();
+  @Output()
+  completed = new EventEmitter<Issue>();
 
   constructor(
     private issuesRepository: IssueRepositoryService

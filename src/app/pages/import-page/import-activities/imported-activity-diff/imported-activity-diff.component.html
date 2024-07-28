@@ -1,0 +1,68 @@
+<section class="card mb-2" [ngClass]="{ 'border-primary': status === DiffStatus.new }">
+  <main class="card-body">
+    <table class="table table-sm">
+      <thead>
+      <tr>
+        <th scope="col">
+          Key
+        </th>
+        <th scope="col" class="w-50">
+          Name
+        </th>
+        <th scope="col" class="text-center">
+          Duration
+        </th>
+        <th scope="col" class="text-center">
+          Estimate
+        </th>
+        <th scope="col" class="text-end">
+          Created At
+        </th>
+        <th scope="col" class="text-center">
+          Actions
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="align-middle">
+        <td [ngClass]="getRowStyle()">
+          {{importedActivity.name}}
+        </td>
+        <td class="text-center" [ngClass]="getRowStyle()">
+          {{importedActivity.duration}}
+        </td>
+        <td class="text-center" [ngClass]="getRowStyle()">
+          {{importedActivity.duration}}
+        </td>
+        <td class="text-end" [ngClass]="getRowStyle()">
+          {{importedActivity.date|date}}
+        </td>
+
+        <td class="text-center align-middle" [rowSpan]="status === DiffStatus.new ? 1 : 2">
+          <button class="btn btn-sm btn-success" *ngIf="status !== DiffStatus.same" (click)="save()">
+            <i class="material-icons">done</i>
+          </button>
+
+          <button class="btn btn-sm btn-outline-dark ms-1" (click)="cancel()">
+            <i class="material-icons">clear</i>
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="existingActivity">
+        <td [ngClass]="getRowStyle()">
+          {{existingActivity.name}}
+        </td>
+        <td class="text-center" [ngClass]="getRowStyle()">
+          {{existingActivity.duration}}
+        </td>
+        <td class="text-center" [ngClass]="getRowStyle()">
+          {{existingActivity.duration}}
+        </td>
+        <td class="text-end" [ngClass]="getRowStyle()">
+          {{existingActivity.date|date}}
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </main>
+</section>

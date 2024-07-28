@@ -1,1 +1,13 @@
-<p>import-activities works!</p>
+<section class="card mt-3">
+  <header class="card-header">
+    Activity Import
+  </header>
+
+  <main class="card-body">
+    <app-imported-activity-diff
+      *ngFor="let activity of importedActivities"
+      [importedActivity]="activity"
+      (completed)="removeCompletedActivity($event)"
+    />
+  </main>
+</section>
