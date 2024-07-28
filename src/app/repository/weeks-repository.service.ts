@@ -12,6 +12,11 @@ export class WeeksRepositoryService {
 
   constructor(private store: SheetStoreService) { }
 
+  async getById(weekId: string): Promise<Week|null> {
+    const record = await this.db.weeks.where('id').equals(weekId).first();
+    return record ? Week.build(record) : null;
+  }
+
   async getAll(): Promise<Week[]> {
     const raw = await this.db.weeks.orderBy('till').reverse().toArray();
 
