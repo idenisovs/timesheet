@@ -52,6 +52,10 @@ export class ImportedActivityDiffComponent implements OnInit {
       return DiffStatus.new;
     }
 
+    if (!this.existingActivity.equals(this.importedActivity)) {
+      return DiffStatus.updated;
+    }
+
     return DiffStatus.same;
   }
 
