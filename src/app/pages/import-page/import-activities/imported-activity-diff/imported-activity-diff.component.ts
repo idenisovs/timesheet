@@ -4,7 +4,7 @@ import { DatePipe, NgClass, NgIf } from '@angular/common';
 import { Activity } from '../../../../dto';
 import { DiffStatus } from '../../DiffStatus';
 import { ActivitiesRepositoryService } from '../../../../repository/activities-repository.service';
-import { ImportedActivityDiffService } from './imported-activity-diff.service';
+import { ImportActivitiesService } from '../import-activities.service';
 
 @Component({
   selector: 'app-imported-activity-diff',
@@ -29,7 +29,7 @@ export class ImportedActivityDiffComponent implements OnInit {
 
   constructor(
     private activityRepository: ActivitiesRepositoryService,
-    private service: ImportedActivityDiffService
+    private service: ImportActivitiesService
   ) {}
 
   async ngOnInit() {
