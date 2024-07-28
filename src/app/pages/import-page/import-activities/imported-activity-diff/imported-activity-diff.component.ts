@@ -1,12 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DatePipe, NgClass, NgIf } from '@angular/common';
 
-import { Activity, Day, Week } from '../../../../dto';
+import { Activity } from '../../../../dto';
 import { DiffStatus } from '../../DiffStatus';
 import { ActivitiesRepositoryService } from '../../../../repository/activities-repository.service';
-import { DatePipe, NgClass, NgIf } from '@angular/common';
-import { SaveActivitiesWorkflowService } from '../../../../workflows/save-activities-workflow.service';
-import { DaysRepositoryService } from '../../../../repository/days-repository.service';
-import { WeeksRepositoryService } from '../../../../repository/weeks-repository.service';
+import { ImportedActivityDiffService } from './imported-activity-diff.service';
 
 @Component({
   selector: 'app-imported-activity-diff',
@@ -31,9 +29,7 @@ export class ImportedActivityDiffComponent implements OnInit {
 
   constructor(
     private activityRepository: ActivitiesRepositoryService,
-    private dayRepository: DaysRepositoryService,
-    private activitySaveWorkflow: SaveActivitiesWorkflowService,
-    private weekRepository: WeeksRepositoryService
+    private service: ImportedActivityDiffService
   ) {}
 
   async ngOnInit() {
@@ -73,46 +69,13 @@ export class ImportedActivityDiffComponent implements OnInit {
   }
 
   async save() {
-    const day = await this.getActivityDay();
-
-    await this.activitySaveWorkflow.save(day, [this.importedActivity], [])
-
+    await this.service.save(this.importedActivity);
     this.status = DiffStatus.same;
     this.completed.emit(this.importedActivity);
   }
 
   async cancel() {
     this.completed.emit(this.importedActivity);
-  }
-
-  async getActivityDay(): Promise<Day> {
-    let day = await this.dayRepository.getById(this.importedActivity.dayId);
-
-    if (day) {
-      return day;
-    }
-
-    await this.createWeekIfNotExists();
-
-    day = new Day();
-
-    day.id = this.importedActivity.dayId;
-    day.weekId = this.importedActivity.weekId;
-    day.date = new Date(this.importedActivity.date);
-
-    return day;
-  }
-
-  async createWeekIfNotExists(): Promise<void> {
-    const existingWeek = await this.weekRepository.getById(this.importedActivity.weekId);
-
-    if (existingWeek) {
-      return;
-    }
-
-    const week = new Week(this.importedActivity.date);
-    week.id = this.importedActivity.weekId;
-    await this.weekRepository.save(week);
   }
 
   protected readonly DiffStatus = DiffStatus;
