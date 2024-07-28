@@ -3,17 +3,11 @@
     <table class="table table-sm">
       <thead>
       <tr>
-        <th scope="col">
-          Key
-        </th>
         <th scope="col" class="w-50">
           Name
         </th>
         <th scope="col" class="text-center">
           Duration
-        </th>
-        <th scope="col" class="text-center">
-          Estimate
         </th>
         <th scope="col" class="text-end">
           Created At
@@ -31,15 +25,17 @@
         <td class="text-center" [ngClass]="getRowStyle()">
           {{importedActivity.duration}}
         </td>
-        <td class="text-center" [ngClass]="getRowStyle()">
-          {{importedActivity.duration}}
-        </td>
         <td class="text-end" [ngClass]="getRowStyle()">
           {{importedActivity.date|date}}
         </td>
 
         <td class="text-center align-middle" [rowSpan]="status === DiffStatus.new ? 1 : 2">
-          <button class="btn btn-sm btn-success" *ngIf="status !== DiffStatus.same" (click)="save()">
+          <button
+            *ngIf="status !== DiffStatus.same"
+            class="btn btn-sm"
+            [ngClass]="{ 'btn-primary': status === DiffStatus.new, 'btn-success': status === DiffStatus.updated }"
+            (click)="save()"
+          >
             <i class="material-icons">done</i>
           </button>
 
@@ -51,9 +47,6 @@
       <tr *ngIf="existingActivity">
         <td [ngClass]="getRowStyle()">
           {{existingActivity.name}}
-        </td>
-        <td class="text-center" [ngClass]="getRowStyle()">
-          {{existingActivity.duration}}
         </td>
         <td class="text-center" [ngClass]="getRowStyle()">
           {{existingActivity.duration}}

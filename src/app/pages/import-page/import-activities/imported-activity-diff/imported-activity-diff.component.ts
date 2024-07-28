@@ -48,6 +48,10 @@ export class ImportedActivityDiffComponent implements OnInit {
   }
 
   getDiffStatus(): DiffStatus {
+    if (!this.existingActivity) {
+      return DiffStatus.new;
+    }
+
     return DiffStatus.same;
   }
 
