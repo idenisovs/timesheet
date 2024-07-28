@@ -1,6 +1,21 @@
 <section class="card mt-3">
-  <header class="card-header fw-bold">
-    Activity Import
+  <header class="card-header">
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="fw-bold">
+        Activity Import
+      </div>
+      <div>
+        <button class="btn btn-sm btn-link link-dark">
+          Save All
+        </button>
+        <button class="btn btn-sm btn-link link-dark" (click)="saveNewActivities()">
+          Save New
+        </button>
+        <button class="btn btm-sm btn-link link-dark" (click)="cancelImportingActivities()">
+          Cancel
+        </button>
+      </div>
+    </div>
   </header>
 
   <main class="card-body">
