@@ -72,4 +72,8 @@ export class Activity {
     Object.assign(activity, record);
     return activity;
   }
- }
+
+  equals(other: Activity) {
+    return false;
+  }
+}
