@@ -1,4 +1,5 @@
 import { Issue } from './Issue';
+import { ImportedActivity } from '../pages/import-page/Imports';
 
 export class Activity {
   id = crypto.randomUUID() as string;
@@ -53,5 +54,13 @@ export class Activity {
     }
 
     return !this.duration.startsWith('0');
+  }
+
+  static fromImport(activityImport: ImportedActivity): Activity {
+    const activity = new Activity();
+
+    Object.assign(activity, activityImport);
+
+    return activity;
   }
 }
