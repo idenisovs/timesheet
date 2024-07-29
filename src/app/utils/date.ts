@@ -1,6 +1,5 @@
 import parse from 'parse-duration';
 import { duration } from 'yet-another-duration';
-import { Sheet } from '../dto';
 
 export function getDateString(date = new Date()): string {
   const [ dateStr ] = date.toISOString().split('T');
@@ -46,16 +45,6 @@ export function endOfDay(date: Date): Date {
   result.setHours(23, 59, 59, 999);
 
   return result;
-}
-
-export function sortSheets(a: Sheet, b: Sheet): number {
-  if (a.date < b.date) {
-    return 1;
-  } else if (a.date > b.date) {
-    return -1;
-  } else {
-    return 0;
-  }
 }
 
 export function sumDuration(duration1: string, duration2: string): string {
