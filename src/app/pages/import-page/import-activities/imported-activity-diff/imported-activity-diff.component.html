@@ -6,12 +6,23 @@
         <th scope="col" class="w-50">
           Name
         </th>
+
+        <th scope="col" class="text-center">
+          From
+        </th>
+
+        <th scope="col" class="text-center">
+          Till
+        </th>
+
         <th scope="col" class="text-center">
           Duration
         </th>
+
         <th scope="col" class="text-end">
           Created At
         </th>
+
         <th scope="col" class="text-center" style="width: 12%">
           Actions
         </th>
@@ -22,9 +33,19 @@
         <td [ngClass]="getRowStyle()">
           {{importedActivity.name}}
         </td>
+
+        <td class="text-center" [ngClass]="getRowStyle()">
+          {{importedActivity.from}}
+        </td>
+
+        <td class="text-center" [ngClass]="getRowStyle()">
+          {{importedActivity.till}}
+        </td>
+
         <td class="text-center" [ngClass]="getRowStyle()">
           {{importedActivity.duration}}
         </td>
+
         <td class="text-end" [ngClass]="getRowStyle()">
           {{importedActivity.date|date}}
         </td>
@@ -48,9 +69,19 @@
         <td>
           {{existingActivity.name}}
         </td>
+
+        <td class="text-center">
+          {{existingActivity.from}}
+        </td>
+
+        <td class="text-center">
+          {{existingActivity.till}}
+        </td>
+
         <td class="text-center">
           {{existingActivity.duration}}
         </td>
+
         <td class="text-end">
           {{existingActivity.date|date}}
         </td>
