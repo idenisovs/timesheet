@@ -18,10 +18,6 @@ export class ActivitiesService {
     }).toString();
   }
 
-  public filterActive(activities: Activity[]): Activity[] {
-    return activities.filter((activity) => activity.isActive());
-  }
-
   public getIssueKeys(activities: Activity[]): string[] {
     const issueKeys: string[] = activities
       .map(activity => activity.getIssueKey())

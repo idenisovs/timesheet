@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import SheetStore from '../store/SheetStore';
-import { Sheet } from '../dto';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +14,5 @@ export class SheetStoreService {
 
   constructor() {
     this.db.open().then(() => {});
-  }
-
-  loadTimeSheets(): Promise<Sheet[]> {
-    return this.db.sheet.orderBy('date').reverse().toArray();
   }
 }
