@@ -1,4 +1,4 @@
-export interface ActivityEntity {
+export interface ActivityRecord {
   id: string;
   name: string;
   date: Date;
