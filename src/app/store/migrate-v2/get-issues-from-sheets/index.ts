@@ -1,6 +1,5 @@
-import { Sheet } from '../../../dto';
 import upsertIssue from './upsert-issue';
-import { CreateIssue } from '../types';
+import { CreateIssue, Sheet } from '../types';
 
 export function getIssuesFromSheets(sheets: Sheet[]): CreateIssue[] {
   const issues = new Map<string, CreateIssue>();
