@@ -1,5 +1,5 @@
 import { ImportedProject } from '../pages/import-page/Imports';
-import { ProjectEntity } from '../store/entities';
+import { ProjectRecord } from '../store/entities';
 
 export class Project {
   id = crypto.randomUUID() as string;
@@ -41,7 +41,7 @@ export class Project {
     return project;
   }
 
-  static fromRecord(projectRecord: ProjectEntity): Project {
+  static fromRecord(projectRecord: ProjectRecord): Project {
     const project = new Project();
     Object.assign(project, projectRecord);
     return project;
