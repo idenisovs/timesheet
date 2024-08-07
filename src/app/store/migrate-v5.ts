@@ -5,7 +5,8 @@ import { getDateString, getMonday, startOfDay } from '../utils';
 import { Activity, Sheet, Week, Day } from '../dto';
 
 export default async function migrateV5(store: SheetStore, trans: Transaction) {
-  const sheets = await store.sheet.orderBy('date').reverse().toArray();
+  // @ts-ignore
+  const sheets = await store['sheet'].orderBy('date').reverse().toArray();
   const weeks = groupByWeek(sheets);
   const activities = getAllActivities(sheets);
   const days = groupByDay(activities);
