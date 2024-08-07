@@ -11,7 +11,6 @@ export class Week {
   id: string = crypto.randomUUID();
   from: Date;
   till: Date;
-  days: Day[] = [];
 
   constructor(date = new Date()) {
     this.from = startOfDay(getMonday(date));
@@ -19,14 +18,20 @@ export class Week {
   }
 
   getSummary(): WeekSummary {
-    return this.days.reduce<WeekSummary>((result: WeekSummary, day: Day) => {
-      result.duration += calculateTotalDuration(day.activities);
-      result.activities += day.activities.length;
-      return result;
-    }, {
+    console.warn('getSummary() is deprecated!');
+
+    return {
       activities: 0,
       duration: 0
-    });
+    };
+    // return this.days.reduce<WeekSummary>((result: WeekSummary, day: Day) => {
+    //   result.duration += calculateTotalDuration(day.activities);
+    //   result.activities += day.activities.length;
+    //   return result;
+    // }, {
+    //   activities: 0,
+    //   duration: 0
+    // });
   }
 
   showMissingDays() {
@@ -69,7 +74,6 @@ export class Week {
     week.id = source.id;
     week.from = new Date(source.from);
     week.till = new Date(source.till);
-    week.days = [];
 
     return week;
   }
