@@ -8,7 +8,7 @@ const months: Record<string, string> = {
   '05': 'May',
   '06': 'June',
   '07': 'July',
-  '08': 'April',
+  '08': 'August',
   '09': 'September',
   '10': 'October',
   '11': 'November',
