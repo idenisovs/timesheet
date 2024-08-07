@@ -1,6 +1,6 @@
 import { calculateTotalDuration, endOfDay, getDateString, getMonday, getSunday, startOfDay } from '../utils';
 import { Day } from './Day';
-import { WeekEntity } from '../store/entities';
+import { WeekRecord } from '../store/entities';
 
 export interface WeekSummary {
   duration: number;
@@ -63,7 +63,7 @@ export class Week {
     });
   }
 
-  static build(source: WeekEntity): Week {
+  static build(source: WeekRecord): Week {
     const week = new Week();
 
     week.id = source.id;
@@ -74,7 +74,7 @@ export class Week {
     return week;
   }
 
-  static entity(source: Week): WeekEntity {
+  static entity(source: Week): WeekRecord {
     const { id, from, till } = source;
 
     return {
