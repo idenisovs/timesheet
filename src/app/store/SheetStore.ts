@@ -2,7 +2,7 @@ import Dexie, { Transaction } from 'dexie';
 
 import { WeekRecord, DayRecord, ProjectRecord, IssueRecord, ActivityRecord } from './records';
 
-import index from './migrate-v2';
+import migrateV2 from './migrate-v2';
 import migrateV3 from './migrate-v3';
 import migrateV5 from './migrate-v5';
 
@@ -23,7 +23,7 @@ export default class SheetStore extends Dexie {
 
     this.version(2).stores({
       issues: '++id,&key,name,createdAt'
-    }).upgrade((tx: Transaction) => index(this, tx));
+    }).upgrade((tx: Transaction) => migrateV2(this, tx));
 
     this.version(3).stores({
       issues: '++id,&key,name,activities,createdAt'
