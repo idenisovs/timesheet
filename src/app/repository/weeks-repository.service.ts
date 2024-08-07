@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Week, Day, Activity } from '../dto';
 import { SheetStoreService } from '../services/sheet-store.service';
-import { WeekRecord } from '../store/entities';
+import { WeekRecord } from '../store/records';
 
 @Injectable({
   providedIn: 'root'

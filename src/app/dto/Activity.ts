@@ -1,6 +1,6 @@
 import { Issue } from './Issue';
 import { ImportedActivity } from '../pages/import-page/Imports';
-import { ActivityRecord } from '../store/entities';
+import { ActivityRecord } from '../store/records';
 
 export class Activity {
   id = crypto.randomUUID() as string;
