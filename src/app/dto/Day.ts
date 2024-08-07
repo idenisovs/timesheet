@@ -1,5 +1,5 @@
 import { Activity } from './Activity';
-import { DayEntity } from '../store/entities';
+import { DayRecord } from '../store/entities';
 
 export class Day {
   id: string = crypto.randomUUID();
@@ -16,14 +16,14 @@ export class Day {
     this.date.setHours(0, 0, 0, 0);
   }
 
-  static build(source: DayEntity): Day {
+  static build(source: DayRecord): Day {
     const day = new Day();
     Object.assign(day, source)
     day.date = new Date(source.date);
     return day;
   }
 
-  static entity(source: Day): DayEntity {
+  static entity(source: Day): DayRecord {
     const { id, date, weekId } = source;
 
     return {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { SheetStoreService } from '../services/sheet-store.service';
-import { DayEntity } from '../store/entities';
+import { DayRecord } from '../store/entities';
 import { Week, Day } from '../dto';
 
 @Injectable({
@@ -39,7 +39,7 @@ export class DaysRepositoryService {
     return day;
   }
 
-  private map(entities: DayEntity[]): Day[] {
+  private map(entities: DayRecord[]): Day[] {
     return entities.map((entity) => Day.build(entity));
   }
 }
