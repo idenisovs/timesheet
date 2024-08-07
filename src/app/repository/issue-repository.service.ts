@@ -45,4 +45,8 @@ export class IssueRepositoryService {
     await this.db.issues.put(issue);
     return issue;
   }
+
+  async remove(issue: Issue): Promise<void> {
+    await this.db.issues.delete(issue.id);
+  }
 }

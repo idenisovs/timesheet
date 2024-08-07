@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Activity, Issue, Sheet } from '../../dto';
 import { SheetStoreService } from '../../services/sheet-store.service';
+import { IssueRepositoryService } from '../../repository/issue-repository.service';
+import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IssuePageService {
 
-  constructor(private sheetStore: SheetStoreService) { }
+  constructor(
+    private issueRepository: IssueRepositoryService,
+    private activityRepository: ActivitiesRepositoryService
+  ) { }
 
   async remove(issue: Issue) {
     await this.removeActivities(issue);
@@ -15,27 +20,12 @@ export class IssuePageService {
   }
 
   private async removeActivities(issue: Issue) {
-    const db = this.sheetStore.Instance;
-
-    const collection = db.sheet.filter((sheet: Sheet) => {
-      return sheet.activities.some((activity: Activity) => {
-        return activity.name.includes(issue.key);
-      })
-    });
-
-    const sheets = await collection.toArray();
-
-    sheets.forEach((sheet: Sheet) => {
-      sheet.activities = sheet.activities.filter((activity: Activity) => {
-        return !activity.name.includes(issue.key);
-      })
-    });
-
-    await db.sheet.bulkPut(sheets);
+    const activities = await this.activityRepository.getByIssueKey(issue.key)
+    const activityIds = activities.map(activity => activity.id);
+    await this.activityRepository.remove(activityIds);
   }
 
   private async removeIssue(issue: Issue) {
-    const db = this.sheetStore.Instance;
-    await db.issues.delete(issue.id);
+    await this.issueRepository.remove(issue);
   }
 }
