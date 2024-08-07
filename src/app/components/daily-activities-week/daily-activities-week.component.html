@@ -2,7 +2,7 @@
   <section class="mb-4">
     <app-daily-activities-week-header [week]="week" />
 
-    <ng-container *ngFor="let day of week.days">
+    <ng-container *ngFor="let day of days">
       <div class="mt-3">
         <app-daily-activities-week-day *ngIf="!day.isMissing; else MissingDay" [day]="day" />
         <ng-template #MissingDay>
