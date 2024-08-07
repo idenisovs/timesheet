@@ -1,4 +1,4 @@
-export interface IssueEntity {
+export interface IssueRecord {
   id: string;
   name: string;
   key: string;
