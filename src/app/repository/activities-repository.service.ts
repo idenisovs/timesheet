@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SheetStoreService } from '../services/sheet-store.service';
 import { Activity, Week, Day } from '../dto';
-import { ActivityEntity } from '../store/entities';
+import { ActivityRecord } from '../store/entities';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,8 @@ export class ActivitiesRepositoryService {
 
   constructor(private store: SheetStoreService) { }
 
-  async getAll(raw = false): Promise<Activity[] | ActivityEntity[]> {
-    const records: ActivityEntity[] = await this.db.activities.toArray();
+  async getAll(raw = false): Promise<Activity[] | ActivityRecord[]> {
+    const records: ActivityRecord[] = await this.db.activities.toArray();
 
     if (raw) {
       return records;

@@ -1,6 +1,6 @@
 import { Issue } from './Issue';
 import { ImportedActivity } from '../pages/import-page/Imports';
-import { ActivityEntity } from '../store/entities';
+import { ActivityRecord } from '../store/entities';
 
 export class Activity {
   id = crypto.randomUUID() as string;
@@ -67,7 +67,7 @@ export class Activity {
     return activity;
   }
 
-  static fromRecord(record: ActivityEntity): Activity {
+  static fromRecord(record: ActivityRecord): Activity {
     const activity = new Activity();
     Object.assign(activity, record);
     return activity;
