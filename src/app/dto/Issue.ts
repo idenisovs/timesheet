@@ -1,4 +1,4 @@
-import { IssueEntity } from '../store/entities';
+import { IssueRecord } from '../store/entities';
 import { ImportedIssue } from '../pages/import-page/Imports';
 
 export class Issue {
@@ -43,7 +43,7 @@ export class Issue {
     return this.createdAt.getTime() === other.createdAt.getTime();
   }
 
-  static fromRecord(record: IssueEntity): Issue {
+  static fromRecord(record: IssueRecord): Issue {
     const issue = new Issue();
 
     Object.assign(issue, record);
