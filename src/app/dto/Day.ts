@@ -1,5 +1,5 @@
 import { Activity } from './Activity';
-import { DayRecord } from '../store/entities';
+import { DayRecord } from '../store/records';
 
 export class Day {
   id: string = crypto.randomUUID();

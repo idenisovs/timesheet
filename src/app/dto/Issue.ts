@@ -1,4 +1,4 @@
-import { IssueRecord } from '../store/entities';
+import { IssueRecord } from '../store/records';
 import { ImportedIssue } from '../pages/import-page/Imports';
 
 export class Issue {

@@ -1,6 +1,6 @@
 import { calculateTotalDuration, endOfDay, getDateString, getMonday, getSunday, startOfDay } from '../utils';
 import { Day } from './Day';
-import { WeekRecord } from '../store/entities';
+import { WeekRecord } from '../store/records';
 
 export interface WeekSummary {
   duration: number;
