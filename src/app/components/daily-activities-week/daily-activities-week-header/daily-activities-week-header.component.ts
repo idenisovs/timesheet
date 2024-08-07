@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { duration } from 'yet-another-duration';
 
-import { Week, WeekSummary } from '../../../dto';
+import { Day, Week, WeekSummary } from '../../../dto';
 
 @Component({
   selector: 'app-daily-activities-week-header',
@@ -14,10 +14,13 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
     activities: 0
   };
 
+  isMissingDaysVisible = false;
+
   @Input()
   week = new Week();
 
-  isMissingDaysVisible = false;
+  @Input()
+  days: Day[] = [];
 
   get TotalHours(): string {
     if (!this.totals.duration) {

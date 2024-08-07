@@ -1,6 +1,6 @@
 <ng-container *ngIf="week">
   <section class="mb-4">
-    <app-daily-activities-week-header [week]="week" />
+    <app-daily-activities-week-header [week]="week" [days]="days" />
 
     <ng-container *ngFor="let day of days">
       <div class="mt-3">
