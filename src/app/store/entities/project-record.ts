@@ -1,4 +1,4 @@
-export interface ProjectEntity {
+export interface ProjectRecord {
   id: string;
   name: string;
   description?: string;
