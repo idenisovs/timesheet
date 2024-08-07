@@ -39,3 +39,10 @@ export interface Issue {
 export interface CreateIssue extends Omit<Issue, 'id'> {
   id?: string;
 }
+
+export interface Sheet {
+  id?: number;
+  date: Date|string;
+  activities: Activity[];
+  isMissing?: boolean;
+}

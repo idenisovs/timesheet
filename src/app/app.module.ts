@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { DailyActivitiesPageComponent } from './pages/daily-activities-page/daily-activities-page.component';
 import { DailyActivitiesWeekComponent } from './components/daily-activities-week/daily-activities-week.component';
 import { DailyActivitiesWeekHeaderComponent } from './components/daily-activities-week/daily-activities-week-header/daily-activities-week-header.component';
-import { MissingDailyActivityComponent } from './components/missing-daily-activity/missing-daily-activity.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import {
 	DailyActivitiesWeekDayComponent
@@ -24,7 +23,6 @@ import {
     DailyActivitiesPageComponent,
     DailyActivitiesWeekComponent,
     DailyActivitiesWeekHeaderComponent,
-    MissingDailyActivityComponent
   ],
 	imports: [
 		BrowserModule,

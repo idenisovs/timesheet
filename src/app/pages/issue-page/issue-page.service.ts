@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Activity, Issue, Sheet } from '../../dto';
-import { SheetStoreService } from '../../services/sheet-store.service';
+import { Issue } from '../../dto';
 import { IssueRepositoryService } from '../../repository/issue-repository.service';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 

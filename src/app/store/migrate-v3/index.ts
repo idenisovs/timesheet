@@ -4,7 +4,6 @@ import SheetStore from '../SheetStore';
 import { getIssuesFromSheets } from '../migrate-v2/get-issues-from-sheets';
 import { CreateIssue } from '../migrate-v2/types';
 
-
 export default async function migrateV3(store: SheetStore, trans: Transaction) {
   // @ts-ignore
   const sheets = await store['sheet'].orderBy('date').reverse().toArray();

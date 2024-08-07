@@ -1,6 +1,5 @@
 import Dexie, { Transaction } from 'dexie';
 
-import { Sheet } from '../dto';
 import { WeekRecord, DayRecord, ProjectRecord, IssueRecord, ActivityRecord } from './records';
 
 import index from './migrate-v2';
