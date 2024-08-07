@@ -1,7 +1,7 @@
 import Dexie, { Transaction } from 'dexie';
 
 import { Sheet } from '../dto';
-import { WeekEntity, DayEntity, ProjectEntity, IssueEntity, ActivityEntity } from './entities';
+import { WeekRecord, DayEntity, ProjectEntity, IssueEntity, ActivityEntity } from './entities';
 
 import index from './migrate-v2';
 import migrateV3 from './migrate-v3';
@@ -12,7 +12,7 @@ export default class SheetStore extends Dexie {
   issues: Dexie.Table<IssueEntity, string>;
   projects: Dexie.Table<ProjectEntity, string>;
 
-  weeks: Dexie.Table<WeekEntity, string>;
+  weeks: Dexie.Table<WeekRecord, string>;
   days: Dexie.Table<DayEntity, string>;
   activities: Dexie.Table<ActivityEntity, string>;
 

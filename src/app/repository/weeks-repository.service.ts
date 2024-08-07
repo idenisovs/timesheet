@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Week, Day, Activity } from '../dto';
 import { SheetStoreService } from '../services/sheet-store.service';
-import { WeekEntity } from '../store/entities';
+import { WeekRecord } from '../store/entities';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +41,7 @@ export class WeeksRepositoryService {
     return this.db.weeks.put(Week.entity(week));
   }
 
-  private map(weeks: WeekEntity[]): Week[] {
-    return weeks.map((week: WeekEntity) => Week.build(week));
+  private map(weeks: WeekRecord[]): Week[] {
+    return weeks.map((week: WeekRecord) => Week.build(week));
   }
 }
