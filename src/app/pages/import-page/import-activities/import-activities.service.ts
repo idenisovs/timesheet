@@ -4,6 +4,7 @@ import { WeeksRepositoryService } from '../../../repository/weeks-repository.ser
 import { DaysRepositoryService } from '../../../repository/days-repository.service';
 import { SaveActivitiesWorkflowService } from '../../../workflows/save-activities-workflow.service';
 import { Activity, Day, Week } from '../../../dto';
+import { getMonday, startOfDay } from '../../../utils';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +23,17 @@ export class ImportActivitiesService {
   }
 
   async createWeekIfNotExists(importedActivity: Activity): Promise<void> {
-    const existingWeek = await this.weekRepository.getById(importedActivity.weekId);
+    let existingWeek = await this.weekRepository.getById(importedActivity.weekId);
 
     if (existingWeek) {
+      return;
+    }
+
+    const weekStart = getMonday(importedActivity.date);
+    existingWeek = await this.weekRepository.getByStartDate(weekStart);
+
+    if (existingWeek) {
+      importedActivity.weekId = existingWeek.id;
       return;
     }
 
@@ -34,7 +43,13 @@ export class ImportActivitiesService {
   }
 
   async createDayIfNotExists(importedActivity: Activity): Promise<Day> {
-    const existingDay = await this.dayRepository.getById(importedActivity.dayId);
+    let existingDay = await this.dayRepository.getById(importedActivity.dayId);
+
+    if (existingDay) {
+      return existingDay;
+    }
+
+    existingDay = await this.dayRepository.getByDate(startOfDay(importedActivity.date));
 
     if (existingDay) {
       return existingDay;

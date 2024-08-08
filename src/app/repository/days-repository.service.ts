@@ -19,12 +19,12 @@ export class DaysRepositoryService {
 
   async getById(id: string): Promise<Day|null> {
     const record = await this.db.days.where('id').equals(id).first();
+    return record ? Day.build(record) : null;
+  }
 
-    if (!record) {
-      return null;
-    }
-
-    return Day.build(record);
+  async getByDate(date: Date): Promise<Day|null> {
+    const record = await this.db.days.where('date').equals(date.toISOString()).first();
+    return record ? Day.build(record) : null;
   }
 
   async getByWeek(week: Week) {

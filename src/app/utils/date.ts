@@ -22,7 +22,7 @@ export function getMonday(date: Date|string): Date {
 
   monday.setDate(currentDay.getDate() - (dayOfWeek - 1));
 
-  return monday;
+  return startOfDay(monday);
 }
 
 export function getSunday(currentDay: Date|string): Date {
