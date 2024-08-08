@@ -30,7 +30,7 @@ export class DaysRepositoryService {
   }
 
   async getByWeek(week: Week) {
-    const entities = await this.db.days.where('weekId').equals(week.id).toArray();
+    const entities = await this.db.days.where('weekId').equals(week.id).reverse().sortBy('date');
 
     return this.map(entities);
   }
