@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { duration } from 'yet-another-duration';
 
-import { Day, Week, WeekSummary } from '../../../dto';
+import { Day, Week, DaysSummary } from '../../../dto';
+import { DaysService } from '../../../services/days.service';
 
 @Component({
   selector: 'app-daily-activities-week-header',
@@ -9,7 +10,7 @@ import { Day, Week, WeekSummary } from '../../../dto';
   styleUrls: ['./daily-activities-week-header.component.scss']
 })
 export class DailyActivitiesWeekHeaderComponent implements OnInit {
-  totals: WeekSummary = {
+  totals: DaysSummary = {
     duration: 0,
     activities: 0
   };
@@ -43,19 +44,21 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
     }
   }
 
-  constructor() { }
+  constructor(
+    private daysService: DaysService
+  ) { }
 
   ngOnInit(): void {
-    this.totals = this.week.getSummary();
+    this.totals = this.daysService.getSummary(this.days);
   }
 
   toggleMissingDays() {
     this.isMissingDaysVisible = !this.isMissingDaysVisible;
 
     if (this.isMissingDaysVisible) {
-      this.week.showMissingDays();
+      this.daysService.addMissingDays(this.week, this.days);
     }  else {
-      this.week.hideMissingDays();
+      this.daysService.removeMissingDays(this.days);
     }
   }
 }
