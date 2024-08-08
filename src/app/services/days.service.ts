@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 
 import { Day, Week, DaysSummary } from '../dto';
 import { calculateTotalDuration, getDateString, startOfDay } from '../utils';
+import { ActivitiesRepositoryService } from '../repository/activities-repository.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DaysService {
-  constructor() { }
+  constructor(
+    private activityRepository: ActivitiesRepositoryService
+  ) { }
 
   findByDate(days: Day[], date: Date): Day | undefined {
     const targetDate = getDateString(date);
@@ -17,17 +20,19 @@ export class DaysService {
     });
   }
 
-  getSummary(days: Day[]): DaysSummary {
-    const initialValues: DaysSummary = {
+  async getSummary(days: Day[]): Promise<DaysSummary> {
+    const result: DaysSummary = {
       activities: 0,
       duration: 0
     };
 
-    return days.reduce<DaysSummary>((result: DaysSummary, day: Day) => {
-      result.duration += calculateTotalDuration(day.activities);
-      result.activities += day.activities.length;
-      return result;
-    }, initialValues);
+    for (let day of days) {
+      const activities = await this.activityRepository.getByDay(day);
+      result.activities += activities.length;
+      result.duration += calculateTotalDuration(activities);
+    }
+
+    return result;
   }
 
   addMissingDays(week: Week, days: Day[]) {

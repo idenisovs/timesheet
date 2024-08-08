@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import parseDuration from 'parse-duration';
 import { duration } from 'yet-another-duration';
 
-import { Activity } from '../../../dto';
+import { Activity, Day } from '../../../dto';
 import { DailySummary, DailySummaryActivity, DailySummaryIssue } from './DailySummary';
 import { IssueRepositoryService } from '../../../repository/issue-repository.service';
 import { ActivitiesService } from '../../../services/activities.service';
+import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
 
 
 @Injectable({
@@ -16,14 +17,15 @@ export class DailySummaryService {
   constructor(
     private issueRepository: IssueRepositoryService,
     private activitiesService: ActivitiesService,
+    private activityRepository: ActivitiesRepositoryService
   ) { }
 
-  async buildSummary(activities: Activity[]): Promise<DailySummary> {
-    const summary = new DailySummary();
+  async buildSummary(day: Day): Promise<DailySummary> {
+    const activities = await this.activityRepository.getByDay(day);
 
+    const summary = new DailySummary();
     summary.issues = await this.makeIssueList(activities);
     summary.duration = this.recalculateDuration(summary.issues);
-
     return summary;
   }
 

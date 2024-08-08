@@ -48,8 +48,8 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
     private daysService: DaysService
   ) { }
 
-  ngOnInit(): void {
-    this.totals = this.daysService.getSummary(this.days);
+  async ngOnInit() {
+    this.totals = await this.daysService.getSummary(this.days);
   }
 
   toggleMissingDays() {
