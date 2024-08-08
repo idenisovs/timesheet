@@ -17,6 +17,11 @@ export class WeeksRepositoryService {
     return record ? Week.build(record) : null;
   }
 
+  async getByStartDate(from: Date): Promise<Week|null> {
+    const record = await this.db.weeks.where({ from: from.toISOString() }).first();
+    return record ? Week.build(record) : null;
+  }
+
   async getAll(): Promise<Week[]> {
     const raw = await this.db.weeks.orderBy('till').reverse().toArray();
 
