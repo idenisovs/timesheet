@@ -17,29 +17,35 @@ export class ImportActivitiesService {
   ) { }
 
   async save(importedActivity: Activity): Promise<void> {
-    await this.createWeekIfNotExists(importedActivity);
+    const week = await this.createWeekIfNotExists(importedActivity);
+
+    importedActivity.weekId = week.id;
+
     const day = await this.createDayIfNotExists(importedActivity);
+
+    importedActivity.dayId = day.id;
+
     await this.activitySaveWorkflow.save(day, [importedActivity], [])
   }
 
-  async createWeekIfNotExists(importedActivity: Activity): Promise<void> {
+  async createWeekIfNotExists(importedActivity: Activity): Promise<Week> {
     let existingWeek = await this.weekRepository.getById(importedActivity.weekId);
 
     if (existingWeek) {
-      return;
+      return existingWeek;
     }
 
     const weekStart = getMonday(importedActivity.date);
     existingWeek = await this.weekRepository.getByStartDate(weekStart);
 
     if (existingWeek) {
-      importedActivity.weekId = existingWeek.id;
-      return;
+      return existingWeek;
     }
 
     const week = new Week(importedActivity.date);
     week.id = importedActivity.weekId;
     await this.weekRepository.save(week);
+    return week;
   }
 
   async createDayIfNotExists(importedActivity: Activity): Promise<Day> {
