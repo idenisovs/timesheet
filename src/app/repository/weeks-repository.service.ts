@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Week, Day, Activity } from '../dto';
 import { SheetStoreService } from '../services/sheet-store.service';
 import { WeekRecord } from '../store/records';
+import { getMonday } from '../utils';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,9 @@ export class WeeksRepositoryService {
     return record ? Week.build(record) : null;
   }
 
-  async getByStartDate(from: Date): Promise<Week|null> {
-    const record = await this.db.weeks.where({ from: from.toISOString() }).first();
+  async getByDate(date: Date): Promise<Week|null> {
+    const monday = getMonday(date);
+    const record = await this.db.weeks.where({ from: monday.toISOString() }).first();
     return record ? Week.build(record) : null;
   }
 
