@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Day, Week, DaysSummary } from '../dto';
-import { calculateTotalDuration, getDateString } from '../utils';
+import { calculateTotalDuration, getDateString, startOfDay } from '../utils';
 
 @Injectable({
   providedIn: 'root'
@@ -31,18 +31,18 @@ export class DaysService {
   }
 
   addMissingDays(week: Week, days: Day[]) {
-    const expectedDate = new Date(week.from);
+    let expectedDate = startOfDay(week.till);
 
     for (let idx = 0; idx < 7; idx++) {
       const day = days[idx];
 
-      if (!day || day.date > expectedDate) {
+      if (!day || day.date < expectedDate) {
         const missingDay = new Day(expectedDate);
         missingDay.isMissing = true;
         days.splice(idx, 0, missingDay);
       }
 
-      expectedDate.setDate(expectedDate.getDate() + 1);
+      expectedDate.setDate(expectedDate.getDate() - 1);
     }
   }
 
