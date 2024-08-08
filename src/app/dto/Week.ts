@@ -1,11 +1,5 @@
-import { calculateTotalDuration, endOfDay, getDateString, getMonday, getSunday, startOfDay } from '../utils';
-import { Day } from './Day';
+import { endOfDay, getMonday, getSunday, startOfDay } from '../utils';
 import { WeekRecord } from '../store/records';
-
-export interface WeekSummary {
-  duration: number;
-  activities: number;
-}
 
 export class Week {
   id: string = crypto.randomUUID();
@@ -15,57 +9,6 @@ export class Week {
   constructor(date = new Date()) {
     this.from = startOfDay(getMonday(date));
     this.till = endOfDay(getSunday(date));
-  }
-
-  getSummary(): WeekSummary {
-    console.warn('getSummary() is deprecated!');
-
-    return {
-      activities: 0,
-      duration: 0
-    };
-    // return this.days.reduce<WeekSummary>((result: WeekSummary, day: Day) => {
-    //   result.duration += calculateTotalDuration(day.activities);
-    //   result.activities += day.activities.length;
-    //   return result;
-    // }, {
-    //   activities: 0,
-    //   duration: 0
-    // });
-  }
-
-  showMissingDays() {
-    const schedule: Day[] = [];
-    const currentDate = startOfDay(this.till);
-
-    for (let idx = 0; idx < 7; idx++) {
-      const expectedDay = this.findByDate(currentDate);
-
-      if (expectedDay) {
-        schedule.push(expectedDay);
-      } else {
-        const missingDay = new Day(currentDate);
-        missingDay.weekId = this.id;
-        missingDay.isMissing = true;
-        schedule.push(missingDay);
-      }
-
-      currentDate.setDate(currentDate.getDate() - 1);
-    }
-
-    this.days = schedule;
-  }
-
-  hideMissingDays() {
-    this.days = this.days.filter((day: Day) => !day.isMissing);
-  }
-
-  private findByDate(date: Date): Day | undefined {
-    const targetDate = getDateString(date);
-    return this.days.find((day: Day) => {
-      const matchingDate = getDateString(day.date);
-      return targetDate === matchingDate;
-    });
   }
 
   static build(source: WeekRecord): Week {
