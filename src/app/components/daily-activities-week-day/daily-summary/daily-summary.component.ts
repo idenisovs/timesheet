@@ -30,7 +30,7 @@ export class DailySummaryComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.service.buildSummary(this.day.activities).then((summary: DailySummary) => {
+    this.service.buildSummary(this.day).then((summary: DailySummary) => {
       this.summary = summary;
     });
   }

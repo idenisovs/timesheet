@@ -5,7 +5,6 @@ export class Day {
   id: string = crypto.randomUUID();
   date: Date = new Date();
   weekId: string = '';
-  activities: Activity[] = [];
   isMissing?: boolean;
 
   constructor(date?: Date) {
