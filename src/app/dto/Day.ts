@@ -1,4 +1,3 @@
-import { Activity } from './Activity';
 import { DayRecord } from '../store/records';
 
 export class Day {

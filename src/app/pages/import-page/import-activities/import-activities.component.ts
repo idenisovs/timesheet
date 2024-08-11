@@ -23,7 +23,7 @@ export class ImportActivitiesComponent {
   importedActivities!: Activity[];
 
   constructor(
-    private service: ImportActivitiesService,
+    private importService: ImportActivitiesService,
     private activityRepository: ActivitiesRepositoryService
   ) {}
 
@@ -37,7 +37,7 @@ export class ImportActivitiesComponent {
 
     for (let idx = 0; idx < this.importedActivities.length; idx++) {
       const activity = this.importedActivities[idx];
-      await this.service.save(activity);
+      await this.importService.save(activity);
       this.removeCompletedActivity(activity);
       idx--;
       savedActivitiesCount++;
@@ -57,7 +57,7 @@ export class ImportActivitiesComponent {
         continue;
       }
 
-      await this.service.save(activity);
+      await this.importService.save(activity);
       this.removeCompletedActivity(activity);
       idx--;
       savedActivitiesCount++;
