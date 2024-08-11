@@ -16,9 +16,9 @@ export class DailyActivitiesWeekDayService {
     return this.fb.group(new ActivityFormItem(activity));
   }
 
-  processActivityFormArray(activityFormArray: FormArray<ActivityFormGroup>, day: Day): Activity[] {
+  processActivityFormArray(activityFormArray: FormArray<ActivityFormGroup>, day: Day, activities: Activity[]): Activity[] {
     return activityFormArray.value.map((item) => {
-      const existingActivity = day.activities.find((activity: Activity) => {
+      const existingActivity = activities.find((activity: Activity) => {
         return activity.id === item.id;
       });
 
