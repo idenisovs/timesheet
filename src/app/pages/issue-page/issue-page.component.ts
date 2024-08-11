@@ -48,7 +48,7 @@ export class IssuePageComponent implements OnInit {
 
     if (existingIssue) {
       this.issue = existingIssue;
-      this.activities = await this.activityRepository.getByIds(this.issue.activities);
+      this.activities = await this.activityRepository.getByIssueKey(this.issueKey);
     } else {
       this.isNotFound = true;
     }

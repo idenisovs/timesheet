@@ -15,7 +15,7 @@
   <tr *ngFor="let issue of issues" class="align-middle">
     <th scope="row">{{issue.key}}</th>
     <td>{{issue.name}}</td>
-    <td class="text-center">{{issue.activities.length}}</td>
+    <td class="text-center">{{issue.activities}}</td>
     <td class="text-center">{{issue.duration}}</td>
     <td class="text-center">{{issue.estimate && issue.estimate.length ? issue.estimate : '--'}}</td>
     <td class="text-center">{{getPenaltyPoints(issue)}}</td>
@@ -27,7 +27,7 @@
         </i>
       </button>
 
-      <app-issue-remove-button [disabled]="issue.activities.length > 0" (remove)="remove(issue)" />
+      <app-issue-remove-button [disabled]="issue.activities > 0" (remove)="remove(issue)" />
     </td>
   </tr>
   </tbody>

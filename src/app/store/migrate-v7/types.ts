@@ -2,7 +2,7 @@ export interface IssueRecord {
   id: string;
   name: string;
   key: string;
-  activities: number;
+  activities: string[];
   duration: string;
   estimate?: string;
   createdAt: Date;

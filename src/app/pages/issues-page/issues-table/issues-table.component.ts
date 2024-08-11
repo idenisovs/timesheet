@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { DatePipe, NgForOf, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
+
 import { IssueRemoveButtonComponent } from '../issue-remove-button/issue-remove-button.component';
 import { Issue } from '../../../dto';
-import { SheetStoreService } from '../../../services/sheet-store.service';
 import { IssuesService } from '../../../services/issues.service';
+import { IssueRepositoryService } from '../../../repository/issue-repository.service';
 
 @Component({
   selector: 'app-issues-table',
@@ -24,14 +25,12 @@ export class IssuesTableComponent {
   issues: Issue[] = [];
 
   constructor(
-    private sheetStore: SheetStoreService,
+    private issueRepository: IssueRepositoryService,
     private issuesService: IssuesService
   ) {}
 
   async remove(issue: Issue) {
-    const db = this.sheetStore.Instance;
-    await db.issues.delete(issue.id);
-
+    await this.issueRepository.remove(issue);
     const idx = this.issues.indexOf(issue);
     this.issues.splice(idx, 1);
   }
