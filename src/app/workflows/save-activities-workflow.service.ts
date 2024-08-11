@@ -81,7 +81,7 @@ export class SaveActivitiesWorkflowService {
       issue = this.createMissingIssue(issueKey, activities);
     }
 
-    issue.activities = activities.map(activity => activity.id);
+    issue.activities = activities.length
     issue.duration = this.activitiesService.calculateDuration(activities);
 
     await this.issueRepository.update(issue);

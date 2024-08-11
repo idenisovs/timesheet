@@ -7,7 +7,7 @@ export class Issue {
   id = crypto.randomUUID() as string;
   key = '';
   name = '';
-  activities: string[] = [];
+  activities = 0;
   duration = '0m';
   estimate?: string;
   createdAt = new Date();
