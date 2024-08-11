@@ -16,6 +16,7 @@ import { DailyActivitiesForm, ActivityFormGroup } from './DailyActivitiesForm';
 import { SaveActivitiesWorkflowService } from '../../workflows/save-activities-workflow.service';
 import { DailySummaryComponent } from './daily-summary/daily-summary.component';
 import { ActivitiesService } from '../../services/activities.service';
+import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 
 @Component({
   selector: 'app-daily-activities-week-day',
@@ -53,16 +54,21 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   @Input()
   day!: Day;
 
+  activities: Activity[] = [];
+
   constructor(
     private fb: FormBuilder,
     private modal: NgbModal,
     private service: DailyActivitiesWeekDayService,
     private activitiesService: ActivitiesService,
     private saveActivitiesWorkflow: SaveActivitiesWorkflowService,
+    private activityRepository: ActivitiesRepositoryService
   ) {}
 
-  ngOnInit() {
-    const activityFormItems = this.day.activities.map((activity: Activity) => {
+  async ngOnInit() {
+    this.activities = await this.activityRepository.getByDay(this.day);
+
+    const activityFormItems = this.activities.map((activity: Activity) => {
       return this.service.makeActivityFormItem(activity);
     });
 
@@ -70,7 +76,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
       this.form.setControl('activities', this.fb.array(activityFormItems));
     }
 
-    this.totalDuration = this.activitiesService.calculateDuration(this.day.activities)
+    this.totalDuration = this.activitiesService.calculateDuration(this.activities);
 
     this.valueChangesHandler = this.form.valueChanges.subscribe(() => {
       this.isChanged = true;
@@ -100,11 +106,11 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   }
 
   async save() {
-    this.day.activities = this.service.processActivityFormArray(this.ActivityFormArray, this.day);
+    this.activities = this.service.processActivityFormArray(this.ActivityFormArray, this.day, this.activities);
 
-    await this.saveActivitiesWorkflow.save(this.day, this.day.activities, this.removableActivityIds);
+    await this.saveActivitiesWorkflow.save(this.day, this.activities, this.removableActivityIds);
 
-    this.totalDuration = this.activitiesService.calculateDuration(this.day.activities);
+    this.totalDuration = this.activitiesService.calculateDuration(this.activities);
     this.isChanged = false;
     this.removableActivityIds = [];
   }
