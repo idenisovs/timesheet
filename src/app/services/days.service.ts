@@ -43,6 +43,7 @@ export class DaysService {
 
       if (!day || day.date < expectedDate) {
         const missingDay = new Day(expectedDate);
+        missingDay.weekId = week.id;
         missingDay.isMissing = true;
         days.splice(idx, 0, missingDay);
       }

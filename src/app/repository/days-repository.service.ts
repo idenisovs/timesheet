@@ -14,7 +14,7 @@ export class DaysRepositoryService {
   constructor(private store: SheetStoreService) { }
 
   async getAll(): Promise<Day[]> {
-    const dayEntities = await this.db.days.toArray();
+    const dayEntities = await this.db.days.orderBy('date').reverse().toArray();
     return this.map(dayEntities);
   }
 
@@ -25,7 +25,7 @@ export class DaysRepositoryService {
 
   async getByDate(date: Date): Promise<Day|null> {
     const dayDate = startOfDay(date);
-    const record = await this.db.days.where('date').equals(dayDate.toISOString()).first();
+    const record = await this.db.days.where('date').equals(dayDate).first();
     return record ? Day.build(record) : null;
   }
 
@@ -39,6 +39,10 @@ export class DaysRepositoryService {
     const entity = Day.entity(day);
     await this.db.days.add(entity);
     return day;
+  }
+
+  async remove(day: Day): Promise<void> {
+    return this.db.days.delete(day.id);
   }
 
   private map(entities: DayRecord[]): Day[] {
