@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { SheetStoreService } from '../../services/sheet-store.service';
-import { Day, Week } from '../../dto';
+import { Week } from '../../dto';
 import { WeeksRepositoryService } from '../../repository/weeks-repository.service';
 import { Actions } from '../../services/Actions';
 import { ActionsService } from '../../services/actions.service';
 import { ExportWorkflowService } from '../../workflows/export-workflow.service';
+import { PrepareForTodayWorkflowService } from '../../workflows/prepare-for-today-workflow.service';
 
 @Component({
   selector: 'app-daily-activities-page',
@@ -19,11 +19,11 @@ export class DailyActivitiesPageComponent implements OnInit, OnDestroy {
   private actionSubs = this.actionsService.on.subscribe(this.handlePageActions.bind(this));
 
   constructor(
-    private store: SheetStoreService,
+    private router: Router,
     private weeksRepo: WeeksRepositoryService,
     private actionsService: ActionsService,
     private exportWorkflow: ExportWorkflowService,
-    private router: Router
+    private prepareForTodayWorkflow: PrepareForTodayWorkflowService
   ) { }
 
   async ngOnInit() {
@@ -37,27 +37,7 @@ export class DailyActivitiesPageComponent implements OnInit, OnDestroy {
   }
 
   private async prepareForToday(): Promise<void> {
-    const today = new Date();
-
-    today.setHours(0, 0, 0, 0);
-
-    const db = this.store.Instance;
-
-    let currentWeek = await db.weeks.where('till').aboveOrEqual(today).first();
-
-    if (!currentWeek) {
-      const week = new Week(today);
-      currentWeek = Week.entity(week);
-      await db.weeks.add(currentWeek);
-    }
-
-    const currentDay = await db.days.where('date').equals(today).first();
-
-    if (!currentDay) {
-      const day = new Day();
-      day.weekId = currentWeek.id;
-      await db.days.add(Day.entity(day));
-    }
+    return this.prepareForTodayWorkflow.run();
   }
 
   private async handlePageActions(action: Actions) {
