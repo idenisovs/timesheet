@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -42,6 +42,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 
   valueChangesHandler?: Subscription;
   removableActivityIds: string[] = [];
+  activities: Activity[] = [];
 
   get ActivityFormArray(): FormArray<ActivityFormGroup> {
     return this.form.get('activities') as FormArray<ActivityFormGroup>;
@@ -54,7 +55,9 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   @Input()
   day!: Day;
 
-  activities: Activity[] = [];
+  @Output()
+  changes = new EventEmitter<void>();
+
 
   constructor(
     private fb: FormBuilder,
@@ -113,6 +116,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     this.totalDuration = this.activitiesService.calculateDuration(this.activities);
     this.isChanged = false;
     this.removableActivityIds = [];
+    this.changes.emit();
   }
 
   showDailySummary() {
