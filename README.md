@@ -37,6 +37,8 @@ npm start
 
 ## Versions
 
+- `3.0.2` - Fixed Activities Summary bug in Week Header component;
+- `3.0.1` - Fixed different minor bugs related to date matching during import;
 - `3.0.0` - Application is moved to the new data structure;
 - `2.4.0` - Application got the Projects view;
 - `2.3.0` - Daily Overview showing the predefined issue name;
