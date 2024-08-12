@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { duration } from 'yet-another-duration';
-import { Activity } from '../dto';
+import { Activity, ActivitySummary } from '../dto';
 import { calculateTotalDuration } from '../utils';
 
 @Injectable({
@@ -13,7 +13,8 @@ export class ActivitiesService {
   public calculateDuration(activities: Activity[]): string {
     return duration(calculateTotalDuration(activities), {
       units: {
-        min: 'minutes'
+        min: 'minutes',
+        max: 'hours'
       }
     }).toString();
   }
@@ -26,5 +27,14 @@ export class ActivitiesService {
     const uniqueIssueKeys = new Set(issueKeys);
 
     return Array.from(uniqueIssueKeys);
+  }
+
+  public getActivitySummary(activities: Activity[]): ActivitySummary {
+    const summary = new ActivitySummary();
+
+    summary.activities = activities.length;
+    summary.duration = this.calculateDuration(activities);
+
+    return summary;
   }
 }

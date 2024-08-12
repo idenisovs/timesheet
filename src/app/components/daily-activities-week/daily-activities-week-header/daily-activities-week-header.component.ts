@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { duration } from 'yet-another-duration';
 
-import { Day, Week, DaysSummary } from '../../../dto';
+import { Day, Week, ActivitySummary } from '../../../dto';
 import { DaysService } from '../../../services/days.service';
 
 @Component({
@@ -10,11 +9,6 @@ import { DaysService } from '../../../services/days.service';
   styleUrls: ['./daily-activities-week-header.component.scss']
 })
 export class DailyActivitiesWeekHeaderComponent implements OnInit {
-  totals: DaysSummary = {
-    duration: 0,
-    activities: 0
-  };
-
   isMissingDaysVisible = false;
 
   @Input()
@@ -23,18 +17,8 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
   @Input()
   days: Day[] = [];
 
-  get TotalHours(): string {
-    if (!this.totals.duration) {
-      return '0m';
-    }
-
-    return duration(this.totals.duration, {
-      units: {
-        min: 'minutes',
-        max: 'hours'
-      }
-    }).toString();
-  }
+  @Input()
+  summary = new ActivitySummary();
 
   get MissingDaysButtonLabel(): string {
     if (this.isMissingDaysVisible) {
@@ -48,9 +32,7 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
     private daysService: DaysService
   ) { }
 
-  async ngOnInit() {
-    this.totals = await this.daysService.getSummary(this.days);
-  }
+  async ngOnInit() {}
 
   toggleMissingDays() {
     this.isMissingDaysVisible = !this.isMissingDaysVisible;

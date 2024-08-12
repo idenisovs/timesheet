@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Day, Week } from '../../dto';
+import { ActivitySummary, Day, Week } from '../../dto';
 import { DaysRepositoryService } from '../../repository/days-repository.service';
+import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
+import { ActivitiesService } from '../../services/activities.service';
 
 @Component({
   selector: 'app-daily-activities-week',
@@ -9,13 +11,16 @@ import { DaysRepositoryService } from '../../repository/days-repository.service'
   styleUrls: ['./daily-activities-week.component.scss']
 })
 export class DailyActivitiesWeekComponent implements OnInit {
+  days: Day[] = [];
+  summary = new ActivitySummary();
+
   @Input()
   week!: Week;
 
-  days: Day[] = [];
-
   constructor(
-    private dayRepository: DaysRepositoryService
+    private dayRepository: DaysRepositoryService,
+    private activityRepository: ActivitiesRepositoryService,
+    private activitiesService: ActivitiesService
   ) { }
 
   async ngOnInit() {
@@ -24,5 +29,12 @@ export class DailyActivitiesWeekComponent implements OnInit {
     }
 
     this.days = await this.dayRepository.getByWeek(this.week);
+    await this.recalculateActivitySummary();
+  }
+
+  async recalculateActivitySummary() {
+    const activities = await this.activityRepository.getByWeek(this.week);
+
+    this.summary = this.activitiesService.getActivitySummary(activities);
   }
 }

@@ -1,10 +1,10 @@
 <ng-container *ngIf="week">
   <section class="mb-4">
-    <app-daily-activities-week-header [week]="week" [days]="days" />
+    <app-daily-activities-week-header [week]="week" [days]="days" [summary]="summary" />
 
     <ng-container *ngFor="let day of days">
       <div class="mt-3">
-        <app-daily-activities-week-day *ngIf="!day.isMissing; else MissingDay" [day]="day" />
+        <app-daily-activities-week-day *ngIf="!day.isMissing; else MissingDay" [day]="day" (changes)="recalculateActivitySummary()" />
         <ng-template #MissingDay>
           <app-daily-activities-week-day-missing [day]="day" />
         </ng-template>
