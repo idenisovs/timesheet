@@ -23,7 +23,7 @@
     "@angular/router": "^17.0.7",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
     "bootstrap": "^5.3.3",
-    "dexie": "^3.2.4",
+    "dexie": "^4.0.8",
     "file-saver": "^2.0.5",
     "material-icons": "^1.13.12",
     "parse-duration": "^1.1.0",
