@@ -1,0 +1,12 @@
+<header class="modal-header px-3 py-2">
+  <h4 class="modal-title">
+    {{week.from|date}} - {{week.till|date}}
+  </h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+</header>
+
+<main class="modal-body p-3">
+  <pre>
+    {{week|json}}
+  </pre>
+</main>
