@@ -26,6 +26,11 @@ export class IssueRepositoryService {
     return record ? Issue.fromRecord(record) : null;
   }
 
+  async getAllByKeys(issueKeys: string[]): Promise<Issue[]> {
+    const records = await this.db.issues.where('key').anyOf(issueKeys).toArray();
+    return records.map(Issue.fromRecord);
+  }
+
   async getByActivityIds(activityIds: string[]): Promise<Issue[]> {
     const records = await this.db.issues.where('activities').anyOf(activityIds).toArray();
     return records.map(Issue.fromRecord);
