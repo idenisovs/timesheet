@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import { Day, Week, ActivitySummary } from '../../../dto';
 import { DaysService } from '../../../services/days.service';
+import {WeeklyOverviewModalComponent} from '../weekly-overview-modal/weekly-overview-modal.component';
 
 @Component({
   selector: 'app-daily-activities-week-header',
@@ -29,7 +31,8 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
   }
 
   constructor(
-    private daysService: DaysService
+    private daysService: DaysService,
+    private modal: NgbModal
   ) { }
 
   async ngOnInit() {}
@@ -42,5 +45,16 @@ export class DailyActivitiesWeekHeaderComponent implements OnInit {
     }  else {
       this.daysService.removeMissingDays(this.days);
     }
+  }
+
+  displayWeeklyOverview() {
+    const weeklyOverviewModalRef =  this.modal.open(WeeklyOverviewModalComponent, {
+      centered: true,
+      size: 'lg'
+    });
+
+    const weeklyOverviewModal = (weeklyOverviewModalRef.componentInstance as WeeklyOverviewModalComponent);
+
+    weeklyOverviewModal.week = this.week;
   }
 }
