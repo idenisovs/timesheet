@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Week } from '../../../dto';
 import { WeeklyOverviewModalService } from './weekly-overview-modal.service';
+import { IssueOverview } from './IssueOverview';
 
 @Component({
   selector: 'app-weekly-overview-modal',
@@ -18,6 +19,8 @@ import { WeeklyOverviewModalService } from './weekly-overview-modal.service';
   styleUrl: './weekly-overview-modal.component.scss'
 })
 export class WeeklyOverviewModalComponent implements OnInit {
+  weeklyOverview: IssueOverview[] = [];
+
   @Input()
   week!: Week;
 
@@ -31,6 +34,6 @@ export class WeeklyOverviewModalComponent implements OnInit {
       return;
     }
 
-    await this.weeklyOverviewService.run(this.week);
+    this.weeklyOverview = await this.weeklyOverviewService.run(this.week);
   }
 }

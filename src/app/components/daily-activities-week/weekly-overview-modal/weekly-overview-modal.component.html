@@ -6,7 +6,17 @@
 </header>
 
 <main class="modal-body p-3">
-  <pre>
-    {{week|json}}
-  </pre>
+  <section *ngFor="let issueOverview of weeklyOverview; let idx = index">
+    <h5 class="d-flex my-3">
+      <span style="width: 15%">
+        {{issueOverview.issue.key}}
+      </span>
+      <span>
+        {{issueOverview.issue.name}}
+      </span>
+      <span class="flex-grow-1 text-end">
+        {{issueOverview.duration}}
+      </span>
+    </h5>
+  </section>
 </main>
