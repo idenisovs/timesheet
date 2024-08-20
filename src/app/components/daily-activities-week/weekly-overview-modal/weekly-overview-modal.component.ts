@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DatePipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
+import { DatePipe, JsonPipe, NgForOf, NgIf, PercentPipe } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Week } from '../../../dto';
@@ -13,7 +13,8 @@ import { IssueOverview } from './IssueOverview';
     DatePipe,
     NgForOf,
     NgIf,
-    JsonPipe
+    JsonPipe,
+    PercentPipe
   ],
   templateUrl: './weekly-overview-modal.component.html',
   styleUrl: './weekly-overview-modal.component.scss'
