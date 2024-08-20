@@ -5,7 +5,7 @@ import { Activity, Issue, Week } from '../../../dto';
 import { IssueRepositoryService } from '../../../repository/issue-repository.service';
 import { IssueOverview } from './IssueOverview';
 import { ActivitiesService } from '../../../services/activities.service';
-import { IssuesService } from '../../../services/issues.service';
+import parseDuration from 'parse-duration';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +16,13 @@ export class WeeklyOverviewModalService {
     private activityRepository: ActivitiesRepositoryService,
     private issueRepository: IssueRepositoryService,
     private activitiesService: ActivitiesService,
-    private issuesService: IssuesService
   ) {
   }
 
   async run(week: Week) {
     const activities = await this.activityRepository.getByWeek(week);
+    const totalDuration = this.activitiesService.calculateDuration(activities);
+    const totalDurationMs = parseDuration(totalDuration) ?? 0;
     const issueKeys = this.getIssueKeys(activities);
     let issues = await this.issueRepository.getAllByKeys(issueKeys);
 
@@ -31,11 +32,14 @@ export class WeeklyOverviewModalService {
 
     for (let issue of issues) {
       const issueActivityGroup = activities.filter((item) => item.getIssueKey() === issue.key);
+      const issueWeeklyDuration = this.activitiesService.calculateDuration(issueActivityGroup);
+      const issueWeeklyDurationMs = parseDuration(issueWeeklyDuration) ?? 0;
 
       issueOverviewList.push({
         issue,
         activities: issueActivityGroup,
-        duration: this.activitiesService.calculateDuration(issueActivityGroup)
+        duration: this.activitiesService.calculateDuration(issueActivityGroup),
+        durationRatio: issueWeeklyDurationMs / totalDurationMs
       })
     }
 

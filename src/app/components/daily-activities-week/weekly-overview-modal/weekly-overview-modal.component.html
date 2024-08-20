@@ -6,16 +6,24 @@
 </header>
 
 <main class="modal-body p-3">
-  <section *ngFor="let issueOverview of weeklyOverview; let idx = index">
+  <section class="IssueOverview" *ngFor="let issueOverview of weeklyOverview; let idx = index">
     <h5 class="d-flex my-3">
       <span style="width: 15%">
         {{issueOverview.issue.key}}
       </span>
-      <span>
+      <span class="text-wrap" style="width: 55%;">
         {{issueOverview.issue.name}}
       </span>
       <span class="flex-grow-1 text-end">
-        {{issueOverview.duration}}
+        <span class="badge bg-primary">
+          {{issueOverview.duration}}
+        </span>
+        <span class="badge bg-info ms-1">
+          {{issueOverview.durationRatio|percent}}
+        </span>
+        <span class="badge bg-success ms-1">
+          {{issueOverview.activities.length}}
+        </span>
       </span>
     </h5>
   </section>
