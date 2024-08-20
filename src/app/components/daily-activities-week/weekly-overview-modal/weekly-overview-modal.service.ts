@@ -6,6 +6,7 @@ import { IssueRepositoryService } from '../../../repository/issue-repository.ser
 import { IssueOverview } from './IssueOverview';
 import { ActivitiesService } from '../../../services/activities.service';
 import parseDuration from 'parse-duration';
+import { WeeklyOverview } from './WeeklyOverview';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class WeeklyOverviewModalService {
   ) {
   }
 
-  async run(week: Week) {
+  async run(week: Week): Promise<WeeklyOverview> {
     const activities = await this.activityRepository.getByWeek(week);
     const totalDuration = this.activitiesService.calculateDuration(activities);
     const totalDurationMs = parseDuration(totalDuration) ?? 0;
@@ -43,7 +44,11 @@ export class WeeklyOverviewModalService {
       })
     }
 
-    return issueOverviewList;
+    return {
+      issueOverviewList: issueOverviewList,
+      duration: totalDuration,
+      activities: activities.length
+    }
   }
 
   getIssueKeys(activities: Activity[]): string[] {
