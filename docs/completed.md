@@ -1,5 +1,23 @@
 # Completed things
 
+## Refactoring of data structure
+
+Previous data structure persisted from Sheet documents, which had Activities field with list of Activity records. Each Sheet represented a day, and so a lot of calculations must be performed manually, especially having new Issues and Projects views. 
+
+This led to the necessity of developing a new data structure, which was described in [this refactoring file](./refactoring/database_structure.md).
+
+## Create missing days
+
+I implemented it through _Show missing days_ feature. 
+
+### Previous thoughts about it
+
+At the moment the application creates daily sheet only in case if you open the app in that day.
+
+That's why I want to make it possible to open the Weekly View and make it possible to activate the missed Day in that view.
+
+Weekly View might be opened in case when you click on the week title (that gray header containing the Calendar icon and dates like _Dec 21, 2023 — Dec 23, 2023_)
+
 ## Projects (2024-03-13)
 
 ### Update (2024-03-07)
