@@ -6,32 +6,34 @@ Dexie docs is pretty messy, so use this [reference](./dexie.md) in order to see 
 
 ## Entities
 
-```mermaid
-flowchart TD
-  S[Sheet]
-  I([Issues])
-  A[Activities]
-  
-  S -.has many.-> I
-  S --has many--> A
-  I -.has many.-> A
+### Week
+
+Week is used to group Days and Activities by specific calendar Week. That's helps for week specific calculations.
+
+### Day
+
+Day is used to group Activities by specific Date. That's helps for date specific calculations.
+
+### Activity
+
+Activity is the base entity for Timesheet App, since it holds the record for some small piece of work, done in specific date within specific time interval. Let's say, in 15-th of March 2024 you are done casual walking between 12:00 and 14:00 (2h).
+
+```json
+{
+  "id": "63ed672b-63ad-4c38-90a4-24eaf5c3d395",
+  "name": "Casual Walking",
+  "date": "2024-08-23T16:37:03.761Z",
+  "from": "12:00",
+  "till": "14:00",
+  "duration": "2h",
+  "weekId": "ea6b2523-ce4f-40d3-a3bd-d62372ff1547",
+  "dayId": "b015da44-854b-4b99-ae33-b971a8b9e29d"
+}
 ```
-
-### Sheet 
-
-At the moment the Timesheet App have `timesheet` database and `sheet` table.
-
-There is `sheet` records, one **sheet** per **day**.
-
-Sheet have the following fields:
-
-1. `id` - `1`
-2. `date` - `2023-01-15`
-3. `activities` - `[]`
 
 ### Issue
 
-Issue is some kind of `virtual` entity. Used to group the activities that share the same _Issue Key_.
+Used to group the activities that share the same _Issue Key_.
 
 ### Activity
 
