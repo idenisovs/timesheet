@@ -37,6 +37,7 @@ npm start
 
 ## Versions
 
+- `3.1.1` - In Weekly Overview, display the percents of completed Week in Weekly Overview instead of hardcoded value 100%;
 - `3.1.0` - Added Weekly Overview modal;
 - `3.0.2` - Fixed Activities Summary bug in Week Header component;
 - `3.0.1` - Fixed different minor bugs related to date matching during import;

@@ -1,6 +1,6 @@
 <header class="modal-header px-3 py-2">
   <h4 class="modal-title">
-    {{ week.from|date }} - {{ week.till|date }}
+    {{ week.from | date }} - {{ week.till | date }}
   </h4>
   <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 </header>
@@ -19,7 +19,7 @@
           {{ issueOverview.duration }}
         </span>
         <span class="badge bg-info ms-1">
-          {{ issueOverview.durationRatio|percent }}
+          {{ issueOverview.durationRatio | percent }}
         </span>
         <span class="badge bg-success ms-1">
           {{ issueOverview.activities.length }}
@@ -34,7 +34,7 @@
     {{ weeklyOverview.duration }}
   </span>
   <span class="badge bg-info ms-1">
-    100%
+    {{ weeklyOverview.workWeekRatio | percent }}
   </span>
   <span class="badge bg-success ms-1">
     {{ weeklyOverview.activities }}
