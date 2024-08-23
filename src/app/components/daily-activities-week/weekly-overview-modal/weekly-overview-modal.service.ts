@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
+import parseDuration from 'parse-duration';
 
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
 import { Activity, Issue, Week } from '../../../dto';
 import { IssueRepositoryService } from '../../../repository/issue-repository.service';
 import { IssueOverview } from './IssueOverview';
 import { ActivitiesService } from '../../../services/activities.service';
-import parseDuration from 'parse-duration';
 import { WeeklyOverview } from './WeeklyOverview';
+import { WORK_WEEK } from '../../../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ export class WeeklyOverviewModalService {
     const activities = await this.activityRepository.getByWeek(week);
     const totalDuration = this.activitiesService.calculateDuration(activities);
     const totalDurationMs = parseDuration(totalDuration) ?? 0;
+    const totalDurationRatio = totalDurationMs / WORK_WEEK;
     const issueKeys = this.getIssueKeys(activities);
     let issues = await this.issueRepository.getAllByKeys(issueKeys);
 
@@ -40,14 +42,15 @@ export class WeeklyOverviewModalService {
         issue,
         activities: issueActivityGroup,
         duration: this.activitiesService.calculateDuration(issueActivityGroup),
-        durationRatio: issueWeeklyDurationMs / totalDurationMs
-      })
+        durationRatio: issueWeeklyDurationMs / totalDurationMs,
+      });
     }
 
     return {
       issueOverviewList: issueOverviewList,
       duration: totalDuration,
-      activities: activities.length
+      activities: activities.length,
+      workWeekRatio: totalDurationRatio
     }
   }
 
