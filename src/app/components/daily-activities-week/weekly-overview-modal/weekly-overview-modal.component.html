@@ -27,6 +27,24 @@
       </span>
     </h5>
   </section>
+
+  <section class="IssueOverview d-flex justify-content-between" *ngFor="let generalActivity of weeklyOverview.generalActivityOverviewList">
+    <span class="text-wrap fw-normal" style="width: 55%;">
+    {{ generalActivity.name }}
+    </span>
+
+    <span class="flex-grow-1 text-end">
+      <span class="badge bg-primary">
+       {{ generalActivity.duration }}
+      </span>
+      <span class="badge bg-info ms-1">
+        {{ generalActivity.durationRatio | percent }}
+      </span>
+      <span class="badge bg-success ms-1">
+        1
+      </span>
+    </span>
+  </section>
 </main>
 
 <footer class="modal-footer h5">
