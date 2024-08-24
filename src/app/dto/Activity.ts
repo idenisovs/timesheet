@@ -33,6 +33,10 @@ export class Activity {
     return issueKey;
   }
 
+  hasIssueKey(): boolean {
+    return !!this.name.match(Issue.KEY_PATTERN);
+  }
+
   getShortName(): string {
     const issueKey = this.getIssueKey();
 
