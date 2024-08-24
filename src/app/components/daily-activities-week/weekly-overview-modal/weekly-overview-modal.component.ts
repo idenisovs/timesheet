@@ -21,6 +21,7 @@ import { WeeklyOverview } from './WeeklyOverview';
 })
 export class WeeklyOverviewModalComponent implements OnInit {
   weeklyOverview!: WeeklyOverview;
+  isGeneralActivitiesVisible = false;
 
   @Input()
   week!: Week;
