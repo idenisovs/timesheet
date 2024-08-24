@@ -5,16 +5,17 @@
   <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 </header>
 
-<main class="modal-body p-3">
-  <section class="IssueOverview" *ngFor="let issueOverview of weeklyOverview.issueOverviewList; let idx = index">
-    <h5 class="d-flex">
+<ng-container *ngIf="weeklyOverview">
+  <main class="modal-body p-3">
+    <section class="IssueOverview" *ngFor="let issueOverview of weeklyOverview.issueOverviewList; let idx = index">
+      <h5 class="d-flex">
       <span style="width: 15%">
         {{ issueOverview.issue.key }}
       </span>
-      <span class="text-wrap fw-normal" style="width: 55%;">
+        <span class="text-wrap fw-normal" style="width: 55%;">
         {{ issueOverview.issue.name }}
       </span>
-      <span class="flex-grow-1 text-end">
+        <span class="flex-grow-1 text-end">
         <span class="badge bg-primary">
           {{ issueOverview.duration }}
         </span>
@@ -25,39 +26,49 @@
           {{ issueOverview.activities.length }}
         </span>
       </span>
-    </h5>
-  </section>
+      </h5>
+    </section>
 
-  <section class="IssueOverview" *ngFor="let generalActivity of weeklyOverview.generalActivityOverviewList">
-    <div class="d-flex">
-      <span class="text-wrap fw-normal" style="width: 70%;">
-        {{ generalActivity.name }}
-      </span>
+    <ng-container *ngIf="isGeneralActivitiesVisible">
+      <section class="IssueOverview" *ngFor="let generalActivity of weeklyOverview.generalActivityOverviewList">
+        <div class="d-flex">
+        <span class="text-wrap fw-normal" style="width: 70%;">
+          {{ generalActivity.name }}
+        </span>
 
+          <span class="flex-grow-1 text-end">
+          <span class="badge bg-primary">
+            {{ generalActivity.duration }}
+          </span>
+          <span class="badge bg-info ms-1">
+            {{ generalActivity.durationRatio | percent }}
+          </span>
+          <span class="badge bg-success ms-1">
+            {{ generalActivity.activities.length }}
+          </span>
+        </span>
+        </div>
+      </section>
+    </ng-container>
+  </main>
 
-      <span class="flex-grow-1 text-end">
-      <span class="badge bg-primary">
-       {{ generalActivity.duration }}
-      </span>
+  <footer class="modal-footer h5 d-flex justify-content-between">
+    <div>
+      <button class="btn btn-sm btn-link p-0" (click)="isGeneralActivitiesVisible = !isGeneralActivitiesVisible">
+        {{isGeneralActivitiesVisible ? 'Hide' : 'Show'}} General Activities
+      </button>
+    </div>
+
+    <div>
+    <span class="badge bg-primary">
+      {{ weeklyOverview.duration }}
+    </span>
       <span class="badge bg-info ms-1">
-        {{ generalActivity.durationRatio | percent }}
-      </span>
+      {{ weeklyOverview.workWeekRatio | percent }}
+    </span>
       <span class="badge bg-success ms-1">
-        {{ generalActivity.activities.length }}
-      </span>
+      {{ weeklyOverview.activities }}
     </span>
     </div>
-  </section>
-</main>
-
-<footer class="modal-footer h5">
-  <span class="badge bg-primary">
-    {{ weeklyOverview.duration }}
-  </span>
-  <span class="badge bg-info ms-1">
-    {{ weeklyOverview.workWeekRatio | percent }}
-  </span>
-  <span class="badge bg-success ms-1">
-    {{ weeklyOverview.activities }}
-  </span>
-</footer>
+  </footer>
+</ng-container>
