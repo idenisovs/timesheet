@@ -27,11 +27,21 @@ export class WeeklyOverviewModalService {
     const totalDurationMs = parseDuration(totalDuration) ?? 0;
     const totalDurationRatio = totalDurationMs / WORK_WEEK;
     const issueKeys = this.getIssueKeys(activities);
-    let issues = await this.issueRepository.getAllByKeys(issueKeys);
+    const issues = await this.issueRepository.getAllByKeys(issueKeys);
+    const sortedIssues = issues.sort(this.sortIssues);
 
-    issues = issues.sort(this.sortIssues)
+    const issueOverviewList: IssueOverview[] = this.getIssueOverviewList(sortedIssues, activities, totalDurationMs);
 
-    const issueOverviewList: IssueOverview[] = []
+    return {
+      issueOverviewList: issueOverviewList,
+      duration: totalDuration,
+      activities: activities.length,
+      workWeekRatio: totalDurationRatio
+    }
+  }
+
+  private getIssueOverviewList(issues: Issue[], activities: Activity[], totalDuration: number) {
+    const issueOverviewList: IssueOverview[] = [];
 
     for (let issue of issues) {
       const issueActivityGroup = activities.filter((item) => item.getIssueKey() === issue.key);
@@ -42,16 +52,11 @@ export class WeeklyOverviewModalService {
         issue,
         activities: issueActivityGroup,
         duration: this.activitiesService.calculateDuration(issueActivityGroup),
-        durationRatio: issueWeeklyDurationMs / totalDurationMs,
+        durationRatio: issueWeeklyDurationMs / totalDuration,
       });
     }
 
-    return {
-      issueOverviewList: issueOverviewList,
-      duration: totalDuration,
-      activities: activities.length,
-      workWeekRatio: totalDurationRatio
-    }
+    return issueOverviewList;
   }
 
   getIssueKeys(activities: Activity[]): string[] {
@@ -61,14 +66,12 @@ export class WeeklyOverviewModalService {
   }
 
   sortIssues(issue1: Issue, issue2: Issue) {
-    if (issue1.key > issue2.key) {
-      return -1;
-    }
+    const [projectPrefixA, issueIdA] = issue1.key.split('-');
+    const [projectPrefixB, issueIdB] = issue2.key.split('-');
 
-    if (issue1.key < issue2.key) {
-      return 1;
-    }
+    if (projectPrefixA < projectPrefixB) return -1;
+    if (projectPrefixA > projectPrefixB) return 1;
 
-    return 0;
+    return Number(issueIdA) - Number(issueIdB);
   }
 }
