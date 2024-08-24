@@ -10,6 +10,7 @@ import { ActivitiesService } from '../../../services/activities.service';
 import { WeeklyOverview } from './WeeklyOverview';
 import { WORK_WEEK } from '../../../constants';
 import { GeneralActivityOverview } from './GeneralActivityOverview';
+import { calculateTotalDuration } from '../../../utils';
 
 @Injectable({
   providedIn: 'root'
@@ -81,39 +82,36 @@ export class WeeklyOverviewModalService {
 
   getGeneralActivityList(activities: Activity[], totalDuration: number): GeneralActivityOverview[] {
     const generalActivities = activities.filter((activity: Activity) => !activity.hasIssueKey());
+    const generalActivityGroups = this.groupActivitiesByName(generalActivities);
 
-    const generalActivityOverview = new Map<string, GeneralActivityOverview>();
+    const generalActivityOverview: GeneralActivityOverview[] = [];
 
-    for (let activity of generalActivities) {
-      const existingOverview = generalActivityOverview.get(activity.name);
+    for (const [name, activityGroup] of generalActivityGroups.entries()) {
+      const durationMs = calculateTotalDuration(activityGroup);
 
-      if (existingOverview) {
-        const durationMs = this.addDuration(activity.duration, existingOverview.duration);
+      generalActivityOverview.push({
+        name,
+        activities: activityGroup,
+        duration: this.getDurationStr(durationMs),
+        durationRatio: durationMs / totalDuration,
+      });
+    }
 
-        existingOverview.duration = this.getDurationStr(durationMs);
-        existingOverview.durationRatio = durationMs / totalDuration;
+    return generalActivityOverview;
+  }
 
-        generalActivityOverview.set(activity.name, existingOverview);
+  groupActivitiesByName(activities: Activity[]): Map<string, Activity[]> {
+    const activityGroups = new Map<string, Activity[]>();
+
+    for (let activity of activities) {
+      if (activityGroups.has(activity.name)) {
+        activityGroups.get(activity.name)?.push(activity);
       } else {
-        const durationMs = parseDuration(activity.duration) as number;
-
-        const unexistingOverview: GeneralActivityOverview = {
-          name: activity.name,
-          duration: activity.duration,
-          durationRatio: durationMs / totalDuration
-        };
-
-        generalActivityOverview.set(activity.name, unexistingOverview);
+        activityGroups.set(activity.name, [activity]);
       }
     }
 
-    return Array.from(generalActivityOverview.values());
-  }
-
-  addDuration(first: string, second: string): number {
-    const duration1 = parseDuration(first) as number;
-    const duration2 = parseDuration(second) as number;
-    return duration1 + duration2;
+    return activityGroups;
   }
 
   getDurationStr(durationMs: number) {

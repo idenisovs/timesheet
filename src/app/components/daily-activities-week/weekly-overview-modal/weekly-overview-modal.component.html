@@ -7,7 +7,7 @@
 
 <main class="modal-body p-3">
   <section class="IssueOverview" *ngFor="let issueOverview of weeklyOverview.issueOverviewList; let idx = index">
-    <h5 class="d-flex my-3">
+    <h5 class="d-flex">
       <span style="width: 15%">
         {{ issueOverview.issue.key }}
       </span>
@@ -28,12 +28,14 @@
     </h5>
   </section>
 
-  <section class="IssueOverview d-flex justify-content-between" *ngFor="let generalActivity of weeklyOverview.generalActivityOverviewList">
-    <span class="text-wrap fw-normal" style="width: 55%;">
-    {{ generalActivity.name }}
-    </span>
+  <section class="IssueOverview" *ngFor="let generalActivity of weeklyOverview.generalActivityOverviewList">
+    <div class="d-flex">
+      <span class="text-wrap fw-normal" style="width: 70%;">
+        {{ generalActivity.name }}
+      </span>
 
-    <span class="flex-grow-1 text-end">
+
+      <span class="flex-grow-1 text-end">
       <span class="badge bg-primary">
        {{ generalActivity.duration }}
       </span>
@@ -41,9 +43,10 @@
         {{ generalActivity.durationRatio | percent }}
       </span>
       <span class="badge bg-success ms-1">
-        1
+        {{ generalActivity.activities.length }}
       </span>
     </span>
+    </div>
   </section>
 </main>
 
