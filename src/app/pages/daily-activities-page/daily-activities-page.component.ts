@@ -36,10 +36,6 @@ export class DailyActivitiesPageComponent implements OnInit, OnDestroy {
     this.actionSubs.unsubscribe();
   }
 
-  public async handleScroll() {
-    await this.loadNextWeek()
-  }
-
   public async loadNextWeek() {
     const week = await this.weeksRepo.getByOffset(this.offset);
 
