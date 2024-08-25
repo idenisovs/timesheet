@@ -15,6 +15,7 @@ import { PrepareForTodayWorkflowService } from '../../workflows/prepare-for-toda
 })
 export class DailyActivitiesPageComponent implements OnInit, OnDestroy {
   weeks: Week[] = [];
+  offset = 0;
 
   private actionSubs = this.actionsService.on.subscribe(this.handlePageActions.bind(this));
 
@@ -28,16 +29,25 @@ export class DailyActivitiesPageComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     await this.prepareForToday();
-
-    this.weeks = await this.weeksRepo.getAll();
+    await this.loadNextWeek();
   }
 
   ngOnDestroy() {
     this.actionSubs.unsubscribe();
   }
 
-  public loadPreviousWeeks() {
-    console.log('Scroll Event!');
+  public async handleScroll() {
+    await this.loadNextWeek()
+  }
+
+  public async loadNextWeek() {
+    const week = await this.weeksRepo.getByOffset(this.offset);
+
+    this.offset += 1;
+
+    if (week) {
+      this.weeks.push(week);
+    }
   }
 
   private async prepareForToday(): Promise<void> {
