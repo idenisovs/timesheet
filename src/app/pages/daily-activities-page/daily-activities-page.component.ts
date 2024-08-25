@@ -36,6 +36,10 @@ export class DailyActivitiesPageComponent implements OnInit, OnDestroy {
     this.actionSubs.unsubscribe();
   }
 
+  public loadPreviousWeeks() {
+    console.log('Scroll Event!');
+  }
+
   private async prepareForToday(): Promise<void> {
     return this.prepareForTodayWorkflow.run();
   }
