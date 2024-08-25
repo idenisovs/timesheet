@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,17 +25,18 @@ import {
     DailyActivitiesWeekComponent,
     DailyActivitiesWeekHeaderComponent,
   ],
-	imports: [
-		BrowserModule,
-		AppRoutingModule,
-		RouterOutlet,
-		FormsModule,
-		ReactiveFormsModule,
-		NgbModule,
-		NavbarComponent,
-		DailyActivitiesWeekDayComponent,
-		DailyActivitiesWeekDayMissingComponent,
-	],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    RouterOutlet,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbModule,
+    NavbarComponent,
+    DailyActivitiesWeekDayComponent,
+    DailyActivitiesWeekDayMissingComponent,
+    InfiniteScrollDirective,
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
