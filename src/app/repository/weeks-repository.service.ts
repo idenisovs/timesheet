@@ -29,6 +29,21 @@ export class WeeksRepositoryService {
     return records.map(Week.build)
   }
 
+  async getByOffset(offset = 0): Promise<Week|null> {
+    const record: WeekRecord | undefined = await this.db.weeks
+      .orderBy('till')
+      .reverse()
+      .offset(offset)
+      .limit(1)
+      .first();
+
+    if (record) {
+      return Week.build(record);
+    }
+
+    return null;
+  }
+
   save(week: Week) {
     return this.db.weeks.put(Week.entity(week));
   }
