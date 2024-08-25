@@ -1,5 +1,9 @@
 # Completed things
 
+## Infinite Scroll
+
+Add Infinite Scroll option to Daily Activity View. It should help to deal with huge lists of activities.
+
 ## Refactoring of data structure
 
 Previous data structure persisted from Sheet documents, which had Activities field with list of Activity records. Each Sheet represented a day, and so a lot of calculations must be performed manually, especially having new Issues and Projects views. 

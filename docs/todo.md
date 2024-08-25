@@ -2,10 +2,6 @@
 
 This file contains list of things and thoughts about features I'd like to put in Timesheet App.
 
-## Infinite Scroll
-
-Add Infinite Scroll option to Daily Activity View. It should help to deal with huge lists of activities.
-
 ## Activity Ordering
 
 Add option to order Activities in Daily Activity View.
