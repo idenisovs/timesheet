@@ -36,7 +36,8 @@ npm start
     * [Accuracy Points](./docs/accuracy_points.md)
 
 ## Versions
-- 
+
+- `3.1.4` - Fixed bug when Infinite Scroll is not triggered for Daily Activities View. Added preloader for Week List, it helps to fulfill screen so the next Scrolled event from user side is got triggered;  
 - `3.1.3` - In Daily Activities Page, added support for Infinite Scroll feature;
 - `3.1.2` - In Weekly Overview, display the list of general activities (not related to any Issue);
 - `3.1.1` - In Weekly Overview, display the percents of completed Week in Weekly Overview instead of hardcoded value 100%;
