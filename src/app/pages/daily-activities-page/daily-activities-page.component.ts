@@ -32,6 +32,7 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 
   async ngOnInit() {
     await this.prepareForToday();
+    await this.loadNextWeek();
   }
 
   async ngAfterViewInit() {
@@ -43,7 +44,6 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
   }
 
   async preloadWeeks() {
-    await this.loadNextWeek();
     await delay(150);
 
     const numberOfWeeks = await this.weekRepo.getCount();
@@ -51,6 +51,7 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
     const weekListHeight = (this.weekListRef.nativeElement as HTMLElement).offsetHeight;
 
     if (weekListHeight <= windowHeight && this.weeks.length < numberOfWeeks) {
+      await this.loadNextWeek();
       void this.preloadWeeks();
     }
   }
