@@ -24,6 +24,10 @@ export class WeeksRepositoryService {
     return record ? Week.build(record) : null;
   }
 
+  getCount(): Promise<number> {
+    return this.db.weeks.count();
+  }
+
   async getAll(): Promise<Week[]> {
     const records: WeekRecord[] = await this.db.weeks.orderBy('till').reverse().toArray();
     return records.map(Week.build)
