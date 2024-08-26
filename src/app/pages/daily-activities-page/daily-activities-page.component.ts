@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Week } from '../../dto';
@@ -7,21 +7,24 @@ import { Actions } from '../../services/Actions';
 import { ActionsService } from '../../services/actions.service';
 import { ExportWorkflowService } from '../../workflows/export-workflow.service';
 import { PrepareForTodayWorkflowService } from '../../workflows/prepare-for-today-workflow.service';
+import { delay } from '../../utils';
 
 @Component({
   selector: 'app-daily-activities-page',
   templateUrl: './daily-activities-page.component.html',
   styleUrls: ['./daily-activities-page.component.scss']
 })
-export class DailyActivitiesPageComponent implements OnInit, OnDestroy {
+export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDestroy {
   weeks: Week[] = [];
   offset = 0;
+
+  @ViewChild('weeksList') weekListRef!: ElementRef;
 
   private actionSubs = this.actionsService.on.subscribe(this.handlePageActions.bind(this));
 
   constructor(
     private router: Router,
-    private weeksRepo: WeeksRepositoryService,
+    private weekRepo: WeeksRepositoryService,
     private actionsService: ActionsService,
     private exportWorkflow: ExportWorkflowService,
     private prepareForTodayWorkflow: PrepareForTodayWorkflowService
@@ -29,15 +32,31 @@ export class DailyActivitiesPageComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     await this.prepareForToday();
-    await this.loadNextWeek();
+  }
+
+  async ngAfterViewInit() {
+    await this.preloadWeeks();
   }
 
   ngOnDestroy() {
     this.actionSubs.unsubscribe();
   }
 
+  async preloadWeeks() {
+    await this.loadNextWeek();
+    await delay(150);
+
+    const numberOfWeeks = await this.weekRepo.getCount();
+    const windowHeight = window.innerHeight;
+    const weekListHeight = (this.weekListRef.nativeElement as HTMLElement).offsetHeight;
+
+    if (weekListHeight <= windowHeight && this.weeks.length < numberOfWeeks) {
+      void this.preloadWeeks();
+    }
+  }
+
   public async loadNextWeek() {
-    const week = await this.weeksRepo.getByOffset(this.offset);
+    const week = await this.weekRepo.getByOffset(this.offset);
 
     this.offset += 1;
 
