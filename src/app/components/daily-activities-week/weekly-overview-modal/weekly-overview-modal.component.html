@@ -7,10 +7,12 @@
 
 <ng-container *ngIf="weeklyOverview">
   <main class="modal-body p-3">
-    <app-issue-overview
-      *ngFor="let issueOverview of weeklyOverview.issueOverviewList; let idx = index"
-      [issueOverview]="issueOverview"
-    />
+    <div
+      class="IssueOverview"
+      *ngFor="let issueOverview of weeklyOverview.issueOverviewList"
+    >
+      <app-issue-overview [issueOverview]="issueOverview" />
+    </div>
 
     <ng-container *ngIf="isGeneralActivitiesVisible">
       <section class="IssueOverview" *ngFor="let generalActivity of weeklyOverview.generalActivityOverviewList">
