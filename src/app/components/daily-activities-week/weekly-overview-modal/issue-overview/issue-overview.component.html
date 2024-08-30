@@ -1,0 +1,22 @@
+<button class="IssueOverview btn p-0 border-0 w-100 text-start">
+  <h5 class="d-flex m-0">
+    <i class="material-icons-outlined text-secondary">
+      chevron_right
+    </i>
+    <div style="width: 15%">
+      {{issueOverview.issue.key}}
+    </div>
+    <div class="text-wrap fw-normal flex-grow-1">
+      {{issueOverview.issue.name}}
+    </div>
+    <div class="badge bg-primary">
+      {{issueOverview.duration}}
+    </div>
+    <div class="badge bg-info ms-1">
+      {{ issueOverview.durationRatio | percent }}
+    </div>
+    <div class="badge bg-success ms-1">
+      {{ issueOverview.activities.length }}
+    </div>
+  </h5>
+</button>

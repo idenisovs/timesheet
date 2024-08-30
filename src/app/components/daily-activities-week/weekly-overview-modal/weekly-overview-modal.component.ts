@@ -5,6 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Week } from '../../../dto';
 import { WeeklyOverviewModalService } from './weekly-overview-modal.service';
 import { WeeklyOverview } from './WeeklyOverview';
+import { IssueOverviewComponent } from './issue-overview/issue-overview.component';
 
 @Component({
   selector: 'app-weekly-overview-modal',
@@ -14,7 +15,8 @@ import { WeeklyOverview } from './WeeklyOverview';
     NgForOf,
     NgIf,
     JsonPipe,
-    PercentPipe
+    PercentPipe,
+    IssueOverviewComponent
   ],
   templateUrl: './weekly-overview-modal.component.html',
   styleUrl: './weekly-overview-modal.component.scss'
