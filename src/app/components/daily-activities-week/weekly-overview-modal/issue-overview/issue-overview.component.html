@@ -1,8 +1,14 @@
-<button class="btn p-0 border-0 w-100 text-start">
+<button class="btn p-0 border-0 w-100 text-start" (click)="isActivityListCollapsed = !isActivityListCollapsed">
   <h5 class="d-flex m-0">
-    <i class="material-icons-outlined text-secondary">
-      chevron_right
-    </i>
+    <div style="width: 4%">
+      <i class="material-icons-outlined text-secondary">
+        @if (isActivityListCollapsed) {
+          chevron_right
+        } @else {
+          expand_more
+        }
+      </i>
+    </div>
     <div style="width: 15%">
       {{issueOverview.issue.key}}
     </div>
@@ -20,3 +26,11 @@
     </div>
   </h5>
 </button>
+
+<section [(ngbCollapse)]="isActivityListCollapsed">
+  <div class="d-flex align-items-center my-1" *ngFor="let activity of issueOverview.activities">
+    <div style="width: 4%"></div>
+    <div class="flex-grow-1">{{activity.getShortName()}}</div>
+    <div class="badge bg-primary align-middle">{{activity.duration}}</div>
+  </div>
+</section>
