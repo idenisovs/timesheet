@@ -7,27 +7,50 @@
 
 <ng-container *ngIf="weeklyOverview">
   <main class="modal-body p-3">
-    <section class="IssueOverview" *ngFor="let issueOverview of weeklyOverview.issueOverviewList; let idx = index">
+    <button class="IssueOverview btn p-0 border-0 w-100 text-start" *ngFor="let issueOverview of weeklyOverview.issueOverviewList; let idx = index">
       <h5 class="d-flex m-0">
-        <span style="width: 15%">
-          {{ issueOverview.issue.key }}
-        </span>
-        <span class="text-wrap fw-normal" style="width: 55%;">
-          {{ issueOverview.issue.name }}
-        </span>
-        <span class="flex-grow-1 text-end">
-          <span class="badge bg-primary">
-            {{ issueOverview.duration }}
-          </span>
-          <span class="badge bg-info ms-1">
-            {{ issueOverview.durationRatio | percent }}
-          </span>
-          <span class="badge bg-success ms-1">
-            {{ issueOverview.activities.length }}
-          </span>
-        </span>
+        <i class="material-icons-outlined text-secondary">
+          chevron_right
+        </i>
+        <div style="width: 15%">
+          {{issueOverview.issue.key}}
+        </div>
+        <div class="text-wrap fw-normal flex-grow-1">
+          {{issueOverview.issue.name}}
+        </div>
+        <div class="badge bg-primary">
+          {{issueOverview.duration}}
+        </div>
+        <div class="badge bg-info ms-1">
+          {{ issueOverview.durationRatio | percent }}
+        </div>
+        <div class="badge bg-success ms-1">
+          {{ issueOverview.activities.length }}
+        </div>
       </h5>
-    </section>
+    </button>
+
+<!--    <section class="IssueOverview" *ngFor="let issueOverview of weeklyOverview.issueOverviewList; let idx = index">-->
+<!--      <h5 class="d-flex m-0">-->
+<!--        <span style="width: 15%">-->
+<!--          {{ issueOverview.issue.key }}-->
+<!--        </span>-->
+<!--        <span class="text-wrap fw-normal" style="width: 55%;">-->
+<!--          {{ issueOverview.issue.name }}-->
+<!--        </span>-->
+<!--        <span class="flex-grow-1 text-end">-->
+<!--          <span class="badge bg-primary">-->
+<!--            {{ issueOverview.duration }}-->
+<!--          </span>-->
+<!--          <span class="badge bg-info ms-1">-->
+<!--            {{ issueOverview.durationRatio | percent }}-->
+<!--          </span>-->
+<!--          <span class="badge bg-success ms-1">-->
+<!--            {{ issueOverview.activities.length }}-->
+<!--          </span>-->
+<!--        </span>-->
+<!--      </h5>-->
+<!--    </section>-->
 
     <ng-container *ngIf="isGeneralActivitiesVisible">
       <section class="IssueOverview" *ngFor="let generalActivity of weeklyOverview.generalActivityOverviewList">
