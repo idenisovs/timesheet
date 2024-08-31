@@ -32,7 +32,7 @@
 </button>
 
 <section [(ngbCollapse)]="isActivityListCollapsed">
-  <div class="d-flex align-items-center my-1" *ngFor="let activityOverview of issueOverview.activities">
+  <div class="d-flex align-items-center my-1" *ngFor="let activityOverview of issueOverview.activityOverview">
     <div style="width: 4%"></div>
     <div class="flex-grow-1">{{activityOverview.name}}</div>
     <div class="badge bg-primary">{{activityOverview.duration}}</div>
