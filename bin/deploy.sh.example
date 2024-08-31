@@ -18,7 +18,7 @@ mkdir <DEPLOYMENT_DIR>
 
 EOF
 
-scp -r ./dist/timesheet/* $USER@$HOST:<DEPLOYMENT_DIR>
+scp -r ./dist/timesheet/browser/* $USER@$HOST:<DEPLOYMENT_DIR>
 
 ssh $USER@$HOST << 'EOF'
 
