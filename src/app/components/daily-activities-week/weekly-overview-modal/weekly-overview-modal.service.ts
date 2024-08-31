@@ -3,14 +3,12 @@ import parseDuration from 'parse-duration';
 import { duration } from 'yet-another-duration';
 
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
-import { Activity, Issue, Week } from '../../../dto';
 import { IssueRepositoryService } from '../../../repository/issue-repository.service';
-import { IssueOverview } from './IssueOverview';
 import { ActivitiesService } from '../../../services/activities.service';
-import { WeeklyOverview } from './WeeklyOverview';
-import { WORK_WEEK } from '../../../constants';
-import { GeneralActivityOverview } from './GeneralActivityOverview';
 import { calculateTotalDuration } from '../../../utils';
+import { Activity, Issue, Week } from '../../../dto';
+import { IssueOverview, WeeklyOverview, GeneralActivityOverview } from './types';
+import { WORK_WEEK } from '../../../constants';
 
 @Injectable({
   providedIn: 'root'

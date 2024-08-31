@@ -3,8 +3,8 @@ import { DatePipe, JsonPipe, NgForOf, NgIf, PercentPipe } from '@angular/common'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Week } from '../../../dto';
+import { WeeklyOverview } from './types';
 import { WeeklyOverviewModalService } from './weekly-overview-modal.service';
-import { WeeklyOverview } from './WeeklyOverview';
 import { IssueOverviewComponent } from './issue-overview/issue-overview.component';
 
 @Component({
