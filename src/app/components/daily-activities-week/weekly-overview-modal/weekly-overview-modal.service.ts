@@ -59,7 +59,8 @@ export class WeeklyOverviewModalService {
 
       issueOverviewList.push({
         issue,
-        activities: issueActivitiesOverview,
+        activities: issueActivityGroup,
+        activityOverview: issueActivitiesOverview,
         duration: this.activitiesService.calculateDuration(issueActivityGroup),
         durationRatio: issueWeeklyDurationMs / totalDuration,
       });
@@ -80,7 +81,8 @@ export class WeeklyOverviewModalService {
 
     return {
       issue,
-      activities: miscellaneousActivitiesOverview,
+      activities: miscellaneousActivities,
+      activityOverview: miscellaneousActivitiesOverview,
       duration: miscellaneousActivityDuration,
       durationRatio: miscellaneousActivityDurationMs / totalDuration
     };

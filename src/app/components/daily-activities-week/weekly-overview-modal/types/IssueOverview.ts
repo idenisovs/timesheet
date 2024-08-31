@@ -1,9 +1,10 @@
-import { Issue } from '../../../../dto';
+import { Activity, Issue } from '../../../../dto';
 import { ActivityOverview } from './ActivityOverview';
 
 export interface IssueOverview {
   issue: Issue;
-  activities: ActivityOverview[];
+  activityOverview: ActivityOverview[];
+  activities: Activity[];
   duration: string;
   durationRatio: number;
 }
