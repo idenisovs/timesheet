@@ -1,0 +1,22 @@
+# Changelog
+
+- `3.1.5` - In Weekly Overview, added an option to expand the activities list of an issue;
+- `3.1.4` - Fixed a bug where Infinite Scroll was not triggered in the Daily Activities View. Added a preloader for the Week List, which ensures the screen is filled, triggering the next scroll event from the user;
+- `3.1.3` - In Daily Activities Page, added support for Infinite Scroll feature;
+- `3.1.2` - In Weekly Overview, display the list of general activities (not related to any Issue);
+- `3.1.1` - In Weekly Overview, display the percents of completed Week in Weekly Overview instead of hardcoded value 100%;
+- `3.1.0` - Added Weekly Overview modal;
+- `3.0.2` - Fixed Activities Summary bug in Week Header component;
+- `3.0.1` - Fixed different minor bugs related to date matching during import;
+- `3.0.0` - Application is moved to the new data structure;
+- `2.4.0` - Application got the Projects view;
+- `2.3.0` - Daily Overview showing the predefined issue name;
+- `2.2.0` - Issues section got possibility to remove Issue;
+- `2.1.0` - Application got the basic Edit Issue view;
+- `2.0.0` - Application got the basic Issues view;
+- `1.3.0` - Added the following:
+  1. Added the _Copy to Clipboard_ button;
+  2. Added the buttons allowed to set the current time for `From` and `Till` fields;
+- `1.2.0` - Added possibility to add missing days;
+- `1.1.0` - Daily summary;
+- `1.0.0` - Basic functionality;
