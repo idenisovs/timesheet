@@ -10,6 +10,14 @@ Incorporating responsiveness is crucial for enhancing the overall user experienc
 
 Just as it says.
 
+## Progressive Web Application
+
+Converting the Timesheet Web Application to a PWA (Progressive Web App) will make it more versatile and accessible across different devices.
+
+Ability to install the app on desktops or mobile devices enables offline access and faster load times.
+
+Additionally, the PWA can offer push notifications and a more seamless user experience, similar to a native application, while still being web-based. This enhancement will significantly improve user engagement and convenience.
+
 ## Configuration View
 
 Given the diverse work schedules—part-time, four-day workweeks, and more—it’s essential to make the application configurable.

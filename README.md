@@ -15,7 +15,7 @@ npm start
 
 ## Motivation 
 
-As a professional Software Developer, I frequently used various time tracking applications, but none provided a comfortable user experience due to numerous UI/UX issues. Ultimately, this led me to create my own time tracking application, designed with a focus on simplicity, usability, and efficiency.
+As a professional Software Developer, I frequently used various commercial time tracking applications, but none provided a comfortable user experience due to numerous UI/UX issues. Ultimately, this led me to create my own time tracking application, designed with a focus on simplicity, usability, and efficiency.
 
 [Online version of Timesheet App](https://time.e-dreams.lv/).
 
