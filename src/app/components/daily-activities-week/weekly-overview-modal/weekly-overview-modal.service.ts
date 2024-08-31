@@ -34,7 +34,10 @@ export class WeeklyOverviewModalService {
     const issueOverviewList: IssueOverview[] = this.getIssueOverviewList(sortedIssues, activities, totalDurationMs);
 
     const miscellaneousActivitiesIssue: IssueOverview = this.getMiscellaneousActivitiesIssue(activities, totalDurationMs);
-    issueOverviewList.push(miscellaneousActivitiesIssue);
+
+    if (miscellaneousActivitiesIssue.activities.length) {
+      issueOverviewList.push(miscellaneousActivitiesIssue);
+    }
 
     const miscellaneousActivities = activities.filter((activity: Activity) => !activity.hasIssueKey());
     const generalActivitiesList = this.getActivityOverview(miscellaneousActivities, totalDurationMs);
