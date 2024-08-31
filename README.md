@@ -2,9 +2,9 @@
 
 Yet another (serverless) time tracking web application. 
 
-Explore the [online version of the Timesheet App](https://time.e-dreams.lv/).
-
 ![Timesheet Application](./docs/screenshot.png)
+
+Explore the [online version of the Timesheet App](https://time.e-dreams.lv/).
 
 ## Motivation
 
