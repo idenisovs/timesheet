@@ -32,7 +32,9 @@ export class WeeklyOverviewModalService {
     const sortedIssues = issues.sort(this.sortIssues);
 
     const issueOverviewList: IssueOverview[] = this.getIssueOverviewList(sortedIssues, activities, totalDurationMs);
-    const generalActivitiesList = this.getGeneralActivityList(activities, totalDurationMs);
+
+    const miscellaneousActivities = activities.filter((activity: Activity) => !activity.hasIssueKey());
+    const generalActivitiesList = this.getActivityOverview(miscellaneousActivities, totalDurationMs);
 
     return {
       issueOverviewList: issueOverviewList,
@@ -50,10 +52,11 @@ export class WeeklyOverviewModalService {
       const issueActivityGroup = activities.filter((item) => item.getIssueKey() === issue.key);
       const issueWeeklyDuration = this.activitiesService.calculateDuration(issueActivityGroup);
       const issueWeeklyDurationMs = parseDuration(issueWeeklyDuration) ?? 0;
+      const issueActivitiesOverview = this.getActivityOverview(issueActivityGroup, totalDuration);
 
       issueOverviewList.push({
         issue,
-        activities: issueActivityGroup,
+        activities: issueActivitiesOverview,
         duration: this.activitiesService.calculateDuration(issueActivityGroup),
         durationRatio: issueWeeklyDurationMs / totalDuration,
       });
@@ -78,24 +81,23 @@ export class WeeklyOverviewModalService {
     return Number(issueIdB) - Number(issueIdA);
   }
 
-  getGeneralActivityList(activities: Activity[], totalDuration: number): ActivityOverview[] {
-    const generalActivities = activities.filter((activity: Activity) => !activity.hasIssueKey());
-    const generalActivityGroups = this.groupActivitiesByName(generalActivities);
+  getActivityOverview(activities: Activity[], totalDuration: number): ActivityOverview[] {
+    const activityGroups = this.groupActivitiesByName(activities);
 
-    const generalActivityOverview: ActivityOverview[] = [];
+    const activityOverview: ActivityOverview[] = [];
 
-    for (const [name, activityGroup] of generalActivityGroups.entries()) {
+    for (const [name, activityGroup] of activityGroups.entries()) {
       const durationMs = calculateTotalDuration(activityGroup);
 
-      generalActivityOverview.push({
-        name,
+      activityOverview.push({
+        name: activityGroup[0].getShortName(),
         activities: activityGroup,
         duration: this.getDurationStr(durationMs),
         durationRatio: durationMs / totalDuration,
       });
     }
 
-    return generalActivityOverview;
+    return activityOverview;
   }
 
   groupActivitiesByName(activities: Activity[]): Map<string, Activity[]> {
