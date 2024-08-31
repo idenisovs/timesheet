@@ -6,6 +6,18 @@ Explore the [online version of the Timesheet App](https://time.e-dreams.lv/).
 
 Check out the [Roadmap](./docs/roadmap.md) to see what's planned next.
 
+## Motivation
+
+As a professional Software Developer, I frequently used various commercial time tracking applications, but none provided a comfortable user experience due to numerous UI/UX issues. Ultimately, this led me to create my own time tracking application, designed with a focus on simplicity, usability, and efficiency.
+
+## Goals
+
+1. Make the time tracking task as simple as possible;
+2. Make it serverless first. All the data stored in browser;
+3. Make it free and open-source;
+
+![Timesheet Application](./docs/screenshot.png)
+
 ## Prerequisites
 
 * [Node.js and NPM](https://nodejs.org/en)
@@ -16,16 +28,6 @@ Check out the [Roadmap](./docs/roadmap.md) to see what's planned next.
 npm install
 npm start
 ```
-
-## Motivation 
-
-As a professional Software Developer, I frequently used various commercial time tracking applications, but none provided a comfortable user experience due to numerous UI/UX issues. Ultimately, this led me to create my own time tracking application, designed with a focus on simplicity, usability, and efficiency.
-
-## Goals
-
-1. Make the time tracking task as simple as possible;
-2. Make it serverless first. All the data stored in browser;
-3. Make it free and open-source;
 
 ## Documentation
 
