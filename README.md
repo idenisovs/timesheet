@@ -4,7 +4,7 @@ Yet another (serverless) time tracking web application.
 
 Explore the [online version of the Timesheet App](https://time.e-dreams.lv/).
 
-Check out the [Roadmap](./docs/roadmap.md) to see what's planned next.
+![Timesheet Application](./docs/screenshot.png)
 
 ## Motivation
 
@@ -16,7 +16,9 @@ As a professional Software Developer, I frequently used various commercial time 
 2. Make it serverless first. All the data stored in browser;
 3. Make it free and open-source;
 
-![Timesheet Application](./docs/screenshot.png)
+## Development
+
+Check out the [Roadmap](./docs/roadmap.md) to see what's planned next.
 
 ## Prerequisites
 
