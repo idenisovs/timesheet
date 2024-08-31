@@ -9,9 +9,13 @@
         }
       </i>
     </div>
-    <div style="width: 15%">
-      {{issueOverview.issue.key}}
-    </div>
+
+    @if (issueOverview.issue.key) {
+      <div style="width: 15%">
+        {{issueOverview.issue.key}}
+      </div>
+    }
+
     <div class="text-wrap fw-normal flex-grow-1">
       {{issueOverview.issue.name}}
     </div>

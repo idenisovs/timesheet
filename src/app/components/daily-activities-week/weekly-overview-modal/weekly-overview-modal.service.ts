@@ -33,6 +33,9 @@ export class WeeklyOverviewModalService {
 
     const issueOverviewList: IssueOverview[] = this.getIssueOverviewList(sortedIssues, activities, totalDurationMs);
 
+    const miscellaneousActivitiesIssue: IssueOverview = this.getMiscellaneousActivitiesIssue(activities, totalDurationMs);
+    issueOverviewList.push(miscellaneousActivitiesIssue);
+
     const miscellaneousActivities = activities.filter((activity: Activity) => !activity.hasIssueKey());
     const generalActivitiesList = this.getActivityOverview(miscellaneousActivities, totalDurationMs);
 
@@ -65,13 +68,31 @@ export class WeeklyOverviewModalService {
     return issueOverviewList;
   }
 
-  getIssueKeys(activities: Activity[]): string[] {
+  private getMiscellaneousActivitiesIssue(activities: Activity[], totalDuration: number): IssueOverview {
+    const miscellaneousActivities = activities.filter((activity: Activity) => !activity.hasIssueKey());
+    const miscellaneousActivityDuration = this.activitiesService.calculateDuration(miscellaneousActivities);
+    const miscellaneousActivityDurationMs = parseDuration(miscellaneousActivityDuration) ?? 0;
+    const miscellaneousActivitiesOverview = this.getActivityOverview(miscellaneousActivities, totalDuration);
+
+    const issue = new Issue({ name: 'Miscellaneous activities' });
+    issue.activities = miscellaneousActivities.length;
+    issue.duration = miscellaneousActivityDuration;
+
+    return {
+      issue,
+      activities: miscellaneousActivitiesOverview,
+      duration: miscellaneousActivityDuration,
+      durationRatio: miscellaneousActivityDurationMs / totalDuration
+    };
+  }
+
+  private getIssueKeys(activities: Activity[]): string[] {
     const issueKeys = activities.map((activity: Activity) => activity.getIssueKey()).filter(key => !!key) as string[];
     const uniqueIssueKeys = new Set(issueKeys);
     return Array.from(uniqueIssueKeys);
   }
 
-  sortIssues(issue1: Issue, issue2: Issue) {
+  private sortIssues(issue1: Issue, issue2: Issue) {
     const [projectPrefixA, issueIdA] = issue1.key.split('-');
     const [projectPrefixB, issueIdB] = issue2.key.split('-');
 
@@ -81,7 +102,7 @@ export class WeeklyOverviewModalService {
     return Number(issueIdB) - Number(issueIdA);
   }
 
-  getActivityOverview(activities: Activity[], totalDuration: number): ActivityOverview[] {
+  private getActivityOverview(activities: Activity[], totalDuration: number): ActivityOverview[] {
     const activityGroups = this.groupActivitiesByName(activities);
 
     const activityOverview: ActivityOverview[] = [];
@@ -100,7 +121,7 @@ export class WeeklyOverviewModalService {
     return activityOverview;
   }
 
-  groupActivitiesByName(activities: Activity[]): Map<string, Activity[]> {
+  private groupActivitiesByName(activities: Activity[]): Map<string, Activity[]> {
     const activityGroups = new Map<string, Activity[]>();
 
     for (let activity of activities) {
@@ -114,7 +135,7 @@ export class WeeklyOverviewModalService {
     return activityGroups;
   }
 
-  getDurationStr(durationMs: number) {
+  private getDurationStr(durationMs: number) {
     return duration(durationMs, {
       units: {
         min: 'minutes',
