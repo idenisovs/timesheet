@@ -37,7 +37,8 @@ npm start
 
 ## Versions
 
-- `3.1.4` - Fixed bug when Infinite Scroll is not triggered for Daily Activities View. Added preloader for Week List, it helps to fulfill screen so the next Scrolled event from user side is got triggered;  
+- `3.1.5` - In Weekly Overview, added an option to expand the activities list of an issue;
+- `3.1.4` - Fixed a bug where Infinite Scroll was not triggered in the Daily Activities View. Added a preloader for the Week List, which ensures the screen is filled, triggering the next scroll event from the user;  
 - `3.1.3` - In Daily Activities Page, added support for Infinite Scroll feature;
 - `3.1.2` - In Weekly Overview, display the list of general activities (not related to any Issue);
 - `3.1.1` - In Weekly Overview, display the percents of completed Week in Weekly Overview instead of hardcoded value 100%;
