@@ -7,7 +7,7 @@ import { IssueRepositoryService } from '../../../repository/issue-repository.ser
 import { ActivitiesService } from '../../../services/activities.service';
 import { calculateTotalDuration } from '../../../utils';
 import { Activity, Issue, Week } from '../../../dto';
-import { IssueOverview, WeeklyOverview, GeneralActivityOverview } from './types';
+import { IssueOverview, WeeklyOverview, ActivityOverview } from './types';
 import { WORK_WEEK } from '../../../constants';
 
 @Injectable({
@@ -78,11 +78,11 @@ export class WeeklyOverviewModalService {
     return Number(issueIdB) - Number(issueIdA);
   }
 
-  getGeneralActivityList(activities: Activity[], totalDuration: number): GeneralActivityOverview[] {
+  getGeneralActivityList(activities: Activity[], totalDuration: number): ActivityOverview[] {
     const generalActivities = activities.filter((activity: Activity) => !activity.hasIssueKey());
     const generalActivityGroups = this.groupActivitiesByName(generalActivities);
 
-    const generalActivityOverview: GeneralActivityOverview[] = [];
+    const generalActivityOverview: ActivityOverview[] = [];
 
     for (const [name, activityGroup] of generalActivityGroups.entries()) {
       const durationMs = calculateTotalDuration(activityGroup);

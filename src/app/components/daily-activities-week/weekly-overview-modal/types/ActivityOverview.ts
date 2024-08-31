@@ -1,6 +1,6 @@
 import { Activity } from '../../../../dto';
 
-export interface GeneralActivityOverview {
+export interface ActivityOverview {
   name: string;
   activities: Activity[];
   duration: string;
