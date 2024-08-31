@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { IssueOverview } from '../IssueOverview';
 import { NgForOf, PercentPipe } from '@angular/common';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+
+import { IssueOverview } from '../types';
 
 @Component({
   selector: 'app-issue-overview',

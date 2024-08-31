@@ -1,4 +1,4 @@
-import { Activity } from '../../../dto';
+import { Activity } from '../../../../dto';
 
 export interface GeneralActivityOverview {
   name: string;
