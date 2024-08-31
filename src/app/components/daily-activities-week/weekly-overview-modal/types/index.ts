@@ -1,3 +1,3 @@
 export * from './WeeklyOverview';
 export * from './IssueOverview';
-export * from './GeneralActivityOverview';
+export * from './ActivityOverview';
