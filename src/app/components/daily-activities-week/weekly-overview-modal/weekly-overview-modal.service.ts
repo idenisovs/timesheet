@@ -71,9 +71,9 @@ export class WeeklyOverviewModalService {
 
   private getMiscellaneousActivitiesIssue(activities: Activity[], totalDuration: number): IssueOverview {
     const miscellaneousActivities = activities.filter((activity: Activity) => !activity.hasIssueKey());
+    const miscellaneousActivitiesOverview = this.getActivityOverview(miscellaneousActivities, totalDuration);
     const miscellaneousActivityDuration = this.activitiesService.calculateDuration(miscellaneousActivities);
     const miscellaneousActivityDurationMs = parseDuration(miscellaneousActivityDuration) ?? 0;
-    const miscellaneousActivitiesOverview = this.getActivityOverview(miscellaneousActivities, totalDuration);
 
     const issue = new Issue({ name: 'Miscellaneous activities' });
     issue.activities = miscellaneousActivities.length;

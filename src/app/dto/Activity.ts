@@ -11,7 +11,6 @@ export class Activity {
   duration = '0m';
   weekId = '';
   dayId = '';
-  isImported?: boolean;
 
   constructor(entity?: Activity) {
     if (!entity) {
@@ -53,12 +52,20 @@ export class Activity {
     return name.trim();
   }
 
-  isActive(): boolean {
-    if (!this.duration.trim().length) {
+  equals(other: Activity): boolean {
+    if (
+      this.id !== other.id
+      || this.name !== other.name
+      || this.from !== other.from
+      || this.till !== other.till
+      || this.duration !== other.duration
+      || this.weekId !== other.weekId
+      || this.dayId !== other.dayId
+    ) {
       return false;
     }
 
-    return !this.duration.startsWith('0');
+    return this.date.getTime() === other.date.getTime();
   }
 
   static fromImport(activityImport: ImportedActivity): Activity {
@@ -75,21 +82,5 @@ export class Activity {
     const activity = new Activity();
     Object.assign(activity, record);
     return activity;
-  }
-
-  equals(other: Activity): boolean {
-    if (
-      this.id !== other.id
-      || this.name !== other.name
-      || this.from !== other.from
-      || this.till !== other.till
-      || this.duration !== other.duration
-      || this.weekId !== other.weekId
-      || this.dayId !== other.dayId
-    ) {
-      return false;
-    }
-
-    return this.date.getTime() === other.date.getTime();
   }
 }
