@@ -7,56 +7,22 @@
 
 <ng-container *ngIf="weeklyOverview">
   <main class="modal-body p-3">
-    <div
-      class="IssueOverview"
-      *ngFor="let issueOverview of weeklyOverview.issueOverviewList"
-    >
-      <app-issue-overview [issueOverview]="issueOverview" />
-    </div>
-
-    <ng-container *ngIf="isGeneralActivitiesVisible">
-      <section class="IssueOverview" *ngFor="let generalActivity of weeklyOverview.generalActivityOverviewList">
-        <div class="d-flex">
-        <span class="text-wrap fw-normal" style="width: 70%;">
-          {{ generalActivity.name }}
-        </span>
-
-          <span class="flex-grow-1 text-end">
-          <span class="badge bg-primary">
-            {{ generalActivity.duration }}
-          </span>
-          <span class="badge bg-info ms-1">
-            {{ generalActivity.durationRatio | percent }}
-          </span>
-          <span class="badge bg-success ms-1">
-            {{ generalActivity.activities.length }}
-          </span>
-        </span>
-        </div>
-      </section>
-    </ng-container>
+    @for (issueOverview of weeklyOverview.issueOverviewList; track issueOverview.issue.id) {
+      <div class="IssueOverview">
+        <app-issue-overview [issueOverview]="issueOverview" />
+      </div>
+    }
   </main>
 
-  <footer class="modal-footer h5 d-flex justify-content-between">
-    <div>
-      <button class="btn btn-sm btn-link p-0"
-              (click)="isGeneralActivitiesVisible = !isGeneralActivitiesVisible"
-              *ngIf="weeklyOverview.generalActivityOverviewList.length"
-      >
-        {{isGeneralActivitiesVisible ? 'Hide' : 'Show'}} General Activities
-      </button>
-    </div>
-
-    <div>
-      <span class="badge bg-primary">
-        {{ weeklyOverview.duration }}
-      </span>
-      <span class="badge bg-info ms-1">
-        {{ weeklyOverview.workWeekRatio | percent }}
-      </span>
-      <span class="badge bg-success ms-1">
-        {{ weeklyOverview.activities }}
-      </span>
-    </div>
+  <footer class="modal-footer h5 d-flex justify-content-end">
+    <span class="badge bg-primary">
+      {{ weeklyOverview.duration }}
+    </span>
+    <span class="badge bg-info ms-1">
+      {{ weeklyOverview.workWeekRatio | percent }}
+    </span>
+    <span class="badge bg-success ms-1">
+      {{ weeklyOverview.activities }}
+    </span>
   </footer>
 </ng-container>

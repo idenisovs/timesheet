@@ -23,7 +23,6 @@ import { IssueOverviewComponent } from './issue-overview/issue-overview.componen
 })
 export class WeeklyOverviewModalComponent implements OnInit {
   weeklyOverview!: WeeklyOverview;
-  isGeneralActivitiesVisible = false;
 
   @Input()
   week!: Week;
