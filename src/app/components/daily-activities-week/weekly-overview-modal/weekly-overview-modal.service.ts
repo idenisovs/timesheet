@@ -107,7 +107,7 @@ export class WeeklyOverviewModalService {
 
     const activityOverview: ActivityOverview[] = [];
 
-    for (const [name, activityGroup] of activityGroups.entries()) {
+    for (const [, activityGroup] of activityGroups.entries()) {
       const durationMs = calculateTotalDuration(activityGroup);
 
       activityOverview.push({
