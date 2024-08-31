@@ -1,6 +1,10 @@
-# Timesheet
+# Timesheet Application
 
-Yet another (serverless) time tracking web application.
+Yet another (serverless) time tracking web application. 
+
+Explore the [online version of the Timesheet App](https://time.e-dreams.lv/).
+
+Check out the [Roadmap](./docs/roadmap.md) to see what's planned next.
 
 ## Prerequisites
 
@@ -16,8 +20,6 @@ npm start
 ## Motivation 
 
 As a professional Software Developer, I frequently used various commercial time tracking applications, but none provided a comfortable user experience due to numerous UI/UX issues. Ultimately, this led me to create my own time tracking application, designed with a focus on simplicity, usability, and efficiency.
-
-[Online version of Timesheet App](https://time.e-dreams.lv/).
 
 ## Goals
 
