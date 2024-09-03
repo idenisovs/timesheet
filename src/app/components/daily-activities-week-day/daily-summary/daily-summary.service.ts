@@ -22,20 +22,21 @@ export class DailySummaryService {
 
   async buildSummary(day: Day): Promise<DailySummary> {
     const activities = await this.activityRepository.getByDay(day);
+    const totalDurationMs = this.activitiesService.calculateDurationMs(activities);
 
     const summary = new DailySummary();
-    summary.issues = await this.makeIssueList(activities);
+    summary.issues = await this.makeIssueList(activities, totalDurationMs);
     summary.duration = this.recalculateDuration(summary.issues);
     return summary;
   }
 
-  async makeIssueList(activities: Activity[]): Promise<DailySummaryIssue[]> {
+  async makeIssueList(activities: Activity[], totalDurationMs: number): Promise<DailySummaryIssue[]> {
     const activityGroups: Map<string, Activity[]> = this.groupActivities(activities);
 
     const result: DailySummaryIssue[] = [];
 
     for (let [issueKey, issueActivities] of activityGroups.entries()) {
-      const issue: DailySummaryIssue = await this.makeIssue(issueKey, issueActivities);
+      const issue: DailySummaryIssue = await this.makeIssue(issueKey, issueActivities, totalDurationMs);
       result.push(issue);
     }
 
@@ -53,6 +54,7 @@ export class DailySummaryService {
 
         if (activity.name === nextActivity.name) {
           activity.duration = this.sum([activity.duration, nextActivity.duration]);
+          activity.durationRatio = activity.durationRatio + nextActivity.durationRatio;
           result.splice(jdx, 1);
           jdx--;
         }
@@ -90,15 +92,19 @@ export class DailySummaryService {
     }
   }
 
-  async makeIssue(issueKey: string, issueActivities: Activity[]): Promise<DailySummaryIssue> {
-    const activities: DailySummaryActivity[] = issueActivities.map(this.makeDailySummaryActivity);
+  async makeIssue(issueKey: string, issueActivities: Activity[], totalDurationMs: number): Promise<DailySummaryIssue> {
+    const activities: DailySummaryActivity[] = issueActivities.map((activity) => {
+      return this.makeDailySummaryActivity(activity, totalDurationMs)
+    });
+    const issueDurationMs = this.activitiesService.calculateDurationMs(issueActivities);
     const squashedIssueActivities = this.squashIssueActivities(activities);
 
     return {
       key: issueKey,
       name: await this.getIssueName(issueKey, issueActivities),
       activities: squashedIssueActivities,
-      duration: this.activitiesService.calculateDuration(issueActivities)
+      duration: this.activitiesService.calculateDuration(issueActivities),
+      durationRatio: issueDurationMs / totalDurationMs
     };
   }
 
@@ -114,10 +120,13 @@ export class DailySummaryService {
     return firstActivity.name;
   }
 
-  makeDailySummaryActivity(activity: Activity): DailySummaryActivity {
+  makeDailySummaryActivity(activity: Activity, totalDurationMs: number): DailySummaryActivity {
+    const activityDurationMs = this.activitiesService.getActivityDurationMs(activity);
+
     return {
       name: activity.getShortName(),
-      duration: activity.duration
+      duration: activity.duration,
+      durationRatio: activityDurationMs / totalDurationMs
     };
   }
 

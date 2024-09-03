@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { DatePipe, NgClass, NgForOf, NgIf, PercentPipe } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { DailySummary } from './DailySummary';
@@ -14,6 +14,7 @@ import { Day } from '../../../dto';
     NgForOf,
     NgIf,
     NgClass,
+    PercentPipe,
   ],
   templateUrl: './daily-summary.component.html',
   styleUrl: './daily-summary.component.scss'

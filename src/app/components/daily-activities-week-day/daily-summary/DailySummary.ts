@@ -1,6 +1,7 @@
 export interface DailySummaryActivity {
   name: string;
   duration: string;
+  durationRatio: number;
 }
 
 export interface DailySummaryIssue {
@@ -8,6 +9,7 @@ export interface DailySummaryIssue {
   name: string;
   activities: DailySummaryActivity[];
   duration: string;
+  durationRatio: number;
 }
 
 export class DailySummary {
