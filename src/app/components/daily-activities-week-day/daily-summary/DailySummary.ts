@@ -1,5 +1,8 @@
+import { Activity } from '../../../dto';
+
 export interface DailySummaryActivity {
   name: string;
+  count: number;
   duration: string;
   durationRatio: number;
 }
@@ -7,7 +10,8 @@ export interface DailySummaryActivity {
 export interface DailySummaryIssue {
   key: string;
   name: string;
-  activities: DailySummaryActivity[];
+  activities: Activity[];
+  activitySummaries: DailySummaryActivity[];
   duration: string;
   durationRatio: number;
 }

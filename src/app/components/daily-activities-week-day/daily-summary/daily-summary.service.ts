@@ -43,6 +43,34 @@ export class DailySummaryService {
     return result;
   }
 
+  async makeIssue(issueKey: string, issueActivities: Activity[], totalDurationMs: number): Promise<DailySummaryIssue> {
+    const activities: DailySummaryActivity[] = issueActivities.map((activity) => {
+      return this.makeDailySummaryActivity(activity, totalDurationMs)
+    });
+    const issueDurationMs = this.activitiesService.calculateDurationMs(issueActivities);
+    const squashedIssueActivities = this.squashIssueActivities(activities);
+
+    return {
+      key: issueKey,
+      name: await this.getIssueName(issueKey, issueActivities),
+      activitySummaries: squashedIssueActivities,
+      activities: issueActivities,
+      duration: this.activitiesService.calculateDuration(issueActivities),
+      durationRatio: issueDurationMs / totalDurationMs
+    };
+  }
+
+  makeDailySummaryActivity(activity: Activity, totalDurationMs: number): DailySummaryActivity {
+    const activityDurationMs = this.activitiesService.getActivityDurationMs(activity);
+
+    return {
+      name: activity.getShortName(),
+      count: 1,
+      duration: activity.duration,
+      durationRatio: activityDurationMs / totalDurationMs
+    };
+  }
+
   squashIssueActivities(activities: DailySummaryActivity[]): DailySummaryActivity[] {
     const result = [...activities];
 
@@ -55,6 +83,7 @@ export class DailySummaryService {
         if (activity.name === nextActivity.name) {
           activity.duration = this.sum([activity.duration, nextActivity.duration]);
           activity.durationRatio = activity.durationRatio + nextActivity.durationRatio;
+          activity.count++;
           result.splice(jdx, 1);
           jdx--;
         }
@@ -92,22 +121,6 @@ export class DailySummaryService {
     }
   }
 
-  async makeIssue(issueKey: string, issueActivities: Activity[], totalDurationMs: number): Promise<DailySummaryIssue> {
-    const activities: DailySummaryActivity[] = issueActivities.map((activity) => {
-      return this.makeDailySummaryActivity(activity, totalDurationMs)
-    });
-    const issueDurationMs = this.activitiesService.calculateDurationMs(issueActivities);
-    const squashedIssueActivities = this.squashIssueActivities(activities);
-
-    return {
-      key: issueKey,
-      name: await this.getIssueName(issueKey, issueActivities),
-      activities: squashedIssueActivities,
-      duration: this.activitiesService.calculateDuration(issueActivities),
-      durationRatio: issueDurationMs / totalDurationMs
-    };
-  }
-
   async getIssueName(issueKey: string, issueActivities: Activity[]): Promise<string> {
     const issue = await this.issueRepository.getByKey(issueKey);
 
@@ -118,16 +131,6 @@ export class DailySummaryService {
     const firstActivity = issueActivities[0];
 
     return firstActivity.name;
-  }
-
-  makeDailySummaryActivity(activity: Activity, totalDurationMs: number): DailySummaryActivity {
-    const activityDurationMs = this.activitiesService.getActivityDurationMs(activity);
-
-    return {
-      name: activity.getShortName(),
-      duration: activity.duration,
-      durationRatio: activityDurationMs / totalDurationMs
-    };
   }
 
   recalculateDuration(dailySummaryIssues: DailySummaryIssue[]): string {

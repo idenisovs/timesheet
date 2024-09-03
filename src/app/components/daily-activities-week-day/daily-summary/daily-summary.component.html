@@ -8,7 +8,7 @@
 <main class="modal-body p-3">
   <ng-container *ngIf="day && summary && summary.issues.length; else noActivities">
     <section *ngFor="let issue of summary.issues" class="mb-3">
-      <h5 class="d-flex justify-content-between" [ngClass]="{ 'border-bottom border-1 pb-2': issue.activities.length > 1 }">
+      <h5 class="d-flex justify-content-between" [ngClass]="{ 'border-bottom border-1 pb-2': issue.activitySummaries.length > 1 }">
         <span>
           {{ issue.name }}
         </span>
@@ -16,13 +16,16 @@
           <span class="badge bg-primary me-1">
             {{ issue.duration }}
           </span>
-          <span class="badge bg-info">
+          <span class="badge bg-info me-1">
             {{ issue.durationRatio | percent }}
+          </span>
+          <span class="badge bg-success">
+            {{ issue.activities.length }}
           </span>
         </span>
       </h5>
-      <ng-container *ngIf="issue.activities.length > 1">
-        <div *ngFor="let activity of issue.activities" class="d-flex align-items-center justify-content-between my-1">
+      <ng-container *ngIf="issue.activitySummaries.length > 1">
+        <div *ngFor="let activity of issue.activitySummaries" class="d-flex align-items-center justify-content-between my-1">
           <div>
             {{ activity.name }}
           </div>
@@ -30,8 +33,11 @@
             <span class="badge bg-primary me-1">
               {{ activity.duration }}
             </span>
-            <span class="badge bg-info">
+            <span class="badge bg-info me-1">
               {{ activity.durationRatio | percent }}
+            </span>
+            <span class="badge bg-success">
+              {{ activity.count }}
             </span>
           </div>
 
