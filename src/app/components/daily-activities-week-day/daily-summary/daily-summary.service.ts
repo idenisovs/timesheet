@@ -7,6 +7,7 @@ import { DailySummary, DailySummaryActivity, DailySummaryIssue } from './DailySu
 import { IssueRepositoryService } from '../../../repository/issue-repository.service';
 import { ActivitiesService } from '../../../services/activities.service';
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
+import { WORK_DAY } from '../../../constants';
 
 
 @Injectable({
@@ -25,8 +26,10 @@ export class DailySummaryService {
     const totalDurationMs = this.activitiesService.calculateDurationMs(activities);
 
     const summary = new DailySummary();
+    summary.activities = activities;
     summary.issues = await this.makeIssueList(activities, totalDurationMs);
     summary.duration = this.recalculateDuration(summary.issues);
+    summary.durationRatio = totalDurationMs / WORK_DAY;
     return summary;
   }
 

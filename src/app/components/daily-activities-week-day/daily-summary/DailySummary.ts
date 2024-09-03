@@ -19,9 +19,13 @@ export interface DailySummaryIssue {
 export class DailySummary {
   issues: DailySummaryIssue[];
   duration: string;
+  activities: Activity[];
+  durationRatio: number;
 
   constructor() {
     this.issues = [];
+    this.activities = [];
     this.duration = '0m';
+    this.durationRatio = 0;
   }
 }

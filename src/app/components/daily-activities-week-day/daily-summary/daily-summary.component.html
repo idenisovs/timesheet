@@ -1,5 +1,5 @@
 <header class="modal-header px-3 py-2">
-  <h4 class="modal-title">
+  <h4 class="modal-title text-primary">
     {{ day.date | date }} <small class="even-smaller">{{ day.date | date:'EEEE' }}</small>
   </h4>
   <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
@@ -45,10 +45,17 @@
       </ng-container>
     </section>
     <footer class="border-top border-1 text-end pt-2">
-      <span class="d-flex justify-content-end fw-bold">
-        <i class="material-icons pe-1">schedule</i>
-        {{summary.duration}}
-      </span>
+      <h5 class="d-flex align-items-center justify-content-end m-0 p-0">
+        <span class="badge bg-primary me-1">
+          {{summary.duration}}
+        </span>
+        <span class="badge bg-info me-1">
+          {{summary.durationRatio | percent}}
+        </span>
+        <span class="badge bg-success">
+          {{summary.activities.length}}
+        </span>
+      </h5>
     </footer>
   </ng-container>
 
