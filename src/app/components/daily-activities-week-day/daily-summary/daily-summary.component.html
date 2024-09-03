@@ -13,19 +13,28 @@
           {{ issue.name }}
         </span>
         <span>
-          <span class="badge text-bg-primary">
+          <span class="badge bg-primary me-1">
             {{ issue.duration }}
+          </span>
+          <span class="badge bg-info">
+            {{ issue.durationRatio | percent }}
           </span>
         </span>
       </h5>
       <ng-container *ngIf="issue.activities.length > 1">
-        <div *ngFor="let activity of issue.activities" class="d-flex justify-content-between my-1">
-          <span>
+        <div *ngFor="let activity of issue.activities" class="d-flex align-items-center justify-content-between my-1">
+          <div>
             {{ activity.name }}
-          </span>
-          <span class="fw-bold">
-            {{ activity.duration }}
-          </span>
+          </div>
+          <div>
+            <span class="badge bg-primary me-1">
+              {{ activity.duration }}
+            </span>
+            <span class="badge bg-info">
+              {{ activity.durationRatio | percent }}
+            </span>
+          </div>
+
         </div>
       </ng-container>
     </section>
