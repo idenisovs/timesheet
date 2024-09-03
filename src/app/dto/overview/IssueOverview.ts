@@ -1,4 +1,5 @@
-import { Activity, Issue } from '../../../../dto';
+import { Activity } from '../Activity';
+import { Issue } from '../Issue';
 import { ActivityOverview } from './ActivityOverview';
 
 export interface IssueOverview {

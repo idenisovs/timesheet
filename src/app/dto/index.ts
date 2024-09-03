@@ -4,3 +4,6 @@ export * from './Day';
 export * from './Issue';
 export * from './Project';
 export * from './ActivitySummary';
+export * from './overview/Overview';
+export * from './overview/IssueOverview';
+export * from './overview/ActivityOverview';

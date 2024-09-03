@@ -6,8 +6,7 @@ import { ActivitiesRepositoryService } from '../../../repository/activities-repo
 import { IssueRepositoryService } from '../../../repository/issue-repository.service';
 import { ActivitiesService } from '../../../services/activities.service';
 import { calculateTotalDuration } from '../../../utils';
-import { Activity, Issue, Week } from '../../../dto';
-import { IssueOverview, WeeklyOverview, ActivityOverview } from './types';
+import { Activity, ActivityOverview, Issue, IssueOverview, Overview, Week } from '../../../dto';
 import { WORK_WEEK } from '../../../constants';
 
 @Injectable({
@@ -22,7 +21,7 @@ export class WeeklyOverviewModalService {
   ) {
   }
 
-  async run(week: Week): Promise<WeeklyOverview> {
+  async run(week: Week): Promise<Overview> {
     const activities = await this.activityRepository.getByWeek(week);
     const totalDuration = this.activitiesService.calculateDuration(activities);
     const totalDurationMs = parseDuration(totalDuration) ?? 0;
