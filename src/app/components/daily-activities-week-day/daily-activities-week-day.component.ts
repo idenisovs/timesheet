@@ -14,9 +14,9 @@ import { DailyActivityItemComponent } from '../daily-activity-item/daily-activit
 import { DailyActivitiesWeekDayService } from './daily-activities-week-day.service';
 import { DailyActivitiesForm, ActivityFormGroup } from './DailyActivitiesForm';
 import { SaveActivitiesWorkflowService } from '../../workflows/save-activities-workflow.service';
-import { DailySummaryComponent } from './daily-summary/daily-summary.component';
 import { ActivitiesService } from '../../services/activities.service';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
+import { DailyOverviewModalComponent } from './daily-overview-modal/daily-overview-modal.component';
 
 @Component({
   selector: 'app-daily-activities-week-day',
@@ -119,13 +119,13 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     this.changes.emit();
   }
 
-  showDailySummary() {
-    const dailySummaryModalRef =  this.modal.open(DailySummaryComponent, {
+  showDailyOverview() {
+    const dailyOverviewModal =  this.modal.open(DailyOverviewModalComponent, {
       centered: true,
       size: 'lg'
     });
 
-    const dailySummaryModal = (dailySummaryModalRef.componentInstance as DailySummaryComponent)
+    const dailySummaryModal = (dailyOverviewModal.componentInstance as DailyOverviewModalComponent)
 
     dailySummaryModal.day = this.day;
   }

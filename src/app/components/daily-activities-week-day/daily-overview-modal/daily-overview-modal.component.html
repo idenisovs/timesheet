@@ -1,0 +1,28 @@
+<header class="modal-header px-3 py-2">
+  <h4 class="modal-title text-primary">
+    {{ day.date | date }} <small class="even-smaller">{{ day.date | date:'EEEE' }}</small>
+  </h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+</header>
+
+<ng-container *ngIf="dailyOverview">
+  <main class="modal-body p-3">
+    @for (issueOverview of dailyOverview.issueOverviewList; track issueOverview.issue.id) {
+      <div class="IssueOverview">
+        <app-issue-overview [issueOverview]="issueOverview" />
+      </div>
+    }
+  </main>
+
+  <footer class="modal-footer h5 d-flex justify-content-end">
+    <span class="badge bg-primary">
+      {{ dailyOverview.duration }}
+    </span>
+    <span class="badge bg-info ms-1">
+      {{ dailyOverview.durationRatio | percent }}
+    </span>
+    <span class="badge bg-success ms-1">
+      {{ dailyOverview.activities }}
+    </span>
+  </footer>
+</ng-container>
