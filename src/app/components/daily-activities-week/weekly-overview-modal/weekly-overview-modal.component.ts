@@ -3,8 +3,10 @@ import { DatePipe, JsonPipe, NgForOf, NgIf, PercentPipe } from '@angular/common'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Overview, Week } from '../../../dto';
-import { WeeklyOverviewModalService } from './weekly-overview-modal.service';
 import { IssueOverviewComponent } from './issue-overview/issue-overview.component';
+import { OverviewService } from '../../../services/overview.service';
+import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
+import { WORK_WEEK } from '../../../constants';
 
 @Component({
   selector: 'app-weekly-overview-modal',
@@ -28,7 +30,8 @@ export class WeeklyOverviewModalComponent implements OnInit {
 
   constructor(
     public modal: NgbActiveModal,
-    private weeklyOverviewService: WeeklyOverviewModalService
+    private overviewService: OverviewService,
+    private activityRepository: ActivitiesRepositoryService
   ) {}
 
   async ngOnInit() {
@@ -36,6 +39,7 @@ export class WeeklyOverviewModalComponent implements OnInit {
       return;
     }
 
-    this.weeklyOverview = await this.weeklyOverviewService.run(this.week);
+    const activities = await this.activityRepository.getByWeek(this.week);
+    this.weeklyOverview = await this.overviewService.getOverview(activities, WORK_WEEK);
   }
 }
