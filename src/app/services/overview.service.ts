@@ -1,53 +1,60 @@
 import { Injectable } from '@angular/core';
+import { IssueRepositoryService } from '../repository/issue-repository.service';
+import { ActivitiesService } from './activities.service';
+import { Activity, ActivityOverview, Issue, IssueOverview, Overview } from '../dto';
 import parseDuration from 'parse-duration';
+import { calculateTotalDuration } from '../utils';
 import { duration } from 'yet-another-duration';
-
-import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
-import { IssueRepositoryService } from '../../../repository/issue-repository.service';
-import { ActivitiesService } from '../../../services/activities.service';
-import { calculateTotalDuration } from '../../../utils';
-import { Activity, ActivityOverview, Issue, IssueOverview, Overview, Week } from '../../../dto';
-import { WORK_WEEK } from '../../../constants';
 
 @Injectable({
   providedIn: 'root'
 })
-export class WeeklyOverviewModalService {
+export class OverviewService {
 
   constructor(
-    private activityRepository: ActivitiesRepositoryService,
     private issueRepository: IssueRepositoryService,
     private activitiesService: ActivitiesService,
-  ) {
-  }
+  ) { }
 
-  async run(week: Week): Promise<Overview> {
-    const activities = await this.activityRepository.getByWeek(week);
-    const totalDuration = this.activitiesService.calculateDuration(activities);
-    const totalDurationMs = parseDuration(totalDuration) ?? 0;
-    const totalDurationRatio = totalDurationMs / WORK_WEEK;
-    const issueKeys = this.getIssueKeys(activities);
-    const issues = await this.issueRepository.getAllByKeys(issueKeys);
-    const sortedIssues = issues.sort(this.sortIssues);
+  async getOverview(activities: Activity[], interval: number): Promise<Overview> {
+    const totalDuration = this.activitiesService.calculateDurationMs(activities);
+    const issues = await this.getActivityIssues(activities);
+    const issueOverviewList: IssueOverview[] = this.getIssueOverviewList(issues, activities, totalDuration);
 
-    const issueOverviewList: IssueOverview[] = this.getIssueOverviewList(sortedIssues, activities, totalDurationMs);
-
-    const miscellaneousActivitiesIssue: IssueOverview = this.getMiscellaneousActivitiesIssue(activities, totalDurationMs);
+    const miscellaneousActivitiesIssue: IssueOverview = this.getMiscellaneousActivitiesIssue(activities, totalDuration);
 
     if (miscellaneousActivitiesIssue.activities.length) {
       issueOverviewList.push(miscellaneousActivitiesIssue);
     }
 
-    const miscellaneousActivities = activities.filter((activity: Activity) => !activity.hasIssueKey());
-    const generalActivitiesList = this.getActivityOverview(miscellaneousActivities, totalDurationMs);
-
     return {
       issueOverviewList: issueOverviewList,
-      generalActivityOverviewList: generalActivitiesList,
-      duration: totalDuration,
+      duration: this.getDurationStr(totalDuration),
+      durationRatio: totalDuration / interval,
       activities: activities.length,
-      workWeekRatio: totalDurationRatio,
-    }
+    };
+  }
+
+  private async getActivityIssues(activities: Activity[]): Promise<Issue[]> {
+    const issueKeys = this.getIssueKeys(activities);
+    const issues = await this.issueRepository.getAllByKeys(issueKeys);
+    return issues.sort(this.sortIssuesByKey)
+  }
+
+  private getIssueKeys(activities: Activity[]): string[] {
+    const issueKeys = activities.map((activity: Activity) => activity.getIssueKey()).filter(key => !!key) as string[];
+    const uniqueIssueKeys = new Set(issueKeys);
+    return Array.from(uniqueIssueKeys);
+  }
+
+  private sortIssuesByKey(issue1: Issue, issue2: Issue) {
+    const [projectPrefixA, issueIdA] = issue1.key.split('-');
+    const [projectPrefixB, issueIdB] = issue2.key.split('-');
+
+    if (projectPrefixA < projectPrefixB) return -1;
+    if (projectPrefixA > projectPrefixB) return 1;
+
+    return Number(issueIdB) - Number(issueIdA);
   }
 
   private getIssueOverviewList(issues: Issue[], activities: Activity[], totalDuration: number) {
@@ -88,22 +95,6 @@ export class WeeklyOverviewModalService {
       duration: miscellaneousActivityDuration,
       durationRatio: miscellaneousActivityDurationMs / totalDuration
     };
-  }
-
-  private getIssueKeys(activities: Activity[]): string[] {
-    const issueKeys = activities.map((activity: Activity) => activity.getIssueKey()).filter(key => !!key) as string[];
-    const uniqueIssueKeys = new Set(issueKeys);
-    return Array.from(uniqueIssueKeys);
-  }
-
-  private sortIssues(issue1: Issue, issue2: Issue) {
-    const [projectPrefixA, issueIdA] = issue1.key.split('-');
-    const [projectPrefixB, issueIdB] = issue2.key.split('-');
-
-    if (projectPrefixA < projectPrefixB) return -1;
-    if (projectPrefixA > projectPrefixB) return 1;
-
-    return Number(issueIdB) - Number(issueIdA);
   }
 
   private getActivityOverview(activities: Activity[], totalDuration: number): ActivityOverview[] {
