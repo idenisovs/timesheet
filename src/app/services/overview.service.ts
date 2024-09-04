@@ -131,11 +131,13 @@ export class OverviewService {
   }
 
   private getDurationStr(durationMs: number) {
-    return duration(durationMs, {
+    const result = duration(durationMs, {
       units: {
         min: 'minutes',
         max: 'hours'
       }
     }).toString();
+
+    return result.length ? result : '0h';
   }
 }
