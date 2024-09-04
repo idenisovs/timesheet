@@ -10,6 +10,7 @@ import { Actions } from './services/Actions';
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'timesheet';
+  colorMode = 'light';
   actionsSubs!: Subscription;
 
   get IsUsingHttp(): boolean {
@@ -20,10 +21,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.actionsSubs = this.actionsService.on.subscribe(this.handlePageActions.bind(this));
+    this.loadColorMode();
   }
 
   ngOnDestroy() {
     this.actionsSubs.unsubscribe();
+  }
+
+  private loadColorMode() {
+    this.colorMode = localStorage.getItem('color-mode') ?? 'light';
+
+    document.documentElement.setAttribute('data-bs-theme', this.colorMode);
+
+    this.saveColorMode();
   }
 
   private async handlePageActions(action: Actions) {
@@ -35,6 +45,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private toggleMode() {
-    document.documentElement.setAttribute('data-bs-theme', 'light');
+    this.colorMode = this.colorMode === 'light' ? 'dark' : 'light';
+
+    document.documentElement.setAttribute('data-bs-theme', this.colorMode);
+
+    this.saveColorMode();
+  }
+
+  private saveColorMode() {
+    localStorage.setItem('color-mode', this.colorMode);
   }
 }
