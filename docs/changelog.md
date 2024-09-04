@@ -1,5 +1,7 @@
 # Changelog
 
+- `3.1.7` - Made the Overview Service, migrated the Weekly Overview to Overview Service and the Daily Summary to the Daily Overview;
+- `3.1.6` - In Daily Summary, displaying the same metrics as in Weekly Overview;
 - `3.1.5` - In Weekly Overview, added an option to expand the activities list of an issue;
 - `3.1.4` - Fixed a bug where Infinite Scroll was not triggered in the Daily Activities View. Added a preloader for the Week List, which ensures the screen is filled, triggering the next scroll event from the user;
 - `3.1.3` - In Daily Activities Page, added support for Infinite Scroll feature;
