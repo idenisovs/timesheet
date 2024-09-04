@@ -12,6 +12,12 @@
         <app-issue-overview [issueOverview]="issueOverview" />
       </div>
     }
+
+    @if (!dailyOverview.activities) {
+      <div class="alert alert-info m-0">
+        No activity this day!
+      </div>
+    }
   </main>
 
   <footer class="modal-footer h5 d-flex justify-content-end">
