@@ -3,7 +3,11 @@
     <h1>
       Time sheet
       <a href="https://github.com/idenisovs/timesheet" target="_blank">
-        <img class="github" src="assets/GitHub-Mark-64px.png" alt="github" title="Visit me on GitHub" />
+        @if(colorMode === 'light') {
+          <img class="github" src="assets/GitHub-Mark-64px.png" alt="github" title="Visit me on GitHub" />
+        } @else {
+          <img class="github" src="assets/github-mark-white.png" alt="github" title="Visit me on GitHub" />
+        }
       </a>
     </h1>
 
