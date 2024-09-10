@@ -11,3 +11,14 @@
 body {
   transition: background-color 0.3s, color 0.3s;
 }
+
+@include color-mode(dark) {
+  .btn-light {
+    @extend .btn-dark; // Inherit all styles from .btn-dark
+    background-color: rgba(0, 0, 0, 0); // Override specific styles
+  }
+
+  .link-dark {
+    @extend .link-light;
+  }
+}
