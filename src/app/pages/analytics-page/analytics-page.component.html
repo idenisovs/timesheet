@@ -1,6 +1,6 @@
 <section class="card mb-3">
   <main class="card-body">
-    <form>
+    <form [formGroup]="filtersForm">
       <div class="row align-items-baseline">
         <div class="col-auto">
           <label for="date-from" class="form-label">
@@ -9,7 +9,7 @@
         </div>
         <div class="col-2">
           <div class="input-group">
-            <input id="date-from" type="text" class="form-control" ngbDatepicker #dateFrom="ngbDatepicker"/>
+            <input id="date-from" type="text" class="form-control" formControlName="dateFrom" ngbDatepicker #dateFrom="ngbDatepicker"/>
             <button type="button" class="btn btn-outline-primary" (click)="dateFrom.toggle()">
               <i class="material-icons">
                 calendar_month
@@ -24,7 +24,7 @@
         </div>
         <div class="col-2">
           <div class="input-group">
-            <input id="date-till" type="text" class="form-control" ngbDatepicker #dateTill="ngbDatepicker"/>
+            <input id="date-till" type="text" class="form-control" formControlName="dateTill" ngbDatepicker #dateTill="ngbDatepicker"/>
             <button type="button" class="btn btn-outline-primary" (click)="dateTill.toggle()">
               <i class="material-icons">
                 calendar_month
