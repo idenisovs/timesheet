@@ -14,6 +14,7 @@ import {
 import { ProjectPageComponent } from './pages/project-page/project-page.component';
 import { projectResolver } from './resolvers';
 import { ImportPageComponent } from './pages/import-page/import-page.component';
+import { AnalyticsPageComponent } from './pages/analytics-page/analytics-page.component';
 
 const routes: Routes = [
   {
@@ -69,6 +70,10 @@ const routes: Routes = [
   {
     path: 'import',
     component: ImportPageComponent
+  },
+  {
+    path: 'analytics',
+    component: AnalyticsPageComponent
   }
 ];
 
