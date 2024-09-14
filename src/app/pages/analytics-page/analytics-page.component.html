@@ -39,13 +39,12 @@
 
 <table class="table table-bordered">
   <tbody>
-  <tr>
-    <td>
-      ABC-123
-    </td>
-    <td>
-      Activity Name
-    </td>
-  </tr>
+    @for (activity of analytics; track activity.id) {
+      <tr>
+        <td>
+          {{activity.name}}
+        </td>
+      </tr>
+    }
   </tbody>
 </table>
