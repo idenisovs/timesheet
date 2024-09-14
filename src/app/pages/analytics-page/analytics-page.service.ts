@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
-import { Activity } from '../../dto';
-import { AnalyticsPageFilters } from './AnalyticsPageFilters';
+import { Activity, Day } from '../../dto';
+import { AnalyticsPageFilters } from './AnalyticsPageFilterForm';
+import { DaysRepositoryService } from '../../repository/days-repository.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,24 @@ import { AnalyticsPageFilters } from './AnalyticsPageFilters';
 export class AnalyticsPageService {
 
   constructor(
-    private activityRepository: ActivitiesRepositoryService
+    private activityRepository: ActivitiesRepositoryService,
+    private dayRepository: DaysRepositoryService
   ) { }
 
-  async getAnalytics(filters: Partial<AnalyticsPageFilters>): Promise<Activity[]> {
-    return await this.activityRepository.getAll(false) as Activity[];
+  async getAnalytics(filters: AnalyticsPageFilters): Promise<Activity[]> {
+    const days = await this.getDays(filters);
+    return this.activityRepository.getByDays(days);
+  }
+
+  async getDays(filters: AnalyticsPageFilters): Promise<Day[]> {
+    if (!filters.from && !filters.till) {
+      return this.dayRepository.getAll();
+    }
+
+    if (filters.from && filters.till) {
+      return this.dayRepository.getByRange(filters.from, filters.till);
+    }
+
+    throw new Error('Filter functionality is not fully implemented yet!');
   }
 }

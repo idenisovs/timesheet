@@ -4,7 +4,6 @@ import * as XLSX from 'xlsx';
 import { getDateString } from '../utils';
 import { ActivitiesRepositoryService } from '../repository/activities-repository.service';
 import { Activity, Issue, Project } from '../dto';
-import { DaysRepositoryService } from '../repository/days-repository.service';
 import { IssueRepositoryService } from '../repository/issue-repository.service';
 import { ProjectRepositoryService } from '../repository/project-repository.service';
 
@@ -15,7 +14,6 @@ export class ExportWorkflowService {
 
   constructor(
     private activitiesRepository: ActivitiesRepositoryService,
-    private daysRepository: DaysRepositoryService,
     private issuesRepository: IssueRepositoryService,
     private projectsRepository: ProjectRepositoryService
   ) { }
