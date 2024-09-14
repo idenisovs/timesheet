@@ -35,6 +35,10 @@ export class DaysRepositoryService {
     return this.map(entities);
   }
 
+  async getByRange(from: Date, till: Date): Promise<Day[]> {
+    return this.db.days.where('date').between(from, till, true, true).sortBy('date');
+  }
+
   async create(day: Day): Promise<Day> {
     const entity = Day.entity(day);
     await this.db.days.add(entity);

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbInputDatepicker, NgbCalendar, NgbCalendarGregorian } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { AnalyticsPageFilters } from './AnalyticsPageFilters';
+import { AnalyticsPageFilterForm, AnalyticsPageFilters } from './AnalyticsPageFilterForm';
 import { Activity } from '../../dto';
 import { AnalyticsPageService } from './analytics-page.service';
 
@@ -48,8 +48,9 @@ export class AnalyticsPageComponent implements OnInit, OnDestroy {
     this.filtersFormSubscription.unsubscribe();
   }
 
-  async updateFilters(filterChanges: Partial<AnalyticsPageFilters>) {
-    this.analytics = await this.service.getAnalytics(filterChanges);
+  async updateFilters(filterChanges: Partial<AnalyticsPageFilterForm>) {
+    const filters = new AnalyticsPageFilters(filterChanges);
+    this.analytics = await this.service.getAnalytics(filters);
   }
 
   getStartOfMonthDate() {
