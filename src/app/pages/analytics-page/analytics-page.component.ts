@@ -43,7 +43,7 @@ export class AnalyticsPageComponent implements OnInit, OnDestroy {
     this.filtersFormSubscription.unsubscribe();
   }
 
-  async updateFilters(changes: Partial<AnalyticsPageFilters>) {
-    this.analytics = await this.service.getAnalytics();
+  async updateFilters(filterChanges: Partial<AnalyticsPageFilters>) {
+    this.analytics = await this.service.getAnalytics(filterChanges);
   }
 }
