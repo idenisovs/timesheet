@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgbDate, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { NgbInputDatepicker, NgbCalendar, NgbCalendarGregorian } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AnalyticsPageFilters } from './AnalyticsPageFilters';
@@ -14,12 +14,15 @@ import { AnalyticsPageService } from './analytics-page.service';
     ReactiveFormsModule,
   ],
   templateUrl: './analytics-page.component.html',
-  styleUrl: './analytics-page.component.scss'
+  styleUrl: './analytics-page.component.scss',
+  providers: [
+    {provide: NgbCalendar, useClass: NgbCalendarGregorian},
+  ],
 })
 export class AnalyticsPageComponent implements OnInit, OnDestroy {
   filtersForm = this.fb.group({
-    dateFrom: [new NgbDate(2024, 9, 1)],
-    dateTill: [new NgbDate(2024, 9, 14)]
+    dateFrom: [this.getStartOfMonthDate()],
+    dateTill: [this.calendar.getToday()],
   });
 
   filtersFormSubscription!: Subscription;
@@ -28,8 +31,10 @@ export class AnalyticsPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private service: AnalyticsPageService
-  ) {}
+    private service: AnalyticsPageService,
+    private calendar: NgbCalendar
+  ) {
+  }
 
   async ngOnInit() {
     this.filtersFormSubscription = this.filtersForm.valueChanges.subscribe((changes) => {
@@ -45,5 +50,11 @@ export class AnalyticsPageComponent implements OnInit, OnDestroy {
 
   async updateFilters(filterChanges: Partial<AnalyticsPageFilters>) {
     this.analytics = await this.service.getAnalytics(filterChanges);
+  }
+
+  getStartOfMonthDate() {
+    const today = this.calendar.getToday();
+    today.day = 1;
+    return today;
   }
 }
