@@ -32,6 +32,18 @@ export class Activity {
     return issueKey;
   }
 
+  getProjectKey(): string | null {
+    const issueKey = this.getIssueKey();
+
+    if (!issueKey) {
+      return null;
+    }
+
+    const [projectKey] = issueKey.split('-');
+
+    return projectKey;
+  }
+
   hasIssueKey(): boolean {
     return !!this.name.match(Issue.KEY_PATTERN);
   }
