@@ -37,14 +37,16 @@
   </main>
 </section>
 
-<table class="table table-bordered">
-  <tbody>
-    @for (activity of analytics; track activity.id) {
-      <tr>
-        <td>
-          {{activity.name}}
-        </td>
-      </tr>
-    }
-  </tbody>
-</table>
+@if (activityTree) {
+  <pre *ngFor="let project of activityTree|keyvalue">
+    {{project.key|json}}
+
+    <pre *ngFor="let issue of project.value|keyvalue">
+      {{issue.key|json}}
+
+      <pre *ngFor="let activity of issue.value">
+        {{activity|json}}
+      </pre>
+    </pre>
+  </pre>
+}

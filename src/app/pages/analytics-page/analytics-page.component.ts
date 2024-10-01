@@ -2,10 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbInputDatepicker, NgbCalendar, NgbCalendarGregorian, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
+
 import { AnalyticsPageFilterForm, AnalyticsPageFilters } from './AnalyticsPageFilterForm';
-import { Activity } from '../../dto';
+import { Activity, Issue, Project } from '../../dto';
 import { AnalyticsPageService } from './analytics-page.service';
 import { endOfMonth } from '../../utils';
+import { JsonPipe, KeyValuePipe, NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-analytics-page',
@@ -13,6 +15,9 @@ import { endOfMonth } from '../../utils';
   imports: [
     NgbInputDatepicker,
     ReactiveFormsModule,
+    JsonPipe,
+    KeyValuePipe,
+    NgForOf,
   ],
   templateUrl: './analytics-page.component.html',
   styleUrl: './analytics-page.component.scss',
@@ -29,6 +34,7 @@ export class AnalyticsPageComponent implements OnInit, OnDestroy {
   filtersFormSubscription!: Subscription;
 
   analytics: Activity[] = [];
+  activityTree?: Map<Project, Map<Issue, Activity[]>>;
 
   constructor(
     private fb: FormBuilder,
@@ -51,7 +57,7 @@ export class AnalyticsPageComponent implements OnInit, OnDestroy {
 
   async updateFilters(filterChanges: Partial<AnalyticsPageFilterForm>) {
     const filters = new AnalyticsPageFilters(filterChanges);
-    this.analytics = await this.service.getAnalytics(filters);
+    this.activityTree = await this.service.getAnalytics(filters);
   }
 
   getStartOfMonthDate(): NgbDate {
