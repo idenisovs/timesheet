@@ -38,4 +38,9 @@ export class ProjectRepositoryService {
 
     return null;
   }
+
+  async getByKey(projectKey: string): Promise<Project | null> {
+    const record = await this.db.projects.where('keys').equals(projectKey).first();
+    return record ? Project.fromRecord(record) : null;
+  }
 }
