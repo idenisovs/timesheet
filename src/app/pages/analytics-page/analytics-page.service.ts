@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 import { Activity, Day } from '../../dto';
 import { AnalyticsPageFilters } from './AnalyticsPageFilterForm';

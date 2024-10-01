@@ -47,6 +47,21 @@ export function endOfDay(date: Date): Date {
   return result;
 }
 
+export function startOfMonth(date: Date): Date {
+  const result = new Date(date);
+
+  result.setDate(1);
+
+  return result;
+}
+
+export function endOfMonth(date = new Date()): Date {
+  const year = date.getFullYear();
+  const month = date.getMonth()+1;
+  const day = 0;
+  return new Date(year, month, day);
+}
+
 export function sumDuration(duration1: string, duration2: string): string {
   const d1 = parse(duration1);
   const d2 = parse(duration2);

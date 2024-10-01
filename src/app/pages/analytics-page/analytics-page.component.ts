@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgbInputDatepicker, NgbCalendar, NgbCalendarGregorian } from '@ng-bootstrap/ng-bootstrap';
+import { NgbInputDatepicker, NgbCalendar, NgbCalendarGregorian, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AnalyticsPageFilterForm, AnalyticsPageFilters } from './AnalyticsPageFilterForm';
 import { Activity } from '../../dto';
 import { AnalyticsPageService } from './analytics-page.service';
+import { endOfMonth } from '../../utils';
 
 @Component({
   selector: 'app-analytics-page',
@@ -22,7 +23,7 @@ import { AnalyticsPageService } from './analytics-page.service';
 export class AnalyticsPageComponent implements OnInit, OnDestroy {
   filtersForm = this.fb.group({
     dateFrom: [this.getStartOfMonthDate()],
-    dateTill: [this.calendar.getToday()],
+    dateTill: [this.getEndOfMonthDate()],
   });
 
   filtersFormSubscription!: Subscription;
@@ -53,9 +54,16 @@ export class AnalyticsPageComponent implements OnInit, OnDestroy {
     this.analytics = await this.service.getAnalytics(filters);
   }
 
-  getStartOfMonthDate() {
+  getStartOfMonthDate(): NgbDate {
     const today = this.calendar.getToday();
     today.day = 1;
+    return today;
+  }
+
+  getEndOfMonthDate(): NgbDate {
+    const end = endOfMonth();
+    const today = this.calendar.getToday();
+    today.day = end.getDate();
     return today;
   }
 }
