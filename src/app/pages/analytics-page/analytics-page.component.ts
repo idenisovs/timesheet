@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgbInputDatepicker, NgbCalendar, NgbCalendarGregorian, NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { NgbInputDatepicker, NgbCalendar, NgbCalendarGregorian } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
+import { JsonPipe, KeyValuePipe, NgForOf } from '@angular/common';
 
-import { AnalyticsPageFilterForm, AnalyticsPageFilters } from './AnalyticsPageFilterForm';
+import { AnalyticsPageFilters } from './AnalyticsPageFilterForm';
 import { Activity, Issue, Project } from '../../dto';
 import { AnalyticsPageService } from './analytics-page.service';
-import { endOfMonth } from '../../utils';
-import { JsonPipe, KeyValuePipe, NgForOf } from '@angular/common';
+import { AnalyticsPageFilterComponent } from './analytics-page-filter/analytics-page-filter.component';
 
 @Component({
   selector: 'app-analytics-page',
@@ -18,6 +17,7 @@ import { JsonPipe, KeyValuePipe, NgForOf } from '@angular/common';
     JsonPipe,
     KeyValuePipe,
     NgForOf,
+    AnalyticsPageFilterComponent,
   ],
   templateUrl: './analytics-page.component.html',
   styleUrl: './analytics-page.component.scss',
@@ -26,50 +26,18 @@ import { JsonPipe, KeyValuePipe, NgForOf } from '@angular/common';
   ],
 })
 export class AnalyticsPageComponent implements OnInit, OnDestroy {
-  filtersForm = this.fb.group({
-    dateFrom: [this.getStartOfMonthDate()],
-    dateTill: [this.getEndOfMonthDate()],
-  });
-
-  filtersFormSubscription!: Subscription;
-
   analytics: Activity[] = [];
   activityTree?: Map<Project, Map<Issue, Activity[]>>;
 
   constructor(
-    private fb: FormBuilder,
     private service: AnalyticsPageService,
-    private calendar: NgbCalendar
-  ) {
-  }
+  ) {}
 
-  async ngOnInit() {
-    this.filtersFormSubscription = this.filtersForm.valueChanges.subscribe((changes) => {
-      this.updateFilters(changes);
-    });
+  ngOnInit() {}
 
-    await this.updateFilters(this.filtersForm.value);
-  }
+  ngOnDestroy() {}
 
-  ngOnDestroy() {
-    this.filtersFormSubscription.unsubscribe();
-  }
-
-  async updateFilters(filterChanges: Partial<AnalyticsPageFilterForm>) {
-    const filters = new AnalyticsPageFilters(filterChanges);
+  async updateAnalytics(filters: AnalyticsPageFilters) {
     this.activityTree = await this.service.getAnalytics(filters);
-  }
-
-  getStartOfMonthDate(): NgbDate {
-    const today = this.calendar.getToday();
-    today.day = 1;
-    return today;
-  }
-
-  getEndOfMonthDate(): NgbDate {
-    const end = endOfMonth();
-    const today = this.calendar.getToday();
-    today.day = end.getDate();
-    return today;
   }
 }
