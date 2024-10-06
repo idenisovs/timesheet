@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { IssueRepositoryService } from '../repository/issue-repository.service';
 import { ActivitiesService } from './activities.service';
-import { Activity, ActivityOverview, Issue, IssueOverview, Overview } from '../dto';
+import { Activity, ActivityOverview, Issue, IssueOverview, Overview, Project, ProjectOverview } from '../dto';
 import parseDuration from 'parse-duration';
 import { calculateTotalDuration } from '../utils';
 import { duration } from 'yet-another-duration';
+import { ProjectRepositoryService } from '../repository/project-repository.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,36 @@ import { duration } from 'yet-another-duration';
 export class OverviewService {
 
   constructor(
+    private projectRepository: ProjectRepositoryService,
     private issueRepository: IssueRepositoryService,
     private activitiesService: ActivitiesService,
   ) { }
 
-  async getOverview(activities: Activity[], interval: number): Promise<Overview> {
+  public async getProjectOverview(activities: Activity[]): Promise<ProjectOverview[]> {
+    const totalDuration = this.activitiesService.calculateDurationMs(activities);
+    const projectKeys = this.getProjectKeys(activities);
+    const projects = await this.projectRepository.getAllByKeys(projectKeys);
+    const projectOverview: ProjectOverview[] = [];
+
+    for (let project of projects) {
+      const projectActivities: Activity[] = this.getProjectActivities(project, activities);
+      const projectDuration: number = this.activitiesService.calculateDurationMs(projectActivities);
+      const issues: Issue[] = await this.getActivityIssues(projectActivities);
+      const issueOverviewList: IssueOverview[] = this.getIssueOverviewList(issues, activities, totalDuration);
+
+      projectOverview.push({
+        project,
+        activities: projectActivities,
+        issues: issueOverviewList,
+        duration: this.getDurationStr(projectDuration),
+        durationRatio: projectDuration / totalDuration
+      });
+    }
+
+    return projectOverview;
+  }
+
+  public async getOverview(activities: Activity[], interval: number): Promise<Overview> {
     const totalDuration = this.activitiesService.calculateDurationMs(activities);
     const issues = await this.getActivityIssues(activities);
     const issueOverviewList: IssueOverview[] = this.getIssueOverviewList(issues, activities, totalDuration);
@@ -33,6 +59,32 @@ export class OverviewService {
       durationRatio: totalDuration / interval,
       activities: activities.length,
     };
+  }
+
+  private getProjectKeys(activities: Activity[]): string[] {
+    const projectKeySet = activities.reduce((result: Set<string|null>, activity: Activity) => {
+      const projectKey = activity.getProjectKey();
+      result.add(projectKey);
+      return result;
+    }, new Set());
+
+    const projectKeys = Array.from(projectKeySet);
+
+    return projectKeys.filter(key => !!key) as string[];
+  }
+
+  private getProjectActivities(project: Project, activities: Activity[]): Activity[] {
+    const result: Activity[] = [];
+
+    for (const key of project.keys) {
+      const projectActivities = activities.filter((activity: Activity) => {
+        return activity.getProjectKey() === key;
+      });
+
+      result.push(...projectActivities);
+    }
+
+    return result;
   }
 
   private async getActivityIssues(activities: Activity[]): Promise<Issue[]> {
