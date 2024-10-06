@@ -6,6 +6,7 @@ import { AnalyticsPageFilters } from './AnalyticsPageFilterForm';
 import { DaysRepositoryService } from '../../repository/days-repository.service';
 import { ProjectRepositoryService } from '../../repository/project-repository.service';
 import { IssueRepositoryService } from '../../repository/issue-repository.service';
+import { ActivityTree } from './types';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class AnalyticsPageService {
     private dayRepository: DaysRepositoryService
   ) { }
 
-  async getAnalytics(filters: AnalyticsPageFilters): Promise<Map<Project, Map<Issue, Activity[]>>> {
+  async getAnalytics(filters: AnalyticsPageFilters): Promise<ActivityTree> {
     this.projectCache = new Map<string, Project>();
     this.issueCache = new Map<string, Issue>();
 
