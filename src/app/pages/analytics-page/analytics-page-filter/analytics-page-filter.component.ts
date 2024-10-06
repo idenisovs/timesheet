@@ -37,6 +37,7 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
       this.updateFilters(changes);
     });
 
+    this.loadFilters();
     this.updateFilters(this.filtersForm.value);
   }
 
@@ -44,7 +45,26 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
     this.filtersFormSubscription.unsubscribe();
   }
 
+  loadFilters() {
+    const raw = localStorage.getItem('analytics-filters');
+
+    if (!raw) {
+      return;
+    }
+
+    const filters = JSON.parse(raw);
+
+    this.filtersForm.setValue(filters);
+  }
+
+  saveFilters() {
+    const raw = JSON.stringify(this.filtersForm.value);
+
+    localStorage.setItem('analytics-filters', raw);
+  }
+
   updateFilters(filterChanges: Partial<AnalyticsPageFilterForm>) {
+    this.saveFilters();
     const filters = new AnalyticsPageFilters(filterChanges);
     this.changes.emit(filters);
   }
