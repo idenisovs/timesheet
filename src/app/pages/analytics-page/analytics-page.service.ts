@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
-import { Activity, Day, Issue, Project } from '../../dto';
+import { Activity, Day, Issue, Project, ProjectOverview } from '../../dto';
 import { AnalyticsPageFilters } from './AnalyticsPageFilterForm';
 import { DaysRepositoryService } from '../../repository/days-repository.service';
 import { ProjectRepositoryService } from '../../repository/project-repository.service';
 import { IssueRepositoryService } from '../../repository/issue-repository.service';
-import { ActivityTree } from './types';
+import { OverviewService } from '../../services/overview.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,16 +20,14 @@ export class AnalyticsPageService {
     private projectRepository: ProjectRepositoryService,
     private issueRepository: IssueRepositoryService,
     private activityRepository: ActivitiesRepositoryService,
-    private dayRepository: DaysRepositoryService
+    private dayRepository: DaysRepositoryService,
+    private overviewService: OverviewService
   ) { }
 
-  async getAnalytics(filters: AnalyticsPageFilters): Promise<ActivityTree> {
-    this.projectCache = new Map<string, Project>();
-    this.issueCache = new Map<string, Issue>();
-
+  async getAnalytics(filters: AnalyticsPageFilters): Promise<ProjectOverview[]> {
     const days = await this.getDays(filters);
     const activities = await this.activityRepository.getByDays(days);
-    return await this.groupProjectActivities(activities);
+    return await this.overviewService.getProjectOverview(activities)
   }
 
   async getDays(filters: AnalyticsPageFilters): Promise<Day[]> {

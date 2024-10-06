@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { SheetStoreService } from '../services/sheet-store.service';
-import { Issue, Project } from '../dto';
+import { Project } from '../dto';
 
 @Injectable({
   providedIn: 'root'

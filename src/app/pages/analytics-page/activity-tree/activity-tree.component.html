@@ -1,10 +1,33 @@
-<pre *ngFor="let project of activityTree|keyvalue">
-  {{project.key.name}}
+<table class="table">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Time</th>
+    <th>Rate</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let projectOverview of activityTree">
+    <td>
+      {{projectOverview.project.name}}
+    </td>
+    <td>
+      {{projectOverview.duration}}
+    </td>
+    <td>
+      {{projectOverview.durationRatio|percent}}
+    </td>
+  </tr>
+  </tbody>
+</table>
 
-  <pre *ngFor="let issue of project.value|keyvalue">
-    {{issue.key.name}}
-    <pre *ngFor="let activity of issue.value">
-      {{activity.name}}
-    </pre>
-  </pre>
-</pre>
+<!--<pre *ngFor="let project of activityTree|keyvalue">-->
+<!--  {{project.key.name}}-->
+
+<!--  <pre *ngFor="let issue of project.value|keyvalue">-->
+<!--    {{issue.key.name}}-->
+<!--    <pre *ngFor="let activity of issue.value">-->
+<!--      {{activity.name}}-->
+<!--    </pre>-->
+<!--  </pre>-->
+<!--</pre>-->

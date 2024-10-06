@@ -4,10 +4,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { JsonPipe, KeyValuePipe, NgForOf } from '@angular/common';
 
 import { AnalyticsPageFilters } from './AnalyticsPageFilterForm';
-import { Activity } from '../../dto';
+import { Activity, ProjectOverview } from '../../dto';
 import { AnalyticsPageService } from './analytics-page.service';
 import { AnalyticsPageFilterComponent } from './analytics-page-filter/analytics-page-filter.component';
-import { ActivityTree } from './types';
 import { ActivityTreeComponent } from './activity-tree/activity-tree.component';
 
 @Component({
@@ -30,7 +29,7 @@ import { ActivityTreeComponent } from './activity-tree/activity-tree.component';
 })
 export class AnalyticsPageComponent implements OnInit, OnDestroy {
   analytics: Activity[] = [];
-  activityTree?: ActivityTree;
+  activityTree?: ProjectOverview[];
 
   constructor(
     private service: AnalyticsPageService,
