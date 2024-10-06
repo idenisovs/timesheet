@@ -1,0 +1,10 @@
+<pre *ngFor="let project of activityTree|keyvalue">
+  {{project.key.name}}
+
+  <pre *ngFor="let issue of project.value|keyvalue">
+    {{issue.key.name}}
+    <pre *ngFor="let activity of issue.value">
+      {{activity.name}}
+    </pre>
+  </pre>
+</pre>
