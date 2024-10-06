@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { SheetStoreService } from '../services/sheet-store.service';
-import { Project } from '../dto';
+import { Issue, Project } from '../dto';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +42,10 @@ export class ProjectRepositoryService {
   async getByKey(projectKey: string): Promise<Project | null> {
     const record = await this.db.projects.where('keys').equals(projectKey).first();
     return record ? Project.fromRecord(record) : null;
+  }
+
+  async getAllByKeys(projectKeys: string[]): Promise<Project[]> {
+    const records = await this.db.projects.where('keys').anyOf(projectKeys).toArray();
+    return records.map(Project.fromRecord);
   }
 }
