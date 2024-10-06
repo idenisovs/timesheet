@@ -2,13 +2,13 @@
 
 @if (activityTree) {
   <pre *ngFor="let project of activityTree|keyvalue">
-    {{project.key|json}}
+    {{project.key.name}}
 
     <pre *ngFor="let issue of project.value|keyvalue">
-      {{issue.key|json}}
+      {{issue.key.name}}
 
       <pre *ngFor="let activity of issue.value">
-        {{activity|json}}
+        {{activity.name}}
       </pre>
     </pre>
   </pre>
