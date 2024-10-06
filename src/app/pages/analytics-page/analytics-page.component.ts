@@ -8,6 +8,7 @@ import { Activity } from '../../dto';
 import { AnalyticsPageService } from './analytics-page.service';
 import { AnalyticsPageFilterComponent } from './analytics-page-filter/analytics-page-filter.component';
 import { ActivityTree } from './types';
+import { ActivityTreeComponent } from './activity-tree/activity-tree.component';
 
 @Component({
   selector: 'app-analytics-page',
@@ -19,6 +20,7 @@ import { ActivityTree } from './types';
     KeyValuePipe,
     NgForOf,
     AnalyticsPageFilterComponent,
+    ActivityTreeComponent,
   ],
   templateUrl: './analytics-page.component.html',
   styleUrl: './analytics-page.component.scss',
