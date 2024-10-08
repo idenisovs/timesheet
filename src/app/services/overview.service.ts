@@ -39,8 +39,14 @@ export class OverviewService {
       });
     }
 
+    const miscActivitiesProjectOverview = this.getMiscellaneousActivitiesProject(activities, totalDuration);
+
+    projectOverview.push(miscActivitiesProjectOverview);
+
     return projectOverview;
   }
+
+
 
   public async getOverview(activities: Activity[], interval: number): Promise<Overview> {
     const totalDuration = this.activitiesService.calculateDurationMs(activities);
@@ -128,6 +134,21 @@ export class OverviewService {
     }
 
     return issueOverviewList;
+  }
+
+  private getMiscellaneousActivitiesProject(activities: Activity[], totalDuration: number): ProjectOverview {
+    const miscActivitiesIssue = this.getMiscellaneousActivitiesIssue(activities, totalDuration);
+
+    const miscActivityProject = new Project();
+    miscActivityProject.name = 'Miscellaneous';
+
+    return {
+      project: miscActivityProject,
+      issues: [miscActivitiesIssue],
+      activities: miscActivitiesIssue.activities,
+      duration: miscActivitiesIssue.duration,
+      durationRatio: miscActivitiesIssue.durationRatio
+    };
   }
 
   private getMiscellaneousActivitiesIssue(activities: Activity[], totalDuration: number): IssueOverview {
