@@ -1,33 +1,28 @@
 <table class="table">
   <thead>
   <tr>
-    <th>Name</th>
+    <th>Name
+    <th>Activities</th>
     <th>Time</th>
     <th>Rate</th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let projectOverview of activityTree">
-    <td>
-      {{projectOverview.project.name}}
-    </td>
-    <td>
-      {{projectOverview.duration}}
-    </td>
-    <td>
-      {{projectOverview.durationRatio|percent}}
-    </td>
-  </tr>
+    @for (projectOverview of activityTree; track projectOverview.project.id) {
+      <tr>
+        <td>
+          {{projectOverview.project.name}}
+        </td>
+        <td>
+          {{projectOverview.activities.length}}
+        </td>
+        <td>
+          {{projectOverview.duration}}
+        </td>
+        <td>
+          {{projectOverview.durationRatio|percent}}
+        </td>
+      </tr>
+    }
   </tbody>
 </table>
-
-<!--<pre *ngFor="let project of activityTree|keyvalue">-->
-<!--  {{project.key.name}}-->
-
-<!--  <pre *ngFor="let issue of project.value|keyvalue">-->
-<!--    {{issue.key.name}}-->
-<!--    <pre *ngFor="let activity of issue.value">-->
-<!--      {{activity.name}}-->
-<!--    </pre>-->
-<!--  </pre>-->
-<!--</pre>-->
