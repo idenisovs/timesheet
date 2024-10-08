@@ -1,7 +1,7 @@
-<table class="table table-bordered">
+<table class="table table-bordered table-hover">
   <thead>
   <tr>
-    <th>Name</th>
+    <th>Project / Issue / Activity</th>
     <th class="text-center">Activities</th>
     <th class="text-center">Time</th>
     <th class="text-center">Rate</th>
@@ -9,7 +9,7 @@
   </thead>
   <tbody>
     @for (projectOverview of activityTree; track projectOverview.project.id) {
-      <tr class="fw-bold">
+      <tr class="h4">
         <th>
           {{projectOverview.project.name}}
         </th>
@@ -25,7 +25,7 @@
       </tr>
       @for (issueOverview of projectOverview.issues; track issueOverview.issue.id) {
         @if (issueOverview.issue.name !== 'Miscellaneous activities') {
-          <tr app-issue-row [issueOverview]="issueOverview"></tr>
+          <tr class="h5" app-issue-row [issueOverview]="issueOverview"></tr>
         }
 
         @for (activityOverview of issueOverview.activityOverview; track activityOverview.name) {
