@@ -1,28 +1,37 @@
-<table class="table">
+<table class="table table-bordered">
   <thead>
   <tr>
-    <th>Name
-    <th>Activities</th>
-    <th>Time</th>
-    <th>Rate</th>
+    <th>Name</th>
+    <th class="text-center">Activities</th>
+    <th class="text-center">Time</th>
+    <th class="text-center">Rate</th>
   </tr>
   </thead>
   <tbody>
     @for (projectOverview of activityTree; track projectOverview.project.id) {
-      <tr>
-        <td>
+      <tr class="fw-bold">
+        <th>
           {{projectOverview.project.name}}
-        </td>
-        <td>
+        </th>
+        <td class="text-center">
           {{projectOverview.activities.length}}
         </td>
-        <td>
+        <td class="text-center">
           {{projectOverview.duration}}
         </td>
-        <td>
+        <td class="text-center">
           {{projectOverview.durationRatio|percent}}
         </td>
       </tr>
+      @for (issueOverview of projectOverview.issues; track issueOverview.issue.id) {
+        @if (issueOverview.issue.name !== 'Miscellaneous activities') {
+          <tr app-issue-row [issueOverview]="issueOverview"></tr>
+        }
+
+        @for (activityOverview of issueOverview.activityOverview; track activityOverview.name) {
+          <tr app-activity-row [activityOverview]="activityOverview"></tr>
+        }
+      }
     }
   </tbody>
 </table>
