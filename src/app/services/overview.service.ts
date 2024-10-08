@@ -46,8 +46,6 @@ export class OverviewService {
     return projectOverview;
   }
 
-
-
   public async getOverview(activities: Activity[], interval: number): Promise<Overview> {
     const totalDuration = this.activitiesService.calculateDurationMs(activities);
     const issues = await this.getActivityIssues(activities);
