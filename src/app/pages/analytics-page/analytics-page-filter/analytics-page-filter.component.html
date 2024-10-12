@@ -8,14 +8,7 @@
           </label>
         </div>
         <div class="col-2">
-          <div class="input-group">
-            <input id="date-from" type="text" class="form-control" formControlName="dateFrom" ngbDatepicker #dateFrom="ngbDatepicker"/>
-            <button type="button" class="btn btn-outline-primary" (click)="dateFrom.toggle()">
-              <i class="material-icons">
-                calendar_month
-              </i>
-            </button>
-          </div>
+          <app-date-from id="date-from" [control]="filtersForm.controls.dateFrom"  />
         </div>
         <div class="col-auto">
           <label for="date-till" class="form-label">
@@ -23,19 +16,12 @@
           </label>
         </div>
         <div class="col-2">
-          <div class="input-group">
-            <input id="date-till" type="text" class="form-control" formControlName="dateTill" ngbDatepicker #dateTill="ngbDatepicker"/>
-            <button type="button" class="btn btn-outline-primary" (click)="dateTill.toggle()">
-              <i class="material-icons">
-                calendar_month
-              </i>
-            </button>
-          </div>
+          <app-date-till id="date-till" [control]="filtersForm.controls.dateTill" />
         </div>
         <div class="col-auto">
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" formControlName="isActivitiesVisible">
-            <label class="form-check-label" for="flexSwitchCheckChecked">
+            <input class="form-check-input" type="checkbox" role="switch" id="activitiesVisibilitySwitch" formControlName="isActivitiesVisible">
+            <label class="form-check-label" for="activitiesVisibilitySwitch">
               Display Activities
             </label>
           </div>

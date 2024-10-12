@@ -1,18 +1,22 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgbCalendar, NgbDate, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
 import { endOfMonth } from '../../../utils';
 import { AnalyticsPageFilterForm, AnalyticsPageFilters } from '../AnalyticsPageFilterForm';
+import { DateFromComponent } from './date-from/date-from.component';
+import { DateTillComponent } from './date-till/date-till.component';
 
 @Component({
   selector: 'app-analytics-page-filter',
   standalone: true,
-	imports: [
-		NgbInputDatepicker,
-		ReactiveFormsModule,
-	],
+  imports: [
+    NgbInputDatepicker,
+    ReactiveFormsModule,
+    DateFromComponent,
+    DateTillComponent,
+  ],
   templateUrl: './analytics-page-filter.component.html',
   styleUrl: './analytics-page-filter.component.scss'
 })
@@ -27,6 +31,10 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
 
   @Output()
   changes = new EventEmitter<AnalyticsPageFilters>();
+
+  get DateFrom(): FormControl {
+    return this.filtersForm.controls.dateFrom;
+  }
 
   constructor(
     private fb: FormBuilder,
