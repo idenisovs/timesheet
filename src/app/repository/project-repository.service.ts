@@ -45,7 +45,7 @@ export class ProjectRepositoryService {
   }
 
   async getAllByKeys(projectKeys: string[]): Promise<Project[]> {
-    const records = await this.db.projects.where('keys').anyOf(projectKeys).toArray();
+    const records = await this.db.projects.where('keys').anyOf(projectKeys).distinct().toArray();
     return records.map(Project.fromRecord);
   }
 }
