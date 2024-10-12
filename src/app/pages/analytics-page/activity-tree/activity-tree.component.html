@@ -9,20 +9,7 @@
   </thead>
   <tbody>
     @for (projectOverview of activityTree; track projectOverview.project.id) {
-      <tr class="h5">
-        <th>
-          {{projectOverview.project.name}}
-        </th>
-        <td class="text-center">
-          {{projectOverview.activities.length}}
-        </td>
-        <td class="text-center">
-          {{projectOverview.duration}}
-        </td>
-        <td class="text-center">
-          {{projectOverview.durationRatio|percent}}
-        </td>
-      </tr>
+      <tr class="h5" app-project-row [projectOverview]="projectOverview"></tr>
 
         @if (isIssuesVisible) {
             @for (issueOverview of projectOverview.issues; track issueOverview.issue.id) {
