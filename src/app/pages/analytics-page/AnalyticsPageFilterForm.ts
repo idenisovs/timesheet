@@ -3,11 +3,13 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 export interface AnalyticsPageFilterForm {
   dateFrom: NgbDate | null;
   dateTill: NgbDate | null;
+  isActivitiesVisible: boolean | null;
 }
 
 export class AnalyticsPageFilters {
   from?: Date;
   till?: Date;
+  isActivitiesVisible?: boolean;
 
   constructor(form: Partial<AnalyticsPageFilterForm>) {
     if (form.dateFrom) {
@@ -17,6 +19,8 @@ export class AnalyticsPageFilters {
     if (form.dateTill) {
       this.till = this.toDate(form.dateTill, false);
     }
+
+    this.isActivitiesVisible = !!form.isActivitiesVisible;
   }
 
   toDate(date: NgbDate, startOfDay = true): Date {

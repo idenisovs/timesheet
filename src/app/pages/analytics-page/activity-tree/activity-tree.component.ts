@@ -21,4 +21,7 @@ import { ActivityRowComponent } from './activity-row/activity-row.component';
 export class ActivityTreeComponent {
   @Input()
   activityTree!: ProjectOverview[];
+
+  @Input()
+  isActivitiesVisible!: boolean;
 }
