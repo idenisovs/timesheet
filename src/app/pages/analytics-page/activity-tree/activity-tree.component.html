@@ -9,7 +9,7 @@
   </thead>
   <tbody>
     @for (projectOverview of activityTree; track projectOverview.project.id) {
-      <tr class="h4">
+      <tr class="h5">
         <th>
           {{projectOverview.project.name}}
         </th>
@@ -25,11 +25,13 @@
       </tr>
       @for (issueOverview of projectOverview.issues; track issueOverview.issue.id) {
         @if (issueOverview.issue.name !== 'Miscellaneous activities') {
-          <tr class="h5" app-issue-row [issueOverview]="issueOverview"></tr>
+          <tr class="fw-bold" app-issue-row [issueOverview]="issueOverview"></tr>
         }
 
-        @for (activityOverview of issueOverview.activityOverview; track activityOverview.name) {
-          <tr app-activity-row [activityOverview]="activityOverview"></tr>
+        @if (isActivitiesVisible) {
+          @for (activityOverview of issueOverview.activityOverview; track activityOverview.name) {
+            <tr app-activity-row [activityOverview]="activityOverview"></tr>
+          }
         }
       }
     }

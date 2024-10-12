@@ -20,6 +20,7 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
   filtersForm = this.fb.group({
     dateFrom: [this.getStartOfMonthDate()],
     dateTill: [this.getEndOfMonthDate()],
+    isActivitiesVisible: [false]
   });
 
   filtersFormSubscription!: Subscription;

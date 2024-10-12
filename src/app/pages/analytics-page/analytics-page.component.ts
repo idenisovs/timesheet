@@ -30,6 +30,7 @@ import { ActivityTreeComponent } from './activity-tree/activity-tree.component';
 export class AnalyticsPageComponent implements OnInit, OnDestroy {
   analytics: Activity[] = [];
   activityTree?: ProjectOverview[];
+  isActivitiesVisible: boolean = false;
 
   constructor(
     private service: AnalyticsPageService,
@@ -41,5 +42,6 @@ export class AnalyticsPageComponent implements OnInit, OnDestroy {
 
   async updateAnalytics(filters: AnalyticsPageFilters) {
     this.activityTree = await this.service.getAnalytics(filters);
+    this.isActivitiesVisible = filters.isActivitiesVisible || false;
   }
 }
