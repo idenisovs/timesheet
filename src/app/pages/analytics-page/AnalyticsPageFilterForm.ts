@@ -4,12 +4,14 @@ export interface AnalyticsPageFilterForm {
   dateFrom: NgbDate | null;
   dateTill: NgbDate | null;
   isActivitiesVisible: boolean | null;
+  isIssuesVisible: boolean | null;
 }
 
 export class AnalyticsPageFilters {
   from?: Date;
   till?: Date;
   isActivitiesVisible?: boolean;
+  isIssuesVisible?: boolean;
 
   constructor(form: Partial<AnalyticsPageFilterForm>) {
     if (form.dateFrom) {
@@ -21,6 +23,7 @@ export class AnalyticsPageFilters {
     }
 
     this.isActivitiesVisible = !!form.isActivitiesVisible;
+    this.isIssuesVisible = !!form.isIssuesVisible;
   }
 
   toDate(date: NgbDate, startOfDay = true): Date {

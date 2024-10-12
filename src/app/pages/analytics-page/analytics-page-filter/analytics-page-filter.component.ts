@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { NgbCalendar, NgbDate, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
@@ -54,6 +54,15 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
     }
 
     const filters = JSON.parse(raw);
+    const defaultValues = this.getDefaultFilterFormValues();
+
+    for (let [filter, value] of Object.entries(defaultValues)) {
+      if (filter in filters) {
+        continue;
+      }
+
+      filters[filter] = value;
+    }
 
     this.filtersForm.setValue(filters);
   }
@@ -83,19 +92,26 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
     return today;
   }
 
+  getDefaultFilterFormValues() {
+    return {
+      dateFrom: this.getStartOfMonthDate(),
+      dateTill: this.getEndOfMonthDate(),
+      isIssuesVisible: true,
+      isActivitiesVisible: false
+    }
+  }
+
   setupDefaultFilters() {
     return this.fb.group({
       dateFrom: [this.getStartOfMonthDate()],
       dateTill: [this.getEndOfMonthDate()],
+      isIssuesVisible: [false],
       isActivitiesVisible: [false]
     });
   }
 
   resetFilters() {
-    this.filtersForm.setValue({
-      dateFrom: this.getStartOfMonthDate(),
-      dateTill: this.getEndOfMonthDate(),
-      isActivitiesVisible: false
-    });
+    const defaultValues = this.getDefaultFilterFormValues();
+    this.filtersForm.setValue(defaultValues);
   }
 }
