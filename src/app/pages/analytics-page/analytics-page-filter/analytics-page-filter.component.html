@@ -1,9 +1,9 @@
 <section class="card mb-3">
   <main class="card-body">
     <form [formGroup]="filtersForm">
-      <div class="row align-items-baseline">
+      <div class="row align-items-center">
         <div class="col-auto">
-          <label for="date-from" class="form-label">
+          <label for="date-from" class="form-label m-0">
             From:
           </label>
         </div>
@@ -11,7 +11,7 @@
           <app-date-from id="date-from" [control]="filtersForm.controls.dateFrom"  />
         </div>
         <div class="col-auto">
-          <label for="date-till" class="form-label">
+          <label for="date-till" class="form-label m-0">
             Till:
           </label>
         </div>
@@ -25,6 +25,11 @@
               Display Activities
             </label>
           </div>
+        </div>
+        <div class="col-auto">
+          <button type="button" class="btn btn-outline-primary" (click)="resetFilters()">
+            <i class="material-icons-outlined">close</i> Reset
+          </button>
         </div>
       </div>
     </form>

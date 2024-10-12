@@ -21,20 +21,12 @@ import { DateTillComponent } from './date-till/date-till.component';
   styleUrl: './analytics-page-filter.component.scss'
 })
 export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
-  filtersForm = this.fb.group({
-    dateFrom: [this.getStartOfMonthDate()],
-    dateTill: [this.getEndOfMonthDate()],
-    isActivitiesVisible: [false]
-  });
+  filtersForm = this.setupDefaultFilters();
 
   filtersFormSubscription!: Subscription;
 
   @Output()
   changes = new EventEmitter<AnalyticsPageFilters>();
-
-  get DateFrom(): FormControl {
-    return this.filtersForm.controls.dateFrom;
-  }
 
   constructor(
     private fb: FormBuilder,
@@ -42,12 +34,12 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.loadFilters();
+    this.updateFilters(this.filtersForm.value);
+
     this.filtersFormSubscription = this.filtersForm.valueChanges.subscribe((changes) => {
       this.updateFilters(changes);
     });
-
-    this.loadFilters();
-    this.updateFilters(this.filtersForm.value);
   }
 
   ngOnDestroy() {
@@ -89,5 +81,21 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
     const today = this.calendar.getToday();
     today.day = end.getDate();
     return today;
+  }
+
+  setupDefaultFilters() {
+    return this.fb.group({
+      dateFrom: [this.getStartOfMonthDate()],
+      dateTill: [this.getEndOfMonthDate()],
+      isActivitiesVisible: [false]
+    });
+  }
+
+  resetFilters() {
+    this.filtersForm.setValue({
+      dateFrom: this.getStartOfMonthDate(),
+      dateTill: this.getEndOfMonthDate(),
+      isActivitiesVisible: false
+    });
   }
 }
