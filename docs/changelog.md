@@ -1,7 +1,8 @@
 # Changelog
 
-- `3.2.0` - Added basic Analytics Section;
-  - `3.2.1` - Added Issue and Activity visibility switches to Analytics View Filters;
+- `3.2.0` - Added basic Analytics View;
+  - `3.2.1` - Analytics View Filters got the Issue and Activity visibility switches;
+  - `3.2.2` - Visual improvements for Analytics View;
 - `3.1.7` - Made the Overview Service, migrated the Weekly Overview to Overview Service and the Daily Summary to the Daily Overview;
 - `3.1.6` - In Daily Summary, displaying the same metrics as in Weekly Overview;
 - `3.1.5` - In Weekly Overview, added an option to expand the activities list of an issue;
