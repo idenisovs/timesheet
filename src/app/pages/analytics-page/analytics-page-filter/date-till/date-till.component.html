@@ -1,0 +1,8 @@
+<div class="input-group">
+  <input id="date-till" type="text" class="form-control" [formControl]="control" ngbDatepicker #dateTill="ngbDatepicker"/>
+  <button type="button" class="btn btn-outline-primary" (click)="dateTill.toggle()">
+    <i class="material-icons">
+      calendar_month
+    </i>
+  </button>
+</div>
