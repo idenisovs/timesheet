@@ -22,8 +22,8 @@ import { DateTillComponent } from './date-till/date-till.component';
 })
 export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
   filtersForm = this.setupDefaultFilters();
-
   filtersFormSubscription!: Subscription;
+  filtersSnapshot: Partial<AnalyticsPageFilterForm> = {};
 
   @Output()
   changes = new EventEmitter<AnalyticsPageFilters>();
@@ -65,6 +65,7 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
     }
 
     this.filtersForm.setValue(filters);
+    this.filtersSnapshot = filters;
   }
 
   saveFilters() {
@@ -74,9 +75,33 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
   }
 
   updateFilters(filterChanges: Partial<AnalyticsPageFilterForm>) {
+    if (this.isIssuesVisibilityChanged(filterChanges)) {
+      if (!filterChanges.isIssuesVisible && filterChanges.isActivitiesVisible) {
+        this.filtersForm.controls.isActivitiesVisible.setValue(false);
+        return;
+      }
+    }
+
+    if (this.isActivitiesVisibilityChanged(filterChanges)) {
+      if (!filterChanges.isIssuesVisible && filterChanges.isActivitiesVisible) {
+        this.filtersForm.controls.isIssuesVisible.setValue(true);
+        return;
+      }
+    }
+
+
+    this.filtersSnapshot = filterChanges;
     this.saveFilters();
     const filters = new AnalyticsPageFilters(filterChanges);
     this.changes.emit(filters);
+  }
+
+  isIssuesVisibilityChanged(filterChanges: Partial<AnalyticsPageFilterForm>) {
+    return filterChanges.isIssuesVisible !== this.filtersSnapshot.isIssuesVisible
+  }
+
+  isActivitiesVisibilityChanged(filterChanges: Partial<AnalyticsPageFilterForm>) {
+    return filterChanges.isActivitiesVisible !== this.filtersSnapshot.isActivitiesVisible
   }
 
   getStartOfMonthDate(): NgbDate {
@@ -98,7 +123,7 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
       dateTill: this.getEndOfMonthDate(),
       isIssuesVisible: true,
       isActivitiesVisible: false
-    }
+    };
   }
 
   setupDefaultFilters() {
