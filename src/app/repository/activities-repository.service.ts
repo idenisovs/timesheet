@@ -32,9 +32,15 @@ export class ActivitiesRepositoryService {
     return records.map(Activity.fromRecord);
   }
 
-  async getByDays(days: Day[]): Promise<Activity[]> {
+  async getByDays(days: Day[], reverse = false): Promise<Activity[]> {
     const dayIds = days.map(day => day.id);
-    const records = await this.db.activities.where('dayId').anyOf(dayIds).reverse().sortBy('date');
+    let query = this.db.activities.where('dayId').anyOf(dayIds)
+
+    if (reverse) {
+      query = query.reverse();
+    }
+
+    const records = await query.sortBy('date');
     return records.map(Activity.fromRecord);
   }
 
