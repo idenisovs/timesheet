@@ -19,7 +19,7 @@ export class AnalyticsPageService {
   async getAnalytics(filters: AnalyticsPageFilters): Promise<ProjectOverview[]> {
     const days = await this.getDays(filters);
     const activities = await this.activityRepository.getByDays(days);
-    return await this.overviewService.getProjectOverview(activities)
+    return this.overviewService.getProjectOverview(activities)
   }
 
   async getDays(filters: AnalyticsPageFilters): Promise<Day[]> {

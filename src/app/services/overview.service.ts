@@ -110,7 +110,7 @@ export class OverviewService {
     if (projectPrefixA < projectPrefixB) return -1;
     if (projectPrefixA > projectPrefixB) return 1;
 
-    return Number(issueIdB) - Number(issueIdA);
+    return Number(issueIdA) - Number(issueIdB);
   }
 
   private getIssueOverviewList(issues: Issue[], activities: Activity[], totalDuration: number) {
