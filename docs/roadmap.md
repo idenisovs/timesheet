@@ -24,12 +24,6 @@ Given the diverse work schedules—part-time, four-day workweeks, and more—it�
 
 By allowing customization, the application will better accommodate different work patterns, resulting in more accurate time tracking and reporting.
 
-## Analytics View
-
-For those times when you need detailed insights, whether preparing a report, overseeing completed work, or tracking down a specific activity from months ago, the Analytics View will be invaluable.
-
-It will provide powerful tools for effectively managing and analyzing your data.
-
 ## Cloud Service
 
 An optional backend application is planned for users who prefer to store their data outside the browser and sync it across multiple devices.

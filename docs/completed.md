@@ -1,5 +1,11 @@
 # Completed things
 
+## Analytics View
+
+For those times when you need detailed insights, whether preparing a report, overseeing completed work, or tracking down a specific activity from months ago, the Analytics View will be invaluable.
+
+It will provide powerful tools for effectively managing and analyzing your data.
+
 ## Infinite Scroll
 
 Add Infinite Scroll option to Daily Activity View. It should help to deal with huge lists of activities.

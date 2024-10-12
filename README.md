@@ -47,3 +47,4 @@ npm start
   * [Issues View](./docs/views/issues.md)
     * [Accuracy Points](./docs/accuracy_points.md)
   * Projects View
+  * Analytics View
