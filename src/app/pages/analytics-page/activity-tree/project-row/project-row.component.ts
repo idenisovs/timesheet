@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { PercentPipe } from '@angular/common';
+import { DatePipe, PercentPipe } from '@angular/common';
 import { ProjectOverview } from '../../../../dto';
 
 @Component({
@@ -7,6 +7,7 @@ import { ProjectOverview } from '../../../../dto';
   standalone: true,
   imports: [
     PercentPipe,
+    DatePipe,
   ],
   templateUrl: './project-row.component.html',
   styleUrl: './project-row.component.scss',
