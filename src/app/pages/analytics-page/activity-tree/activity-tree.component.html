@@ -23,17 +23,20 @@
           {{projectOverview.durationRatio|percent}}
         </td>
       </tr>
-      @for (issueOverview of projectOverview.issues; track issueOverview.issue.id) {
-        @if (issueOverview.issue.name !== 'Miscellaneous activities') {
-          <tr class="fw-bold" app-issue-row [issueOverview]="issueOverview"></tr>
-        }
 
-        @if (isActivitiesVisible) {
-          @for (activityOverview of issueOverview.activityOverview; track activityOverview.name) {
-            <tr app-activity-row [activityOverview]="activityOverview"></tr>
-          }
+        @if (isIssuesVisible) {
+            @for (issueOverview of projectOverview.issues; track issueOverview.issue.id) {
+                @if (issueOverview.issue.name !== 'Miscellaneous activities') {
+                    <tr class="fw-bold" app-issue-row [issueOverview]="issueOverview"></tr>
+                }
+
+                @if (isActivitiesVisible) {
+                    @for (activityOverview of issueOverview.activityOverview; track activityOverview.name) {
+                        <tr app-activity-row [activityOverview]="activityOverview"></tr>
+                    }
+                }
+            }
         }
-      }
     }
   </tbody>
 </table>

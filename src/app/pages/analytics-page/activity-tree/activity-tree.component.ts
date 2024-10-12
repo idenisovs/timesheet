@@ -24,4 +24,7 @@ export class ActivityTreeComponent {
 
   @Input()
   isActivitiesVisible!: boolean;
+
+  @Input()
+  isIssuesVisible!: boolean;
 }

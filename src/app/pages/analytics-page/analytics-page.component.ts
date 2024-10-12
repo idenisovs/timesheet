@@ -31,6 +31,7 @@ export class AnalyticsPageComponent implements OnInit, OnDestroy {
   analytics: Activity[] = [];
   activityTree?: ProjectOverview[];
   isActivitiesVisible: boolean = false;
+  isIssuesVisible: boolean = true;
 
   constructor(
     private service: AnalyticsPageService,
@@ -42,6 +43,7 @@ export class AnalyticsPageComponent implements OnInit, OnDestroy {
 
   async updateAnalytics(filters: AnalyticsPageFilters) {
     this.activityTree = await this.service.getAnalytics(filters);
-    this.isActivitiesVisible = filters.isActivitiesVisible || false;
+    this.isActivitiesVisible = typeof filters.isActivitiesVisible === 'undefined' ? false : filters.isActivitiesVisible;
+    this.isIssuesVisible = typeof filters.isIssuesVisible === 'undefined' ? true : filters.isIssuesVisible;
   }
 }
