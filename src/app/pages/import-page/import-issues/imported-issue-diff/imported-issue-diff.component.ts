@@ -4,6 +4,7 @@ import { DatePipe, NgClass, NgIf } from '@angular/common';
 import { Issue } from '../../../../dto';
 import { DiffStatus } from '../../DiffStatus';
 import { IssueRepositoryService } from '../../../../repository/issue-repository.service';
+import { ImportIssuesService } from '../import-issues.service';
 
 @Component({
   selector: 'app-imported-issue-diff',
@@ -27,7 +28,8 @@ export class ImportedIssueDiffComponent implements OnInit {
   completed = new EventEmitter<Issue>();
 
   constructor(
-    private issuesRepository: IssueRepositoryService
+    private issuesRepository: IssueRepositoryService,
+    private importIssuesService: ImportIssuesService
   ) {}
 
   async ngOnInit() {
@@ -35,34 +37,12 @@ export class ImportedIssueDiffComponent implements OnInit {
       return;
     }
 
-    this.existingIssue = await this.getExistingIssue();
-    this.status = this.getDiffStatus();
+    this.existingIssue = await this.importIssuesService.getExistingIssue(this.importedIssue);
+    this.status = this.importIssuesService.getDiffStatus(this.existingIssue, this.importedIssue);
 
     if (this.status === DiffStatus.same) {
       this.completed.emit(this.importedIssue);
     }
-  }
-
-  async getExistingIssue(): Promise<Issue|null> {
-    let existingIssue = await this.issuesRepository.getById(this.importedIssue.id);
-
-    if (existingIssue) {
-      return existingIssue;
-    }
-
-    return this.issuesRepository.getByKey(this.importedIssue.key);
-  }
-
-  getDiffStatus(): DiffStatus {
-    if (!this.existingIssue) {
-      return DiffStatus.new;
-    }
-
-    if (!this.existingIssue.equals(this.importedIssue)) {
-      return DiffStatus.updated;
-    }
-
-    return DiffStatus.same;
   }
 
   async save() {
