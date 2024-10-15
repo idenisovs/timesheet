@@ -72,6 +72,11 @@ export class ImportedIssueDiffComponent implements OnInit {
   }
 
   async update() {
+    if (!this.existingIssue) {
+      return;
+    }
+
+    this.importedIssue.id = this.existingIssue.id;
     await this.issuesRepository.update(this.importedIssue);
     this.completed.emit(this.importedIssue);
   }

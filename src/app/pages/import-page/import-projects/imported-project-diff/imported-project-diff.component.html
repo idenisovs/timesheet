@@ -3,10 +3,10 @@
     <table class="table table-sm">
       <thead>
       <tr>
-        <th scope="col" class="w-25">
+        <th scope="col">
           Name
         </th>
-        <th scope="col" class="w-50">
+        <th scope="col">
           Description
         </th>
         <th scope="col">
@@ -22,17 +22,17 @@
       </thead>
       <tbody>
       <tr class="align-middle">
-        <td class="w-25" [ngClass]="getRowStyle()">
+        <td [ngClass]="getRowStyle()">
           {{importedProject.name}}
         </td>
-        <td class="w-50" [ngClass]="getRowStyle()">
+        <td [ngClass]="getRowStyle()">
           {{importedProject.description}}
         </td>
         <td [ngClass]="getRowStyle()">
           {{importedProject.keys.join(', ')}}
         </td>
         <td class="text-end" [ngClass]="getRowStyle()">
-          {{importedProject.createdAt|date}}
+          {{importedProject.createdAt|date:'MMMM d, y hh:mm:ss'}}
         </td>
         <td class="text-center align-middle" [rowSpan]="status === DiffStatus.new ? 1 : 2">
           <button class="btn btn-sm btn-primary" *ngIf="status === DiffStatus.new" (click)="save()">
@@ -59,7 +59,7 @@
           {{existingProject.keys.join(', ')}}
         </td>
         <td class="text-end">
-          {{existingProject.createdAt|date}}
+          {{existingProject.createdAt|date:'MMMM d, y hh:mm:ss'}}
         </td>
       </tr>
       </tbody>

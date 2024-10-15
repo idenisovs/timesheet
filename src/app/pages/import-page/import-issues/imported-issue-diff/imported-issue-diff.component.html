@@ -6,7 +6,7 @@
         <th scope="col">
           Key
         </th>
-        <th scope="col" class="w-50">
+        <th scope="col">
           Name
         </th>
         <th scope="col" class="text-center">
@@ -38,7 +38,7 @@
           {{importedIssue.estimate}}
         </td>
         <td class="text-end" [ngClass]="getRowStyle()">
-          {{importedIssue.createdAt|date}}
+          {{importedIssue.createdAt|date:'MMM d, y hh:mm:ss'}}
         </td>
         <td class="text-center align-middle" [rowSpan]="status === DiffStatus.new ? 1 : 2">
           <button class="btn btn-sm btn-primary" *ngIf="status === DiffStatus.new" (click)="save()">
@@ -54,6 +54,7 @@
           </button>
         </td>
       </tr>
+
       <tr *ngIf="existingIssue">
         <td>
           {{existingIssue.key}}
@@ -68,7 +69,7 @@
           {{existingIssue.estimate}}
         </td>
         <td class="text-end">
-          {{existingIssue.createdAt|date}}
+          {{existingIssue.createdAt|date:'MMM d, y hh:mm:ss'}}
         </td>
       </tr>
       </tbody>
