@@ -31,12 +31,12 @@ export class ProjectRepositoryService {
 
   async getById(projectId: string): Promise<Project|null> {
     const record = await this.db.projects.where('id').equals(projectId).first();
+    return record ? Project.fromRecord(record) : null;
+  }
 
-    if (record) {
-      return Project.fromRecord(record);
-    }
-
-    return null;
+  async getByName(projectName: string): Promise<Project|null> {
+    const record = await this.db.projects.where('name').equals(projectName).first();
+    return record ? Project.fromRecord(record) : null;
   }
 
   async getByKey(projectKey: string): Promise<Project | null> {
