@@ -35,12 +35,22 @@ export class ImportedIssueDiffComponent implements OnInit {
       return;
     }
 
-    this.existingIssue = await this.issuesRepository.getById(this.importedIssue.id);
+    this.existingIssue = await this.getExistingIssue();
     this.status = this.getDiffStatus();
 
     if (this.status === DiffStatus.same) {
       this.completed.emit(this.importedIssue);
     }
+  }
+
+  async getExistingIssue(): Promise<Issue|null> {
+    let existingIssue = await this.issuesRepository.getById(this.importedIssue.id);
+
+    if (existingIssue) {
+      return existingIssue;
+    }
+
+    return this.issuesRepository.getByKey(this.importedIssue.key);
   }
 
   getDiffStatus(): DiffStatus {
