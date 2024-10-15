@@ -5,6 +5,7 @@ import { Issue } from '../../../dto';
 import { ImportedProjectDiffComponent } from '../import-projects/imported-project-diff/imported-project-diff.component';
 import { ImportedIssueDiffComponent } from './imported-issue-diff/imported-issue-diff.component';
 import {IssueRepositoryService} from "../../../repository/issue-repository.service";
+import { ImportIssuesService } from './import-issues.service';
 
 @Component({
   selector: 'app-import-issues',
@@ -21,8 +22,10 @@ export class ImportIssuesComponent {
   @Input()
   importedIssues: Issue[] = [];
 
-  constructor(private issueRepo: IssueRepositoryService) {
-  }
+  constructor(
+    private issueRepo: IssueRepositoryService,
+    private importIssuesService: ImportIssuesService
+  ) {}
 
   removeCompletedIssue(issue: Issue) {
     const idx = this.importedIssues.indexOf(issue);
@@ -34,10 +37,10 @@ export class ImportIssuesComponent {
 
     for (let idx = 0; idx < this.importedIssues.length; idx++) {
       const importedIssue = this.importedIssues[idx];
-
-      const existingIssue = await this.issueRepo.getById(importedIssue.id);
+      const existingIssue = await this.importIssuesService.getExistingIssue(importedIssue);
 
       if (existingIssue) {
+        importedIssue.id = existingIssue.id;
         await this.issueRepo.update(importedIssue);
       } else {
         await this.issueRepo.create(importedIssue);
