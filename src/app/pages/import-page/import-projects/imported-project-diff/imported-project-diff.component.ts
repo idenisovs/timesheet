@@ -73,6 +73,11 @@ export class ImportedProjectDiffComponent implements OnInit {
   }
 
   async update() {
+    if (!this.existingProject) {
+      return;
+    }
+
+    this.importedProject.id = this.existingProject.id;
     await this.projectsRepository.update(this.importedProject);
     this.completed.emit(this.importedProject);
   }

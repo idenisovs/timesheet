@@ -26,8 +26,7 @@ export class Issue {
 
   equals(other: Issue): boolean {
     if (
-      this.id !== other.id
-      || this.name !== other.name
+      this.name !== other.name
       || this.key !== other.key
       || this.duration !== other.duration
     ) {

@@ -9,10 +9,6 @@ export class Project {
   createdAt = new Date();
 
   equals(other: Project): boolean {
-    if (this.id !== other.id) {
-      return false;
-    }
-
     if (this.name !== other.name) {
       return false;
     }
@@ -27,6 +23,10 @@ export class Project {
       return false;
     }
 
+    if (this.createdAt.getTime() !== other.createdAt.getTime()) {
+      return false;
+    }
+
     return this.keys.every((key: string) => other.keys.includes(key));
   }
 
@@ -35,7 +35,7 @@ export class Project {
 
     Object.assign(project, importedProject);
 
-    project.keys = importedProject.keys.split(',').map((key: string) => key.trim());
+    project.keys = importedProject.keys.split(';').map((key: string) => key.trim());
     project.createdAt = new Date(importedProject.createdAt);
 
     return project;
