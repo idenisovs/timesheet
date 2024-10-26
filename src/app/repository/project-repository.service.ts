@@ -11,8 +11,9 @@ export class ProjectRepositoryService {
 
   constructor(private store: SheetStoreService) { }
 
-  async create(project: Project): Promise<void> {
-    await this.db.projects.add(project);
+  async create(project: Project): Promise<Project> {
+    project.id = await this.db.projects.add(project);
+    return project;
   }
 
   async update(project: Project): Promise<void> {
