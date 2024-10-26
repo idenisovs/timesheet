@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import parseDuration from 'parse-duration';
 
 import { Issue } from '../dto';
-import { duration } from 'yet-another-duration';
 import { HOUR } from '../constants';
 import { DurationService } from './duration.service';
 
