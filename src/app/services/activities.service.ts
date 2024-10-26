@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { duration } from 'yet-another-duration';
 import { Activity, ActivitySummary } from '../dto';
-import parseDuration from 'parse-duration';
+import { DurationService } from './duration.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,36 +13,19 @@ export class ActivitiesService {
     }
   };
 
-  constructor() { }
-
-  public getActivityDurationMs(activity: Activity): number {
-    const result = parseDuration(activity.duration);
-
-    return result ?? 0;
-  }
+  constructor(
+    private durationService: DurationService
+  ) { }
 
   public calculateDurationMs(activities: Activity[]): number {
     return activities.reduce<number>((result: number, activity: Activity) => {
-      const activityDuration = this.getActivityDurationMs(activity);
-
-      return result + activityDuration;
+      return result + this.durationService.toMs(activity.duration);
     }, 0);
   }
 
   public calculateDuration(activities: Activity[]): string {
-    const durationMs = this.calculateDurationMs(activities);
-
-    return duration(durationMs, ActivitiesService.DURATION_CONFIG).toString();
-  }
-
-  public getIssueKeys(activities: Activity[]): string[] {
-    const issueKeys: string[] = activities
-      .map(activity => activity.getIssueKey())
-      .filter(issueKey => issueKey !== null) as string[];
-
-    const uniqueIssueKeys = new Set(issueKeys);
-
-    return Array.from(uniqueIssueKeys);
+    const durationValues = activities.map(activity => activity.duration);
+    return this.durationService.sum(durationValues);
   }
 
   public getActivitySummary(activities: Activity[]): ActivitySummary {
