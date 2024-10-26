@@ -11,7 +11,7 @@ export class Activity {
   duration = '0m';
   weekId = '';
   dayId = '';
-  issueId = '';
+  issueId?: string;
 
   constructor(entity?: Activity) {
     if (!entity) {
@@ -47,6 +47,10 @@ export class Activity {
 
   hasIssueKey(): boolean {
     return !!this.name.match(Issue.KEY_PATTERN);
+  }
+
+  isLinkedToIssue(): boolean {
+    return !!this.issueId || this.hasIssueKey();
   }
 
   getShortName(): string {
