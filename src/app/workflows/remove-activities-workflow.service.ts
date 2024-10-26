@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivitiesRepositoryService } from '../repository/activities-repository.service';
 import { Activity, Issue } from '../dto';
 import { IssueRepositoryService } from '../repository/issue-repository.service';
+import { DurationService } from '../services/duration.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,8 @@ import { IssueRepositoryService } from '../repository/issue-repository.service';
 export class RemoveActivitiesWorkflowService {
   constructor(
     private activitiesRepository: ActivitiesRepositoryService,
-    private issueRepository: IssueRepositoryService
+    private issueRepository: IssueRepositoryService,
+    private duration: DurationService
   ) { }
 
   public async run(activityIds: string[]) {
@@ -30,12 +32,13 @@ export class RemoveActivitiesWorkflowService {
     }
 
     issue.activities--;
+    issue.duration = this.recalculateDuration(issue, activity);
 
     await this.issueRepository.update(issue);
   }
 
   private async getAffectedIssue(activity: Activity): Promise<Issue | null> {
-    if (!activity.issueId && !activity.hasIssueKey()) {
+    if (!activity.isLinkedToIssue() || !activity.issueId) {
       return null;
     }
 
@@ -52,5 +55,12 @@ export class RemoveActivitiesWorkflowService {
     }
 
     return issue;
+  }
+
+  recalculateDuration(issue: Issue, activity: Activity) {
+    const totalDuration = this.duration.toMs(issue.duration);
+    const activityDuration = this.duration.toMs(activity.duration);
+    const result = totalDuration - activityDuration;
+    return this.duration.toStr(result);
   }
 }
