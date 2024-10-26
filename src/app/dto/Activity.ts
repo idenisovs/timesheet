@@ -11,6 +11,7 @@ export class Activity {
   duration = '0m';
   weekId = '';
   dayId = '';
+  issueId = '';
 
   constructor(entity?: Activity) {
     if (!entity) {
@@ -73,6 +74,7 @@ export class Activity {
       || this.duration !== other.duration
       || this.weekId !== other.weekId
       || this.dayId !== other.dayId
+      || this.issueId !== other.issueId
     ) {
       return false;
     }
