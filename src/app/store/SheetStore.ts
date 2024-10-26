@@ -6,6 +6,7 @@ import migrateV2 from './migrate-v2';
 import migrateV3 from './migrate-v3';
 import migrateV5 from './migrate-v5';
 import migrateV7 from './migrate-v7';
+import migrateV8 from './migrate-v8';
 
 export default class SheetStore extends Dexie {
   sheet: Dexie.Table<SheetRecord, string>;
@@ -44,6 +45,10 @@ export default class SheetStore extends Dexie {
 
     this.version(6).upgrade((tx: Transaction) => tx.table('sheet').clear());
     this.version(7).upgrade((tx: Transaction) => migrateV7(this, tx));
+    this.version(8).stores({
+      activities: '&id,name,date,weekId,dayId,issueId',
+      issues: '&id,&key,name,activities,createdAt'
+    }).upgrade((tx: Transaction) => migrateV8(this, tx));
 
     this.sheet = this.table('sheet');
     this.issues = this.table('issues');

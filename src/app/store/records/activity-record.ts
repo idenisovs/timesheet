@@ -7,4 +7,5 @@ export interface ActivityRecord {
   duration: string;
   weekId: string;
   dayId: string;
+  issueId: string;
 }
