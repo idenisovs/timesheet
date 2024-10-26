@@ -47,7 +47,7 @@ export default class SheetStore extends Dexie {
     this.version(7).upgrade((tx: Transaction) => migrateV7(this, tx));
     this.version(8).stores({
       activities: '&id,name,date,weekId,dayId,issueId',
-      issues: '&id,&key,name,activities,createdAt'
+      issues: '++id,&key,name,activities,createdAt'
     }).upgrade((tx: Transaction) => migrateV8(this, tx));
 
     this.sheet = this.table('sheet');
