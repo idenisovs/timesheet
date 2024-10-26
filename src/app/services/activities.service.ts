@@ -6,13 +6,6 @@ import { DurationService } from './duration.service';
   providedIn: 'root'
 })
 export class ActivitiesService {
-  private static readonly DURATION_CONFIG = {
-    units: {
-      min: 'minutes',
-      max: 'hours'
-    }
-  };
-
   constructor(
     private durationService: DurationService
   ) { }
