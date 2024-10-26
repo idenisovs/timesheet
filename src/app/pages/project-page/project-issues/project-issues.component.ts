@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgIf } from '@angular/common';
+
 import { IssuesTableComponent } from '../../issues-page/issues-table/issues-table.component';
 import { Issue } from '../../../dto';
 

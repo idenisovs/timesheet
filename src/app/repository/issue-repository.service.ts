@@ -37,7 +37,7 @@ export class IssueRepositoryService {
   }
 
   async getByKeyPrefix(issueKeyPrefix: string): Promise<Issue[]> {
-    const records = await this.db.issues.where('key').startsWith(issueKeyPrefix).toArray();
+    const records = await this.db.issues.where('key').startsWith(`${issueKeyPrefix}-`).toArray();
     return records.map(Issue.fromRecord);
   }
 
