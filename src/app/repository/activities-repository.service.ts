@@ -59,6 +59,11 @@ export class ActivitiesRepositoryService {
     return records.map(Activity.fromRecord);
   }
 
+  async getByIssueId(issueId: string): Promise<Activity[]> {
+    const records = await this.db.activities.where('issueId').equals(issueId).toArray();
+    return records.map(Activity.fromRecord);
+  }
+
   async save(activities: Activity[]): Promise<void> {
     await this.db.activities.bulkPut(activities);
   }

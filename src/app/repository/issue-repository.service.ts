@@ -21,6 +21,11 @@ export class IssueRepositoryService {
     return record ? Issue.fromRecord(record) : null;
   }
 
+  async getByIds(issueIds: string[]): Promise<Issue[]> {
+    const records = await this.db.issues.where('id').anyOf(issueIds).toArray();
+    return records.map(Issue.fromRecord);
+  }
+
   async getByKey(issueKey: string): Promise<Issue | null> {
     const record = await this.db.issues.where('key').equals(issueKey).first();
     return record ? Issue.fromRecord(record) : null;
@@ -31,24 +36,24 @@ export class IssueRepositoryService {
     return records.map(Issue.fromRecord);
   }
 
-  async getByActivityIds(activityIds: string[]): Promise<Issue[]> {
-    const records = await this.db.issues.where('activities').anyOf(activityIds).toArray();
-    return records.map(Issue.fromRecord);
-  }
-
   async getByKeyPrefix(issueKeyPrefix: string): Promise<Issue[]> {
     const records = await this.db.issues.where('key').startsWith(issueKeyPrefix).toArray();
     return records.map(Issue.fromRecord);
   }
 
   async create(issue: Issue): Promise<Issue> {
-    await this.db.issues.add(issue);
+    issue.id = await this.db.issues.add(issue);
     return issue;
   }
 
   async update(issue: Issue): Promise<Issue> {
     await this.db.issues.put(issue);
     return issue;
+  }
+
+  async bulkUpdate(issues: Issue[]): Promise<Issue[]> {
+    await this.db.issues.bulkPut(issues);
+    return issues;
   }
 
   async remove(issue: Issue): Promise<void> {
