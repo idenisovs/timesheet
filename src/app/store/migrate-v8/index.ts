@@ -6,7 +6,11 @@ import { ActivityRecord } from '../records';
 
 
 export default async function migrateV8(store: SheetStore, trans: Transaction) {
+	console.log('Running migration v8!');
+
 	const activityRecords = await store.activities.toArray();
+
+	console.log(`Retrieved ${activityRecords.length} activities!`);
 
 	for (const activity of activityRecords) {
 		const issueKey = getIssueKey(activity);
