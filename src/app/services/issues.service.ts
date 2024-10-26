@@ -4,12 +4,13 @@ import parseDuration from 'parse-duration';
 import { Issue } from '../dto';
 import { duration } from 'yet-another-duration';
 import { HOUR } from '../constants';
+import { DurationService } from './duration.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IssuesService {
-  constructor() { }
+  constructor(private durationService: DurationService) { }
 
   sort(issue1: Issue, issue2: Issue) {
     if (issue1.createdAt > issue2.createdAt) {
@@ -32,23 +33,8 @@ export class IssuesService {
   }
 
   calculateDuration(issues: Issue[]): string {
-    const totalDuration = issues.reduce((result: number, issue: Issue) => {
-      const duration = parseDuration(issue.duration);
-
-      if (duration) {
-        return result + duration
-      }
-
-      return result;
-    }, 0);
-
-    const result = duration(totalDuration, {
-      units: {
-        min: 'minutes'
-      }
-    }).toString();
-
-    return result || '0';
+    const issueDurationValues = issues.map(issue => issue.duration);
+    return this.durationService.sum(issueDurationValues);
   }
 
   calculateAverageAccuracy(issues: Issue[]): number {
@@ -76,13 +62,12 @@ export class IssuesService {
   }
 
   calculatePenaltyPoints(issue: Issue): number|null {
-    const estimate = parseDuration(issue.estimate ?? '');
-    const duration = parseDuration(issue.duration ?? '');
-
-    if (!estimate || !duration) {
+    if (!issue.estimate || !issue.duration) {
       return null;
     }
 
+    const estimate = this.durationService.toMs(issue.estimate);
+    const duration = this.durationService.toMs(issue.duration);
     const estimatedHours = estimate / HOUR;
     const actualHours = duration / HOUR;
     const error = Math.abs(estimatedHours - actualHours);
