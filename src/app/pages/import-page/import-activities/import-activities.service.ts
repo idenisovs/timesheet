@@ -4,6 +4,7 @@ import { WeeksRepositoryService } from '../../../repository/weeks-repository.ser
 import { DaysRepositoryService } from '../../../repository/days-repository.service';
 import { SaveActivitiesWorkflowService } from '../../../workflows/save-activities-workflow.service';
 import { Activity, Day, Week } from '../../../dto';
+import { RemoveActivitiesWorkflowService } from '../../../workflows/remove-activities-workflow.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,19 +13,20 @@ export class ImportActivitiesService {
   constructor(
     private weekRepository: WeeksRepositoryService,
     private dayRepository: DaysRepositoryService,
-    private activitySaveWorkflow: SaveActivitiesWorkflowService
+    private activitySaveWorkflow: SaveActivitiesWorkflowService,
+    private activityRemoveWorkflow: RemoveActivitiesWorkflowService
   ) { }
 
-  async save(importedActivity: Activity): Promise<void> {
-    const week = await this.createWeekIfNotExists(importedActivity);
+  async save(activity: Activity): Promise<void> {
+    const week = await this.createWeekIfNotExists(activity);
 
-    importedActivity.weekId = week.id;
+    activity.weekId = week.id;
 
-    const day = await this.createDayIfNotExists(importedActivity);
+    const day = await this.createDayIfNotExists(activity);
 
-    importedActivity.dayId = day.id;
+    activity.dayId = day.id;
 
-    await this.activitySaveWorkflow.save(day, [importedActivity], [])
+    await this.activitySaveWorkflow.save(day, [activity], [])
   }
 
   async createWeekIfNotExists(importedActivity: Activity): Promise<Week> {
@@ -68,5 +70,10 @@ export class ImportActivitiesService {
     await this.dayRepository.create(day);
 
     return day;
+  }
+
+  async remove(activities: Activity[]) {
+    const activityIds = activities.map(activity => activity.id);
+    await this.activityRemoveWorkflow.run(activityIds);
   }
 }
