@@ -31,7 +31,11 @@ export class ExportWorkflowService {
 
     XLSX.utils.book_append_sheet(workbook, projectsSheet, 'Projects');
 
-    XLSX.writeFile(workbook, `timesheet-${getDateString()}.ods`, { compression: true });
+    const metadata = this.getMetadataSheet();
+
+    XLSX.utils.book_append_sheet(workbook, metadata, 'Metadata');
+
+    XLSX.writeFile(workbook, `timesheet-${getDateString()}.ods`, { compression: true, bookType: 'ods' });
   }
 
   async getActivitiesSheet() {
@@ -71,5 +75,13 @@ export class ExportWorkflowService {
     }));
 
     return XLSX.utils.json_to_sheet(projectsJson);
+  }
+
+  getMetadataSheet() {
+    return XLSX.utils.json_to_sheet([
+      { type: 'activities', version: 1 },
+      { type: 'issues', version: 1 },
+      { type: 'projects', version: 1 }
+    ]);
   }
 }

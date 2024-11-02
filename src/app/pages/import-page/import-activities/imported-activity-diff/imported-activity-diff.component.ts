@@ -46,7 +46,13 @@ export class ImportedActivityDiffComponent implements OnInit {
   }
 
   async getExistingActivity(importedActivity: Activity): Promise<Activity | null> {
-    return this.activityRepository.getById(importedActivity.id);
+    let existingActivity = await this.activityRepository.getById(importedActivity.id);
+
+    if (existingActivity) {
+      return existingActivity;
+    }
+
+    return null;
   }
 
   getDiffStatus(): DiffStatus {
