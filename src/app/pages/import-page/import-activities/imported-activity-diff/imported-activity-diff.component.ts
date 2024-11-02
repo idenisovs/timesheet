@@ -83,11 +83,17 @@ export class ImportedActivityDiffComponent implements OnInit {
 
     const [existingActivity] = this.existingActivities;
 
-    if (existingActivity.equals(this.importedActivity)) {
+    if (this.isSameActivities(existingActivity, this.importedActivity)) {
       return DiffStatus.same;
     } else {
       return DiffStatus.updated;
     }
+  }
+
+  isSameActivities(existing: Activity, imported: Activity): boolean {
+    return existing.name === imported.name
+      && existing.from === imported.from
+      && existing.till === imported.till;
   }
 
   getBtnStyle() {
