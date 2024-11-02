@@ -5,7 +5,6 @@ import { DaysRepositoryService } from '../repository/days-repository.service';
 import { ActivitiesRepositoryService } from '../repository/activities-repository.service';
 import { ActivitiesService } from '../services/activities.service';
 import { Activity, Day, Issue } from '../dto';
-import { RemoveActivitiesWorkflowService } from './remove-activities-workflow.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +16,10 @@ export class SaveActivitiesWorkflowService {
     private dayRepository: DaysRepositoryService,
     private activitiesRepository: ActivitiesRepositoryService,
     private activitiesService: ActivitiesService,
-    private removeActivitiesWorkflow: RemoveActivitiesWorkflowService
   ) { }
 
-  public async save(day: Day, activities: Activity[], removableActivityIds: string[]) {
+  public async save(day: Day, activities: Activity[]) {
     await this.createDayIfNotExists(day);
-    await this.removeActivitiesWorkflow.run(removableActivityIds);
 
     const issueIdsBeforeUpdate = activities.map(activity => activity.issueId);
 

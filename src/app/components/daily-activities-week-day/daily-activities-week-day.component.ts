@@ -17,6 +17,7 @@ import { SaveActivitiesWorkflowService } from '../../workflows/save-activities-w
 import { ActivitiesService } from '../../services/activities.service';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 import { DailyOverviewModalComponent } from './daily-overview-modal/daily-overview-modal.component';
+import { RemoveActivitiesWorkflowService } from '../../workflows/remove-activities-workflow.service';
 
 @Component({
   selector: 'app-daily-activities-week-day',
@@ -65,6 +66,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     private service: DailyActivitiesWeekDayService,
     private activitiesService: ActivitiesService,
     private saveActivitiesWorkflow: SaveActivitiesWorkflowService,
+    private removeActivitiesWorkflow: RemoveActivitiesWorkflowService,
     private activityRepository: ActivitiesRepositoryService
   ) {}
 
@@ -110,8 +112,8 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 
   async save() {
     this.activities = this.service.processActivityFormArray(this.ActivityFormArray, this.day, this.activities);
-
-    await this.saveActivitiesWorkflow.save(this.day, this.activities, this.removableActivityIds);
+    await this.removeActivitiesWorkflow.run(this.removableActivityIds);
+    await this.saveActivitiesWorkflow.save(this.day, this.activities);
 
     this.totalDuration = this.activitiesService.calculateDuration(this.activities);
     this.isChanged = false;
