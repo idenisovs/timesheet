@@ -34,7 +34,7 @@ export class ImportedActivityDiffComponent implements OnInit {
     private activityRepository: ActivitiesRepositoryService,
     private dayRepository: DaysRepositoryService,
     private importService: ImportActivitiesService,
-    private activitiesService: ActivitiesService
+    private activitiesService: ActivitiesService,
   ) {}
 
   async ngOnInit() {
@@ -113,6 +113,15 @@ export class ImportedActivityDiffComponent implements OnInit {
   }
 
   async save() {
+    if (this.existingActivities.length > 0) {
+      const activitiesToRemove = this.processOverlappingActivities();
+      await this.importService.remove(activitiesToRemove);
+
+      for (let activity of this.existingActivities) {
+        await this.importService.save(activity);
+      }
+    }
+
     await this.importService.save(this.importedActivity);
     this.status = DiffStatus.same;
     this.completed.emit(this.importedActivity);
@@ -120,6 +129,41 @@ export class ImportedActivityDiffComponent implements OnInit {
 
   async cancel() {
     this.completed.emit(this.importedActivity);
+  }
+
+  processOverlappingActivities(): Activity[] {
+    const activitiesToRemove: Activity[] = [];
+
+    for (let i = 0; i < this.existingActivities.length; i++) {
+      const existingActivity = this.existingActivities[i];
+
+      // Check for no overlap between existingActivity and importedActivity
+      if (existingActivity.till <= this.importedActivity.from || existingActivity.from >= this.importedActivity.till) {
+        continue;
+      }
+
+      if (existingActivity.from <= this.importedActivity.from) {
+        // ----------A----------B----- Existing
+        // ---------------A---------B- Imported
+        existingActivity.till = this.importedActivity.from;
+        // ----------A----B----------- Existing
+        // ---------------A---------B- Imported
+      } else if (existingActivity.from > this.importedActivity.from) {
+        // ---------------A---------B- Existing
+        // ----------A----------B----- Imported
+        existingActivity.from = this.importedActivity.till;
+        // ---------------------A---B- Existing
+        // ----------A----------B----- Imported
+      }
+
+      if (existingActivity.from >= existingActivity.till) {
+        activitiesToRemove.push(existingActivity);
+        this.existingActivities.splice(i, 1);
+        i--;
+      }
+    }
+
+    return activitiesToRemove;
   }
 
   protected readonly DiffStatus = DiffStatus;
