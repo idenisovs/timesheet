@@ -113,7 +113,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   async save() {
     this.activities = this.service.processActivityFormArray(this.ActivityFormArray, this.day, this.activities);
     await this.removeActivitiesWorkflow.run(this.removableActivityIds);
-    await this.saveActivitiesWorkflow.run(this.day, this.activities);
+    await this.saveActivitiesWorkflow.run(this.activities);
 
     this.totalDuration = this.activitiesService.calculateDuration(this.activities);
     this.isChanged = false;

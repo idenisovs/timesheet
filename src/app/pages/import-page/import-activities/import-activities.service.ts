@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { SaveActivitiesWorkflowService } from '../../../workflows/save-activities-workflow.service';
-import { Activity, Day } from '../../../dto';
 import { RemoveActivitiesWorkflowService } from '../../../workflows/remove-activities-workflow.service';
+import { Activity } from '../../../dto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +14,10 @@ export class ImportActivitiesService {
   ) { }
 
   async save(activity: Activity): Promise<void> {
-    await this.activitySaveWorkflow.run(new Day(), [activity])
+    await this.activitySaveWorkflow.run([activity])
   }
 
-  async remove(activities: Activity[]) {
+  async remove(activities: Activity[]): Promise<void> {
     const activityIds = activities.map(activity => activity.id);
     await this.activityRemoveWorkflow.run(activityIds);
   }
