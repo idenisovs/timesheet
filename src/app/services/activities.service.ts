@@ -31,8 +31,6 @@ export class ActivitiesService {
   }
 
   public findOverlappingActivities(activities: Activity[], target: Activity): Activity[] {
-    return activities.filter((activity) => {
-      return target.from < activity.till && activity.from < target.till;
-    });
+    return activities.filter(activity => activity.overlaps(target));
   }
 }
