@@ -14,7 +14,7 @@ export class SaveActivitiesWorkflowService {
 
   constructor(
     private issueRepository: IssueRepositoryService,
-    private dayRepository: DaysRepositoryService,
+    private dayRepo: DaysRepositoryService,
     private activitiesRepository: ActivitiesRepositoryService,
     private activitiesService: ActivitiesService,
     private weekRepo: WeeksRepositoryService
@@ -40,10 +40,11 @@ export class SaveActivitiesWorkflowService {
 
   private async updateActivityLinks(activity: Activity) {
     await this.processWeekLink(activity);
+    await this.processDayLink(activity);
     await this.processIssueLink(activity);
   }
 
-  private async processWeekLink(activity: Activity) {
+  private async processWeekLink(activity: Activity): Promise<void> {
     let week = await this.weekRepo.getById(activity.weekId);
 
     if (week) {
@@ -58,6 +59,24 @@ export class SaveActivitiesWorkflowService {
     }
 
     activity.weekId = week.id;
+  }
+
+  private async processDayLink(activity: Activity): Promise<void> {
+    let day = await this.dayRepo.getById(activity.dayId);
+
+    if (day) {
+      return;
+    }
+
+    day = await this.dayRepo.getByDate(activity.date);
+
+    if (!day) {
+      day = new Day(activity.date);
+      day.weekId = activity.weekId;
+      await this.dayRepo.create(day);
+    }
+
+    activity.dayId = day.id;
   }
 
   private async processIssueLink(activity: Activity): Promise<void> {
