@@ -18,10 +18,6 @@ export class ImportActivitiesService {
   ) { }
 
   async save(activity: Activity): Promise<void> {
-    const week = await this.createWeekIfNotExists(activity);
-
-    activity.weekId = week.id;
-
     const day = await this.createDayIfNotExists(activity);
 
     activity.dayId = day.id;

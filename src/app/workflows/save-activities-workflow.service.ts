@@ -4,7 +4,8 @@ import { IssueRepositoryService } from '../repository/issue-repository.service';
 import { DaysRepositoryService } from '../repository/days-repository.service';
 import { ActivitiesRepositoryService } from '../repository/activities-repository.service';
 import { ActivitiesService } from '../services/activities.service';
-import { Activity, Day, Issue } from '../dto';
+import { Activity, Day, Issue, Week } from '../dto';
+import { WeeksRepositoryService } from '../repository/weeks-repository.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,16 @@ export class SaveActivitiesWorkflowService {
     private dayRepository: DaysRepositoryService,
     private activitiesRepository: ActivitiesRepositoryService,
     private activitiesService: ActivitiesService,
+    private weekRepo: WeeksRepositoryService
   ) { }
 
   public async run(day: Day, activities: Activity[]) {
-    await this.createDayIfNotExists(day);
+    const affectedIssueIds = await this.relink(activities);
+    await this.activitiesRepository.save(activities);
+    await this.updateAffectedIssues(affectedIssueIds);
+  }
 
+  private async relink(activities: Activity[]) {
     const issueIdsBeforeUpdate = activities.map(activity => activity.issueId);
 
     for (let activity of activities) {
@@ -29,19 +35,32 @@ export class SaveActivitiesWorkflowService {
 
     const issueIdsAfterUpdate = activities.map(activity => activity.issueId);
 
-    await this.activitiesRepository.save(activities);
-    await this.updateAffectedIssues([...issueIdsBeforeUpdate, ...issueIdsAfterUpdate]);
-  }
-
-  private async createDayIfNotExists(day: Day) {
-    const existingDay = await this.dayRepository.getById(day.id);
-
-    if (!existingDay) {
-      await this.dayRepository.create(day);
-    }
+    return [...issueIdsBeforeUpdate, ...issueIdsAfterUpdate];
   }
 
   private async updateActivityLinks(activity: Activity) {
+    await this.processWeekLink(activity);
+    await this.processIssueLink(activity);
+  }
+
+  private async processWeekLink(activity: Activity) {
+    let week = await this.weekRepo.getById(activity.weekId);
+
+    if (week) {
+      return;
+    }
+
+    week = await this.weekRepo.getByDate(activity.date);
+
+    if (!week) {
+      week = new Week(activity.date);
+      await this.weekRepo.save(week);
+    }
+
+    activity.weekId = week.id;
+  }
+
+  private async processIssueLink(activity: Activity): Promise<void> {
     if (!activity.isLinkedToIssue()) {
       return;
     }
@@ -57,16 +76,16 @@ export class SaveActivitiesWorkflowService {
     const linkedIssue = await this.issueRepository.getByKey(activity.getIssueKey() as string);
 
     if (!linkedIssue || linkedIssue.id !== activity.issueId) {
-      return this.relinkActivity(activity);
+      return this.relinkIssue(activity);
     }
   }
 
-  private async relinkActivity(activity: Activity) {
+  private async relinkIssue(activity: Activity): Promise<void> {
     await this.unlinkIssue(activity);
     await this.linkActivity(activity);
   }
 
-  private async unlinkIssue(activity: Activity) {
+  private async unlinkIssue(activity: Activity): Promise<void> {
     if (!activity.issueId) {
       throw new Error(`Cannot unlink activity ${activity.name}: Missing Issue ID!`);
     }
@@ -74,7 +93,7 @@ export class SaveActivitiesWorkflowService {
     delete activity.issueId;
   }
 
-  private async linkActivity(activity: Activity) {
+  private async linkActivity(activity: Activity): Promise<void> {
     const issueKey = activity.getIssueKey();
 
     if (!issueKey) {
@@ -86,7 +105,7 @@ export class SaveActivitiesWorkflowService {
     activity.issueId = issue.id;
   }
 
-  private async updateAffectedIssues(rawIssueIds: (string | undefined)[]) {
+  private async updateAffectedIssues(rawIssueIds: (string | undefined)[]): Promise<void> {
     const filteredIssueIds = rawIssueIds.filter(issueId => !!issueId) as string[];
     const uniqueIssueIds = Array.from(new Set(filteredIssueIds));
     const issues = await this.issueRepository.getByIds(uniqueIssueIds);
