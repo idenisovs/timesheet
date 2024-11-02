@@ -65,7 +65,7 @@
           </button>
         </td>
       </tr>
-      <tr *ngIf="existingActivity">
+      <tr *ngFor="let existingActivity of existingActivities">
         <td>
           {{existingActivity.name}}
         </td>
