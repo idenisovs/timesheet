@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
-import { Activity } from '../dto';
+import { Activity, Issue, Project } from '../dto';
 import { Metadata, MetadataField, MetadataFieldType, MetadataRecord } from './Metadata';
 import { ActivityReaderFactory } from './activities/ActivityReaderFactory';
 import { ActivityRecord } from './activities/ActivityRecord';
+import { ImportedIssue, ImportedProject } from '../pages/import-page/Imports';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,18 @@ export class ReaderService {
     const sheet = workbook.Sheets['Activities'];
     const records = XLSX.utils.sheet_to_json<ActivityRecord>(sheet);
     return importer.read(records);
+  }
+
+  public issues(workbook: XLSX.WorkBook): Issue[] {
+    const issuesSheet = workbook.Sheets['Issues'];
+    const importedIssues: ImportedIssue[] = XLSX.utils.sheet_to_json(issuesSheet);
+    return importedIssues.map(Issue.fromImport);
+  }
+
+  public projects(workbook: XLSX.WorkBook): Project[] {
+    const projectsSheet = workbook.Sheets['Projects'];
+    const importedProjects: ImportedProject[] = XLSX.utils.sheet_to_json(projectsSheet);
+    return importedProjects.map(Project.fromImport);
   }
 
   private readMetadata(workbook: XLSX.WorkBook): Metadata {
