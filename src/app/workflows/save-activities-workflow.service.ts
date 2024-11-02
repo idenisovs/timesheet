@@ -18,7 +18,7 @@ export class SaveActivitiesWorkflowService {
     private activitiesService: ActivitiesService,
   ) { }
 
-  public async save(day: Day, activities: Activity[]) {
+  public async run(day: Day, activities: Activity[]) {
     await this.createDayIfNotExists(day);
 
     const issueIdsBeforeUpdate = activities.map(activity => activity.issueId);
