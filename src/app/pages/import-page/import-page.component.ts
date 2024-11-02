@@ -7,6 +7,7 @@ import { Activity, Issue, Project } from '../../dto';
 import { ImportProjectsComponent } from './import-projects/import-projects.component';
 import { ImportIssuesComponent } from './import-issues/import-issues.component';
 import { ImportActivitiesComponent } from './import-activities/import-activities.component';
+import { ImportersService } from '../../importers/importers.service';
 
 @Component({
   selector: 'app-import-page',
@@ -26,6 +27,10 @@ export class ImportPageComponent {
   activities: Activity[] = [];
   isImportSectionsVisible = false;
 
+  constructor(
+    private importer: ImportersService
+  ) {}
+
   async getFile(event: Event) {
     const target = event.target as HTMLInputElement;
 
@@ -42,7 +47,6 @@ export class ImportPageComponent {
     this.isImportSectionsVisible = true;
 
     const workbook = XLSX.read(await file.arrayBuffer());
-
     this.readProjectImports(workbook);
     this.readIssueImports(workbook);
     this.readActivityImports(workbook);
@@ -61,8 +65,12 @@ export class ImportPageComponent {
   }
 
   readActivityImports(workbook: XLSX.WorkBook) {
-    const activitySheet = workbook.Sheets['Activities'];
-    const importedActivities: ImportedActivity[] = XLSX.utils.sheet_to_json(activitySheet);
-    this.activities = importedActivities.map(Activity.fromImport);
+    this.activities = this.importer.activities(workbook);
+
+    this.activities.forEach(activity => console.log(activity));
+
+    // const activitySheet = workbook.Sheets['Activities'];
+    // const importedActivities: ImportedActivity[] = XLSX.utils.sheet_to_json(activitySheet);
+    // this.activities = importedActivities.map(Activity.fromImport);
   }
 }
