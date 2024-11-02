@@ -26,7 +26,7 @@ export class ImportActivitiesService {
 
     activity.dayId = day.id;
 
-    await this.activitySaveWorkflow.save(day, [activity])
+    await this.activitySaveWorkflow.run(day, [activity])
   }
 
   async createWeekIfNotExists(importedActivity: Activity): Promise<Week> {
