@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
 import * as XLSX from 'xlsx';
 
-import { ImportedProject, ImportedIssue, ImportedActivity } from './Imports';
+import { ImportedProject, ImportedIssue } from './Imports';
 import { Activity, Issue, Project } from '../../dto';
 import { ImportProjectsComponent } from './import-projects/import-projects.component';
 import { ImportIssuesComponent } from './import-issues/import-issues.component';
 import { ImportActivitiesComponent } from './import-activities/import-activities.component';
-import { ImportersService } from '../../importers/importers.service';
+import { ReaderService } from '../../reader/reader.service';
 
 @Component({
   selector: 'app-import-page',
@@ -28,7 +28,7 @@ export class ImportPageComponent {
   isImportSectionsVisible = false;
 
   constructor(
-    private importer: ImportersService
+    private importer: ReaderService
   ) {}
 
   async getFile(event: Event) {
