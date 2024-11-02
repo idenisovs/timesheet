@@ -8,7 +8,7 @@ import { ActivityRecord } from './activities/ActivityRecord';
 @Injectable({
   providedIn: 'root'
 })
-export class ImportersService {
+export class ReaderService {
   constructor() { }
 
   public activities(workbook: XLSX.WorkBook): Activity[] {
@@ -34,7 +34,7 @@ export class ImportersService {
   }
 
   private readMetadataField(json: MetadataRecord[], type: MetadataFieldType): MetadataField {
-    const metadataFieldData = json.find(record => record.type === MetadataFieldType.activities);
+    const metadataFieldData = json.find(record => record.type === type);
 
     if (!metadataFieldData) {
       return new MetadataField();
