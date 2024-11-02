@@ -86,6 +86,10 @@ export class Activity {
     return this.date.getTime() === other.date.getTime();
   }
 
+  overlaps(other: Activity): boolean {
+    return this.from < other.till && other.from < this.till;
+  }
+
   static fromImport(activityImport: ImportedActivity): Activity {
     const activity = new Activity();
 
