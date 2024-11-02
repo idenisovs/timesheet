@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NgIf } from '@angular/common';
 import * as XLSX from 'xlsx';
+import { WorkBook } from 'xlsx';
 
-import { ImportedProject, ImportedIssue } from './Imports';
 import { Activity, Issue, Project } from '../../dto';
 import { ImportProjectsComponent } from './import-projects/import-projects.component';
 import { ImportIssuesComponent } from './import-issues/import-issues.component';
@@ -28,49 +28,49 @@ export class ImportPageComponent {
   isImportSectionsVisible = false;
 
   constructor(
-    private importer: ReaderService
+    private reader: ReaderService
   ) {}
 
-  async getFile(event: Event) {
+  async readImportFile(event: Event) {
+    const workbook = await this.getWorkBook(event);
+
+    if (workbook) {
+      this.isImportSectionsVisible = true;
+      this.readProjectImports(workbook);
+      this.readIssueImports(workbook);
+      this.readActivityImports(workbook);
+    }
+  }
+
+  private async getWorkBook(event: Event): Promise<WorkBook | null> {
+    const file = this.getFile(event);
+
+    if (!file) {
+      return null;
+    }
+
+    return XLSX.read(await file.arrayBuffer());
+  }
+
+  private getFile(event: Event): File | null {
     const target = event.target as HTMLInputElement;
 
     if (!target.files) {
-      return;
+      return null;
     }
 
-    const file = target.files.item(0);
-
-    if (!file) {
-      return;
-    }
-
-    this.isImportSectionsVisible = true;
-
-    const workbook = XLSX.read(await file.arrayBuffer());
-    this.readProjectImports(workbook);
-    this.readIssueImports(workbook);
-    this.readActivityImports(workbook);
+    return target.files.item(0);
   }
 
   readProjectImports(workbook: XLSX.WorkBook) {
-    const projectsSheet = workbook.Sheets['Projects'];
-    const importedProjects: ImportedProject[] = XLSX.utils.sheet_to_json(projectsSheet);
-    this.projects = importedProjects.map(Project.fromImport);
+    this.projects = this.reader.projects(workbook);
   }
 
   readIssueImports(workbook: XLSX.WorkBook) {
-    const issuesSheet = workbook.Sheets['Issues'];
-    const importedIssues: ImportedIssue[] = XLSX.utils.sheet_to_json(issuesSheet);
-    this.issues = importedIssues.map(Issue.fromImport);
+    this.issues = this.reader.issues(workbook);
   }
 
   readActivityImports(workbook: XLSX.WorkBook) {
-    this.activities = this.importer.activities(workbook);
-
-    this.activities.forEach(activity => console.log(activity));
-
-    // const activitySheet = workbook.Sheets['Activities'];
-    // const importedActivities: ImportedActivity[] = XLSX.utils.sheet_to_json(activitySheet);
-    // this.activities = importedActivities.map(Activity.fromImport);
+    this.activities = this.reader.activities(workbook);
   }
 }
