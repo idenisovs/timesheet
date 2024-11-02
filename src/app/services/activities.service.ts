@@ -29,4 +29,10 @@ export class ActivitiesService {
 
     return summary;
   }
+
+  public findOverlappingActivities(activities: Activity[], target: Activity): Activity[] {
+    return activities.filter((activity) => {
+      return target.from < activity.till && activity.from < target.till;
+    });
+  }
 }

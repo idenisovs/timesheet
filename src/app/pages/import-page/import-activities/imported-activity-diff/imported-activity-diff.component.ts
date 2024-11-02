@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DatePipe, NgClass, NgIf } from '@angular/common';
+import { DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
 
 import { Activity } from '../../../../dto';
 import { DiffStatus } from '../../DiffStatus';
 import { ActivitiesRepositoryService } from '../../../../repository/activities-repository.service';
 import { ImportActivitiesService } from '../import-activities.service';
+import { DaysRepositoryService } from '../../../../repository/days-repository.service';
+import { ActivitiesService } from '../../../../services/activities.service';
 
 @Component({
   selector: 'app-imported-activity-diff',
@@ -13,13 +15,14 @@ import { ImportActivitiesService } from '../import-activities.service';
     DatePipe,
     NgIf,
     NgClass,
+    NgForOf,
   ],
   templateUrl: './imported-activity-diff.component.html',
   styleUrl: './imported-activity-diff.component.scss'
 })
 export class ImportedActivityDiffComponent implements OnInit {
   status: DiffStatus = DiffStatus.same;
-  existingActivity: Activity|null = null;
+  existingActivities: Activity[] = [];
 
   @Input()
   importedActivity!: Activity;
@@ -29,7 +32,9 @@ export class ImportedActivityDiffComponent implements OnInit {
 
   constructor(
     private activityRepository: ActivitiesRepositoryService,
-    private service: ImportActivitiesService
+    private dayRepository: DaysRepositoryService,
+    private importService: ImportActivitiesService,
+    private activitiesService: ActivitiesService
   ) {}
 
   async ngOnInit() {
@@ -37,7 +42,7 @@ export class ImportedActivityDiffComponent implements OnInit {
       return;
     }
 
-    this.existingActivity = await this.getExistingActivity(this.importedActivity);
+    this.existingActivities = await this.getExistingActivities(this.importedActivity);
     this.status = this.getDiffStatus();
 
     if (this.status === DiffStatus.same) {
@@ -45,26 +50,44 @@ export class ImportedActivityDiffComponent implements OnInit {
     }
   }
 
-  async getExistingActivity(importedActivity: Activity): Promise<Activity | null> {
-    let existingActivity = await this.activityRepository.getById(importedActivity.id);
+  async getExistingActivities(importedActivity: Activity): Promise<Activity[]> {
+    const existingActivity = await this.activityRepository.getById(importedActivity.id);
 
     if (existingActivity) {
-      return existingActivity;
+      return [existingActivity];
     }
 
-    return null;
+    return this.getOverlappingActivities(importedActivity);
+  }
+
+  async getOverlappingActivities(importedActivity: Activity): Promise<Activity[]> {
+    const day = await this.dayRepository.getByDate(importedActivity.date);
+
+    if (!day) {
+      return [];
+    }
+
+    const activities = await this.activityRepository.getByDay(day);
+
+    return this.activitiesService.findOverlappingActivities(activities, importedActivity);
   }
 
   getDiffStatus(): DiffStatus {
-    if (!this.existingActivity) {
+    if (!this.existingActivities.length) {
       return DiffStatus.new;
     }
 
-    if (!this.existingActivity.equals(this.importedActivity)) {
+    if (this.existingActivities.length > 1) {
       return DiffStatus.updated;
     }
 
-    return DiffStatus.same;
+    const [existingActivity] = this.existingActivities;
+
+    if (existingActivity.equals(this.importedActivity)) {
+      return DiffStatus.same;
+    } else {
+      return DiffStatus.updated;
+    }
   }
 
   getBtnStyle() {
@@ -90,7 +113,7 @@ export class ImportedActivityDiffComponent implements OnInit {
   }
 
   async save() {
-    await this.service.save(this.importedActivity);
+    await this.importService.save(this.importedActivity);
     this.status = DiffStatus.same;
     this.completed.emit(this.importedActivity);
   }
