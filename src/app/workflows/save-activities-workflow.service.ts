@@ -20,7 +20,7 @@ export class SaveActivitiesWorkflowService {
     private weekRepo: WeeksRepositoryService
   ) { }
 
-  public async run(day: Day, activities: Activity[]) {
+  public async run(activities: Activity[]) {
     const affectedIssueIds = await this.relink(activities);
     await this.activitiesRepository.save(activities);
     await this.updateAffectedIssues(affectedIssueIds);
