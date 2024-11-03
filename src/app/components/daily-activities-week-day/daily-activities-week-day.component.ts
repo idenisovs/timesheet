@@ -71,6 +71,20 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
+    await this.updateFormState();
+
+    this.valueChangesHandler = this.form.valueChanges.subscribe(() => {
+      this.isChanged = true;
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.valueChangesHandler) {
+      this.valueChangesHandler.unsubscribe();
+    }
+  }
+
+  async updateFormState() {
     this.activities = await this.activityRepository.getByDay(this.day);
 
     const activityFormItems = this.activities.map((activity: Activity) => {
@@ -82,16 +96,6 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     }
 
     this.totalDuration = this.activitiesService.calculateDuration(this.activities);
-
-    this.valueChangesHandler = this.form.valueChanges.subscribe(() => {
-      this.isChanged = true;
-    });
-  }
-
-  ngOnDestroy() {
-    if (this.valueChangesHandler) {
-      this.valueChangesHandler.unsubscribe();
-    }
   }
 
   add() {
@@ -119,6 +123,11 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     this.isChanged = false;
     this.removableActivityIds = [];
     this.changes.emit();
+  }
+
+  async reset() {
+    await this.updateFormState();
+    this.isChanged = false;
   }
 
   showDailyOverview() {

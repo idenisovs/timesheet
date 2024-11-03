@@ -42,6 +42,9 @@ export class DailyActivityItemComponent implements OnInit {
   @Input()
   isImported = false;
 
+  @Input()
+  isChanged = false;
+
   @Output()
   add = new EventEmitter<void>();
 
@@ -50,6 +53,9 @@ export class DailyActivityItemComponent implements OnInit {
 
   @Output()
   save = new EventEmitter<void>();
+
+  @Output()
+  reset = new EventEmitter<void>();
 
   get ActivityId(): string {
     return this.activity.get('id')?.value;
