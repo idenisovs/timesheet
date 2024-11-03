@@ -136,9 +136,9 @@ export class DailyActivityItemComponent implements OnInit {
   recalculateTillTime(from: string, duration: string) {
     const d1 = this.getDateObj(from);
 
-    const dT = parseDuration(duration);
+    const dT = parseDuration(duration) as number;
 
-    const d2 = new Date(d1.getTime() + dT!);
+    const d2 = new Date(d1.getTime() + dT);
 
     const tillTime = this.getTimeString(d2);
 
@@ -161,7 +161,7 @@ export class DailyActivityItemComponent implements OnInit {
   }
 
   getDateObj(time: string): Date {
-    const [ hh, mm] = time.split(':');
+    const [hh, mm] = time.split(':');
 
     const date = new Date();
 
@@ -186,7 +186,7 @@ export class DailyActivityItemComponent implements OnInit {
   }
 
   getTwoDigitFormat(x: number): string {
-    if (x > 10) {
+    if (x > 9) {
       return String(x);
     } else {
       return `0${x}`;
