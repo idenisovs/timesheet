@@ -6,6 +6,7 @@
   - `3.2.3` - Fixes for Project and Issue import bugs;
   - `3.2.4` - Changes for Activity Linking approach. This fixes Issue Stats issue, when stats is not updated if activity is being linked to another Issue;
   - `3.2.5` - Minor fixes for Projects and Project views;
+  - `3.2.6` - Contains some improvements and refactoring for Activity Import. As also got minor fix for calculation of the time if duration field is changing;
 - `3.1.7` - Made the Overview Service, migrated the Weekly Overview to Overview Service and the Daily Summary to the Daily Overview;
 - `3.1.6` - In Daily Summary, displaying the same metrics as in Weekly Overview;
 - `3.1.5` - In Weekly Overview, added an option to expand the activities list of an issue;
