@@ -39,9 +39,11 @@
           [activity]="activity"
           [activities]="ActivityFormArrayItems"
           [isLastActivity]="idx === ActivityFormArrayItems.length - 1"
+          [isChanged]="isChanged"
           (add)="add()"
           (remove)="remove($event)"
           (save)="save()"
+          (reset)="reset()"
         />
       </div>
     </form>

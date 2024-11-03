@@ -39,8 +39,11 @@
     <button type="button" class="btn btn-outline-info p-1 me-2" (click)="remove.emit(ActivityId)">
       <i class="material-symbols-outlined">remove</i>
     </button>
-    <button type="button" class="btn btn-outline-primary p-1" (click)="save.emit()" [hidden]="!isLastActivity">
+    <button type="button" class="btn btn-outline-primary p-1 me-2" (click)="save.emit()" [hidden]="!isLastActivity">
       <i class="material-symbols-outlined">save</i>
+    </button>
+    <button type="button" class="btn btn-outline-warning p-1 me-2" (click)="reset.emit()" [hidden]="!isLastActivity || !isChanged">
+      <i class="material-symbols-outlined">replay</i>
     </button>
   </div>
 </div>
