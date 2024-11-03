@@ -25,7 +25,6 @@
     "bootstrap": "^5.3.3",
     "dexie": "^4.0.8",
     "file-saver": "^2.0.5",
-    "material-icons": "^1.13.12",
     "ngx-infinite-scroll": "^18.0.0",
     "parse-duration": "^1.1.0",
     "rxjs": "~6.6.0",

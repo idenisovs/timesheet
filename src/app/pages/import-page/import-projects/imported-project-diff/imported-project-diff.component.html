@@ -36,15 +36,15 @@
         </td>
         <td class="text-center align-middle" [rowSpan]="status === DiffStatus.new ? 1 : 2">
           <button class="btn btn-sm btn-primary" *ngIf="status === DiffStatus.new" (click)="save()">
-            <i class="material-icons">done</i>
+            <i class="material-symbols-outlined">done</i>
           </button>
 
           <button class="btn btn-sm btn-success" *ngIf="status === DiffStatus.updated" (click)="update()">
-            <i class="material-icons">done</i>
+            <i class="material-symbols-outlined">done</i>
           </button>
 
           <button class="btn btn-sm btn-outline-dark ms-1" (click)="cancel()">
-            <i class="material-icons">clear</i>
+            <i class="material-symbols-outlined">clear</i>
           </button>
         </td>
       </tr>
