@@ -5,6 +5,7 @@ import { duration } from 'yet-another-duration';
 import parseDuration from 'parse-duration';
 
 import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
+import { DailyActivityItemService } from './daily-activity-item.service';
 
 const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/
 
@@ -54,7 +55,10 @@ export class DailyActivityItemComponent implements OnInit {
     return this.activity.get('id')?.value;
   }
 
-  constructor(private fb: UntypedFormBuilder) { }
+  constructor(
+    private fb: UntypedFormBuilder,
+    private service: DailyActivityItemService
+  ) { }
 
   ngOnInit(): void {}
 
@@ -127,32 +131,32 @@ export class DailyActivityItemComponent implements OnInit {
   }
 
   recalculateFromTime(till: string, duration: string) {
-    const d2 = this.getDateObj(till);
+    const d2 = this.service.getDateObj(till);
 
     const dT = parseDuration(duration);
 
     const d1 = new Date(d2.getTime() - dT!);
 
-    const fromTime = this.getTimeString(d1);
+    const fromTime = this.service.getTimeString(d1);
 
     this.activity.get('from')?.setValue(fromTime);
   }
 
   recalculateTillTime(from: string, duration: string) {
-    const d1 = this.getDateObj(from);
+    const d1 = this.service.getDateObj(from);
 
     const dT = parseDuration(duration) as number;
 
     const d2 = new Date(d1.getTime() + dT);
 
-    const tillTime = this.getTimeString(d2);
+    const tillTime = this.service.getTimeString(d2);
 
     this.activity.get('till')?.setValue(tillTime);
   }
 
   recalculateDuration(from: string, till: string) {
-    const d1 = this.getDateObj(from);
-    const d2 = this.getDateObj(till);
+    const d1 = this.service.getDateObj(from);
+    const d2 = this.service.getDateObj(till);
 
     const dT = d2.getTime() - d1.getTime();
 
@@ -163,39 +167,6 @@ export class DailyActivityItemComponent implements OnInit {
     }).toString();
 
     this.activity.get('duration')?.setValue(durationValue);
-  }
-
-  getDateObj(time: string): Date {
-    const [hh, mm] = time.split(':');
-
-    const date = new Date();
-
-    date.setHours(Number(hh));
-    date.setMinutes(Number(mm));
-
-    return date;
-  }
-
-  getTimeString(date: Date): string {
-    const result: string[] = [];
-
-    const hours = date.getHours();
-
-    result.push(this.getTwoDigitFormat(hours));
-
-    const minutes = date.getMinutes();
-
-    result.push(this.getTwoDigitFormat(minutes));
-
-    return result.join(':');
-  }
-
-  getTwoDigitFormat(x: number): string {
-    if (x > 9) {
-      return String(x);
-    } else {
-      return `0${x}`;
-    }
   }
 
   async copyActivityName() {
@@ -222,7 +193,7 @@ export class DailyActivityItemComponent implements OnInit {
     const formField = this.activity.get(field);
 
     if (formField) {
-      formField.setValue(this.getCurrentTime());
+      formField.setValue(this.service.getCurrentTime());
     }
 
     if (field === 'from') {
@@ -246,11 +217,5 @@ export class DailyActivityItemComponent implements OnInit {
       formField.setValue(previousTillField.value);
       this.handleFromChanges();
     }
-  }
-
-  getCurrentTime(): string {
-    const date = new Date();
-    const [hh, mm] = date.toTimeString().split(':');
-    return `${hh}:${mm}`;
   }
 }
