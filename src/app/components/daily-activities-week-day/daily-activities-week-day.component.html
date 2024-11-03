@@ -37,6 +37,7 @@
           *ngFor="let activity of ActivityFormArrayItems; let idx = index"
           [idx]="idx"
           [activity]="activity"
+          [activities]="ActivityFormArrayItems"
           [isLastActivity]="idx === ActivityFormArrayItems.length - 1"
           (add)="add()"
           (remove)="remove($event)"

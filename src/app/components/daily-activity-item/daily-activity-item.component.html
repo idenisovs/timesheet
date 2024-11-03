@@ -2,7 +2,7 @@
   <div class="form-group col-4 m-0">
     <div class="input-group">
       <input id="activity-name" name="name" formControlName="name" type="text" class="form-control">
-      <button class="btn btn-outline-secondary" type="button" (click)="copyActivityName()">
+      <button class="btn btn-sm btn-outline-secondary" type="button" (click)="copyActivityName()">
         <i class="material-symbols-outlined">content_copy</i>
       </button>
     </div>
@@ -10,7 +10,10 @@
   <div class="form-group col-2 m-0">
     <div class="input-group">
       <input id="activity-from" name="from" formControlName="from" type="text" class="form-control" (input)="handleFromChanges()">
-      <button class="btn btn-outline-secondary" type="button" (click)="setCurrentTime('from')">
+      <button class="btn btn-sm btn-outline-secondary" type="button" (click)="setTimeFromPreviousActivity()" *ngIf="idx > 0">
+        <i class="material-symbols-outlined">north_east</i>
+      </button>
+      <button class="btn btn-sm btn-outline-secondary" type="button" (click)="setCurrentTime('from')">
         <i class="material-symbols-outlined">access_time</i>
       </button>
     </div>
@@ -18,7 +21,7 @@
   <div class="form-group col-2 m-0">
     <div class="input-group">
       <input id="activity-till" name="till" formControlName="till" type="text" class="form-control" (input)="handleTillChanges()">
-      <button class="btn btn-outline-secondary" type="button" (click)="setCurrentTime('till')">
+      <button class="btn btn-sm btn-outline-secondary" type="button" (click)="setCurrentTime('till')">
         <i class="material-symbols-outlined">access_time</i>
       </button>
     </div>

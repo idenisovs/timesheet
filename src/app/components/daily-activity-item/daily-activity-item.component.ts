@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { duration } from 'yet-another-duration';
 import parseDuration from 'parse-duration';
+
+import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
 
 const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/
 
@@ -14,10 +16,10 @@ const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/
   imports: [
     ReactiveFormsModule,
     NgClass,
+    NgIf,
   ],
 })
 export class DailyActivityItemComponent implements OnInit {
-
   @Input()
   activity = this.fb.group({
     id: [''],
@@ -26,6 +28,9 @@ export class DailyActivityItemComponent implements OnInit {
     till: [''],
     duration: ['']
   });
+
+  @Input()
+  activities: ActivityFormGroup[] = [];
 
   @Input()
   idx = 0;
@@ -212,6 +217,22 @@ export class DailyActivityItemComponent implements OnInit {
       this.handleFromChanges();
     } else {
       this.handleTillChanges();
+    }
+  }
+
+  setTimeFromPreviousActivity() {
+    const previousActivity = this.activities[this.idx - 1];
+    const previousTillField = previousActivity.get('till');
+
+    if (!previousTillField) {
+      return;
+    }
+
+    const formField = this.activity.get('from');
+
+    if (formField) {
+      formField.setValue(previousTillField.value);
+      this.handleFromChanges();
     }
   }
 
