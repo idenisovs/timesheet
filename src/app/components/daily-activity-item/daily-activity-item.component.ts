@@ -178,17 +178,19 @@ export class DailyActivityItemComponent implements OnInit {
   async copyActivityName() {
     const activityName: string | undefined = this.activity.get('name')?.value;
 
-    if (navigator.clipboard && activityName) {
+    if (!activityName) {
+      return;
+    }
+
+    if (navigator.clipboard) {
       await navigator.clipboard.writeText(activityName);
     }
+
+    sessionStorage.setItem('clipboard', activityName);
   }
 
   async pasteActivityName() {
-    let activityName = null;
-
-    if (navigator.clipboard) {
-      activityName = await navigator.clipboard.readText();
-    }
+    const activityName = sessionStorage.getItem('clipboard');
 
     if (activityName) {
       this.activity.get('name')?.setValue(activityName);
