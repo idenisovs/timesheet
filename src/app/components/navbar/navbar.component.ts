@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { ColorModeService } from '../../services/color-mode.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,4 +16,10 @@ import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 })
 export class NavbarComponent {
   isMenuCollapsed = true
+
+  get ColorMode() {
+    return this.colorModeService.ColorMode;
+  }
+
+  constructor(private colorModeService: ColorModeService) {}
 }
