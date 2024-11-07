@@ -24,7 +24,7 @@ jobs:
         run: npm run build
 
       - name: Content
-        run: ls -Alh "${{ github.workspace }}/dist/timesheet/browser/*"
+        run: ls -AlhR "${{ github.workspace }}/dist"
 
       - name: Clean
         uses: appleboy/ssh-action@v1.1.0
