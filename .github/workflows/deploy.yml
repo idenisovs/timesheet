@@ -42,6 +42,7 @@ jobs:
           key: ${{ secrets.DEPLOYMENT_KEY }}
           source: "${{ github.workspace }}/dist/timesheet/browser/*"
           target: ${{ vars.DEPLOYMENT_TARGET }}
+          strip_components: 5
 
       - name: Permissions
         uses: appleboy/ssh-action@v1.1.0
