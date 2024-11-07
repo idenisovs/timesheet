@@ -23,6 +23,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Content
+        run: ls -Alh ${{ GITHUB_WORKSPACE }}/dist/timesheet/browser/*
+
       - name: Clean
         uses: appleboy/ssh-action@v1.1.0
         with:
@@ -37,7 +40,7 @@ jobs:
           host: ${{ vars.DEPLOYMENT_HOST }}
           username: ${{secrets.DEPLOYMENT_USER }}
           key: ${{ secrets.DEPLOYMENT_KEY }}
-          source: ${{ secrets.GITHUB_WORKSPACE }}/dist/timesheet/browser/*
+          source: ${{ GITHUB_WORKSPACE }}/dist/timesheet/browser/*
           target: ${{ vars.DEPLOYMENT_TARGET }}
 
       - name: Permissions
