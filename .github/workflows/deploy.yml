@@ -23,10 +23,27 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Connect Server
+      - name: Clean
         uses: appleboy/ssh-action@v1.1.0
         with:
-          host: e-dreams.lv
+          host: ${{ vars.DEPLOYMENT_HOST }}
           username: ${{ secrets.DEPLOYMENT_USER }}
           key: ${{ secrets.DEPLOYMENT_KEY }}
-          script: echo "hello world" > /tmp/pluto.txt
+          script: rm -frv ${{ vars.DEPLOYMENT_TARGET }}/*
+
+      - name: Delivery
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ vars.DEPLOYMENT_HOST }}
+          username: ${{secrets.DEPLOYMENT_USER }}
+          key: ${{ secrets.DEPLOYMENT_KEY }}
+          source: ${{ secrets.GITHUB_WORKSPACE }}/dist/timesheet/browser/*
+          target: ${{ vars.DEPLOYMENT_TARGET }}
+
+      - name: Permissions
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ vars.DEPLOYMENT_HOST }}
+          username: ${{ secrets.DEPLOYMENT_USER }}
+          key: ${{ secrets.DEPLOYMENT_KEY }}
+          script: chgrp -vR devel ${{ vars.DEPLOYMENT_TARGET }}/*
