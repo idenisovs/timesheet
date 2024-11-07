@@ -22,3 +22,11 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Connect Server
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: e-dreams.lv
+          username: ${{ secrets.DEPLOYMENT_KEY }}
+          key: ${{ secrets.DEPLOYMENT_USER }}
+          script: echo "hello world" > /tmp/pluto.txt
