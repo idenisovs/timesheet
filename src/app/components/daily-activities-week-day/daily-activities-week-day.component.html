@@ -39,11 +39,9 @@
           [activity]="activity"
           [activities]="ActivityFormArrayItems"
           [isLastActivity]="idx === ActivityFormArrayItems.length - 1"
-          [isChanged]="isChanged"
           (add)="add()"
           (remove)="remove($event)"
           (save)="save()"
-          (reset)="reset()"
         />
       </div>
     </form>
@@ -58,9 +56,14 @@
       <i class="material-symbols-outlined text-info">schedule</i>
       {{totalDuration}}
     </span>
-    <span class="me-2" [hidden]="!isChanged">
-      <i class="material-symbols-outlined text-warning">warning</i>
-      Unsaved!
-    </span>
+    @if(isChanged) {
+      <span class="me-2">
+        <i class="material-symbols-outlined text-warning">warning</i>
+        Unsaved!
+      </span>
+      <button type="button" class="btn btn-link m-0 p-0 me-2 align-baseline text-decoration-none lh-1" (click)="reset()">
+        Discard
+      </button>
+    }
   </footer>
 </section>
