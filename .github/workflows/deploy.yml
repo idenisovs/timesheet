@@ -24,7 +24,7 @@ jobs:
         run: npm run build
 
       - name: Content
-        run: ls -Alh ${{ GITHUB_WORKSPACE }}/dist/timesheet/browser/*
+        run: ls -Alh "${{ GITHUB_WORKSPACE }}/dist/timesheet/browser/*"
 
       - name: Clean
         uses: appleboy/ssh-action@v1.1.0
@@ -40,7 +40,7 @@ jobs:
           host: ${{ vars.DEPLOYMENT_HOST }}
           username: ${{secrets.DEPLOYMENT_USER }}
           key: ${{ secrets.DEPLOYMENT_KEY }}
-          source: ${{ GITHUB_WORKSPACE }}/dist/timesheet/browser/*
+          source: ${{ github.workspace }}/dist/timesheet/browser/*
           target: ${{ vars.DEPLOYMENT_TARGET }}
 
       - name: Permissions
