@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActionsService } from './services/actions.service';
 import { Subscription } from 'rxjs';
+
 import { Actions } from './services/Actions';
 import { ColorModeService } from './services/color-mode.service';
+import { version } from '../environments/version';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +14,7 @@ import { ColorModeService } from './services/color-mode.service';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'timesheet';
   actionsSubs!: Subscription;
+  version = version;
 
   get IsUsingHttp(): boolean {
     return window.location.protocol === 'http:';
