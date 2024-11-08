@@ -12,6 +12,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Get version from package.json
+        id: get_package_version
+        run: echo "VERSION=$(jq -r '.version' package.json)" >> $GITHUB_ENV
+
+      - name: Update version in environment
+        run: sed -i "s/dev/${{ env.VERSION }}/g" src/environments/version.ts
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
