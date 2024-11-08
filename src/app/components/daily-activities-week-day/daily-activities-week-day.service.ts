@@ -36,6 +36,7 @@ export class DailyActivitiesWeekDayService {
     Object.assign(activity, formValue);
 
     if (day) {
+      activity.date = day.date;
       activity.dayId = day.id;
       activity.weekId = day.weekId;
     }
