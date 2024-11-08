@@ -9,6 +9,7 @@
   - `3.2.6` - Contains some improvements and refactoring for Activity Import. As also got minor fix for calculation of the time if duration field is changing;
   - `3.2.7` - Migration from Material Icons to Material Symbols;
   - `3.2.8` - Added _Take Time From Previous Activity_ button and also the _Reset_ (Cancel Changes) button;
+  - `3.2.9` - Slightly changed UI, it is now displaying the actual version of application. It was made with help of GitHub Workflow and automated builds, that was finally introduced in this version. _Visit me on GitHub_ is moved to NavBar as well. 
 - `3.1.7` - Made the Overview Service, migrated the Weekly Overview to Overview Service and the Daily Summary to the Daily Overview;
 - `3.1.6` - In Daily Summary, displaying the same metrics as in Weekly Overview;
 - `3.1.5` - In Weekly Overview, added an option to expand the activities list of an issue;
