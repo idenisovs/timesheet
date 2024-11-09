@@ -144,7 +144,7 @@ export class OverviewService {
       project: miscActivityProject,
       issues: [miscActivitiesIssue],
       activities: miscActivitiesIssue.activities,
-      duration: miscActivitiesIssue.duration,
+      duration: miscActivitiesIssue.duration || '0',
       durationRatio: miscActivitiesIssue.durationRatio
     };
   }
