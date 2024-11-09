@@ -8,7 +8,7 @@
     <th class="text-center">Created At</th>
   </tr>
   </thead>
-  <tbody>
+  <tbody class="table-group-divider">
     @for (projectOverview of activityTree; track projectOverview.project.id) {
       <tr class="h5" app-project-row [projectOverview]="projectOverview"></tr>
 
@@ -28,8 +28,8 @@
     }
   </tbody>
 
-  <tfoot>
-  <tr class="text-center h5">
+  <tfoot class="table-group-divider">
+  <tr class="text-center fw-bold">
     <th scope="row" class="text-start">
       <i class="material-symbols-outlined">functions</i> Totals
     </th>
