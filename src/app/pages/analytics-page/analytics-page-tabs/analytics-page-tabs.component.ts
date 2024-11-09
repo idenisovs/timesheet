@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { ActivityTreeComponent } from '../activity-tree/activity-tree.component';
 import { NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet } from '@ng-bootstrap/ng-bootstrap';
-import { ProjectOverview } from '../../../dto';
+import { Analytics } from '../types';
 
 @Component({
   selector: 'app-analytics-page-tabs',
@@ -28,5 +28,5 @@ export class AnalyticsPageTabsComponent {
   isIssuesVisible = false;
 
   @Input()
-  activityTree: ProjectOverview[] = [];
+  analytics!: Analytics;
 }

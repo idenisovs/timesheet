@@ -1,9 +1,12 @@
-import { Activity, Issue, Project } from '../../dto';
+import { ProjectOverview } from '../../dto';
 
-export type ActivityTree = Map<Project, Map<Issue, Activity[]>>;
-
-export type Totals = {
+export interface ActivityTotals {
   activities: number,
   time: string,
   rate: number
-};
+}
+
+export interface Analytics {
+  projectOverview: ProjectOverview[];
+  totals: ActivityTotals;
+}

@@ -9,7 +9,7 @@
   </tr>
   </thead>
   <tbody class="table-group-divider">
-    @for (projectOverview of activityTree; track projectOverview.project.id) {
+    @for (projectOverview of analytics.projectOverview; track projectOverview.project.id) {
       <tr class="h5" app-project-row [projectOverview]="projectOverview"></tr>
 
         @if (isIssuesVisible) {
@@ -29,6 +29,6 @@
   </tbody>
 
   <tfoot class="table-group-divider">
-  <tr class="text-center fw-bold" app-totals-row [totals]="totals"></tr>
+  <tr class="text-center fw-bold" app-totals-row [totals]="analytics.totals"></tr>
   </tfoot>
 </table>

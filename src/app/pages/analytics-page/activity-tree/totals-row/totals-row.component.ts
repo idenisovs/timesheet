@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { PercentPipe } from '@angular/common';
 
-import { Totals } from '../../types';
+import { ActivityTotals } from '../../types';
 
 @Component({
   selector: '[app-totals-row]',
@@ -14,7 +14,7 @@ import { Totals } from '../../types';
 })
 export class TotalsRowComponent {
   @Input()
-  totals: Totals = {
+  totals: ActivityTotals = {
     activities: 0,
     time: '0',
     rate: 0
