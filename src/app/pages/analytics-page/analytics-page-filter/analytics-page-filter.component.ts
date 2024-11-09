@@ -1,13 +1,13 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { NgbCalendar, NgbDate, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
-import { endOfMonth } from '../../../utils';
 import { AnalyticsPageFilterForm, AnalyticsPageFilters } from '../AnalyticsPageFilterForm';
 import { DateFromComponent } from './date-from/date-from.component';
 import { DateTillComponent } from './date-till/date-till.component';
 import { Week } from '../../../dto';
+import { AnalyticsPageFilterService } from './analytics-page-filter.service';
 
 @Component({
   selector: 'app-analytics-page-filter',
@@ -31,7 +31,7 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private calendar: NgbCalendar
+    private service: AnalyticsPageFilterService
   ) {}
 
   ngOnInit() {
@@ -104,23 +104,10 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
     return filterChanges.isActivitiesVisible !== this.filtersSnapshot.isActivitiesVisible
   }
 
-  getStartOfMonthDate(): NgbDate {
-    const today = this.calendar.getToday();
-    today.day = 1;
-    return today;
-  }
-
-  getEndOfMonthDate(): NgbDate {
-    const end = endOfMonth();
-    const today = this.calendar.getToday();
-    today.day = end.getDate();
-    return today;
-  }
-
   getDefaultFilterFormValues() {
     return {
-      dateFrom: this.getStartOfMonthDate(),
-      dateTill: this.getEndOfMonthDate(),
+      dateFrom: this.service.getStartOfMonthDate(),
+      dateTill: this.service.getEndOfMonthDate(),
       isIssuesVisible: true,
       isActivitiesVisible: false
     };
@@ -128,8 +115,8 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
 
   setupDefaultFilters() {
     return this.fb.group({
-      dateFrom: [this.getStartOfMonthDate()],
-      dateTill: [this.getEndOfMonthDate()],
+      dateFrom: [this.service.getStartOfMonthDate()],
+      dateTill: [this.service.getEndOfMonthDate()],
       isIssuesVisible: [false],
       isActivitiesVisible: [false]
     });
@@ -142,26 +129,18 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
 
   selectCurrentWeek() {
     const week = new Week();
-    const startOfWeek = this.getDayFromDate(week.from);
-    const endOfWeek = this.getDayFromDate(week.till);
+    const startOfWeek = this.service.getDayFromDate(week.from);
+    const endOfWeek = this.service.getDayFromDate(week.till);
 
     this.filtersForm.get('dateFrom')?.setValue(startOfWeek);
     this.filtersForm.get('dateTill')?.setValue(endOfWeek);
   }
 
   selectCurrentMonth() {
-    const startOfMonth = this.getStartOfMonthDate();
-    const endOfMonth = this.getEndOfMonthDate();
+    const startOfMonth = this.service.getStartOfMonthDate();
+    const endOfMonth = this.service.getEndOfMonthDate();
 
     this.filtersForm.get('dateFrom')?.setValue(startOfMonth);
     this.filtersForm.get('dateTill')?.setValue(endOfMonth);
-  }
-
-  getDayFromDate(date: Date): NgbDate {
-    const day = this.calendar.getToday();
-    day.year = date.getFullYear();
-    day.month = date.getMonth() + 1;
-    day.day = date.getDate();
-    return day;
   }
 }
