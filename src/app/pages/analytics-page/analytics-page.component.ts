@@ -15,6 +15,7 @@ import { Activity, ProjectOverview } from '../../dto';
 import { AnalyticsPageService } from './analytics-page.service';
 import { AnalyticsPageFilterComponent } from './analytics-page-filter/analytics-page-filter.component';
 import { ActivityTreeComponent } from './activity-tree/activity-tree.component';
+import { AnalyticsPageTabsComponent } from './analytics-page-tabs/analytics-page-tabs.component';
 
 @Component({
   selector: 'app-analytics-page',
@@ -32,6 +33,7 @@ import { ActivityTreeComponent } from './activity-tree/activity-tree.component';
     NgbNavLinkButton,
     NgbNavContent,
     NgbNavOutlet,
+    AnalyticsPageTabsComponent,
   ],
   templateUrl: './analytics-page.component.html',
   styleUrl: './analytics-page.component.scss',
@@ -44,7 +46,6 @@ export class AnalyticsPageComponent implements OnInit, OnDestroy {
   activityTree?: ProjectOverview[];
   isActivitiesVisible: boolean = false;
   isIssuesVisible: boolean = true;
-  active = 1;
 
   constructor(
     private service: AnalyticsPageService,

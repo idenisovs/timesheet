@@ -24,7 +24,7 @@ import { DurationService } from '../../../services/duration.service';
 })
 export class ActivityTreeComponent implements OnInit {
   @Input()
-  activityTree!: ProjectOverview[];
+  activityTree: ProjectOverview[] = [];
 
   @Input()
   isActivitiesVisible!: boolean;
