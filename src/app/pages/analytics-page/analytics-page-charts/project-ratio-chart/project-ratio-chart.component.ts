@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { NgIf, PercentPipe } from '@angular/common';
 import { ChartData, ChartOptions, TooltipItem } from 'chart.js';
@@ -16,7 +16,7 @@ import { Analytics } from '../../types';
   templateUrl: './project-ratio-chart.component.html',
   styleUrl: './project-ratio-chart.component.scss'
 })
-export class ProjectRatioChartComponent implements OnInit {
+export class ProjectRatioChartComponent implements OnInit, OnChanges {
   load = false;
 
   data: ChartData <'pie', number[]> = {
@@ -31,6 +31,9 @@ export class ProjectRatioChartComponent implements OnInit {
       title: {
         display: true,
         text: 'Projects Time Ratio'
+      },
+      legend: {
+        position: 'bottom'
       },
       tooltip: {
         callbacks: {
@@ -53,7 +56,19 @@ export class ProjectRatioChartComponent implements OnInit {
     }, 200);
   }
 
+  ngOnChanges() {
+    this.updateProjectDataset();
+  }
+
   updateProjectDataset() {
+    this.data.labels = [];
+    this.data = {
+      labels: [],
+      datasets: [{
+        data:[],
+      }]
+    };
+
     for (const po of this.analytics.projectOverview) {
       this.data.labels?.push(po.project.name);
       this.data.datasets[0].data.push(po.durationRatio);
