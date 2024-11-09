@@ -7,6 +7,7 @@ import { ActivityRowComponent } from './activity-row/activity-row.component';
 import { ProjectRowComponent } from './project-row/project-row.component';
 import { Totals } from '../types';
 import { DurationService } from '../../../services/duration.service';
+import { TotalsRowComponent } from './totals-row/totals-row.component';
 
 @Component({
   selector: 'app-activity-tree',
@@ -18,6 +19,7 @@ import { DurationService } from '../../../services/duration.service';
     IssueRowComponent,
     ActivityRowComponent,
     ProjectRowComponent,
+    TotalsRowComponent,
   ],
   templateUrl: './activity-tree.component.html',
   styleUrl: './activity-tree.component.scss'

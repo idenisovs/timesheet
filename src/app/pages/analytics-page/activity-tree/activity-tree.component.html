@@ -1,4 +1,4 @@
-<table class="table table-hover">
+<table class="table table-hover mb-0">
   <thead>
   <tr>
     <th>Project / Issue / Activity</th>
@@ -29,21 +29,6 @@
   </tbody>
 
   <tfoot class="table-group-divider">
-  <tr class="text-center fw-bold">
-    <th scope="row" class="text-start">
-      <i class="material-symbols-outlined">functions</i> Totals
-    </th>
-    <td>
-      {{totals.activities}}
-    </td>
-    <td>
-      {{totals.time}}
-    </td>
-    <td>
-      {{totals.rate|percent}}
-    </td>
-    <td>
-    </td>
-  </tr>
+  <tr class="text-center fw-bold" app-totals-row [totals]="totals"></tr>
   </tfoot>
 </table>
