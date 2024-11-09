@@ -1,5 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgbInputDatepicker, NgbCalendar, NgbCalendarGregorian } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbInputDatepicker,
+  NgbCalendar,
+  NgbCalendarGregorian,
+  NgbNav,
+  NgbNavItem,
+  NgbNavLinkButton, NgbNavContent, NgbNavOutlet,
+} from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { JsonPipe, KeyValuePipe, NgForOf } from '@angular/common';
 
@@ -20,6 +27,11 @@ import { ActivityTreeComponent } from './activity-tree/activity-tree.component';
     NgForOf,
     AnalyticsPageFilterComponent,
     ActivityTreeComponent,
+    NgbNav,
+    NgbNavItem,
+    NgbNavLinkButton,
+    NgbNavContent,
+    NgbNavOutlet,
   ],
   templateUrl: './analytics-page.component.html',
   styleUrl: './analytics-page.component.scss',
@@ -32,6 +44,7 @@ export class AnalyticsPageComponent implements OnInit, OnDestroy {
   activityTree?: ProjectOverview[];
   isActivitiesVisible: boolean = false;
   isIssuesVisible: boolean = true;
+  active = 1;
 
   constructor(
     private service: AnalyticsPageService,
