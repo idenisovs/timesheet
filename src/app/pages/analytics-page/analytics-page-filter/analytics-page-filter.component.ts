@@ -7,6 +7,7 @@ import { endOfMonth } from '../../../utils';
 import { AnalyticsPageFilterForm, AnalyticsPageFilters } from '../AnalyticsPageFilterForm';
 import { DateFromComponent } from './date-from/date-from.component';
 import { DateTillComponent } from './date-till/date-till.component';
+import { Week } from '../../../dto';
 
 @Component({
   selector: 'app-analytics-page-filter',
@@ -89,7 +90,6 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
       }
     }
 
-
     this.filtersSnapshot = filterChanges;
     this.saveFilters();
     const filters = new AnalyticsPageFilters(filterChanges);
@@ -138,5 +138,30 @@ export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
   resetFilters() {
     const defaultValues = this.getDefaultFilterFormValues();
     this.filtersForm.setValue(defaultValues);
+  }
+
+  selectCurrentWeek() {
+    const week = new Week();
+    const startOfWeek = this.getDayFromDate(week.from);
+    const endOfWeek = this.getDayFromDate(week.till);
+
+    this.filtersForm.get('dateFrom')?.setValue(startOfWeek);
+    this.filtersForm.get('dateTill')?.setValue(endOfWeek);
+  }
+
+  selectCurrentMonth() {
+    const startOfMonth = this.getStartOfMonthDate();
+    const endOfMonth = this.getEndOfMonthDate();
+
+    this.filtersForm.get('dateFrom')?.setValue(startOfMonth);
+    this.filtersForm.get('dateTill')?.setValue(endOfMonth);
+  }
+
+  getDayFromDate(date: Date): NgbDate {
+    const day = this.calendar.getToday();
+    day.year = date.getFullYear();
+    day.month = date.getMonth() + 1;
+    day.day = date.getDate();
+    return day;
   }
 }
