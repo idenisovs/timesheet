@@ -27,4 +27,23 @@
         }
     }
   </tbody>
+
+  <tfoot>
+  <tr class="text-center h5">
+    <th scope="row" class="text-start">
+      <i class="material-symbols-outlined">summarize</i> Totals
+    </th>
+    <td>
+      {{totals.activities}}
+    </td>
+    <td>
+      {{totals.time}}
+    </td>
+    <td>
+      {{totals.rate|percent}}
+    </td>
+    <td>
+    </td>
+  </tr>
+  </tfoot>
 </table>
