@@ -17,6 +17,7 @@ import {
 import {
 	DailyActivitiesWeekDayMissingComponent
 } from './components/daily-activities-week-day-missing/daily-activities-week-day-missing.component';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -35,9 +36,11 @@ import {
     NavbarComponent,
     DailyActivitiesWeekDayComponent,
     DailyActivitiesWeekDayMissingComponent,
-    InfiniteScrollDirective,
+    InfiniteScrollDirective
   ],
-  providers: [],
+  providers: [
+    provideCharts(withDefaultRegisterables())
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
