@@ -61,13 +61,7 @@ export class ProjectRatioChartComponent implements OnInit, OnChanges {
   }
 
   updateProjectDataset() {
-    this.data.labels = [];
-    this.data = {
-      labels: [],
-      datasets: [{
-        data:[],
-      }]
-    };
+    this.resetDataset();
 
     for (const po of this.analytics.projectOverview) {
       this.data.labels?.push(po.project.name);
@@ -77,5 +71,15 @@ export class ProjectRatioChartComponent implements OnInit, OnChanges {
 
   formatLabel(item: TooltipItem<'pie'>): string {
     return this.percentPipe.transform(item.raw as number) as string;
+  }
+
+  resetDataset() {
+    this.data.labels = [];
+    this.data = {
+      labels: [],
+      datasets: [{
+        data:[],
+      }]
+    };
   }
 }

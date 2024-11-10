@@ -9,4 +9,5 @@ export interface ActivityTotals {
 export interface Analytics {
   projectOverview: ProjectOverview[];
   totals: ActivityTotals;
+  weeklyHours: Map<number, number>;
 }
