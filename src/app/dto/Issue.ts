@@ -12,6 +12,14 @@ export class Issue {
   estimate?: string;
   createdAt = new Date();
 
+  get FullName(): string {
+    if (this.key) {
+      return `${this.key}: ${this.name}`;
+    } else {
+      return this.name;
+    }
+  }
+
   constructor(props?: Partial<Issue>) {
     if (!props) {
       return;
