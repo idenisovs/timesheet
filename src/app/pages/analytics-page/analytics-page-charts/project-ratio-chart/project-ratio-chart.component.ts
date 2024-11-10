@@ -4,6 +4,8 @@ import { NgIf, PercentPipe } from '@angular/common';
 import { ChartData, ChartOptions, TooltipItem } from 'chart.js';
 
 import { Analytics } from '../../types';
+import parseDuration from 'parse-duration';
+import { DurationService } from '../../../../services/duration.service';
 
 @Component({
   selector: 'app-project-ratio-chart',
@@ -46,7 +48,7 @@ export class ProjectRatioChartComponent implements OnInit, OnChanges {
   @Input()
   analytics!: Analytics;
 
-  constructor(private percentPipe: PercentPipe) {}
+  constructor(private duration: DurationService) {}
 
   ngOnInit() {
     this.updateProjectDataset();
@@ -65,12 +67,13 @@ export class ProjectRatioChartComponent implements OnInit, OnChanges {
 
     for (const po of this.analytics.projectOverview) {
       this.data.labels?.push(po.project.name);
-      this.data.datasets[0].data.push(po.durationRatio);
+      const duration = parseDuration(po.duration) as number;
+      this.data.datasets[0].data.push(duration);
     }
   }
 
   formatLabel(item: TooltipItem<'pie'>): string {
-    return this.percentPipe.transform(item.raw as number) as string;
+    return this.duration.toStr(item.raw as number);
   }
 
   resetDataset() {

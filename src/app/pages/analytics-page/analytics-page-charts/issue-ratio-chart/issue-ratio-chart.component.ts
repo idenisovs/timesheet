@@ -1,9 +1,11 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { NgIf } from '@angular/common';
-import { ChartData, ChartOptions } from 'chart.js';
+import { ChartData, ChartOptions, TooltipItem } from 'chart.js';
 import { Analytics } from '../../types';
 import { IssueOverview, ProjectOverview } from '../../../../dto';
+import { DurationService } from '../../../../services/duration.service';
+import parseDuration from 'parse-duration';
 
 @Component({
   selector: 'app-issue-ratio-chart',
@@ -34,11 +36,18 @@ export class IssueRatioChartComponent implements OnInit, OnChanges {
       legend: {
         position: 'bottom'
       },
+      tooltip: {
+        callbacks: {
+          label: this.formatLabel.bind(this)
+        }
+      }
     }
   };
 
   @Input()
   analytics!: Analytics;
+
+  constructor(private duration: DurationService) {}
 
   ngOnInit() {
     this.updateProjectDataset();
@@ -59,7 +68,8 @@ export class IssueRatioChartComponent implements OnInit, OnChanges {
 
     for (const io of issueOverview) {
       this.data.labels?.push(io.issue.FullName);
-      this.data.datasets[0].data.push(io.durationRatio);
+      const duration = parseDuration(io.duration) as number;
+      this.data.datasets[0].data.push(duration);
     }
   }
 
@@ -78,5 +88,9 @@ export class IssueRatioChartComponent implements OnInit, OnChanges {
       result.push(...projectOverview.issues);
       return result;
     }, []);
+  }
+
+  formatLabel(item: TooltipItem<'pie'>): string {
+    return this.duration.toStr(item.raw as number);
   }
 }
