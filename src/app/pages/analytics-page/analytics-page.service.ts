@@ -28,10 +28,8 @@ export class AnalyticsPageService {
     const totals = this.calculateTotals(projectOverview);
     const weeklyHours = this.calculateWeeklyHours(activities);
 
-    console.log(weeklyHours);
-
     return {
-      projectOverview, totals
+      projectOverview, totals, weeklyHours
     }
   }
 
@@ -64,6 +62,16 @@ export class AnalyticsPageService {
       const activityTimeMs = parseDuration(activity.duration) ?? 0;
       const workedTime = weeklyHours.get(weekNumber) ?? 0;
       weeklyHours.set(weekNumber, workedTime + activityTimeMs);
+    }
+
+    const weeks = Array.from(weeklyHours.keys());
+    const firstWeek = Math.min(...weeks);
+    const lastWeek = Math.max(...weeks);
+
+    for (let week = firstWeek; week < lastWeek; week++) {
+      if (!weeklyHours.has(week)) {
+        weeklyHours.set(week, 0);
+      }
     }
 
     return weeklyHours;
