@@ -1,1 +1,11 @@
-<p>issue-ratio-chart works!</p>
+<section class="card">
+  <main class="card-body">
+    <canvas
+      *ngIf="load"
+      baseChart
+      [data]="data"
+      [options]="options"
+      [type]="'pie'">
+    </canvas>
+  </main>
+</section>
