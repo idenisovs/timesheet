@@ -2,9 +2,9 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { NgIf, PercentPipe } from '@angular/common';
 import { ChartData, ChartOptions, TooltipItem } from 'chart.js';
+import parseDuration from 'parse-duration';
 
 import { Analytics } from '../../types';
-import parseDuration from 'parse-duration';
 import { DurationService } from '../../../../services/duration.service';
 
 @Component({
