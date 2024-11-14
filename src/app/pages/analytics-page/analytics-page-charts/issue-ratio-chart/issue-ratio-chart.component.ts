@@ -9,6 +9,11 @@ import { IssueOverview, ProjectOverview } from '../../../../dto';
 import { DurationService } from '../../../../services/duration.service';
 import { HOUR } from '../../../../constants';
 
+interface IssueData {
+  label: string;
+  value: number;
+}
+
 @Component({
   selector: 'app-issue-ratio-chart',
   standalone: true,
@@ -77,12 +82,16 @@ export class IssueRatioChartComponent implements OnInit, OnChanges {
   updateProjectDataset() {
     this.resetDataset();
 
-    const issueOverview = this.collectIssueOverview();
+    const issueOverviewList = this.collectIssueOverview();
+    const issueData = this.extractIssueData(issueOverviewList)
+      .sort((a, b) => {
+        return b.value - a.value;
+      });
 
-    for (const io of issueOverview) {
-      this.data.labels?.push(io.issue.FullName);
-      const duration = parseDuration(io.duration) as number;
-      const hours = Math.round(duration / HOUR * 10) / 10;
+
+    for (const issue of issueData) {
+      this.data.labels?.push(issue.label);
+      const hours = Math.round(issue.value / HOUR * 10) / 10;
       this.data.datasets[0].data.push(hours);
     }
   }
@@ -103,6 +112,13 @@ export class IssueRatioChartComponent implements OnInit, OnChanges {
       result.push(...projectOverview.issues);
       return result;
     }, []);
+  }
+
+  extractIssueData(issueOverviewList: IssueOverview[]): IssueData[] {
+    return issueOverviewList.map(issueOverview => ({
+      label: issueOverview.issue.FullName,
+      value: parseDuration(issueOverview.issue.duration) ?? 0
+    }));
   }
 
   formatLabel(item: TooltipItem<'bar'>): string {
