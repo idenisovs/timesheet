@@ -43,6 +43,16 @@ export class IssueRatioChartComponent implements OnInit, OnChanges {
         callbacks: {
           label: this.formatLabel.bind(this)
         }
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          callback: this.formatBarLabel.bind(this)
+        }
+      },
+      y: {
+        type: 'logarithmic'
       }
     }
   };
@@ -97,5 +107,26 @@ export class IssueRatioChartComponent implements OnInit, OnChanges {
 
   formatLabel(item: TooltipItem<'bar'>): string {
     return this.duration.toStr(item.raw as number * HOUR);
+  }
+
+  formatBarLabel(tick: string|number): string {
+    if (typeof tick !== 'number') {
+      return '';
+    }
+
+    const labels = this.data?.labels as string[]|undefined;
+
+    if (!labels) {
+      return '';
+    }
+
+    const label = labels[tick];
+
+    if (label.includes(':')) {
+      const [key] = label.split(':');
+      return key;
+    } else {
+      return label;
+    }
   }
 }
