@@ -1,7 +1,8 @@
 # Changelog
 
 - `3.3.0` - Analytics Page got the Charts tab. This version also introduces different visual and UX tweaks for layout of Analytics Page;
-  - `3.3.1` - Added Weekly Tracked Time bar chart; 
+  - `3.3.1` - Added Weekly Tracked Time bar chart;
+  - `3.3.2` - Added Issues Time Ratio bar chart;
 - `3.2.0` - Added basic Analytics View;
   - `3.2.1` - Analytics View Filters got the Issue and Activity visibility switches;
   - `3.2.2` - Visual improvements for Analytics View;
