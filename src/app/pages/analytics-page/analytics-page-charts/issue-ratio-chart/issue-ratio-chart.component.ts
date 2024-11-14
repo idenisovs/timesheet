@@ -2,10 +2,12 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { NgIf } from '@angular/common';
 import { ChartData, ChartOptions, TooltipItem } from 'chart.js';
+import parseDuration from 'parse-duration';
+
 import { Analytics } from '../../types';
 import { IssueOverview, ProjectOverview } from '../../../../dto';
 import { DurationService } from '../../../../services/duration.service';
-import parseDuration from 'parse-duration';
+import { HOUR } from '../../../../constants';
 
 @Component({
   selector: 'app-issue-ratio-chart',
@@ -20,14 +22,15 @@ import parseDuration from 'parse-duration';
 export class IssueRatioChartComponent implements OnInit, OnChanges {
   load = false;
 
-  data: ChartData<'pie', number[]> = {
+  data: ChartData<'bar', number[]> = {
     labels: [],
     datasets: [{
+      label: 'Hours',
       data:[],
     }]
   };
 
-  options: ChartOptions<'pie'> = {
+  options: ChartOptions<'bar'> = {
     plugins: {
       title: {
         display: true,
@@ -69,7 +72,8 @@ export class IssueRatioChartComponent implements OnInit, OnChanges {
     for (const io of issueOverview) {
       this.data.labels?.push(io.issue.FullName);
       const duration = parseDuration(io.duration) as number;
-      this.data.datasets[0].data.push(duration);
+      const hours = Math.round(duration / HOUR * 10) / 10;
+      this.data.datasets[0].data.push(hours);
     }
   }
 
@@ -78,6 +82,7 @@ export class IssueRatioChartComponent implements OnInit, OnChanges {
     this.data = {
       labels: [],
       datasets: [{
+        label: 'Hours',
         data:[],
       }]
     };
@@ -90,7 +95,7 @@ export class IssueRatioChartComponent implements OnInit, OnChanges {
     }, []);
   }
 
-  formatLabel(item: TooltipItem<'pie'>): string {
-    return this.duration.toStr(item.raw as number);
+  formatLabel(item: TooltipItem<'bar'>): string {
+    return this.duration.toStr(item.raw as number * HOUR);
   }
 }
