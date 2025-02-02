@@ -5,7 +5,7 @@ import {
   FormGroup,
   ReactiveFormsModule
 } from '@angular/forms';
-import { DatePipe, JsonPipe, NgForOf } from '@angular/common';
+import { DatePipe, NgForOf } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
@@ -23,7 +23,6 @@ import { RemoveActivitiesWorkflowService } from '../../workflows/remove-activiti
   selector: 'app-daily-activities-week-day',
   standalone: true,
   imports: [
-    JsonPipe,
     DatePipe,
     ReactiveFormsModule,
     NgForOf,
