@@ -22,10 +22,8 @@ const months: Record<string, string> = {
 export class DateIndexPipe implements PipeTransform {
 
   transform(value: string): string {
-    const [month, year] = value.split(', ');
-
+    const [year, month] = value.split('-');
     const monthName = months[month];
-
     return `${monthName}, ${year}`;
   }
 

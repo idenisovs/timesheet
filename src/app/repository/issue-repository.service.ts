@@ -12,7 +12,7 @@ export class IssueRepositoryService {
   constructor(private store: SheetStoreService) {}
 
   async getAll(): Promise<Issue[]> {
-    const records = await this.db.issues.toArray();
+    const records = await this.db.issues.orderBy('createdAt').toArray();
     return records.map(Issue.fromRecord);
   }
 

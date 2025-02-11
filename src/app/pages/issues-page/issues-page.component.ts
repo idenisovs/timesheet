@@ -11,7 +11,6 @@ import { CreateIssueModalComponent } from './create-issue-modal/create-issue-mod
 import { handleModalResult } from '../../utils';
 import { IssuesTableComponent } from './issues-table/issues-table.component';
 import { IssuesListComponent } from './issues-list/issues-list.component';
-import { IssuesService } from '../../services/issues.service';
 import { IssueRepositoryService } from '../../repository/issue-repository.service';
 
 @Component({
@@ -37,7 +36,6 @@ export class IssuesPageComponent implements OnInit, OnDestroy {
   issuesGroupedByDate = new Map<string, Issue[]>();
 
   constructor(
-    private issuesService: IssuesService,
     private actionsService: ActionsService,
     private modal: NgbModal,
     private datePipe: DatePipe,
@@ -46,8 +44,6 @@ export class IssuesPageComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.issues = await this.issueRepository.getAll();
-    this.issues.sort(this.issuesService.sort);
-
     this.groupIssuesByDate();
     this.actionsSubscription = this.actionsService.on.subscribe(this.handleActions.bind(this));
   }
@@ -99,6 +95,6 @@ export class IssuesPageComponent implements OnInit, OnDestroy {
   }
 
   getDateString(issueDate: Date): string {
-    return this.datePipe.transform(issueDate, 'MM, YYYY') as string;
+    return this.datePipe.transform(issueDate, 'YYYY-MM') as string;
   }
 }
