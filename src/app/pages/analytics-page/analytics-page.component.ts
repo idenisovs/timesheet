@@ -1,19 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  NgbInputDatepicker,
   NgbCalendar,
   NgbCalendarGregorian,
-  NgbNav,
-  NgbNavItem,
-  NgbNavLinkButton, NgbNavContent, NgbNavOutlet,
 } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
-import { JsonPipe, KeyValuePipe, NgForOf } from '@angular/common';
 
 import { AnalyticsPageFilters } from './AnalyticsPageFilterForm';
 import { AnalyticsPageService } from './analytics-page.service';
 import { AnalyticsPageFilterComponent } from './analytics-page-filter/analytics-page-filter.component';
-import { ActivityTreeComponent } from './activity-tree/activity-tree.component';
 import { AnalyticsPageTabsComponent } from './analytics-page-tabs/analytics-page-tabs.component';
 import { Analytics } from './types';
 
@@ -21,18 +15,8 @@ import { Analytics } from './types';
   selector: 'app-analytics-page',
   standalone: true,
   imports: [
-    NgbInputDatepicker,
     ReactiveFormsModule,
-    JsonPipe,
-    KeyValuePipe,
-    NgForOf,
     AnalyticsPageFilterComponent,
-    ActivityTreeComponent,
-    NgbNav,
-    NgbNavItem,
-    NgbNavLinkButton,
-    NgbNavContent,
-    NgbNavOutlet,
     AnalyticsPageTabsComponent,
   ],
   templateUrl: './analytics-page.component.html',
