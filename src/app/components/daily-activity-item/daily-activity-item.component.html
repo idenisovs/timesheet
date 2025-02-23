@@ -1,5 +1,5 @@
 <div class="row mb-2" [ngClass]="{ 'border-left border-info ': isImported }" [formGroup]="activity">
-  <div class="form-group col-4 m-0">
+  <div class="form-group col-12 col-md-4 m-0">
     <div class="input-group">
       <input id="activity-name" name="name" formControlName="name" type="text" class="form-control">
       <button class="btn btn-sm btn-outline-secondary" type="button" (click)="copyActivityName()">
@@ -10,7 +10,8 @@
       </button>
     </div>
   </div>
-  <div class="form-group col-2 m-0">
+
+  <div class="form-group col-12 col-md-2 m-0">
     <div class="input-group">
       <input id="activity-from" name="from" formControlName="from" type="text" class="form-control" (input)="handleFromChanges()">
       <button class="btn btn-sm btn-outline-secondary" type="button" (click)="setTimeFromPreviousActivity()" *ngIf="idx > 0">
@@ -21,7 +22,8 @@
       </button>
     </div>
   </div>
-  <div class="form-group col-2 m-0">
+
+  <div class="form-group col-12 col-md-2 m-0">
     <div class="input-group">
       <input id="activity-till" name="till" formControlName="till" type="text" class="form-control" (input)="handleTillChanges()">
       <button class="btn btn-sm btn-outline-secondary" type="button" (click)="setCurrentTime('till')">
@@ -29,7 +31,7 @@
       </button>
     </div>
   </div>
-  <div class="form-group col-2 m-0">
+  <div class="form-group col-12 col-md-2 m-0">
     <input id="activity-duration" name="duration" formControlName="duration" type="text" class="form-control" (input)="handleDurationChanges()">
   </div>
   <div class="col-2 m-0 d-flex align-items-center">
