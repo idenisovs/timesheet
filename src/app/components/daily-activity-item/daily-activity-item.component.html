@@ -38,14 +38,14 @@
     </div>
   </div>
 
-  <div class="col-2 m-0 d-flex align-items-center">
-    <button type="button" class="btn btn-outline-info p-1 me-2" [ngClass]="{ 'invisible': !isLastActivity }" (click)="add.emit()">
+  <div class="col-12 col-md-2 m-0 d-flex align-items-center justify-content-end justify-content-md-start">
+    <button type="button" class="btn btn-outline-info p-1 ms-2" [ngClass]="{ 'invisible': !isLastActivity }" (click)="add.emit()">
       <i class="material-symbols-outlined">add</i>
     </button>
-    <button type="button" class="btn btn-outline-info p-1 me-2" (click)="remove.emit(ActivityId)">
+    <button type="button" class="btn btn-outline-info p-1 me-0 ms-2" (click)="remove.emit(ActivityId)">
       <i class="material-symbols-outlined">remove</i>
     </button>
-    <button type="button" class="btn btn-outline-primary p-1 me-2" (click)="save.emit()" [hidden]="!isLastActivity">
+    <button type="button" class="btn btn-outline-primary p-1 ms-2" (click)="save.emit()" [hidden]="!isLastActivity">
       <i class="material-symbols-outlined">save</i>
     </button>
   </div>
