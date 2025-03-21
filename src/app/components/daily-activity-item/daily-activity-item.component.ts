@@ -10,15 +10,14 @@ import { DailyActivityItemService } from './daily-activity-item.service';
 const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/
 
 @Component({
-  selector: 'app-daily-activity-item',
-  templateUrl: './daily-activity-item.component.html',
-  standalone: true,
-  styleUrls: ['./daily-activity-item.component.scss'],
-  imports: [
-    ReactiveFormsModule,
-    NgClass,
-    NgIf,
-  ],
+    selector: 'app-daily-activity-item',
+    templateUrl: './daily-activity-item.component.html',
+    styleUrls: ['./daily-activity-item.component.scss'],
+    imports: [
+        ReactiveFormsModule,
+        NgClass,
+        NgIf,
+    ]
 })
 export class DailyActivityItemComponent implements OnInit {
   @Input()

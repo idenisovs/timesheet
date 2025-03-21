@@ -8,14 +8,13 @@ import { SheetStoreService } from '../../../services/sheet-store.service';
 import { CreateIssueModalService } from '../../issues-page/create-issue-modal/create-issue-modal.service';
 
 @Component({
-  selector: 'app-issue-card',
-  standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './issue-card.component.html',
-  styleUrl: './issue-card.component.scss'
+    selector: 'app-issue-card',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    templateUrl: './issue-card.component.html',
+    styleUrl: './issue-card.component.scss'
 })
 export class IssueCardComponent implements OnInit {
 

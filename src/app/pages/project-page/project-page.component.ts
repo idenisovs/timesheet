@@ -11,21 +11,20 @@ import { ProjectDetailsComponent } from './project-details/project-details.compo
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-project-page',
-  standalone: true,
-  imports: [
-    JsonPipe,
-    ReactiveFormsModule,
-    RouterLink,
-    NgForOf,
-    NgIf,
-    IssuesTableComponent,
-    ProjectEditComponent,
-    ProjectIssuesComponent,
-    ProjectDetailsComponent
-  ],
-  templateUrl: './project-page.component.html',
-  styleUrl: './project-page.component.scss'
+    selector: 'app-project-page',
+    imports: [
+        JsonPipe,
+        ReactiveFormsModule,
+        RouterLink,
+        NgForOf,
+        NgIf,
+        IssuesTableComponent,
+        ProjectEditComponent,
+        ProjectIssuesComponent,
+        ProjectDetailsComponent
+    ],
+    templateUrl: './project-page.component.html',
+    styleUrl: './project-page.component.scss'
 })
 export class ProjectPageComponent implements OnInit, OnDestroy {
   project?: Project;

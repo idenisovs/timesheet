@@ -6,9 +6,10 @@ import { DaysService } from '../../../services/days.service';
 import {WeeklyOverviewModalComponent} from '../weekly-overview-modal/weekly-overview-modal.component';
 
 @Component({
-  selector: 'app-daily-activities-week-header',
-  templateUrl: './daily-activities-week-header.component.html',
-  styleUrls: ['./daily-activities-week-header.component.scss']
+    selector: 'app-daily-activities-week-header',
+    templateUrl: './daily-activities-week-header.component.html',
+    styleUrls: ['./daily-activities-week-header.component.scss'],
+    standalone: false
 })
 export class DailyActivitiesWeekHeaderComponent implements OnInit {
   isMissingDaysVisible = false;

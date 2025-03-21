@@ -8,15 +8,14 @@ import { Project } from '../../../dto';
 import { ProjectRepositoryService } from '../../../repository/project-repository.service';
 
 @Component({
-  selector: 'app-create-project-modal',
-  standalone: true,
-  imports: [
-    FormsModule,
-    NgIf,
-    ReactiveFormsModule
-  ],
-  templateUrl: './create-project-modal.component.html',
-  styleUrl: './create-project-modal.component.scss'
+    selector: 'app-create-project-modal',
+    imports: [
+        FormsModule,
+        NgIf,
+        ReactiveFormsModule
+    ],
+    templateUrl: './create-project-modal.component.html',
+    styleUrl: './create-project-modal.component.scss'
 })
 export class CreateProjectModalComponent {
   form = this.fb.group({

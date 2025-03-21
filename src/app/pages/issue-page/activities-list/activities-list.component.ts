@@ -6,15 +6,14 @@ import { ActivitiesTableComponent } from './activities-table/activities-table.co
 import { Activity } from '../../../dto';
 
 @Component({
-  selector: 'app-activities-list',
-  standalone: true,
-  imports: [
-    NgForOf,
-    DatePipe,
-    ActivitiesTableComponent
-  ],
-  templateUrl: './activities-list.component.html',
-  styleUrl: './activities-list.component.scss'
+    selector: 'app-activities-list',
+    imports: [
+        NgForOf,
+        DatePipe,
+        ActivitiesTableComponent
+    ],
+    templateUrl: './activities-list.component.html',
+    styleUrl: './activities-list.component.scss'
 })
 export class ActivitiesListComponent implements OnInit {
   @Input()

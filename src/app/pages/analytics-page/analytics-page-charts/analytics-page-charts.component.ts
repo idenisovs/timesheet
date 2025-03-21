@@ -7,17 +7,16 @@ import { WeeksWorkedTimeComponent } from './weeks-worked-time/weeks-worked-time.
 import { IssueRatioChartComponent } from './issue-ratio-chart/issue-ratio-chart.component';
 
 @Component({
-  selector: 'app-analytics-page-charts',
-  standalone: true,
-  imports: [
-    BaseChartDirective,
-    NgIf,
-    ProjectRatioChartComponent,
-    WeeksWorkedTimeComponent,
-    IssueRatioChartComponent,
-  ],
-  templateUrl: './analytics-page-charts.component.html',
-  styleUrl: './analytics-page-charts.component.scss'
+    selector: 'app-analytics-page-charts',
+    imports: [
+        BaseChartDirective,
+        NgIf,
+        ProjectRatioChartComponent,
+        WeeksWorkedTimeComponent,
+        IssueRatioChartComponent,
+    ],
+    templateUrl: './analytics-page-charts.component.html',
+    styleUrl: './analytics-page-charts.component.scss'
 })
 export class AnalyticsPageChartsComponent {
 	@Input()

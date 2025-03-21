@@ -7,15 +7,14 @@ import { IssueRepositoryService } from '../../../../repository/issue-repository.
 import { ImportIssuesService } from '../import-issues.service';
 
 @Component({
-  selector: 'app-imported-issue-diff',
-  standalone: true,
-  imports: [
-    DatePipe,
-    NgIf,
-    NgClass,
-  ],
-  templateUrl: './imported-issue-diff.component.html',
-  styleUrl: './imported-issue-diff.component.scss'
+    selector: 'app-imported-issue-diff',
+    imports: [
+        DatePipe,
+        NgIf,
+        NgClass,
+    ],
+    templateUrl: './imported-issue-diff.component.html',
+    styleUrl: './imported-issue-diff.component.scss'
 })
 export class ImportedIssueDiffComponent implements OnInit {
   status = DiffStatus.same;

@@ -4,15 +4,14 @@ import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { ColorModeService } from '../../services/color-mode.service';
 
 @Component({
-  selector: 'app-navbar',
-  standalone: true,
-  imports: [
-    RouterLink,
-    RouterLinkActive,
-    NgbCollapse
-  ],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+    selector: 'app-navbar',
+    imports: [
+        RouterLink,
+        RouterLinkActive,
+        NgbCollapse
+    ],
+    templateUrl: './navbar.component.html',
+    styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
   isMenuCollapsed = true
