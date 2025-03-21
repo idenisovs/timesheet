@@ -1,28 +1,19 @@
-import { RouterLink } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DatePipe, NgForOf, NgIf } from '@angular/common';
-import { NgbModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe, NgIf } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Issue } from '../../dto';
-import { IssueRemoveButtonComponent } from './issue-remove-button/issue-remove-button.component';
 import { ActionsService } from '../../services/actions.service';
 import { Actions } from '../../services/Actions';
 import { CreateIssueModalComponent } from './create-issue-modal/create-issue-modal.component';
 import { handleModalResult } from '../../utils';
-import { IssuesTableComponent } from './issues-table/issues-table.component';
 import { IssuesListComponent } from './issues-list/issues-list.component';
 import { IssueRepositoryService } from '../../repository/issue-repository.service';
 
 @Component({
     selector: 'app-issues-pages',
     imports: [
-        DatePipe,
-        NgForOf,
         NgIf,
-        RouterLink,
-        NgbTooltip,
-        IssueRemoveButtonComponent,
-        IssuesTableComponent,
         IssuesListComponent
     ],
     providers: [DatePipe],

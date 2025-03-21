@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { JsonPipe, NgForOf, NgIf } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { Activity, Issue } from '../../dto';
@@ -13,10 +13,7 @@ import { IssueRepositoryService } from '../../repository/issue-repository.servic
     selector: 'app-issue-page',
     imports: [
         NgIf,
-        JsonPipe,
-        RouterLink,
         ReactiveFormsModule,
-        NgForOf,
         ActivitiesListComponent,
         IssueCardComponent
     ],

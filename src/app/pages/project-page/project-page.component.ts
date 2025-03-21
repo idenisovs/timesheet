@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { JsonPipe, NgForOf, NgIf } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Issue, Project } from '../../dto';
 import { ProjectPageService } from './project-page.service';
-import { IssuesTableComponent } from '../issues-page/issues-table/issues-table.component';
 import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { ProjectIssuesComponent } from './project-issues/project-issues.component';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
@@ -13,12 +12,8 @@ import { Subscription } from 'rxjs';
 @Component({
     selector: 'app-project-page',
     imports: [
-        JsonPipe,
         ReactiveFormsModule,
-        RouterLink,
-        NgForOf,
         NgIf,
-        IssuesTableComponent,
         ProjectEditComponent,
         ProjectIssuesComponent,
         ProjectDetailsComponent

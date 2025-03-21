@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
 import Dexie from 'dexie';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -11,7 +10,6 @@ import { ProjectRepositoryService } from '../../../repository/project-repository
     selector: 'app-create-project-modal',
     imports: [
         FormsModule,
-        NgIf,
         ReactiveFormsModule
     ],
     templateUrl: './create-project-modal.component.html',

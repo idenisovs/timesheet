@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { JsonPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -9,7 +9,6 @@ import { Analytics } from '../../types';
 @Component({
     selector: 'app-weeks-worked-time',
     imports: [
-        JsonPipe,
         BaseChartDirective,
         NgIf,
     ],

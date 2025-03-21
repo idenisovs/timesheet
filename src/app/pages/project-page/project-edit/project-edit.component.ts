@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { Project } from '../../../dto';
 import { ProjectRepositoryService } from '../../../repository/project-repository.service';
@@ -9,7 +9,6 @@ import { ProjectRepositoryService } from '../../../repository/project-repository
     selector: 'app-project-edit',
     imports: [
         ReactiveFormsModule,
-        RouterLink
     ],
     templateUrl: './project-edit.component.html',
     styleUrl: './project-edit.component.scss'
