@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,7 +18,7 @@ import {
 import {
 	DailyActivitiesWeekDayMissingComponent
 } from './components/daily-activities-week-day-missing/daily-activities-week-day-missing.component';
-import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { DisplayModeComponent } from './components/display-mode/display-mode.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
     NavbarComponent,
     DailyActivitiesWeekDayComponent,
     DailyActivitiesWeekDayMissingComponent,
-    InfiniteScrollDirective
+    InfiniteScrollDirective,
+    DisplayModeComponent
   ],
   providers: [
     provideCharts(withDefaultRegisterables())
