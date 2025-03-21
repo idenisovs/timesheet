@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
 import { AnalyticsPageFilterForm, AnalyticsPageFilters } from '../AnalyticsPageFilterForm';
@@ -12,7 +11,6 @@ import { AnalyticsPageFilterService } from './analytics-page-filter.service';
 @Component({
     selector: 'app-analytics-page-filter',
     imports: [
-        NgbInputDatepicker,
         ReactiveFormsModule,
         DateFromComponent,
         DateTillComponent,

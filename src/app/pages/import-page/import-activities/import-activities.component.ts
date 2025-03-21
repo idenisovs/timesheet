@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { NgForOf } from '@angular/common';
 
 import { Activity } from '../../../dto';
-import { ImportedIssueDiffComponent } from '../import-issues/imported-issue-diff/imported-issue-diff.component';
 import { ImportedActivityDiffComponent } from './imported-activity-diff/imported-activity-diff.component';
 import { ImportActivitiesService } from './import-activities.service';
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
@@ -10,7 +9,6 @@ import { ActivitiesRepositoryService } from '../../../repository/activities-repo
 @Component({
     selector: 'app-import-activities',
     imports: [
-        ImportedIssueDiffComponent,
         NgForOf,
         ImportedActivityDiffComponent,
     ],

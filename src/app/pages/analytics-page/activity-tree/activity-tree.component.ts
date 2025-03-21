@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { KeyValuePipe, NgForOf, PercentPipe } from '@angular/common';
 
 import { IssueRowComponent } from './issue-row/issue-row.component';
 import { ActivityRowComponent } from './activity-row/activity-row.component';
@@ -10,9 +9,6 @@ import { Analytics } from '../types';
 @Component({
     selector: 'app-activity-tree',
     imports: [
-        KeyValuePipe,
-        NgForOf,
-        PercentPipe,
         IssueRowComponent,
         ActivityRowComponent,
         ProjectRowComponent,

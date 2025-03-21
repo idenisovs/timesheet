@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Analytics } from '../types';
-import { BaseChartDirective } from 'ng2-charts';
-import { NgIf } from '@angular/common';
 import { ProjectRatioChartComponent } from './project-ratio-chart/project-ratio-chart.component';
 import { WeeksWorkedTimeComponent } from './weeks-worked-time/weeks-worked-time.component';
 import { IssueRatioChartComponent } from './issue-ratio-chart/issue-ratio-chart.component';
@@ -9,8 +7,6 @@ import { IssueRatioChartComponent } from './issue-ratio-chart/issue-ratio-chart.
 @Component({
     selector: 'app-analytics-page-charts',
     imports: [
-        BaseChartDirective,
-        NgIf,
         ProjectRatioChartComponent,
         WeeksWorkedTimeComponent,
         IssueRatioChartComponent,
