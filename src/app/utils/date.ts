@@ -63,10 +63,10 @@ export function endOfMonth(date = new Date()): Date {
 }
 
 export function sumDuration(duration1: string, duration2: string): string {
-  const d1 = parse(duration1);
-  const d2 = parse(duration2);
+  let d1 = parse(duration1);
+  let d2 = parse(duration2);
 
-  if (typeof d1 === 'undefined' || typeof d2 === 'undefined') {
+  if (!d1 || !d2) {
     throw new Error('duration1 or duration2 is not defined!');
   }
 
