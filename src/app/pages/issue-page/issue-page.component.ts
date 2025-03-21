@@ -10,19 +10,18 @@ import { ActivitiesRepositoryService } from '../../repository/activities-reposit
 import { IssueRepositoryService } from '../../repository/issue-repository.service';
 
 @Component({
-  selector: 'app-issue-page',
-  standalone: true,
-  imports: [
-    NgIf,
-    JsonPipe,
-    RouterLink,
-    ReactiveFormsModule,
-    NgForOf,
-    ActivitiesListComponent,
-    IssueCardComponent
-  ],
-  templateUrl: './issue-page.component.html',
-  styleUrl: './issue-page.component.scss'
+    selector: 'app-issue-page',
+    imports: [
+        NgIf,
+        JsonPipe,
+        RouterLink,
+        ReactiveFormsModule,
+        NgForOf,
+        ActivitiesListComponent,
+        IssueCardComponent
+    ],
+    templateUrl: './issue-page.component.html',
+    styleUrl: './issue-page.component.scss'
 })
 export class IssuePageComponent implements OnInit {
   issue?: Issue;

@@ -12,15 +12,14 @@ import { handleModalResult } from '../../utils';
 import { ProjectRepositoryService } from '../../repository/project-repository.service';
 
 @Component({
-  selector: 'app-projects-page',
-  standalone: true,
-  imports: [
-    ProjectCardComponent,
-    NgForOf,
-    NgIf,
-  ],
-  templateUrl: './projects-page.component.html',
-  styleUrl: './projects-page.component.scss',
+    selector: 'app-projects-page',
+    imports: [
+        ProjectCardComponent,
+        NgForOf,
+        NgIf,
+    ],
+    templateUrl: './projects-page.component.html',
+    styleUrl: './projects-page.component.scss'
 })
 export class ProjectsPageComponent implements OnInit, OnDestroy {
   projects: Project[] = [];

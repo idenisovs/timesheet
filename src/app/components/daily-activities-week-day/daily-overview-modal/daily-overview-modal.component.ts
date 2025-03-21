@@ -10,16 +10,15 @@ import { ActivitiesRepositoryService } from '../../../repository/activities-repo
 import { WORK_DAY } from '../../../constants';
 
 @Component({
-  selector: 'app-daily-overview-modal',
-  standalone: true,
+    selector: 'app-daily-overview-modal',
     imports: [
         DatePipe,
         IssueOverviewComponent,
         NgIf,
         PercentPipe
     ],
-  templateUrl: './daily-overview-modal.component.html',
-  styleUrl: './daily-overview-modal.component.scss'
+    templateUrl: './daily-overview-modal.component.html',
+    styleUrl: './daily-overview-modal.component.scss'
 })
 export class DailyOverviewModalComponent implements OnInit {
   dailyOverview?: Overview;

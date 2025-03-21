@@ -8,17 +8,16 @@ import { IssuesService } from '../../../services/issues.service';
 import { IssueRepositoryService } from '../../../repository/issue-repository.service';
 
 @Component({
-  selector: 'app-issues-table',
-  standalone: true,
-  imports: [
-    DatePipe,
-    IssueRemoveButtonComponent,
-    NgForOf,
-    NgIf,
-    RouterLink
-  ],
-  templateUrl: './issues-table.component.html',
-  styleUrl: './issues-table.component.scss'
+    selector: 'app-issues-table',
+    imports: [
+        DatePipe,
+        IssueRemoveButtonComponent,
+        NgForOf,
+        NgIf,
+        RouterLink
+    ],
+    templateUrl: './issues-table.component.html',
+    styleUrl: './issues-table.component.scss'
 })
 export class IssuesTableComponent {
   @Input()

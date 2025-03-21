@@ -15,14 +15,13 @@ interface IssueData {
 }
 
 @Component({
-  selector: 'app-issue-ratio-chart',
-  standalone: true,
-	imports: [
-		BaseChartDirective,
-		NgIf,
-	],
-  templateUrl: './issue-ratio-chart.component.html',
-  styleUrl: './issue-ratio-chart.component.scss'
+    selector: 'app-issue-ratio-chart',
+    imports: [
+        BaseChartDirective,
+        NgIf,
+    ],
+    templateUrl: './issue-ratio-chart.component.html',
+    styleUrl: './issue-ratio-chart.component.scss'
 })
 export class IssueRatioChartComponent implements OnInit, OnChanges {
   load = false;

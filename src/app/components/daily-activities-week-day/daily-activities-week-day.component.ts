@@ -20,16 +20,15 @@ import { DailyOverviewModalComponent } from './daily-overview-modal/daily-overvi
 import { RemoveActivitiesWorkflowService } from '../../workflows/remove-activities-workflow.service';
 
 @Component({
-  selector: 'app-daily-activities-week-day',
-  standalone: true,
-  imports: [
-    DatePipe,
-    ReactiveFormsModule,
-    NgForOf,
-    DailyActivityItemComponent,
-  ],
-  templateUrl: './daily-activities-week-day.component.html',
-  styleUrl: './daily-activities-week-day.component.scss'
+    selector: 'app-daily-activities-week-day',
+    imports: [
+        DatePipe,
+        ReactiveFormsModule,
+        NgForOf,
+        DailyActivityItemComponent,
+    ],
+    templateUrl: './daily-activities-week-day.component.html',
+    styleUrl: './daily-activities-week-day.component.scss'
 })
 export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   totalDuration = '0h';

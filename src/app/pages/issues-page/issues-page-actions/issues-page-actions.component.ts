@@ -3,13 +3,12 @@ import { PageActionButtonComponent } from '../../../components/page-action-butto
 import { Actions } from '../../../services/Actions';
 
 @Component({
-  selector: 'app-issues-page-actions',
-  standalone: true,
-  imports: [
-    PageActionButtonComponent
-  ],
-  templateUrl: './issues-page-actions.component.html',
-  styleUrl: './issues-page-actions.component.scss'
+    selector: 'app-issues-page-actions',
+    imports: [
+        PageActionButtonComponent
+    ],
+    templateUrl: './issues-page-actions.component.html',
+    styleUrl: './issues-page-actions.component.scss'
 })
 export class IssuesPageActionsComponent {
 

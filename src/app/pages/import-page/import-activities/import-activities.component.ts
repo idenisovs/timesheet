@@ -8,15 +8,14 @@ import { ImportActivitiesService } from './import-activities.service';
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
 
 @Component({
-  selector: 'app-import-activities',
-  standalone: true,
-  imports: [
-    ImportedIssueDiffComponent,
-    NgForOf,
-    ImportedActivityDiffComponent,
-  ],
-  templateUrl: './import-activities.component.html',
-  styleUrl: './import-activities.component.scss'
+    selector: 'app-import-activities',
+    imports: [
+        ImportedIssueDiffComponent,
+        NgForOf,
+        ImportedActivityDiffComponent,
+    ],
+    templateUrl: './import-activities.component.html',
+    styleUrl: './import-activities.component.scss'
 })
 export class ImportActivitiesComponent {
   @Input()

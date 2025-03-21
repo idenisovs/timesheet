@@ -8,19 +8,18 @@ import { TotalsRowComponent } from './totals-row/totals-row.component';
 import { Analytics } from '../types';
 
 @Component({
-  selector: 'app-activity-tree',
-  standalone: true,
-  imports: [
-    KeyValuePipe,
-    NgForOf,
-    PercentPipe,
-    IssueRowComponent,
-    ActivityRowComponent,
-    ProjectRowComponent,
-    TotalsRowComponent,
-  ],
-  templateUrl: './activity-tree.component.html',
-  styleUrl: './activity-tree.component.scss'
+    selector: 'app-activity-tree',
+    imports: [
+        KeyValuePipe,
+        NgForOf,
+        PercentPipe,
+        IssueRowComponent,
+        ActivityRowComponent,
+        ProjectRowComponent,
+        TotalsRowComponent,
+    ],
+    templateUrl: './activity-tree.component.html',
+    styleUrl: './activity-tree.component.scss'
 })
 export class ActivityTreeComponent {
   @Input()

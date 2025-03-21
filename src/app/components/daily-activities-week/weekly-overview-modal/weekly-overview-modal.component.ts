@@ -9,18 +9,17 @@ import { ActivitiesRepositoryService } from '../../../repository/activities-repo
 import { WORK_WEEK } from '../../../constants';
 
 @Component({
-  selector: 'app-weekly-overview-modal',
-  standalone: true,
-  imports: [
-    DatePipe,
-    NgForOf,
-    NgIf,
-    JsonPipe,
-    PercentPipe,
-    IssueOverviewComponent
-  ],
-  templateUrl: './weekly-overview-modal.component.html',
-  styleUrl: './weekly-overview-modal.component.scss'
+    selector: 'app-weekly-overview-modal',
+    imports: [
+        DatePipe,
+        NgForOf,
+        NgIf,
+        JsonPipe,
+        PercentPipe,
+        IssueOverviewComponent
+    ],
+    templateUrl: './weekly-overview-modal.component.html',
+    styleUrl: './weekly-overview-modal.component.scss'
 })
 export class WeeklyOverviewModalComponent implements OnInit {
   weeklyOverview!: Overview;

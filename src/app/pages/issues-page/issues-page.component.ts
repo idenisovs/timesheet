@@ -14,21 +14,20 @@ import { IssuesListComponent } from './issues-list/issues-list.component';
 import { IssueRepositoryService } from '../../repository/issue-repository.service';
 
 @Component({
-  selector: 'app-issues-pages',
-  standalone: true,
-  imports: [
-    DatePipe,
-    NgForOf,
-    NgIf,
-    RouterLink,
-    NgbTooltip,
-    IssueRemoveButtonComponent,
-    IssuesTableComponent,
-    IssuesListComponent
-  ],
-  providers: [ DatePipe ],
-  templateUrl: './issues-page.component.html',
-  styleUrl: './issues-page.component.scss'
+    selector: 'app-issues-pages',
+    imports: [
+        DatePipe,
+        NgForOf,
+        NgIf,
+        RouterLink,
+        NgbTooltip,
+        IssueRemoveButtonComponent,
+        IssuesTableComponent,
+        IssuesListComponent
+    ],
+    providers: [DatePipe],
+    templateUrl: './issues-page.component.html',
+    styleUrl: './issues-page.component.scss'
 })
 export class IssuesPageComponent implements OnInit, OnDestroy {
   issues: Issue[] = [];

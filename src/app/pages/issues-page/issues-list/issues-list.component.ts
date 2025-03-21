@@ -5,16 +5,15 @@ import { DateIndexPipe } from './date-index.pipe';
 import { IssuesTableComponent } from '../issues-table/issues-table.component';
 
 @Component({
-  selector: 'app-issues-list',
-  standalone: true,
-  imports: [
-    KeyValuePipe,
-    NgForOf,
-    DateIndexPipe,
-    IssuesTableComponent
-  ],
-  templateUrl: './issues-list.component.html',
-  styleUrl: './issues-list.component.scss'
+    selector: 'app-issues-list',
+    imports: [
+        KeyValuePipe,
+        NgForOf,
+        DateIndexPipe,
+        IssuesTableComponent
+    ],
+    templateUrl: './issues-list.component.html',
+    styleUrl: './issues-list.component.scss'
 })
 export class IssuesListComponent {
   @Input()

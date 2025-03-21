@@ -6,17 +6,16 @@ import { Issue, Project } from '../../../dto';
 import { IssuesService } from '../../../services/issues.service';
 
 @Component({
-  selector: 'app-project-details',
-  standalone: true,
-  imports: [
-    NgIf,
-    PercentPipe,
-    DatePipe,
-    NgForOf,
-    RouterLink
-  ],
-  templateUrl: './project-details.component.html',
-  styleUrl: './project-details.component.scss'
+    selector: 'app-project-details',
+    imports: [
+        NgIf,
+        PercentPipe,
+        DatePipe,
+        NgForOf,
+        RouterLink
+    ],
+    templateUrl: './project-details.component.html',
+    styleUrl: './project-details.component.scss'
 })
 export class ProjectDetailsComponent implements OnInit {
   totalDuration: string = '';

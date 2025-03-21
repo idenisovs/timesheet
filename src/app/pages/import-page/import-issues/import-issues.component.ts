@@ -8,15 +8,14 @@ import {IssueRepositoryService} from "../../../repository/issue-repository.servi
 import { ImportIssuesService } from './import-issues.service';
 
 @Component({
-  selector: 'app-import-issues',
-  standalone: true,
-  imports: [
-    ImportedProjectDiffComponent,
-    NgForOf,
-    ImportedIssueDiffComponent,
-  ],
-  templateUrl: './import-issues.component.html',
-  styleUrl: './import-issues.component.scss'
+    selector: 'app-import-issues',
+    imports: [
+        ImportedProjectDiffComponent,
+        NgForOf,
+        ImportedIssueDiffComponent,
+    ],
+    templateUrl: './import-issues.component.html',
+    styleUrl: './import-issues.component.scss'
 })
 export class ImportIssuesComponent {
   @Input()

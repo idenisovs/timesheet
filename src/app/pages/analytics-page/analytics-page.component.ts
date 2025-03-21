@@ -12,18 +12,17 @@ import { AnalyticsPageTabsComponent } from './analytics-page-tabs/analytics-page
 import { Analytics } from './types';
 
 @Component({
-  selector: 'app-analytics-page',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    AnalyticsPageFilterComponent,
-    AnalyticsPageTabsComponent,
-  ],
-  templateUrl: './analytics-page.component.html',
-  styleUrl: './analytics-page.component.scss',
-  providers: [
-    {provide: NgbCalendar, useClass: NgbCalendarGregorian},
-  ],
+    selector: 'app-analytics-page',
+    imports: [
+        ReactiveFormsModule,
+        AnalyticsPageFilterComponent,
+        AnalyticsPageTabsComponent,
+    ],
+    templateUrl: './analytics-page.component.html',
+    styleUrl: './analytics-page.component.scss',
+    providers: [
+        { provide: NgbCalendar, useClass: NgbCalendarGregorian },
+    ]
 })
 export class AnalyticsPageComponent implements OnInit, OnDestroy {
   analytics?: Analytics;

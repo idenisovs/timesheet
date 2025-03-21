@@ -3,14 +3,13 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-issue-remove-button',
-  standalone: true,
-  imports: [
-    NgbTooltip,
-    NgIf
-  ],
-  templateUrl: './issue-remove-button.component.html',
-  styleUrl: './issue-remove-button.component.scss'
+    selector: 'app-issue-remove-button',
+    imports: [
+        NgbTooltip,
+        NgIf
+    ],
+    templateUrl: './issue-remove-button.component.html',
+    styleUrl: './issue-remove-button.component.scss'
 })
 export class IssueRemoveButtonComponent {
   @Input()

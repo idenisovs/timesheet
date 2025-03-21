@@ -3,15 +3,14 @@ import { IssueOverview } from '../../../../dto';
 import { DatePipe, PercentPipe } from '@angular/common';
 
 @Component({
-  selector: '[app-issue-row]',
-  standalone: true,
-  imports: [
-    PercentPipe,
-    DatePipe,
-  ],
-  templateUrl: './issue-row.component.html',
-  styleUrl: './issue-row.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: '[app-issue-row]',
+    imports: [
+        PercentPipe,
+        DatePipe,
+    ],
+    templateUrl: './issue-row.component.html',
+    styleUrl: './issue-row.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IssueRowComponent {
   @Input()

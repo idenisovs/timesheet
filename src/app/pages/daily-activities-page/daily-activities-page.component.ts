@@ -10,9 +10,10 @@ import { PrepareForTodayWorkflowService } from '../../workflows/prepare-for-toda
 import { delay } from '../../utils';
 
 @Component({
-  selector: 'app-daily-activities-page',
-  templateUrl: './daily-activities-page.component.html',
-  styleUrls: ['./daily-activities-page.component.scss']
+    selector: 'app-daily-activities-page',
+    templateUrl: './daily-activities-page.component.html',
+    styleUrls: ['./daily-activities-page.component.scss'],
+    standalone: false
 })
 export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDestroy {
   weeks: Week[] = [];
