@@ -38,7 +38,7 @@
           [idx]="idx"
           [activity]="activity"
           [activities]="ActivityFormArrayItems"
-          [isLastActivity]="idx === ActivityFormArrayItems.length - 1"
+          [isLastActivity]="isLastActivity(idx)"
           (add)="add()"
           (remove)="remove($event)"
           (save)="save()"
