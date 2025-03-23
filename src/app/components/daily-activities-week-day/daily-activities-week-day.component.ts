@@ -31,20 +31,26 @@ import { Subscription } from 'rxjs';
     styleUrl: './daily-activities-week-day.component.scss'
 })
 export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
-  totalDuration = '0h';
-  isChanged = false;
-  form: FormGroup<DailyActivitiesForm> = this.fb.group({
-    activities: this.fb.array([
-      this.service.makeActivityFormItem()
-    ])
-  });
-
   valueChangesSub!: Subscription;
   isMobileSub!: Subscription;
 
   removableActivityIds: string[] = [];
   activities: Activity[] = [];
   isMobile: boolean = false;
+  totalDuration = '0h';
+  isChanged = false;
+
+  form: FormGroup<DailyActivitiesForm> = this.fb.group({
+    activities: this.fb.array([
+      this.service.makeActivityFormItem()
+    ])
+  });
+
+  @Input()
+  day!: Day;
+
+  @Output()
+  changes = new EventEmitter<void>();
 
   get ActivityFormArray(): FormArray<ActivityFormGroup> {
     return this.form.get('activities') as FormArray<ActivityFormGroup>;
@@ -53,12 +59,6 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   get ActivityFormArrayItems(): ActivityFormGroup[] {
     return this.ActivityFormArray.controls;
   }
-
-  @Input()
-  day!: Day;
-
-  @Output()
-  changes = new EventEmitter<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -139,11 +139,6 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   async reset() {
     await this.loadActivities();
     this.isChanged = false;
-  }
-
-  isLastActivity(idx: number): boolean {
-    const lastActivityPosition = this.isMobile ? 0 : (this.ActivityFormArrayItems.length - 1);
-    return idx === lastActivityPosition;
   }
 
   showDailyOverview() {
