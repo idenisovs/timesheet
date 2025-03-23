@@ -8,15 +8,14 @@ import { Analytics } from '../../types';
 import { DurationService } from '../../../../services/duration.service';
 
 @Component({
-  selector: 'app-project-ratio-chart',
-  standalone: true,
-	imports: [
-		BaseChartDirective,
-		NgIf
-	],
-  providers: [PercentPipe],
-  templateUrl: './project-ratio-chart.component.html',
-  styleUrl: './project-ratio-chart.component.scss'
+    selector: 'app-project-ratio-chart',
+    imports: [
+        BaseChartDirective,
+        NgIf
+    ],
+    providers: [PercentPipe],
+    templateUrl: './project-ratio-chart.component.html',
+    styleUrl: './project-ratio-chart.component.scss'
 })
 export class ProjectRatioChartComponent implements OnInit, OnChanges {
   load = false;

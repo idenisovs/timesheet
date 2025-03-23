@@ -9,7 +9,7 @@
       </small>
     </h2>
     <div>
-      <button class="btn btn-sm btn-light" title="Summary" (click)="showDailyOverview()">
+      <button class="btn btn-sm btn-light d-none d-sm-inline-block" title="Summary" (click)="showDailyOverview()">
         <i class="material-symbols-outlined">
           donut_large
         </i>
@@ -18,7 +18,7 @@
   </header>
   <main class="card-body">
     <form [formGroup]="form">
-      <div class="row">
+      <div class="row d-none d-md-flex">
         <div class="col-4">
           Activity
         </div>
@@ -38,7 +38,7 @@
           [idx]="idx"
           [activity]="activity"
           [activities]="ActivityFormArrayItems"
-          [isLastActivity]="idx === ActivityFormArrayItems.length - 1"
+          [isMobile]="isMobile"
           (add)="add()"
           (remove)="remove($event)"
           (save)="save()"
@@ -54,7 +54,7 @@
     </span>
     <span class="me-2">
       <i class="material-symbols-outlined text-info">schedule</i>
-      {{totalDuration}}
+      {{totalDuration || '0m'}}
     </span>
     @if(isChanged) {
       <span class="me-2">

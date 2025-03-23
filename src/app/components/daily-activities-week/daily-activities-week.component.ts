@@ -6,9 +6,10 @@ import { ActivitiesRepositoryService } from '../../repository/activities-reposit
 import { ActivitiesService } from '../../services/activities.service';
 
 @Component({
-  selector: 'app-daily-activities-week',
-  templateUrl: './daily-activities-week.component.html',
-  styleUrls: ['./daily-activities-week.component.scss']
+    selector: 'app-daily-activities-week',
+    templateUrl: './daily-activities-week.component.html',
+    styleUrls: ['./daily-activities-week.component.scss'],
+    standalone: false
 })
 export class DailyActivitiesWeekComponent implements OnInit {
   days: Day[] = [];

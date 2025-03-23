@@ -10,9 +10,10 @@ import { PrepareForTodayWorkflowService } from '../../workflows/prepare-for-toda
 import { delay } from '../../utils';
 
 @Component({
-  selector: 'app-daily-activities-page',
-  templateUrl: './daily-activities-page.component.html',
-  styleUrls: ['./daily-activities-page.component.scss']
+    selector: 'app-daily-activities-page',
+    templateUrl: './daily-activities-page.component.html',
+    styleUrls: ['./daily-activities-page.component.scss'],
+    standalone: false
 })
 export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDestroy {
   weeks: Week[] = [];
@@ -31,7 +32,7 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
   ) { }
 
   async ngOnInit() {
-    await this.prepareForToday();
+    await this.prepareForTodayWorkflow.run();
     await this.loadNextWeek();
   }
 
@@ -46,9 +47,9 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
   async preloadWeeks() {
     await delay(150);
 
-    const numberOfWeeks = await this.weekRepo.getCount();
-    const windowHeight = window.innerHeight;
     const weekListHeight = (this.weekListRef.nativeElement as HTMLElement).offsetHeight;
+    const windowHeight = window.innerHeight;
+    const numberOfWeeks = await this.weekRepo.getCount();
 
     if (weekListHeight <= windowHeight && this.weeks.length < numberOfWeeks) {
       await this.loadNextWeek();
@@ -64,10 +65,6 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
     if (week) {
       this.weeks.push(week);
     }
-  }
-
-  private async prepareForToday(): Promise<void> {
-    return this.prepareForTodayWorkflow.run();
   }
 
   private async handlePageActions(action: Actions) {

@@ -1,19 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { Project } from '../../../dto';
 import { ProjectRepositoryService } from '../../../repository/project-repository.service';
 
 @Component({
-  selector: 'app-project-edit',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    RouterLink
-  ],
-  templateUrl: './project-edit.component.html',
-  styleUrl: './project-edit.component.scss'
+    selector: 'app-project-edit',
+    imports: [
+        ReactiveFormsModule,
+    ],
+    templateUrl: './project-edit.component.html',
+    styleUrl: './project-edit.component.scss'
 })
 export class ProjectEditComponent implements OnInit {
   form = this.fb.group({

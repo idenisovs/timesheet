@@ -5,14 +5,13 @@ import { IssuesTableComponent } from '../../issues-page/issues-table/issues-tabl
 import { Issue } from '../../../dto';
 
 @Component({
-  selector: 'app-project-issues',
-  standalone: true,
-  imports: [
-    IssuesTableComponent,
-    NgIf
-  ],
-  templateUrl: './project-issues.component.html',
-  styleUrl: './project-issues.component.scss'
+    selector: 'app-project-issues',
+    imports: [
+        IssuesTableComponent,
+        NgIf
+    ],
+    templateUrl: './project-issues.component.html',
+    styleUrl: './project-issues.component.scss'
 })
 export class ProjectIssuesComponent {
   @Input()

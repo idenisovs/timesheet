@@ -1,20 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DatePipe, NgForOf } from '@angular/common';
+import { NgForOf } from '@angular/common';
 
 import { getDateString } from '../../../utils';
 import { ActivitiesTableComponent } from './activities-table/activities-table.component';
 import { Activity } from '../../../dto';
 
 @Component({
-  selector: 'app-activities-list',
-  standalone: true,
-  imports: [
-    NgForOf,
-    DatePipe,
-    ActivitiesTableComponent
-  ],
-  templateUrl: './activities-list.component.html',
-  styleUrl: './activities-list.component.scss'
+    selector: 'app-activities-list',
+    imports: [
+        NgForOf,
+        ActivitiesTableComponent
+    ],
+    templateUrl: './activities-list.component.html',
+    styleUrl: './activities-list.component.scss'
 })
 export class ActivitiesListComponent implements OnInit {
   @Input()

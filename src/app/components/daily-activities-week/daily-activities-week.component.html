@@ -1,14 +1,15 @@
-<ng-container *ngIf="week">
+@if (week) {
   <section class="mb-4">
-    <app-daily-activities-week-header [week]="week" [days]="days" [summary]="summary" />
+    <app-daily-activities-week-header [week]="week" [days]="days" [summary]="summary"/>
 
-    <ng-container *ngFor="let day of days">
+    @for (day of days; track day) {
       <div class="mt-3">
-        <app-daily-activities-week-day *ngIf="!day.isMissing; else MissingDay" [day]="day" (changes)="recalculateActivitySummary()" />
-        <ng-template #MissingDay>
-          <app-daily-activities-week-day-missing [day]="day" />
-        </ng-template>
+        @if (day.isMissing) {
+          <app-daily-activities-week-day-missing [day]="day"/>
+        } @else {
+          <app-daily-activities-week-day [day]="day" (changes)="recalculateActivitySummary()"/>
+        }
       </div>
-    </ng-container>
+    }
   </section>
-</ng-container>
+}

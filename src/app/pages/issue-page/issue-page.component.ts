@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { JsonPipe, NgForOf, NgIf } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import { NgIf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { Activity, Issue } from '../../dto';
@@ -10,19 +10,15 @@ import { ActivitiesRepositoryService } from '../../repository/activities-reposit
 import { IssueRepositoryService } from '../../repository/issue-repository.service';
 
 @Component({
-  selector: 'app-issue-page',
-  standalone: true,
-  imports: [
-    NgIf,
-    JsonPipe,
-    RouterLink,
-    ReactiveFormsModule,
-    NgForOf,
-    ActivitiesListComponent,
-    IssueCardComponent
-  ],
-  templateUrl: './issue-page.component.html',
-  styleUrl: './issue-page.component.scss'
+    selector: 'app-issue-page',
+    imports: [
+        NgIf,
+        ReactiveFormsModule,
+        ActivitiesListComponent,
+        IssueCardComponent
+    ],
+    templateUrl: './issue-page.component.html',
+    styleUrl: './issue-page.component.scss'
 })
 export class IssuePageComponent implements OnInit {
   issue?: Issue;

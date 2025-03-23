@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
 import Dexie from 'dexie';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -8,15 +7,13 @@ import { Project } from '../../../dto';
 import { ProjectRepositoryService } from '../../../repository/project-repository.service';
 
 @Component({
-  selector: 'app-create-project-modal',
-  standalone: true,
-  imports: [
-    FormsModule,
-    NgIf,
-    ReactiveFormsModule
-  ],
-  templateUrl: './create-project-modal.component.html',
-  styleUrl: './create-project-modal.component.scss'
+    selector: 'app-create-project-modal',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    templateUrl: './create-project-modal.component.html',
+    styleUrl: './create-project-modal.component.scss'
 })
 export class CreateProjectModalComponent {
   form = this.fb.group({

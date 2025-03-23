@@ -6,15 +6,14 @@ import { ProjectRepositoryService } from '../../../../repository/project-reposit
 import { DiffStatus } from '../../DiffStatus';
 
 @Component({
-  selector: 'app-imported-project-diff',
-  standalone: true,
-  imports: [
-    NgClass,
-    NgIf,
-    DatePipe,
-  ],
-  templateUrl: './imported-project-diff.component.html',
-  styleUrl: './imported-project-diff.component.scss'
+    selector: 'app-imported-project-diff',
+    imports: [
+        NgClass,
+        NgIf,
+        DatePipe,
+    ],
+    templateUrl: './imported-project-diff.component.html',
+    styleUrl: './imported-project-diff.component.scss'
 })
 export class ImportedProjectDiffComponent implements OnInit {
   status = DiffStatus.same;

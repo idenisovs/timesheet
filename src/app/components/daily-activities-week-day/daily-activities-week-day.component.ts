@@ -5,9 +5,8 @@ import {
   FormGroup,
   ReactiveFormsModule
 } from '@angular/forms';
-import { DatePipe, JsonPipe, NgForOf } from '@angular/common';
+import { DatePipe, NgForOf } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs';
 
 import { Activity, Day } from '../../dto';
 import { DailyActivityItemComponent } from '../daily-activity-item/daily-activity-item.component';
@@ -15,35 +14,43 @@ import { DailyActivitiesWeekDayService } from './daily-activities-week-day.servi
 import { DailyActivitiesForm, ActivityFormGroup } from './DailyActivitiesForm';
 import { SaveActivitiesWorkflowService } from '../../workflows/save-activities-workflow.service';
 import { ActivitiesService } from '../../services/activities.service';
-import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 import { DailyOverviewModalComponent } from './daily-overview-modal/daily-overview-modal.component';
 import { RemoveActivitiesWorkflowService } from '../../workflows/remove-activities-workflow.service';
+import { ScreenService } from '../../services/screen.service';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-daily-activities-week-day',
-  standalone: true,
-  imports: [
-    JsonPipe,
-    DatePipe,
-    ReactiveFormsModule,
-    NgForOf,
-    DailyActivityItemComponent,
-  ],
-  templateUrl: './daily-activities-week-day.component.html',
-  styleUrl: './daily-activities-week-day.component.scss'
+    selector: 'app-daily-activities-week-day',
+    imports: [
+        DatePipe,
+        ReactiveFormsModule,
+        NgForOf,
+        DailyActivityItemComponent,
+    ],
+    templateUrl: './daily-activities-week-day.component.html',
+    styleUrl: './daily-activities-week-day.component.scss'
 })
 export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
+  valueChangesSub!: Subscription;
+  isMobileSub!: Subscription;
+
+  removableActivityIds: string[] = [];
+  activities: Activity[] = [];
+  isMobile: boolean = false;
   totalDuration = '0h';
   isChanged = false;
+
   form: FormGroup<DailyActivitiesForm> = this.fb.group({
     activities: this.fb.array([
       this.service.makeActivityFormItem()
     ])
   });
 
-  valueChangesHandler?: Subscription;
-  removableActivityIds: string[] = [];
-  activities: Activity[] = [];
+  @Input()
+  day!: Day;
+
+  @Output()
+  changes = new EventEmitter<void>();
 
   get ActivityFormArray(): FormArray<ActivityFormGroup> {
     return this.form.get('activities') as FormArray<ActivityFormGroup>;
@@ -53,13 +60,6 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     return this.ActivityFormArray.controls;
   }
 
-  @Input()
-  day!: Day;
-
-  @Output()
-  changes = new EventEmitter<void>();
-
-
   constructor(
     private fb: FormBuilder,
     private modal: NgbModal,
@@ -67,39 +67,50 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     private activitiesService: ActivitiesService,
     private saveActivitiesWorkflow: SaveActivitiesWorkflowService,
     private removeActivitiesWorkflow: RemoveActivitiesWorkflowService,
-    private activityRepository: ActivitiesRepositoryService
+    private screenService: ScreenService
   ) {}
 
   async ngOnInit() {
-    await this.updateFormState();
+    this.isMobileSub = this.screenService.isMobile$.subscribe((value: boolean) => {
+      this.isMobile = value;
+    });
 
-    this.valueChangesHandler = this.form.valueChanges.subscribe(() => {
+    await this.loadActivities();
+
+    this.valueChangesSub = this.form.valueChanges.subscribe(() => {
       this.isChanged = true;
     });
   }
 
   ngOnDestroy() {
-    if (this.valueChangesHandler) {
-      this.valueChangesHandler.unsubscribe();
-    }
+    this.valueChangesSub.unsubscribe();
+    this.isMobileSub.unsubscribe();
   }
 
-  async updateFormState() {
-    this.activities = await this.activityRepository.getByDay(this.day);
-
-    const activityFormItems = this.activities.map((activity: Activity) => {
-      return this.service.makeActivityFormItem(activity);
-    });
-
-    if (activityFormItems.length) {
-      this.form.setControl('activities', this.fb.array(activityFormItems));
-    }
-
+  async loadActivities() {
+    this.activities = await this.activitiesService.loadDailyActivities(this.day);
+    this.updateActivitiesForm();
     this.totalDuration = this.activitiesService.calculateDuration(this.activities);
   }
 
+  updateActivitiesForm() {
+    if (this.activities.length) {
+      const activityFormItems = this.activities.map((activity: Activity) => {
+        return this.service.makeActivityFormItem(activity);
+      });
+
+      this.form.setControl('activities', this.fb.array(activityFormItems));
+    }
+  }
+
   add() {
-    this.ActivityFormArray.push(this.service.makeActivityFormItem());
+    const activityFormItem = this.service.makeActivityFormItem();
+
+    if (this.isMobile) {
+      this.ActivityFormArray.insert(0, activityFormItem)
+    } else {
+      this.ActivityFormArray.push(activityFormItem);
+    }
   }
 
   remove(activityId: string) {
@@ -126,7 +137,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   }
 
   async reset() {
-    await this.updateFormState();
+    await this.loadActivities();
     this.isChanged = false;
   }
 

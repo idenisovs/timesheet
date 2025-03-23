@@ -1,4 +1,4 @@
-<div class="container mt-4">
+<div class="container-lg mt-4">
   <header class="mb-1 p-1 d-block d-md-flex justify-content-between align-items-center">
     <span>
       <h1 class="d-inline-block">
@@ -9,7 +9,9 @@
       </span>
     </span>
 
-    <router-outlet name="page-actions"></router-outlet>
+    <div class="d-none d-md-block">
+      <router-outlet name="page-actions"></router-outlet>
+    </div>
   </header>
 
   <app-navbar></app-navbar>
