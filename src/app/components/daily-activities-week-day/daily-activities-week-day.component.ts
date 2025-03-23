@@ -104,7 +104,13 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   }
 
   add() {
-    this.ActivityFormArray.push(this.service.makeActivityFormItem());
+    const activityFormItem = this.service.makeActivityFormItem();
+
+    if (this.isMobile) {
+      this.ActivityFormArray.insert(0, activityFormItem)
+    } else {
+      this.ActivityFormArray.push(activityFormItem);
+    }
   }
 
   remove(activityId: string) {
