@@ -1,4 +1,4 @@
-<div class="row mb-2" [ngClass]="{ 'border-left border-info ': isImported }" [formGroup]="activity">
+<div class="row mb-2" [formGroup]="activity">
   <div class="form-group col-12 col-md-4 m-0">
     <div class="input-group mb-2 mb-md-0">
       <input id="activity-name" name="name" formControlName="name" type="text" class="form-control">
@@ -14,9 +14,15 @@
   <div class="form-group col-12 col-md-2 m-0">
     <div class="input-group mb-2 mb-md-0">
       <input id="activity-from" name="from" formControlName="from" type="text" class="form-control" (input)="handleFromChanges()">
-      <button class="btn btn-sm btn-outline-secondary" type="button" (click)="setTimeFromPreviousActivity()" *ngIf="idx > 0">
-        <i class="material-symbols-outlined">north_east</i>
-      </button>
+      @if (!isFirstActivity) {
+        <button class="btn btn-sm btn-outline-secondary" type="button" (click)="setTimeFromPreviousActivity()">
+          @if (isMobile) {
+            <i class="material-symbols-outlined">u_turn_left</i>
+          } @else {
+            <i class="material-symbols-outlined">north_east</i>
+          }
+        </button>
+      }
       <button class="btn btn-sm btn-outline-secondary" type="button" (click)="setCurrentTime('from')">
         <i class="material-symbols-outlined">access_time</i>
       </button>

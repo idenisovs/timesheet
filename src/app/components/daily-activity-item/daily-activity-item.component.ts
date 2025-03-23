@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { duration } from 'yet-another-duration';
 import parseDuration from 'parse-duration';
 
@@ -16,7 +16,6 @@ const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/
     imports: [
         ReactiveFormsModule,
         NgClass,
-        NgIf,
     ]
 })
 export class DailyActivityItemComponent implements OnInit {
@@ -36,10 +35,7 @@ export class DailyActivityItemComponent implements OnInit {
   idx = 0;
 
   @Input()
-  isLastActivity = false;
-
-  @Input()
-  isImported = false;
+  isMobile = false;
 
   @Output()
   add = new EventEmitter<void>();
@@ -52,6 +48,20 @@ export class DailyActivityItemComponent implements OnInit {
 
   get ActivityId(): string {
     return this.activity.get('id')?.value;
+  }
+
+  get isFirstActivity(): boolean {
+    const firstPositionInDesktop = 0;
+    const firstPositionInMobile = this.activities.length - 1;
+    const firstActivityPosition = this.isMobile ? firstPositionInMobile : firstPositionInDesktop;
+    return this.idx === firstActivityPosition;
+  }
+
+  get isLastActivity(): boolean {
+    const lastPositionInDesktop = this.activities.length - 1;
+    const lastPositionInMobile = 0
+    const lastActivityPosition = this.isMobile ? lastPositionInMobile : lastPositionInDesktop;
+    return this.idx === lastActivityPosition;
   }
 
   constructor(
