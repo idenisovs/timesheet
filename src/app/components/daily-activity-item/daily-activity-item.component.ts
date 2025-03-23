@@ -215,7 +215,8 @@ export class DailyActivityItemComponent implements OnInit {
   }
 
   setTimeFromPreviousActivity() {
-    const previousActivity = this.activities[this.idx - 1];
+    const previousActivityDirection = this.isMobile ? 1 : -1;
+    const previousActivity = this.activities[this.idx + previousActivityDirection];
     const previousTillField = previousActivity.get('till');
 
     if (!previousTillField) {
