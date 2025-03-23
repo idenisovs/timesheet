@@ -24,8 +24,7 @@ export class ActivitiesService implements OnDestroy {
   }
 
   public async loadDailyActivities(day: Day): Promise<Activity[]> {
-    const order = this.isMobile ? 'desc' : 'asc';
-    return this.activityRepository.getByDay(day, order);
+    return this.activityRepository.getByDay(day, this.isMobile);
   }
 
   public calculateDurationMs(activities: Activity[]): number {
