@@ -2,21 +2,18 @@ import { Component, Input } from '@angular/core';
 import { NgForOf } from '@angular/common';
 
 import { Activity } from '../../../dto';
-import { ImportedIssueDiffComponent } from '../import-issues/imported-issue-diff/imported-issue-diff.component';
 import { ImportedActivityDiffComponent } from './imported-activity-diff/imported-activity-diff.component';
 import { ImportActivitiesService } from './import-activities.service';
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
 
 @Component({
-  selector: 'app-import-activities',
-  standalone: true,
-  imports: [
-    ImportedIssueDiffComponent,
-    NgForOf,
-    ImportedActivityDiffComponent,
-  ],
-  templateUrl: './import-activities.component.html',
-  styleUrl: './import-activities.component.scss'
+    selector: 'app-import-activities',
+    imports: [
+        NgForOf,
+        ImportedActivityDiffComponent,
+    ],
+    templateUrl: './import-activities.component.html',
+    styleUrl: './import-activities.component.scss'
 })
 export class ImportActivitiesComponent {
   @Input()

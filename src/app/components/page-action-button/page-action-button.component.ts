@@ -4,14 +4,13 @@ import { Actions } from '../../services/Actions';
 import { ActionsService } from '../../services/actions.service';
 
 @Component({
-  selector: 'app-page-action-button',
-  standalone: true,
-  imports: [
-    NgIf,
-    NgClass
-  ],
-  templateUrl: './page-action-button.component.html',
-  styleUrl: './page-action-button.component.scss'
+    selector: 'app-page-action-button',
+    imports: [
+        NgIf,
+        NgClass
+    ],
+    templateUrl: './page-action-button.component.html',
+    styleUrl: './page-action-button.component.scss'
 })
 export class PageActionButtonComponent {
   @Input()

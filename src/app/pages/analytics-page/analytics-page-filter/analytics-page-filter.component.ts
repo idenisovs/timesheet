@@ -1,6 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
 import { AnalyticsPageFilterForm, AnalyticsPageFilters } from '../AnalyticsPageFilterForm';
@@ -10,16 +9,14 @@ import { Week } from '../../../dto';
 import { AnalyticsPageFilterService } from './analytics-page-filter.service';
 
 @Component({
-  selector: 'app-analytics-page-filter',
-  standalone: true,
-  imports: [
-    NgbInputDatepicker,
-    ReactiveFormsModule,
-    DateFromComponent,
-    DateTillComponent,
-  ],
-  templateUrl: './analytics-page-filter.component.html',
-  styleUrl: './analytics-page-filter.component.scss'
+    selector: 'app-analytics-page-filter',
+    imports: [
+        ReactiveFormsModule,
+        DateFromComponent,
+        DateTillComponent,
+    ],
+    templateUrl: './analytics-page-filter.component.html',
+    styleUrl: './analytics-page-filter.component.scss'
 })
 export class AnalyticsPageFilterComponent implements OnInit, OnDestroy {
   filtersForm = this.setupDefaultFilters();

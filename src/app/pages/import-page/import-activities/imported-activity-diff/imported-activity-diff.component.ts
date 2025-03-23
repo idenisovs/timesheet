@@ -9,16 +9,15 @@ import { DaysRepositoryService } from '../../../../repository/days-repository.se
 import { ActivitiesService } from '../../../../services/activities.service';
 
 @Component({
-  selector: 'app-imported-activity-diff',
-  standalone: true,
-  imports: [
-    DatePipe,
-    NgIf,
-    NgClass,
-    NgForOf,
-  ],
-  templateUrl: './imported-activity-diff.component.html',
-  styleUrl: './imported-activity-diff.component.scss'
+    selector: 'app-imported-activity-diff',
+    imports: [
+        DatePipe,
+        NgIf,
+        NgClass,
+        NgForOf,
+    ],
+    templateUrl: './imported-activity-diff.component.html',
+    styleUrl: './imported-activity-diff.component.scss'
 })
 export class ImportedActivityDiffComponent implements OnInit {
   status: DiffStatus = DiffStatus.same;

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { JsonPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -7,15 +7,13 @@ import { HOUR } from '../../../../constants';
 import { Analytics } from '../../types';
 
 @Component({
-  selector: 'app-weeks-worked-time',
-  standalone: true,
-  imports: [
-    JsonPipe,
-    BaseChartDirective,
-    NgIf,
-  ],
-  templateUrl: './weeks-worked-time.component.html',
-  styleUrl: './weeks-worked-time.component.scss'
+    selector: 'app-weeks-worked-time',
+    imports: [
+        BaseChartDirective,
+        NgIf,
+    ],
+    templateUrl: './weeks-worked-time.component.html',
+    styleUrl: './weeks-worked-time.component.scss'
 })
 export class WeeksWorkedTimeComponent implements OnInit, OnChanges {
   load = false;

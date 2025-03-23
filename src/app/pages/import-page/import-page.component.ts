@@ -10,16 +10,15 @@ import { ImportActivitiesComponent } from './import-activities/import-activities
 import { ReaderService } from '../../reader/reader.service';
 
 @Component({
-  selector: 'app-import-page',
-  standalone: true,
-  imports: [
-    ImportProjectsComponent,
-    NgIf,
-    ImportIssuesComponent,
-    ImportActivitiesComponent,
-  ],
-  templateUrl: './import-page.component.html',
-  styleUrl: './import-page.component.scss'
+    selector: 'app-import-page',
+    imports: [
+        ImportProjectsComponent,
+        NgIf,
+        ImportIssuesComponent,
+        ImportActivitiesComponent,
+    ],
+    templateUrl: './import-page.component.html',
+    styleUrl: './import-page.component.scss'
 })
 export class ImportPageComponent {
   projects: Project[] = [];

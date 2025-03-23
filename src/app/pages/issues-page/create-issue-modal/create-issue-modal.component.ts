@@ -5,14 +5,13 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateIssueModalService } from './create-issue-modal.service';
 
 @Component({
-  selector: 'app-create-issue-modal',
-  standalone: true,
-  imports: [
-    NgIf,
-    ReactiveFormsModule,
-  ],
-  templateUrl: './create-issue-modal.component.html',
-  styleUrl: './create-issue-modal.component.scss'
+    selector: 'app-create-issue-modal',
+    imports: [
+        NgIf,
+        ReactiveFormsModule,
+    ],
+    templateUrl: './create-issue-modal.component.html',
+    styleUrl: './create-issue-modal.component.scss'
 })
 export class CreateIssueModalComponent implements OnInit {
   form = this.fb.group({

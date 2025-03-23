@@ -1,19 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgForOf, NgIf } from '@angular/common';
+import { NgForOf } from '@angular/common';
 
 import { Project } from '../../../dto';
 import { ImportedProjectDiffComponent } from './imported-project-diff/imported-project-diff.component';
 
 @Component({
-  selector: 'app-import-projects',
-  standalone: true,
-  imports: [
-    NgForOf,
-    ImportedProjectDiffComponent,
-    NgIf,
-  ],
-  templateUrl: './import-projects.component.html',
-  styleUrl: './import-projects.component.scss'
+    selector: 'app-import-projects',
+    imports: [
+        NgForOf,
+        ImportedProjectDiffComponent,
+    ],
+    templateUrl: './import-projects.component.html',
+    styleUrl: './import-projects.component.scss'
 })
 export class ImportProjectsComponent implements OnInit {
   @Input()

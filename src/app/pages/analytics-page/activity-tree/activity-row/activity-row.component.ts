@@ -3,15 +3,14 @@ import { Activity, ActivityOverview } from '../../../../dto';
 import { DatePipe, PercentPipe } from '@angular/common';
 
 @Component({
-  selector: '[app-activity-row]',
-  standalone: true,
-  imports: [
-    PercentPipe,
-    DatePipe,
-  ],
-  templateUrl: './activity-row.component.html',
-  styleUrl: './activity-row.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: '[app-activity-row]',
+    imports: [
+        PercentPipe,
+        DatePipe,
+    ],
+    templateUrl: './activity-row.component.html',
+    styleUrl: './activity-row.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActivityRowComponent {
   get CreatedAt(): Date {

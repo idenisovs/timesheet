@@ -4,13 +4,12 @@ import { PercentPipe } from '@angular/common';
 import { ActivityTotals } from '../../types';
 
 @Component({
-  selector: '[app-totals-row]',
-  standalone: true,
-  imports: [
-    PercentPipe,
-  ],
-  templateUrl: './totals-row.component.html',
-  styleUrl: './totals-row.component.scss'
+    selector: '[app-totals-row]',
+    imports: [
+        PercentPipe,
+    ],
+    templateUrl: './totals-row.component.html',
+    styleUrl: './totals-row.component.scss'
 })
 export class TotalsRowComponent {
   @Input()
