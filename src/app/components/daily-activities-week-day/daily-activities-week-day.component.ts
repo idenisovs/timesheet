@@ -16,6 +16,8 @@ import { SaveActivitiesWorkflowService } from '../../workflows/save-activities-w
 import { ActivitiesService } from '../../services/activities.service';
 import { DailyOverviewModalComponent } from './daily-overview-modal/daily-overview-modal.component';
 import { RemoveActivitiesWorkflowService } from '../../workflows/remove-activities-workflow.service';
+import { ScreenService } from '../../services/screen.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-daily-activities-week-day',
@@ -37,12 +39,12 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     ])
   });
 
-  valueChangesHandler = this.form.valueChanges.subscribe(() => {
-    this.isChanged = true;
-  });
+  valueChangesSub!: Subscription;
+  isMobileSub!: Subscription;
 
   removableActivityIds: string[] = [];
   activities: Activity[] = [];
+  isMobile: boolean = false;
 
   get ActivityFormArray(): FormArray<ActivityFormGroup> {
     return this.form.get('activities') as FormArray<ActivityFormGroup>;
@@ -64,15 +66,25 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     private service: DailyActivitiesWeekDayService,
     private activitiesService: ActivitiesService,
     private saveActivitiesWorkflow: SaveActivitiesWorkflowService,
-    private removeActivitiesWorkflow: RemoveActivitiesWorkflowService
+    private removeActivitiesWorkflow: RemoveActivitiesWorkflowService,
+    private screenService: ScreenService
   ) {}
 
   async ngOnInit() {
+    this.valueChangesSub = this.form.valueChanges.subscribe(() => {
+      this.isChanged = true;
+    });
+
+    this.isMobileSub = this.screenService.isMobile$.subscribe((value: boolean) => {
+      this.isMobile = value;
+    });
+
     await this.loadActivities();
   }
 
   ngOnDestroy() {
-    this.valueChangesHandler.unsubscribe();
+    this.valueChangesSub.unsubscribe();
+    this.isMobileSub.unsubscribe();
   }
 
   async loadActivities() {
@@ -121,6 +133,11 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   async reset() {
     await this.loadActivities();
     this.isChanged = false;
+  }
+
+  isLastActivity(idx: number): boolean {
+    const lastActivityPosition = this.isMobile ? 0 : (this.ActivityFormArrayItems.length - 1);
+    return idx === lastActivityPosition;
   }
 
   showDailyOverview() {
