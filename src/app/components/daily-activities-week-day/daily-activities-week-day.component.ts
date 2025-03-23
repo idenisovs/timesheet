@@ -71,15 +71,15 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    this.valueChangesSub = this.form.valueChanges.subscribe(() => {
-      this.isChanged = true;
-    });
-
     this.isMobileSub = this.screenService.isMobile$.subscribe((value: boolean) => {
       this.isMobile = value;
     });
 
     await this.loadActivities();
+
+    this.valueChangesSub = this.form.valueChanges.subscribe(() => {
+      this.isChanged = true;
+    });
   }
 
   ngOnDestroy() {
