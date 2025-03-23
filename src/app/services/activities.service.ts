@@ -1,14 +1,32 @@
-import { Injectable } from '@angular/core';
-import { Activity, ActivitySummary } from '../dto';
+import { inject, Injectable, OnDestroy } from '@angular/core';
+
+import { Activity, ActivitySummary, Day } from '../dto';
 import { DurationService } from './duration.service';
+import { ScreenService } from './screen.service';
+import { ActivitiesRepositoryService } from '../repository/activities-repository.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ActivitiesService {
-  constructor(
-    private durationService: DurationService
-  ) { }
+export class ActivitiesService implements OnDestroy {
+  private durationService = inject(DurationService);
+  private screenService = inject(ScreenService);
+  private activityRepository = inject(ActivitiesRepositoryService);
+
+  private isMobile = false;
+
+  private isMobileSub = this.screenService.isMobile$.subscribe((value: boolean) => {
+    this.isMobile = value;
+  });
+
+  public ngOnDestroy() {
+    this.isMobileSub.unsubscribe();
+  }
+
+  public async loadDailyActivities(day: Day): Promise<Activity[]> {
+    const order = this.isMobile ? 'desc' : 'asc';
+    return this.activityRepository.getByDay(day, order);
+  }
 
   public calculateDurationMs(activities: Activity[]): number {
     return activities.reduce<number>((result: number, activity: Activity) => {

@@ -27,8 +27,15 @@ export class ActivitiesRepositoryService {
     return records.map(Activity.fromRecord);
   }
 
-  async getByDay(day: Day): Promise<Activity[]> {
-    const records = await this.db.activities.where('dayId').equals(day.id).sortBy('from');
+  async getByDay(day: Day, order: 'asc' | 'desc' = 'asc'): Promise<Activity[]> {
+    let query = this.db.activities.where('dayId').equals(day.id);
+
+    if (order === 'desc') {
+      query = query.reverse()
+    }
+
+    const records = await query.sortBy('from');
+
     return records.map(Activity.fromRecord);
   }
 
