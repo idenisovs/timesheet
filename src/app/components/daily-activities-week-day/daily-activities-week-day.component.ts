@@ -5,8 +5,9 @@ import {
   FormGroup,
   ReactiveFormsModule
 } from '@angular/forms';
-import { DatePipe, NgForOf } from '@angular/common';
+import { NgForOf } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 
 import { Activity, Day } from '../../dto';
 import { DailyActivityItemComponent } from '../daily-activity-item/daily-activity-item.component';
@@ -14,19 +15,20 @@ import { DailyActivitiesWeekDayService } from './daily-activities-week-day.servi
 import { DailyActivitiesForm, ActivityFormGroup } from './DailyActivitiesForm';
 import { SaveActivitiesWorkflowService } from '../../workflows/save-activities-workflow.service';
 import { ActivitiesService } from '../../services/activities.service';
-import { DailyOverviewModalComponent } from './daily-overview-modal/daily-overview-modal.component';
 import { RemoveActivitiesWorkflowService } from '../../workflows/remove-activities-workflow.service';
 import { ScreenService } from '../../services/screen.service';
-import { Subscription } from 'rxjs';
+import {
+  DailyActivitiesWeekDayHeaderComponent
+} from './daily-activities-week-day-header/daily-activities-week-day-header.component';
 
 @Component({
     selector: 'app-daily-activities-week-day',
-    imports: [
-        DatePipe,
-        ReactiveFormsModule,
-        NgForOf,
-        DailyActivityItemComponent,
-    ],
+  imports: [
+    ReactiveFormsModule,
+    NgForOf,
+    DailyActivityItemComponent,
+    DailyActivitiesWeekDayHeaderComponent,
+  ],
     templateUrl: './daily-activities-week-day.component.html',
     styleUrl: './daily-activities-week-day.component.scss'
 })
@@ -141,14 +143,5 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     this.isChanged = false;
   }
 
-  showDailyOverview() {
-    const dailyOverviewModal =  this.modal.open(DailyOverviewModalComponent, {
-      centered: true,
-      size: 'lg'
-    });
 
-    const dailySummaryModal = (dailyOverviewModal.componentInstance as DailyOverviewModalComponent)
-
-    dailySummaryModal.day = this.day;
-  }
 }
