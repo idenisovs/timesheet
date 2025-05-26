@@ -13,6 +13,15 @@
 
   <div class="form-group col-12 col-md-2 m-0">
     <div class="input-group mb-2 mb-md-0">
+      <input id="activity-till" name="till" formControlName="till" type="text" class="form-control" (input)="handleTillChanges()">
+      <button class="btn btn-sm btn-outline-secondary" type="button" (click)="setCurrentTime('till')">
+        <i class="material-symbols-outlined">access_time</i>
+      </button>
+    </div>
+  </div>
+
+  <div class="form-group col-12 col-md-2 m-0">
+    <div class="input-group mb-2 mb-md-0">
       <input id="activity-from" name="from" formControlName="from" type="text" class="form-control" (input)="handleFromChanges()">
       @if (!isFirstActivity) {
         <button class="btn btn-sm btn-outline-secondary" type="button" (click)="setTimeFromPreviousActivity()">
@@ -24,15 +33,6 @@
         </button>
       }
       <button class="btn btn-sm btn-outline-secondary" type="button" (click)="setCurrentTime('from')">
-        <i class="material-symbols-outlined">access_time</i>
-      </button>
-    </div>
-  </div>
-
-  <div class="form-group col-12 col-md-2 m-0">
-    <div class="input-group mb-2 mb-md-0">
-      <input id="activity-till" name="till" formControlName="till" type="text" class="form-control" (input)="handleTillChanges()">
-      <button class="btn btn-sm btn-outline-secondary" type="button" (click)="setCurrentTime('till')">
         <i class="material-symbols-outlined">access_time</i>
       </button>
     </div>
