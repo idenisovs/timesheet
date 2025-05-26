@@ -34,7 +34,9 @@ export class DailyActivityItemService {
     return result.join(':');
   }
 
-  public getDateObj(time: string): Date {
+  public getDateObj(activity: FormGroup, field: string): Date {
+    const time = this.getValue(activity, field);
+
     const [hh, mm] = time.split(':');
 
     const date = new Date();
@@ -51,26 +53,27 @@ export class DailyActivityItemService {
     return `${hh}:${mm}`;
   }
 
+  getDuration(activity: FormGroup): number {
+    const duration = this.getValue(activity, 'duration');
+    const dT = parseDuration(duration);
+    return dT ? dT : 0;
+  }
+
   getValue(activity: FormGroup, field: string): string {
     return activity.get(field)?.value;
   }
 
   isTimeDefined(activity: FormGroup, field: string): boolean {
-    return false;
+    const timeValue = this.getValue(activity, field);
+    return HOURS_PATTERN_24.test(timeValue);
   }
 
-  handleFromChanges(activity: FormGroup) {
-    const from = this.getValue(activity, 'from');
-    const isFromDefined = HOURS_PATTERN_24.test(from);
-
-    if (!isFromDefined) {
+  handleFromChanges(activity: FormGroup): void {
+    if (!this.isTimeDefined(activity, 'from')) {
       return;
     }
 
-    const till = this.getValue(activity, 'till');
-    const isTillDefined = HOURS_PATTERN_24.test(till);
-
-    if (isTillDefined) {
+    if (this.isTimeDefined(activity, 'till')) {
       return this.recalculateDuration(activity);
     }
 
@@ -81,18 +84,12 @@ export class DailyActivityItemService {
     }
   }
 
-  handleTillChanges(activity: FormGroup) {
-    const till = this.getValue(activity, 'till');
-    const isTillDefined = HOURS_PATTERN_24.test(till);
-
-    if (!isTillDefined) {
+  handleTillChanges(activity: FormGroup): void {
+    if (!this.isTimeDefined(activity, 'till')) {
       return;
     }
 
-    const from = this.getValue(activity, 'from');
-    const isFromDefined = HOURS_PATTERN_24.test(from);
-
-    if (isFromDefined) {
+    if (this.isTimeDefined(activity, 'from')) {
       return this.recalculateDuration(activity);
     }
 
@@ -111,28 +108,18 @@ export class DailyActivityItemService {
       return;
     }
 
-    const from = this.getValue(activity, 'from');
-    const isFromDefined = HOURS_PATTERN_24.test(from);
-
-    if (isFromDefined) {
+    if (this.isTimeDefined(activity, 'from')) {
       return this.recalculateTillTime(activity)
     }
 
-    const till = this.getValue(activity, 'till');
-    const isTillDefined = HOURS_PATTERN_24.test(till);
-
-    if (isTillDefined) {
+    if (this.isTimeDefined(activity, 'till')) {
       return this.recalculateFromTime(activity);
     }
   }
 
   recalculateTillTime(activity: FormGroup) {
-    const from = this.getValue(activity, 'from');
-    const d1 = this.getDateObj(from);
-
-    const duration = this.getValue(activity, 'duration');
-    const dT = parseDuration(duration) as number;
-
+    const d1 = this.getDateObj(activity, 'from');
+    const dT = this.getDuration(activity);
     const d2 = new Date(d1.getTime() + dT);
 
     const till = this.getTimeString(d2);
@@ -141,13 +128,9 @@ export class DailyActivityItemService {
   }
 
   recalculateFromTime(activity: FormGroup) {
-    const till = this.getValue(activity, 'till');
-    const d2 = this.getDateObj(till);
-
-    const duration = this.getValue(activity, 'duration');
-    const dT = parseDuration(duration);
-
-    const d1 = new Date(d2.getTime() - dT!);
+    const d2 = this.getDateObj(activity, 'till');
+    const dT = this.getDuration(activity);
+    const d1 = new Date(d2.getTime() - dT);
 
     const fromTime = this.getTimeString(d1);
 
@@ -155,22 +138,15 @@ export class DailyActivityItemService {
   }
 
   recalculateDuration(activity: FormGroup) {
-    const from = this.getValue(activity, 'from');
-    const d1 = this.getDateObj(from);
-
-    const till = this.getValue(activity, 'till');
-    const d2 = this.getDateObj(till);
-
-    const dT = d2.getTime() - d1.getTime();
+    const d1 = this.getDateObj(activity, 'from').getTime();
+    const d2 = this.getDateObj(activity, 'till').getTime();
+    const dT = d1 > d2 ? d1 - d2 : d2 - d1;
 
     const durationValue = duration(dT, {
       units: {
         min: 'minutes'
       }
     }).toString();
-
-    console.log('Updating Duration!');
-    console.log(durationValue);
 
     activity.get('duration')?.patchValue(durationValue);
   }
