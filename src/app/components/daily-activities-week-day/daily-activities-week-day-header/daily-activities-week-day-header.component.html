@@ -1,0 +1,12 @@
+<h2 class="m-0">
+  <span>{{ day.date | date }}</span>
+  <small class="even-smaller">
+    {{ day.date | date:'EEEE' }}
+  </small>
+</h2>
+
+<div>
+  <button class="btn btn-sm btn-light d-none d-sm-inline-block" title="Summary" (click)="showDailyOverview()">
+    <i class="material-symbols-outlined">donut_large</i>
+  </button>
+</div>
