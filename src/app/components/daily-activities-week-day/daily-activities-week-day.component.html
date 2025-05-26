@@ -35,11 +35,6 @@
   </main>
 
   <footer class="card-footer">
-    <app-daily-activities-week-day-footer
-      [activityFormArrayItems]="ActivityFormArrayItems"
-      [totalDuration]="totalDuration"
-      [isChanged]="isChanged"
-      (reset)="reset()"
-    />
+    <app-daily-activities-week-day-footer [activities]="activities" [isChanged]="isChanged" (reset)="reset()" />
   </footer>
 </section>

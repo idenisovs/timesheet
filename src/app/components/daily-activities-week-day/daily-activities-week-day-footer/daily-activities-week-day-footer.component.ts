@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 
-import { ActivityFormGroup } from '../DailyActivitiesForm';
+import { Activity } from '../../../dto';
+import { ActivitiesService } from '../../../services/activities.service';
 
 @Component({
   selector: 'app-daily-activities-week-day-footer',
@@ -9,15 +10,18 @@ import { ActivityFormGroup } from '../DailyActivitiesForm';
   styleUrl: './daily-activities-week-day-footer.component.scss'
 })
 export class DailyActivitiesWeekDayFooterComponent {
+  activitiesService = inject(ActivitiesService);
+
+  @Input()
+  activities!: Activity[];
+
   @Input()
   isChanged!: boolean;
 
-  @Input()
-  totalDuration!: string;
-
-  @Input()
-  activityFormArrayItems!: ActivityFormGroup[];
-
   @Output()
   reset = new EventEmitter<void>();
+
+  get TotalDuration(): string {
+    return this.activitiesService.calculateDuration(this.activities);
+  }
 }
