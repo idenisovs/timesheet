@@ -1,11 +1,18 @@
-<span class="me-2"><i class="material-symbols-outlined text-info">assignment</i>{{ activities.length }}</span>
+<div class="me-2">
+  <i class="material-symbols-outlined text-info">assignment</i> {{ activities.length }}
+</div>
 
-<span class="me-2"><i class="material-symbols-outlined text-info">schedule</i> {{ TotalDuration || '0m' }}</span>
+<div class="me-2">
+  <i class="material-symbols-outlined text-info">schedule</i> {{ TotalDuration || '0m' }}
+</div>
 
 @if (isChanged) {
-  <span class="me-2"><i class="material-symbols-outlined text-warning">warning</i>Unsaved!</span>
+  <div class="me-2">
+    <i class="material-symbols-outlined text-warning">warning</i>Unsaved!
+  </div>
 
-  <button type="button" class="btn btn-link m-0 p-0 me-2 align-baseline text-decoration-none lh-1" (click)="this.reset.emit()">
+  <button type="button" class="btn btn-link m-0 p-0 me-2 align-baseline text-decoration-none lh-1"
+          (click)="this.reset.emit()">
     Discard
   </button>
 }
