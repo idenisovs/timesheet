@@ -6,7 +6,6 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 import { NgForOf } from '@angular/common';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
 import { Activity, Day } from '../../dto';
@@ -68,7 +67,6 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private modal: NgbModal,
     private service: DailyActivitiesWeekDayService,
     private activitiesService: ActivitiesService,
     private saveActivitiesWorkflow: SaveActivitiesWorkflowService,
@@ -146,6 +144,4 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     await this.loadActivities();
     this.isChanged = false;
   }
-
-
 }
