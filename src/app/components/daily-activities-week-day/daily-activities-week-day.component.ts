@@ -5,7 +5,6 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NgForOf } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 import { Activity, Day } from '../../dto';
@@ -27,7 +26,6 @@ import {
   selector: 'app-daily-activities-week-day',
   imports: [
     ReactiveFormsModule,
-    NgForOf,
     DailyActivityItemComponent,
     DailyActivitiesWeekDayHeaderComponent,
     DailyActivitiesWeekDayFooterComponent,

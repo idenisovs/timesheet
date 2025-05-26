@@ -20,16 +20,17 @@
         </div>
       </div>
       <div formArrayName="activities">
-        <app-daily-activity-item
-          *ngFor="let activity of ActivityFormArrayItems; let idx = index"
-          [idx]="idx"
-          [activity]="activity"
-          [activities]="ActivityFormArrayItems"
-          [isMobile]="isMobile"
-          (add)="add()"
-          (remove)="remove($event)"
-          (save)="save()"
-        />
+        @for (activity of ActivityFormArrayItems; track activity.controls.id.value; let idx = $index) {
+          <app-daily-activity-item
+            [idx]="idx"
+            [activity]="activity"
+            [activities]="ActivityFormArrayItems"
+            [isMobile]="isMobile"
+            (add)="add()"
+            (remove)="remove($event)"
+            (save)="save()"
+          />
+        }
       </div>
     </form>
   </main>
