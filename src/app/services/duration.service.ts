@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import parseDuration from 'parse-duration';
 import { duration } from 'yet-another-duration';
 
-
 @Injectable({
   providedIn: 'root'
 })

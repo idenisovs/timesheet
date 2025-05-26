@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { duration } from 'yet-another-duration';
 import parseDuration from 'parse-duration';
+
+import { DurationService } from '../../services/duration.service';
 
 const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/
 
@@ -9,15 +10,10 @@ const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/
   providedIn: 'root'
 })
 export class DailyActivityItemService {
-
-  constructor() { }
+  durationService = inject(DurationService);
 
   public getTwoDigitFormat(x: number): string {
-    if (x > 9) {
-      return String(x);
-    } else {
-      return `0${x}`;
-    }
+    return x > 9 ? String(x) : `0${x}`;
   }
 
   public getTimeString(date: Date): string {
@@ -142,11 +138,7 @@ export class DailyActivityItemService {
     const d2 = this.getDateObj(activity, 'till').getTime();
     const dT = d1 > d2 ? d1 - d2 : d2 - d1;
 
-    const durationValue = duration(dT, {
-      units: {
-        min: 'minutes'
-      }
-    }).toString();
+    const durationValue = this.durationService.toStr(dT);
 
     activity.get('duration')?.patchValue(durationValue);
   }
