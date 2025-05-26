@@ -3,7 +3,7 @@ import {
   FormArray,
   FormBuilder,
   FormGroup,
-  ReactiveFormsModule
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { NgForOf } from '@angular/common';
 import { Subscription } from 'rxjs';
@@ -17,14 +17,14 @@ import { ActivitiesService } from '../../services/activities.service';
 import { RemoveActivitiesWorkflowService } from '../../workflows/remove-activities-workflow.service';
 import { ScreenService } from '../../services/screen.service';
 import {
-  DailyActivitiesWeekDayHeaderComponent
+  DailyActivitiesWeekDayHeaderComponent,
 } from './daily-activities-week-day-header/daily-activities-week-day-header.component';
 import {
-  DailyActivitiesWeekDayFooterComponent
+  DailyActivitiesWeekDayFooterComponent,
 } from './daily-activities-week-day-footer/daily-activities-week-day-footer.component';
 
 @Component({
-    selector: 'app-daily-activities-week-day',
+  selector: 'app-daily-activities-week-day',
   imports: [
     ReactiveFormsModule,
     NgForOf,
@@ -32,8 +32,8 @@ import {
     DailyActivitiesWeekDayHeaderComponent,
     DailyActivitiesWeekDayFooterComponent,
   ],
-    templateUrl: './daily-activities-week-day.component.html',
-    styleUrl: './daily-activities-week-day.component.scss'
+  templateUrl: './daily-activities-week-day.component.html',
+  styleUrl: './daily-activities-week-day.component.scss',
 })
 export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   valueChangesSub!: Subscription;
@@ -47,8 +47,8 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 
   form: FormGroup<DailyActivitiesForm> = this.fb.group({
     activities: this.fb.array([
-      this.service.makeActivityFormItem()
-    ])
+      this.service.makeActivityFormItem(),
+    ]),
   });
 
   @Input()
@@ -71,7 +71,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     private activitiesService: ActivitiesService,
     private saveActivitiesWorkflow: SaveActivitiesWorkflowService,
     private removeActivitiesWorkflow: RemoveActivitiesWorkflowService,
-    private screenService: ScreenService
+    private screenService: ScreenService,
   ) {}
 
   async ngOnInit() {
@@ -134,7 +134,6 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
     await this.removeActivitiesWorkflow.run(this.removableActivityIds);
     await this.saveActivitiesWorkflow.run(this.activities);
 
-    this.totalDuration = this.activitiesService.calculateDuration(this.activities);
     this.isChanged = false;
     this.removableActivityIds = [];
     this.changes.emit();
