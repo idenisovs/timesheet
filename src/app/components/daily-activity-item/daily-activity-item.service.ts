@@ -12,41 +12,15 @@ const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/
 export class DailyActivityItemService {
   durationService = inject(DurationService);
 
-  public getTwoDigitFormat(x: number): string {
-    return x > 9 ? String(x) : `0${x}`;
-  }
-
-  public getTimeString(date: Date): string {
-    const result: string[] = [];
-
-    const hours = date.getHours();
-
-    result.push(this.getTwoDigitFormat(hours));
-
-    const minutes = date.getMinutes();
-
-    result.push(this.getTwoDigitFormat(minutes));
-
-    return result.join(':');
-  }
-
-  public getDateObj(activity: FormGroup, field: string): Date {
-    const time = this.getValue(activity, field);
-
-    const [hh, mm] = time.split(':');
-
+  public parseTime(activity: FormGroup, field: string): number {
+    const [hh, mm] = this.getValue(activity, field).split(':').map(Number);
     const date = new Date();
-
-    date.setHours(Number(hh));
-    date.setMinutes(Number(mm));
-
-    return date;
+    date.setHours(hh, mm, 0, 0);
+    return date.getTime();
   }
 
-  getCurrentTime(): string {
-    const date = new Date();
-    const [hh, mm] = date.toTimeString().split(':');
-    return `${hh}:${mm}`;
+  getTimeString(date = new Date()): string {
+    return date.toTimeString().slice(0, 5);
   }
 
   getDuration(activity: FormGroup): number {
@@ -114,9 +88,9 @@ export class DailyActivityItemService {
   }
 
   recalculateTillTime(activity: FormGroup) {
-    const d1 = this.getDateObj(activity, 'from');
+    const d1 = this.parseTime(activity, 'from');
     const dT = this.getDuration(activity);
-    const d2 = new Date(d1.getTime() + dT);
+    const d2 = new Date(d1 + dT);
 
     const till = this.getTimeString(d2);
 
@@ -124,9 +98,9 @@ export class DailyActivityItemService {
   }
 
   recalculateFromTime(activity: FormGroup) {
-    const d2 = this.getDateObj(activity, 'till');
+    const d2 = this.parseTime(activity, 'till');
     const dT = this.getDuration(activity);
-    const d1 = new Date(d2.getTime() - dT);
+    const d1 = new Date(d2 - dT);
 
     const fromTime = this.getTimeString(d1);
 
@@ -134,9 +108,9 @@ export class DailyActivityItemService {
   }
 
   recalculateDuration(activity: FormGroup) {
-    const d1 = this.getDateObj(activity, 'from').getTime();
-    const d2 = this.getDateObj(activity, 'till').getTime();
-    const dT = d1 > d2 ? d1 - d2 : d2 - d1;
+    const d1 = this.parseTime(activity, 'from');
+    const d2 = this.parseTime(activity, 'till');
+    const dT = Math.abs(d2 - d1);
 
     const durationValue = this.durationService.toStr(dT);
 
@@ -147,7 +121,7 @@ export class DailyActivityItemService {
     const formField = activity.get(field);
 
     if (formField) {
-      formField.setValue(this.getCurrentTime());
+      formField.setValue(this.getTimeString());
     }
 
     if (field === 'from') {
