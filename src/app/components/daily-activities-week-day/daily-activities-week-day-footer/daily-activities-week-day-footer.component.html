@@ -1,0 +1,11 @@
+<span class="me-2"><i class="material-symbols-outlined text-info">assignment</i>{{ activityFormArrayItems.length }}</span>
+
+<span class="me-2"><i class="material-symbols-outlined text-info">schedule</i> {{ totalDuration || '0m' }}</span>
+
+@if (isChanged) {
+  <span class="me-2"><i class="material-symbols-outlined text-warning">warning</i>Unsaved!</span>
+
+  <button type="button" class="btn btn-link m-0 p-0 me-2 align-baseline text-decoration-none lh-1" (click)="this.reset.emit()">
+    Discard
+  </button>
+}

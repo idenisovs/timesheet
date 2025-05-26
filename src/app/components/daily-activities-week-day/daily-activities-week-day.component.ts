@@ -20,6 +20,9 @@ import { ScreenService } from '../../services/screen.service';
 import {
   DailyActivitiesWeekDayHeaderComponent
 } from './daily-activities-week-day-header/daily-activities-week-day-header.component';
+import {
+  DailyActivitiesWeekDayFooterComponent
+} from './daily-activities-week-day-footer/daily-activities-week-day-footer.component';
 
 @Component({
     selector: 'app-daily-activities-week-day',
@@ -28,6 +31,7 @@ import {
     NgForOf,
     DailyActivityItemComponent,
     DailyActivitiesWeekDayHeaderComponent,
+    DailyActivitiesWeekDayFooterComponent,
   ],
     templateUrl: './daily-activities-week-day.component.html',
     styleUrl: './daily-activities-week-day.component.scss'
