@@ -21,6 +21,7 @@ import {
 import {
   DailyActivitiesWeekDayFooterComponent,
 } from './daily-activities-week-day-footer/daily-activities-week-day-footer.component';
+import { DailyActivityItemCardComponent } from '../daily-activity-item-card/daily-activity-item-card.component';
 
 @Component({
   selector: 'app-daily-activities-week-day',
@@ -29,6 +30,7 @@ import {
     DailyActivityItemComponent,
     DailyActivitiesWeekDayHeaderComponent,
     DailyActivitiesWeekDayFooterComponent,
+    DailyActivityItemCardComponent,
   ],
   templateUrl: './daily-activities-week-day.component.html',
   styleUrl: './daily-activities-week-day.component.scss',
