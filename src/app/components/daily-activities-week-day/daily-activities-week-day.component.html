@@ -50,8 +50,8 @@
   <form [formGroup]="form">
     <div formArrayName="activities">
       @for (activity of ActivityFormArrayItems; track activity.controls.id.value; let idx = $index; let isFirst = $first) {
-        @if (isFirst) {
-          <div class="mt-3">
+        <div class="mt-3">
+          @if (isFirst) {
             <app-daily-activity-item
               [idx]="idx"
               [activity]="activity"
@@ -61,10 +61,10 @@
               (remove)="remove($event)"
               (save)="save()"
             />
-          </div>
-        } @else {
-          <app-daily-activity-item-card [activity]="activity" />
-        }
+          } @else {
+            <app-daily-activity-item-card [activity]="activity" />
+          }
+        </div>
       }
     </div>
   </form>
