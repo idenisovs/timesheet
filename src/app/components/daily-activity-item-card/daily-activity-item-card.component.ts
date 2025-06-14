@@ -18,4 +18,9 @@ export class DailyActivityItemCardComponent {
     till: [''],
     duration: ['']
   });
+
+  message() {
+    const id = this.activity.get('id')?.value;
+    alert(id);
+  }
 }

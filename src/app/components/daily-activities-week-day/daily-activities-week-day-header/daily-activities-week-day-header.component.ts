@@ -1,9 +1,9 @@
 import { Component, inject, Input } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Day } from '../../../dto';
 import { DailyOverviewModalComponent } from '../daily-overview-modal/daily-overview-modal.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-daily-activities-week-day-header',
