@@ -1,5 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActivityEditModalComponent } from './activity-edit-modal/activity-edit-modal.component';
 
 @Component({
   selector: 'app-daily-activity-item-card',
@@ -9,6 +11,7 @@ import { FormBuilder } from '@angular/forms';
 })
 export class DailyActivityItemCardComponent {
   fb = inject(FormBuilder);
+  modalService = inject(NgbModal);
 
   @Input()
   activity = this.fb.group({
@@ -20,7 +23,16 @@ export class DailyActivityItemCardComponent {
   });
 
   message() {
-    const id = this.activity.get('id')?.value;
-    alert(id);
+    const modalRef = this.modalService.open(ActivityEditModalComponent, {
+      centered: true
+    });
+
+    modalRef.componentInstance.activity = this.activity;
+
+    modalRef.result.then(() => {
+      console.log('Update activity!');
+    }).catch(() => {
+      console.log('Cancel update!');
+    });
   }
 }
