@@ -1,5 +1,5 @@
-import { Component, inject, Input } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivityEditModalComponent } from './activity-edit-modal/activity-edit-modal.component';
 
@@ -11,7 +11,6 @@ import { ActivityEditModalComponent } from './activity-edit-modal/activity-edit-
 })
 export class DailyActivityItemCardComponent {
   fb = inject(FormBuilder);
-  modalService = inject(NgbModal);
 
   @Input()
   activity = this.fb.group({
@@ -22,17 +21,10 @@ export class DailyActivityItemCardComponent {
     duration: ['']
   });
 
-  message() {
-    const modalRef = this.modalService.open(ActivityEditModalComponent, {
-      centered: true
-    });
+  @Output()
+  activate = new EventEmitter<FormGroup>();
 
-    modalRef.componentInstance.activity = this.activity;
-
-    modalRef.result.then(() => {
-      console.log('Update activity!');
-    }).catch(() => {
-      console.log('Cancel update!');
-    });
+  markActive() {
+    this.activate.emit(this.activity);
   }
 }
