@@ -51,7 +51,7 @@
     <button type="button" class="btn btn-outline-info p-1 me-0 ms-2" (click)="remove.emit(ActivityId)">
       <i class="material-symbols-outlined">remove</i>
     </button>
-    <button type="button" class="btn btn-outline-primary p-1 ms-2" (click)="save.emit()" [hidden]="!isLastActivity">
+    <button type="button" class="btn btn-outline-primary p-1 ms-2" (click)="save.emit()" [hidden]="!isLastActivity && !isMobile">
       <i class="material-symbols-outlined">save</i>
     </button>
   </div>
