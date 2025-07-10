@@ -31,6 +31,12 @@ export class DailyActivityItemComponent implements OnInit {
   idx = 0;
 
   @Input()
+  isFirst = false;
+
+  @Input()
+  isLast = false;
+
+  @Input()
   isMobile = false;
 
   @Output()
@@ -47,17 +53,11 @@ export class DailyActivityItemComponent implements OnInit {
   }
 
   get isFirstActivity(): boolean {
-    const firstPositionInDesktop = 0;
-    const firstPositionInMobile = this.activities.length - 1;
-    const firstActivityPosition = this.isMobile ? firstPositionInMobile : firstPositionInDesktop;
-    return this.idx === firstActivityPosition;
+    return this.isMobile ? this.isLast : this.isFirst;
   }
 
   get isLastActivity(): boolean {
-    const lastPositionInDesktop = this.activities.length - 1;
-    const lastPositionInMobile = 0
-    const lastActivityPosition = this.isMobile ? lastPositionInMobile : lastPositionInDesktop;
-    return this.idx === lastActivityPosition;
+    return this.isMobile ? this.isFirst : this.isLast;
   }
 
   constructor(
