@@ -1,1 +1,19 @@
-<p>daily-activity-item-mobile works!</p>
+<section class="card">
+  <main class="card-body">
+    <h5 class="mb-3">
+      <span class="badge text-bg-primary">PDB-1180</span>
+      <span class="ms-2">Running tests.</span>
+    </h5>
+    <form [formGroup]="form">
+      <div class="row g-2">
+        <div class="col-6">
+          <app-time-picker [control]="form.controls.start" />
+        </div>
+
+        <div class="col-6">
+          <app-time-picker [control]="form.controls.end" />
+        </div>
+      </div>
+    </form>
+  </main>
+</section>
