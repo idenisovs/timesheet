@@ -8,12 +8,14 @@ export class ActivityFormItem {
   duration = '';
 
   constructor(activity?: Activity) {
-    if (activity) {
-      this.id = activity.id;
-      this.name = activity.name;
-      this.from = activity.from;
-      this.till = activity.till;
-      this.duration = activity.duration;
+    if (!activity) {
+      return;
     }
+
+    this.id = activity.id;
+    this.name = activity.name;
+    this.from = activity.from;
+    this.till = activity.till;
+    this.duration = activity.duration;
   }
 }

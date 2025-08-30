@@ -22,6 +22,7 @@ import {
   DailyActivitiesWeekDayFooterComponent,
 } from './daily-activities-week-day-footer/daily-activities-week-day-footer.component';
 import { DailyActivityItemCardComponent } from '../daily-activity-item-card/daily-activity-item-card.component';
+import { DailyActivityItemMobileComponent } from '../daily-activity-item-mobile/daily-activity-item-mobile.component';
 
 @Component({
   selector: 'app-daily-activities-week-day',
@@ -31,6 +32,7 @@ import { DailyActivityItemCardComponent } from '../daily-activity-item-card/dail
     DailyActivitiesWeekDayHeaderComponent,
     DailyActivitiesWeekDayFooterComponent,
     DailyActivityItemCardComponent,
+    DailyActivityItemMobileComponent,
   ],
   templateUrl: './daily-activities-week-day.component.html',
   styleUrl: './daily-activities-week-day.component.scss',
@@ -47,9 +49,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   activatedActivityId: string | null = null;
 
   form: FormGroup<DailyActivitiesForm> = this.fb.group({
-    activities: this.fb.array([
-      this.service.makeActivityFormItem(),
-    ]),
+    activities: this.fb.array<ActivityFormGroup>([]),
   });
 
   @Input()
@@ -82,9 +82,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 
     await this.loadActivities();
 
-    if (this.activities.length) {
-      this.activatedActivityId = this.activities[0].id
-    }
+    this.activatedActivityId = this.activities[0].id
 
     this.valueChangesSub = this.form.valueChanges.subscribe(() => {
       this.isChanged = true;
@@ -98,18 +96,21 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 
   async loadActivities() {
     this.activities = await this.activitiesService.loadDailyActivities(this.day);
+
+    if (!this.activities.length) {
+      this.activities.push(new Activity());
+    }
+
     this.updateActivitiesForm();
     this.totalDuration = this.activitiesService.calculateDuration(this.activities);
   }
 
   updateActivitiesForm() {
-    if (this.activities.length) {
-      const activityFormItems = this.activities.map((activity: Activity) => {
-        return this.service.makeActivityFormItem(activity);
-      });
+    const activityFormItems: ActivityFormGroup[] = this.activities.map((activity: Activity) => {
+      return this.service.makeActivityFormItem(activity);
+    });
 
-      this.form.setControl('activities', this.fb.array(activityFormItems));
-    }
+    this.form.setControl('activities', this.fb.array(activityFormItems));
   }
 
   add() {
