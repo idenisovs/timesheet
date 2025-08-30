@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-time-picker',
@@ -8,8 +8,22 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 		ReactiveFormsModule,
 	],
   templateUrl: './time-picker.component.html',
-  styleUrl: './time-picker.component.scss'
+  styleUrl: './time-picker.component.scss',
 })
 export class TimePickerComponent {
+  @Input()
+  control!: FormControl;
 
+  @ViewChild('timeInput')
+  timeInput!: ElementRef<HTMLInputElement>;
+
+  openTimePicker() {
+    const el = this.timeInput.nativeElement;
+    (el as any).showPicker();
+  }
+
+  updateTime(e: Event) {
+    const el = e.target as HTMLInputElement;
+    this.control.setValue(el.value);
+  }
 }

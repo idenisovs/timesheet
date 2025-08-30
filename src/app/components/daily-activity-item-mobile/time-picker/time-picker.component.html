@@ -1,8 +1,21 @@
 <div class="input-group">
-  <input class="form-control" formControlName="currentTime" id="start" type="text">
+  <input
+    id="time-pick"
+    type="text"
+    class="form-control"
+    [formControl]="control"
+    (click)="openTimePicker()"
+  >
   <div class="input-group-text bg-white px-2">
     <i class="material-symbols-outlined">
       access_time
     </i>
   </div>
+  <input
+    id="time-input"
+    #timeInput
+    type="time"
+    [hidden]="true"
+    (change)="updateTime($event)"
+  >
 </div>
