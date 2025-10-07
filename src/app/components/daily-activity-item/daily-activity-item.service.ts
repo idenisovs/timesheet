@@ -40,6 +40,7 @@ export class DailyActivityItemService {
 
   handleFromChanges(activity: FormGroup): void {
     if (!this.isTimeDefined(activity, 'from')) {
+      activity.controls.duration.setValue(null);
       return;
     }
 
@@ -56,6 +57,7 @@ export class DailyActivityItemService {
 
   handleTillChanges(activity: FormGroup): void {
     if (!this.isTimeDefined(activity, 'till')) {
+      activity.controls.duration.setValue(null);
       return;
     }
 
