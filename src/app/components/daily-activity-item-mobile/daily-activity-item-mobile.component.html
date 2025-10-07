@@ -4,7 +4,7 @@
       <span class="badge text-bg-primary">PDB-1180</span>
       <span class="ms-2">Running tests.</span>
     </h5>
-    <div class="row g-2">
+    <div class="row g-2 mb-3">
       <div class="col-6">
         <app-time-picker [control]="activity.controls.from" />
       </div>
@@ -12,6 +12,9 @@
       <div class="col-6">
         <app-time-picker [control]="activity.controls.till" />
       </div>
+    </div>
+    <div>
+      Duration: {{activity.controls.duration.value}}
     </div>
   </main>
 </section>
