@@ -26,7 +26,7 @@ export class DailyActivityItemMobileComponent implements OnDestroy{
   service = inject(DailyActivityItemService);
 
   @Input()
-  activity = this.fb.group<ActivityValue>({
+  activityForm = this.fb.group<ActivityValue>({
     id: '',
     name: '',
     from: '',
@@ -34,12 +34,12 @@ export class DailyActivityItemMobileComponent implements OnDestroy{
     duration: ''
   });
 
-  fromInputChangesSub = this.activity.controls.from.valueChanges.subscribe(() => {
-    this.service.handleFromChanges(this.activity);
+  fromInputChangesSub = this.activityForm.controls.from.valueChanges.subscribe(() => {
+    this.service.handleFromChanges(this.activityForm);
   });
 
-  tillInputChangesSub = this.activity.controls.till.valueChanges.subscribe(() => {
-    this.service.handleTillChanges(this.activity);
+  tillInputChangesSub = this.activityForm.controls.till.valueChanges.subscribe(() => {
+    this.service.handleTillChanges(this.activityForm);
   });
 
   ngOnDestroy() {
