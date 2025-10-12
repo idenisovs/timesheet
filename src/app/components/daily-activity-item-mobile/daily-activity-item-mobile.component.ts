@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { DailyActivityItemService } from '../daily-activity-item/daily-activity-item.service';
+import { NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle } from '@ng-bootstrap/ng-bootstrap';
 
 type ActivityValue = {
   id: string | null;
@@ -17,6 +18,10 @@ type ActivityValue = {
   imports: [
     ReactiveFormsModule,
     TimePickerComponent,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+    NgbDropdownItem,
   ],
   templateUrl: './daily-activity-item-mobile.component.html',
   styleUrl: './daily-activity-item-mobile.component.scss'

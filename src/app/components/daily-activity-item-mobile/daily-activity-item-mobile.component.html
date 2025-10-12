@@ -1,14 +1,36 @@
 <section class="card">
   <main class="card-body">
-    <h5 class="d-flex justify-content-between mb-3">
-      <span class="badge text-bg-primary">PDB-1180</span>
+    <div class="d-flex justify-content-between mb-3">
+      <h5 class="h5 m-0 p-0">
+        <span class="badge text-bg-primary">PDB-1180</span>
+      </h5>
 
-      <button type="button" class="btn btn-sm btn-link align-self-start p-0 m-0">
-        <span class="material-symbols-outlined">
-          more_vert
-        </span>
-      </button>
-    </h5>
+      <div ngbDropdown class="d-inline-block">
+        <button type="button" class="btn btn-sm btn-link align-self-start p-0 m-0 no-caret" ngbDropdownToggle>
+          <span class="material-symbols-outlined">
+            more_vert
+          </span>
+        </button>
+
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem>
+            <span class="d-flex align-items-center justify-content-between py-2">
+              <span>Add</span> <i class="material-symbols-outlined">add</i>
+            </span>
+          </button>
+          <button ngbDropdownItem>
+            <span class="d-flex align-items-center justify-content-between py-2">
+              <span>Copy</span> <i class="material-symbols-outlined">content_copy</i>
+            </span>
+          </button>
+          <button ngbDropdownItem>
+            <span class="d-flex align-items-center justify-content-between py-2">
+              <span>Delete</span> <i class="material-symbols-outlined">delete</i>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
 
     <div class="mb-3">
       Ddddiscovering really long manual about cryprocurrencies.
