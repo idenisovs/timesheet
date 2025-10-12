@@ -1,20 +1,31 @@
 <section class="card">
   <main class="card-body">
-    <h5 class="mb-3">
+    <h5 class="d-flex justify-content-between mb-3">
       <span class="badge text-bg-primary">PDB-1180</span>
-      <span class="ms-2">Running tests.</span>
+
+      <button type="button" class="btn btn-sm btn-link align-self-start p-0 m-0">
+        <span class="material-symbols-outlined">
+          more_vert
+        </span>
+      </button>
     </h5>
+
+    <div class="mb-3">
+      Ddddiscovering really long manual about cryprocurrencies.
+    </div>
+
     <div class="row g-2 mb-3">
       <div class="col-6">
-        <app-time-picker [control]="activity.controls.from" />
+        <app-time-picker [control]="activityForm.controls.from" />
       </div>
 
       <div class="col-6">
-        <app-time-picker [control]="activity.controls.till" />
+        <app-time-picker [control]="activityForm.controls.till" />
       </div>
     </div>
-    <div>
-      Duration: {{activity.controls.duration.value}}
-    </div>
   </main>
+
+  <footer class="card-footer">
+    Duration: {{activityForm.controls.duration.value || '0h'}}
+  </footer>
 </section>
