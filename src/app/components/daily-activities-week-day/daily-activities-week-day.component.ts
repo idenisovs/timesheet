@@ -23,6 +23,7 @@ import {
 } from './daily-activities-week-day-footer/daily-activities-week-day-footer.component';
 import { DailyActivityItemCardComponent } from '../daily-activity-item-card/daily-activity-item-card.component';
 import { DailyActivityItemMobileComponent } from '../daily-activity-item-mobile/daily-activity-item-mobile.component';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-daily-activities-week-day',
@@ -33,6 +34,7 @@ import { DailyActivityItemMobileComponent } from '../daily-activity-item-mobile/
     DailyActivitiesWeekDayFooterComponent,
     DailyActivityItemCardComponent,
     DailyActivityItemMobileComponent,
+    NgClass,
   ],
   templateUrl: './daily-activities-week-day.component.html',
   styleUrl: './daily-activities-week-day.component.scss',
@@ -64,6 +66,10 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 
   get ActivityFormArrayItems(): ActivityFormGroup[] {
     return this.ActivityFormArray.controls;
+  }
+
+  get TotalDuration() {
+    return this.activitiesService.calculateDuration(this.activities);
   }
 
   constructor(
