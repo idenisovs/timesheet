@@ -13,16 +13,6 @@ export class DurationService {
     }
   };
 
-  constructor() { }
-
-  public toMs(durationStr: string): number {
-    return parseDuration(durationStr) ?? 0;
-  }
-
-  public toStr(durationMs: number): string {
-    return duration(durationMs, DurationService.DURATION_CONFIG).toString();
-  }
-
   public sum(durationStr: string[]): string {
     const totalDuration = durationStr.reduce((result: number, value: string) => {
       const ms = this.toMs(value);
@@ -30,5 +20,13 @@ export class DurationService {
     }, 0);
 
     return this.toStr(totalDuration);
+  }
+
+  public toMs(durationStr: string): number {
+    return parseDuration(durationStr) ?? 0;
+  }
+
+  public toStr(durationMs: number): string {
+    return duration(durationMs, DurationService.DURATION_CONFIG).toString();
   }
 }
