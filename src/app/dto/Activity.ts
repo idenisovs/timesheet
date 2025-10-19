@@ -8,7 +8,7 @@ export class Activity {
   date = new Date();
   from = '';
   till = '';
-  duration = '0m';
+  duration = '';
   weekId = '';
   dayId = '';
   issueId?: string;
