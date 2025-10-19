@@ -21,7 +21,6 @@ import {
 import {
   DailyActivitiesWeekDayFooterComponent,
 } from './daily-activities-week-day-footer/daily-activities-week-day-footer.component';
-import { DailyActivityItemCardComponent } from '../daily-activity-item-card/daily-activity-item-card.component';
 import { DailyActivityItemMobileComponent } from '../daily-activity-item-mobile/daily-activity-item-mobile.component';
 import { NgClass } from '@angular/common';
 
@@ -32,7 +31,6 @@ import { NgClass } from '@angular/common';
     DailyActivityItemComponent,
     DailyActivitiesWeekDayHeaderComponent,
     DailyActivitiesWeekDayFooterComponent,
-    DailyActivityItemCardComponent,
     DailyActivityItemMobileComponent,
     NgClass,
   ],
@@ -92,6 +90,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 
     this.valueChangesSub = this.form.valueChanges.subscribe(() => {
       this.isChanged = true;
+      console.log('this.isChanged', this.isChanged);
     });
   }
 
@@ -154,14 +153,5 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
   async reset() {
     await this.loadActivities();
     this.isChanged = false;
-  }
-
-  markActive(activity: FormGroup) {
-    this.activatedActivityId = activity.get('id')?.value as string;
-  }
-
-  isActive(activity: FormGroup): boolean {
-    const activityId = activity.get('id')?.value as string;
-    return this.activatedActivityId === activityId;
   }
 }

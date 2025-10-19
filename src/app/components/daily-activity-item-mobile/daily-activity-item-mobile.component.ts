@@ -1,9 +1,9 @@
-import { Component, inject, Input, OnDestroy } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle } from '@ng-bootstrap/ng-bootstrap';
 
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { DailyActivityItemService } from '../daily-activity-item/daily-activity-item.service';
-import { NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle } from '@ng-bootstrap/ng-bootstrap';
 
 type ActivityValue = {
   id: string | null;
@@ -26,7 +26,7 @@ type ActivityValue = {
   templateUrl: './daily-activity-item-mobile.component.html',
   styleUrl: './daily-activity-item-mobile.component.scss'
 })
-export class DailyActivityItemMobileComponent implements OnDestroy{
+export class DailyActivityItemMobileComponent {
   fb = inject(FormBuilder);
   service = inject(DailyActivityItemService);
 
@@ -39,16 +39,11 @@ export class DailyActivityItemMobileComponent implements OnDestroy{
     duration: ''
   });
 
-  fromInputChangesSub = this.activityForm.controls.from.valueChanges.subscribe(() => {
+  handleFromChanges() {
     this.service.handleFromChanges(this.activityForm);
-  });
+  }
 
-  tillInputChangesSub = this.activityForm.controls.till.valueChanges.subscribe(() => {
+  handleTillChanges() {
     this.service.handleTillChanges(this.activityForm);
-  });
-
-  ngOnDestroy() {
-    this.fromInputChangesSub.unsubscribe();
-    this.tillInputChangesSub.unsubscribe();
   }
 }

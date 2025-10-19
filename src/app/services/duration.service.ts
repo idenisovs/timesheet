@@ -15,8 +15,7 @@ export class DurationService {
 
   public sum(durationStr: string[]): string {
     const totalDuration = durationStr.reduce((result: number, value: string) => {
-      const ms = this.toMs(value);
-      return result + ms;
+      return result + this.toMs(value);
     }, 0);
 
     return this.toStr(totalDuration);
