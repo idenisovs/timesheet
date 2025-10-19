@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { NgClass } from '@angular/common';
 
@@ -14,7 +14,7 @@ import { DailyActivityItemService } from './daily-activity-item.service';
         NgClass,
     ]
 })
-export class DailyActivityItemComponent implements OnInit {
+export class DailyActivityItemComponent {
   @Input()
   activity = this.fb.group({
     id: [''],
@@ -64,8 +64,6 @@ export class DailyActivityItemComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private service: DailyActivityItemService
   ) { }
-
-  ngOnInit(): void {}
 
   handleFromChanges() {
     this.service.handleFromChanges(this.activity);

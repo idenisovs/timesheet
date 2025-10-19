@@ -38,11 +38,11 @@
 
     <div class="row g-2 mb-3">
       <div class="col-6">
-        <app-time-picker [control]="activityForm.controls.from" />
+        <app-time-picker [control]="activityForm.controls.from" (changes)="handleFromChanges()" />
       </div>
 
       <div class="col-6">
-        <app-time-picker [control]="activityForm.controls.till" />
+        <app-time-picker [control]="activityForm.controls.till" (changes)="handleTillChanges()" />
       </div>
     </div>
   </main>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -14,6 +14,9 @@ export class TimePickerComponent {
   @Input()
   control!: FormControl;
 
+  @Output()
+  changes = new EventEmitter<void>();
+
   @ViewChild('timeInput')
   timeInput!: ElementRef<HTMLInputElement>;
 
@@ -25,5 +28,6 @@ export class TimePickerComponent {
   updateTime(e: Event) {
     const el = e.target as HTMLInputElement;
     this.control.setValue(el.value);
+    this.changes.emit();
   }
 }
