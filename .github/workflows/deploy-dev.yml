@@ -42,6 +42,10 @@ jobs:
         with:
           name: timesheet-dev
           path: "dist"
+
+      - name: Check Content
+        run: ls -AlhR ./dist
+
       - name: Clean
         uses: appleboy/ssh-action@v1.1.0
         with:
@@ -56,7 +60,7 @@ jobs:
           host: ${{ vars.DEPLOYMENT_HOST }}
           username: ${{secrets.DEPLOYMENT_USER }}
           key: ${{ secrets.DEPLOYMENT_KEY }}
-          source: "dist/*"
+          source: "./dist/*"
           target: ${{ vars.DEPLOYMENT_TARGET_DEV }}
           strip_components: 5
 
