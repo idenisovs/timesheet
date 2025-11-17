@@ -37,7 +37,7 @@ jobs:
           host: ${{ vars.DEPLOYMENT_HOST }}
           username: ${{ secrets.DEPLOYMENT_USER }}
           key: ${{ secrets.DEPLOYMENT_KEY }}
-          script: rm -frv ${{ vars.DEPLOYMENT_TARGET }}/*
+          script: rm -frv ${{ vars.DEPLOYMENT_TARGET_DEV }}/*
 
       - name: Delivery
         uses: appleboy/scp-action@v0.1.7
@@ -55,4 +55,4 @@ jobs:
           host: ${{ vars.DEPLOYMENT_HOST }}
           username: ${{ secrets.DEPLOYMENT_USER }}
           key: ${{ secrets.DEPLOYMENT_KEY }}
-          script: chgrp -vR devel ${{ vars.DEPLOYMENT_TARGET }}/*
+          script: chgrp -vR devel ${{ vars.DEPLOYMENT_TARGET_DEV }}/*
