@@ -62,7 +62,6 @@ jobs:
           key: ${{ secrets.DEPLOYMENT_KEY }}
           source: "./dist/*"
           target: ${{ vars.DEPLOYMENT_TARGET_DEV }}
-          strip_components: 5
 
       - name: Permissions
         uses: appleboy/ssh-action@v1.1.0
