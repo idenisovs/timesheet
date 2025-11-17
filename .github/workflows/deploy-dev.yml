@@ -1,0 +1,53 @@
+name: Build and Deploy Dev
+
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Content
+        run: ls -AlhR "${{ github.workspace }}/dist"
+
+      - name: Clean
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ vars.DEPLOYMENT_HOST }}
+          username: ${{ secrets.DEPLOYMENT_USER }}
+          key: ${{ secrets.DEPLOYMENT_KEY }}
+          script: rm -frv ${{ vars.DEPLOYMENT_TARGET }}/*
+
+      - name: Delivery
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ vars.DEPLOYMENT_HOST }}
+          username: ${{secrets.DEPLOYMENT_USER }}
+          key: ${{ secrets.DEPLOYMENT_KEY }}
+          source: "${{ github.workspace }}/dist/timesheet/browser/*"
+          target: ${{ vars.DEPLOYMENT_TARGET_DEV }}
+          strip_components: 5
+
+      - name: Permissions
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ vars.DEPLOYMENT_HOST }}
+          username: ${{ secrets.DEPLOYMENT_USER }}
+          key: ${{ secrets.DEPLOYMENT_KEY }}
+          script: chgrp -vR devel ${{ vars.DEPLOYMENT_TARGET }}/*
