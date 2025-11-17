@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - dev
+
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,6 +27,10 @@ jobs:
       - name: Content
         run: ls -AlhR "${{ github.workspace }}/dist"
 
+  setup:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Clean
         uses: appleboy/ssh-action@v1.1.0
         with:
