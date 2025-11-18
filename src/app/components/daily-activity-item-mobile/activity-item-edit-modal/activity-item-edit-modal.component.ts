@@ -1,10 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { DatePipe, NgIf, PercentPipe } from '@angular/common';
-import {
-	IssueOverviewComponent
-} from '../../daily-activities-week/weekly-overview-modal/issue-overview/issue-overview.component';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-activity-item-edit-modal',
