@@ -9,7 +9,11 @@
     <div formArrayName="activities">
       @for (activityFormItem of ActivityFormArrayItems; track activityFormItem.controls.id.value) {
         <div class="mt-3">
-          <app-daily-activity-item-mobile [activityForm]="activityFormItem" />
+          <app-daily-activity-item-mobile
+            [activityForm]="activityFormItem"
+            (add)="add()"
+            (remove)="remove($event)"
+          />
         </div>
       }
     </div>

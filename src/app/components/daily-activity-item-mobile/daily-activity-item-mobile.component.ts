@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { NgbDropdown, NgbDropdownItem, NgbDropdownMenu, NgbDropdownToggle } from '@ng-bootstrap/ng-bootstrap';
 
@@ -38,6 +38,19 @@ export class DailyActivityItemMobileComponent {
     till: '',
     duration: ''
   });
+
+  @Output()
+  add = new EventEmitter<string>();
+
+  @Output()
+  copy = new EventEmitter<string>();
+
+  @Output()
+  remove = new EventEmitter<string>();
+
+  get ActivityId(): string {
+    return this.activityForm.get('id')?.value as string;
+  }
 
   handleFromChanges() {
     this.service.handleFromChanges(this.activityForm);
