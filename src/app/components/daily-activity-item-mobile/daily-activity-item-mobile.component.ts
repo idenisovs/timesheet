@@ -2,7 +2,6 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
   NgbDropdown,
-  NgbDropdownItem,
   NgbDropdownMenu,
   NgbDropdownToggle,
   NgbModal,
@@ -12,6 +11,7 @@ import {
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { DailyActivityItemService } from '../daily-activity-item/daily-activity-item.service';
 import { ActivityItemEditModalComponent } from './activity-item-edit-modal/activity-item-edit-modal.component';
+import { MenuItemComponent } from './menu-item/menu-item.component';
 
 type ActivityValue = {
   id: string | null;
@@ -29,7 +29,7 @@ type ActivityValue = {
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
-    NgbDropdownItem,
+    MenuItemComponent,
   ],
   templateUrl: './daily-activity-item-mobile.component.html',
   styleUrl: './daily-activity-item-mobile.component.scss'
