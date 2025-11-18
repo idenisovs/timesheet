@@ -13,26 +13,10 @@
         </button>
 
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button ngbDropdownItem (click)="add.emit(ActivityId)">
-            <div class="d-flex align-items-center justify-content-between py-2">
-              <span>Add</span> <i class="material-symbols-outlined">add</i>
-            </div>
-          </button>
-          <button ngbDropdownItem (click)="openEditModal()">
-            <span class="d-flex align-items-center justify-content-between py-2">
-              <span>Edit</span> <i class="material-symbols-outlined">edit</i>
-            </span>
-          </button>
-          <button ngbDropdownItem>
-            <span class="d-flex align-items-center justify-content-between py-2">
-              <span>Copy</span> <i class="material-symbols-outlined">content_copy</i>
-            </span>
-          </button>
-          <button ngbDropdownItem (click)="remove.emit(ActivityId)">
-            <span class="d-flex align-items-center justify-content-between py-2">
-              <span>Delete</span> <i class="material-symbols-outlined">delete</i>
-            </span>
-          </button>
+          <app-menu-item label="Add" icon="add" (click)="add.emit(ActivityId)" />
+          <app-menu-item label="Edit" icon="edit" (click)="openEditModal()" />
+          <app-menu-item label="Copy" icon="content_copy" />
+          <app-menu-item label="Delete" icon="delete" (click)="remove.emit(ActivityId)" />
         </div>
       </div>
     </div>
