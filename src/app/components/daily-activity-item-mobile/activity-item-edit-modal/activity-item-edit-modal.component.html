@@ -1,0 +1,27 @@
+<header class="modal-header">
+  <h4 class="modal-title">
+    Edit Activity
+  </h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+</header>
+
+<main class="modal-body">
+  <form [formGroup]="form">
+    <div>
+      <label class="form-label" for="activity_name">
+        Activity Name:
+      </label>
+      <textarea class="form-control" id="activity_name" rows="2"></textarea>
+    </div>
+  </form>
+</main>
+
+<footer class="modal-footer">
+  <button class="btn btn-outline-primary" (click)="save()">
+    Save
+  </button>
+
+  <button type="button" class="btn btn-outline-danger" (click)="cancel()">
+    Cancel
+  </button>
+</footer>
