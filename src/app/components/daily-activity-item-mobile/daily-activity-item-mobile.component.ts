@@ -61,6 +61,10 @@ export class DailyActivityItemMobileComponent {
     return this.activityForm.get('id')?.value as string;
   }
 
+  get ActivityName(): string {
+    return this.activityForm.get('name')?.value ?? '';
+  }
+
   handleFromChanges() {
     this.service.handleFromChanges(this.activityForm);
   }
@@ -75,7 +79,8 @@ export class DailyActivityItemMobileComponent {
     };
 
     try {
-      await this.modalService.open(ActivityItemEditModalComponent, options).result;
+      const name = await this.modalService.open(ActivityItemEditModalComponent, options).result as string;
+      this.activityForm.get('name')?.setValue(name);
     } catch (e) {
       console.log(e);
     }
