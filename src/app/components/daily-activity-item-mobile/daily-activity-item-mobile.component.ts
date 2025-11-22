@@ -12,6 +12,7 @@ import { TimePickerComponent } from './time-picker/time-picker.component';
 import { DailyActivityItemService } from '../daily-activity-item/daily-activity-item.service';
 import { ActivityItemEditModalComponent } from './activity-item-edit-modal/activity-item-edit-modal.component';
 import { MenuItemComponent } from './menu-item/menu-item.component';
+import { ActivityItemTitleComponent } from './activity-item-title/activity-item-title.component';
 
 type ActivityValue = {
   id: string | null;
@@ -30,6 +31,7 @@ type ActivityValue = {
     NgbDropdownToggle,
     NgbDropdownMenu,
     MenuItemComponent,
+    ActivityItemTitleComponent,
   ],
   templateUrl: './daily-activity-item-mobile.component.html',
   styleUrl: './daily-activity-item-mobile.component.scss'

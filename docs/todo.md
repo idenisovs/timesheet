@@ -8,10 +8,9 @@ For a more abstract and high-level perspective, please refer to the [Roadmap](./
 
 I tried previous mobile mode IRL and didn't like it very-very much. So, I decided to rework it.
 
-- Allow to update Activity Name from modal window;
-- Display actual name information;
-- Handle Ticket / Description parts in field `name` of Activity;
-- Allow to save activity;
+- Handle Ticket / Description parts in field `name` of Activity:
+  - Handle Ticket part of field `name`. There might be no Ticket at all, so it should be properly handled.
+- Allow to save activities;
 - Hide Description section, if there is nothing to show;
 
 ## Time Rounding
