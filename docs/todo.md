@@ -4,6 +4,16 @@ This file contains a list of _technical_ tasks and considerations.
 
 For a more abstract and high-level perspective, please refer to the [Roadmap](./roadmap.md) file.  
 
+## Mobile Mode
+
+I tried previous mobile mode IRL and didn't like it very-very much. So, I decided to rework it.
+
+- Allow to update Activity Name from modal window;
+- Display actual name information;
+- Handle Ticket / Description parts in field `name` of Activity;
+- Allow to save activity;
+- Hide Description section, if there is nothing to show;
+
 ## Time Rounding
 
 I'd like to have an option, that allowed to set the rounding for times.
