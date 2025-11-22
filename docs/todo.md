@@ -10,7 +10,6 @@ I tried previous mobile mode IRL and didn't like it very-very much. So, I decide
 
 - Handle Ticket / Description parts in field `name` of Activity:
   - Handle Ticket part of field `name`. There might be no Ticket at all, so it should be properly handled.
-- Allow to save activities;
 - Hide Description section, if there is nothing to show;
 
 ## Time Rounding
