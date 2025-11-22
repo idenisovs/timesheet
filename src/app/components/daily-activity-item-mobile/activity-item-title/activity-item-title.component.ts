@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-activity-item-title',
@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './activity-item-title.component.scss'
 })
 export class ActivityItemTitleComponent {
-
+  @Input()
+  activityName!: string;
 }

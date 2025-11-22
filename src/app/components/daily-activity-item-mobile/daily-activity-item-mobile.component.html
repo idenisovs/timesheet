@@ -2,7 +2,7 @@
   <main class="card-body">
     <div class="d-flex justify-content-between mb-3">
       <h5 class="h5 m-0 p-0">
-        <app-activity-item-title />
+        <app-activity-item-title [activityName]="ActivityName" />
         <button type="button" class="btn btn-link btn-sm" (click)="openEditModal()">
           <i class="material-symbols-outlined">edit</i>
         </button>
