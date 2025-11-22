@@ -33,7 +33,7 @@
             </span>
           </span>
 
-          <button type="button" class="btn btn-sm btn-primary" [ngClass]="{'invisible': !isChanged}">
+          <button type="button" class="btn btn-sm btn-primary" [ngClass]="{'invisible': !isChanged}" (click)="save()">
             Save
           </button>
         </div>
