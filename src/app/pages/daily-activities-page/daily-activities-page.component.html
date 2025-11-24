@@ -1,9 +1,11 @@
 <section class="DailyActivitiesPage"
-         #weeksList
-         infiniteScroll
-         [infiniteScrollDistance]="2"
-         [infiniteScrollThrottle]="300"
-         (scrolled)="loadNextWeek()"
+		 #weeksList
+		 infiniteScroll
+		 [infiniteScrollDistance]="2"
+		 [infiniteScrollThrottle]="300"
+		 (scrolled)="loadNextWeek()"
 >
-  <app-daily-activities-week *ngFor="let week of weeks" [week]="week"></app-daily-activities-week>
+	@for (week of weeks; track week.id) {
+		<app-daily-activities-week [week]="week"/>
+	}
 </section>
