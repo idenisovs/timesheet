@@ -6,11 +6,9 @@ For a more abstract and high-level perspective, please refer to the [Roadmap](./
 
 ## Mobile Mode
 
-I tried previous mobile mode IRL and didn't like it very-very much. So, I decided to rework it.
-
-- Handle Ticket / Description parts in field `name` of Activity:
-  - Handle Ticket part of field `name`. There might be no Ticket at all, so it should be properly handled.
-- Hide Description section, if there is nothing to show;
+- If activity is new / empty, it should be sorted at top of activity list (in Mobile) or bottom (in Desktop).
+- In mobile view, save the changes automatically.
+- Add Cancel (Reset) button.
 
 ## Time Rounding
 
