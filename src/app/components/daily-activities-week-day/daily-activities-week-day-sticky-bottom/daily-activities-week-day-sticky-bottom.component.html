@@ -1,0 +1,20 @@
+<div class="sticky-bottom z-0">
+	<div class="card">
+		<div class="card-body">
+			<div class="d-flex align-items-center justify-content-between">
+				<div>
+					<i class="material-symbols-outlined text-info">assignment</i> {{ activities.length }}
+					<i class="material-symbols-outlined text-info">schedule</i> {{ TotalDuration || '0h' }}
+				</div>
+
+				<button (click)="save.emit()"
+						[ngClass]="{'invisible': !isChanged}"
+						class="btn btn-sm btn-primary"
+						type="button"
+				>
+					Save
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

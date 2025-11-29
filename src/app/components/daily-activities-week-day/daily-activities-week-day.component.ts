@@ -22,18 +22,20 @@ import {
   DailyActivitiesWeekDayFooterComponent,
 } from './daily-activities-week-day-footer/daily-activities-week-day-footer.component';
 import { DailyActivityItemMobileComponent } from '../daily-activity-item-mobile/daily-activity-item-mobile.component';
-import { NgClass } from '@angular/common';
+import {
+	DailyActivitiesWeekDayStickyBottomComponent
+} from './daily-activities-week-day-sticky-bottom/daily-activities-week-day-sticky-bottom.component';
 
 @Component({
   selector: 'app-daily-activities-week-day',
-  imports: [
-    ReactiveFormsModule,
-    DailyActivityItemComponent,
-    DailyActivitiesWeekDayHeaderComponent,
-    DailyActivitiesWeekDayFooterComponent,
-    DailyActivityItemMobileComponent,
-    NgClass,
-  ],
+	imports: [
+		ReactiveFormsModule,
+		DailyActivityItemComponent,
+		DailyActivitiesWeekDayHeaderComponent,
+		DailyActivitiesWeekDayFooterComponent,
+		DailyActivityItemMobileComponent,
+		DailyActivitiesWeekDayStickyBottomComponent,
+	],
   templateUrl: './daily-activities-week-day.component.html',
   styleUrl: './daily-activities-week-day.component.scss',
 })
