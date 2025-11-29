@@ -1,88 +1,67 @@
 @if (isMobile) {
-  <div class="card d-md-none bg-secondary-subtle">
-    <main class="card-body py-2">
-      <app-daily-activities-week-day-header [day]="day" />
-    </main>
-  </div>
+	<div class="card d-md-none bg-secondary-subtle">
+		<main class="card-body py-2">
+			<app-daily-activities-week-day-header [day]="day" />
+		</main>
+	</div>
 
-  <form [formGroup]="form" class="mb-3">
-    <div formArrayName="activities">
-      @for (activityFormItem of ActivityFormArrayItems; track activityFormItem.controls.id.value) {
-        <div class="mt-3">
-          <app-daily-activity-item-mobile
-            [activityForm]="activityFormItem"
-            (add)="add()"
-            (remove)="remove($event)"
-          />
-        </div>
-      }
-    </div>
-  </form>
+	<form [formGroup]="form" class="mb-3">
+		<div formArrayName="activities">
+			@for (activityFormItem of ActivityFormArrayItems; track activityFormItem.controls.id.value) {
+				<div class="mt-3">
+					<app-daily-activity-item-mobile
+						(add)="add()"
+						(remove)="remove($event)"
+						[activityForm]="activityFormItem"
+					/>
+				</div>
+			}
+		</div>
+	</form>
 
-  <div class="sticky-bottom z-0">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex align-items-center justify-content-between">
-          <span>
-            <span>
-              <i class="material-symbols-outlined text-info">assignment</i> {{ activities.length }}
-            </span>
-
-            <span class="me-2">
-              <i class="material-symbols-outlined text-info">schedule</i> {{ TotalDuration || '0h' }}
-            </span>
-          </span>
-
-          <button type="button" class="btn btn-sm btn-primary" [ngClass]="{'invisible': !isChanged}" (click)="save()">
-            Save
-          </button>
-        </div>
-
-      </div>
-    </div>
-  </div>
+	<app-daily-activities-week-day-sticky-bottom (save)="save()" [activities]="activities" [isChanged]="isChanged" />
 } @else {
-  <section class="card">
-    <header class="card-header">
-      <app-daily-activities-week-day-header [day]="day" />
-    </header>
+	<section class="card">
+		<header class="card-header">
+			<app-daily-activities-week-day-header [day]="day" />
+		</header>
 
-    <main class="card-body">
-      <form [formGroup]="form">
-        <div class="row d-none d-md-flex">
-          <div class="col-4">
-            Activity
-          </div>
-          <div class="col-2">
-            From
-          </div>
-          <div class="col-2">
-            Till
-          </div>
-          <div class="col-2">
-            Duration
-          </div>
-        </div>
-        <div formArrayName="activities">
-          @for (activity of ActivityFormArrayItems; track activity.controls.id.value; let idx = $index; let isFirst = $first; let isLast = $last) {
-            <app-daily-activity-item
-              [idx]="idx"
-              [activity]="activity"
-              [activities]="ActivityFormArrayItems"
-              [isMobile]="isMobile"
-              [isFirst]=isFirst
-              [isLast]="isLast"
-              (add)="add()"
-              (remove)="remove($event)"
-              (save)="save()"
-            />
-          }
-        </div>
-      </form>
-    </main>
+		<main class="card-body">
+			<form [formGroup]="form">
+				<div class="row d-none d-md-flex">
+					<div class="col-4">
+						Activity
+					</div>
+					<div class="col-2">
+						From
+					</div>
+					<div class="col-2">
+						Till
+					</div>
+					<div class="col-2">
+						Duration
+					</div>
+				</div>
+				<div formArrayName="activities">
+					@for (activity of ActivityFormArrayItems; track activity.controls.id.value; let idx = $index; let isFirst = $first; let isLast = $last) {
+						<app-daily-activity-item
+							(add)="add()"
+							(remove)="remove($event)"
+							(save)="save()"
+							[activities]="ActivityFormArrayItems"
+							[activity]="activity"
+							[idx]="idx"
+							[isFirst]=isFirst
+							[isLast]="isLast"
+							[isMobile]="isMobile"
+						/>
+					}
+				</div>
+			</form>
+		</main>
 
-    <footer class="card-footer">
-      <app-daily-activities-week-day-footer (reset)="reset()" [activities]="activities" [isChanged]="isChanged" />
-    </footer>
-  </section>
+		<footer class="card-footer">
+			<app-daily-activities-week-day-footer (reset)="reset()" [activities]="activities" [isChanged]="isChanged" />
+		</footer>
+	</section>
 }
