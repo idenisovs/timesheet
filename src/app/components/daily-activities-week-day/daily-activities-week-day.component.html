@@ -19,7 +19,12 @@
 		</div>
 	</form>
 
-	<app-daily-activities-week-day-sticky-bottom (save)="save()" [activities]="activities" [isChanged]="isChanged"/>
+	<app-daily-activities-week-day-sticky-bottom
+		[activities]="activities"
+		[isChanged]="isChanged"
+		(save)="save()"
+		(reset)="reset()"
+	/>
 } @else {
 	<section class="card">
 		<header class="card-header">

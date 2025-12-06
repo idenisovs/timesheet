@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { Activity } from '../../../dto';
 import { ActivitiesService } from '../../../services/activities.service';
@@ -13,7 +13,7 @@ import { take } from 'rxjs/operators';
 	templateUrl: './daily-activities-week-day-sticky-bottom.component.html',
 	styleUrl: './daily-activities-week-day-sticky-bottom.component.scss'
 })
-export class DailyActivitiesWeekDayStickyBottomComponent implements OnChanges {
+export class DailyActivitiesWeekDayStickyBottomComponent implements OnChanges, OnDestroy {
 	private static readonly DEFAULT_COUNTDOWN: number = 5;
 
 	activitiesService = inject(ActivitiesService);
@@ -26,6 +26,9 @@ export class DailyActivitiesWeekDayStickyBottomComponent implements OnChanges {
 
 	@Output()
 	save = new EventEmitter<void>();
+
+	@Output()
+	reset = new EventEmitter<void>();
 
 	countdown = DailyActivitiesWeekDayStickyBottomComponent.DEFAULT_COUNTDOWN;
 	countdownSub?: Subscription;
@@ -44,6 +47,10 @@ export class DailyActivitiesWeekDayStickyBottomComponent implements OnChanges {
 		}
 	}
 
+	ngOnDestroy() {
+		this.stopCountdown();
+	}
+
 	private startCountdown() {
 		const { DEFAULT_COUNTDOWN } = DailyActivitiesWeekDayStickyBottomComponent
 		this.countdown = DEFAULT_COUNTDOWN;
@@ -60,9 +67,13 @@ export class DailyActivitiesWeekDayStickyBottomComponent implements OnChanges {
 		this.countdown = DEFAULT_COUNTDOWN - (elapsed + 1);
 
 		if (this.countdown <= 0) {
-			this.save.emit();
-			this.stopCountdown();
+			this.autoSave();
 		}
+	}
+
+	private autoSave() {
+		this.save.emit();
+		this.stopCountdown();
 	}
 
 	private stopCountdown() {
