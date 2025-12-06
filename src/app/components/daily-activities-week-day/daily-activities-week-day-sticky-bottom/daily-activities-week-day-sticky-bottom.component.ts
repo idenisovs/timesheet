@@ -1,17 +1,21 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { Activity } from '../../../dto';
 import { ActivitiesService } from '../../../services/activities.service';
+import { interval, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-daily-activities-week-day-sticky-bottom',
+	selector: 'app-daily-activities-week-day-sticky-bottom',
 	imports: [
 		NgClass,
 	],
-  templateUrl: './daily-activities-week-day-sticky-bottom.component.html',
-  styleUrl: './daily-activities-week-day-sticky-bottom.component.scss'
+	templateUrl: './daily-activities-week-day-sticky-bottom.component.html',
+	styleUrl: './daily-activities-week-day-sticky-bottom.component.scss'
 })
-export class DailyActivitiesWeekDayStickyBottomComponent {
+export class DailyActivitiesWeekDayStickyBottomComponent implements OnChanges {
+	private static readonly DEFAULT_COUNTDOWN: number = 5;
+
 	activitiesService = inject(ActivitiesService);
 
 	@Input()
@@ -23,7 +27,48 @@ export class DailyActivitiesWeekDayStickyBottomComponent {
 	@Output()
 	save = new EventEmitter<void>();
 
+	countdown = DailyActivitiesWeekDayStickyBottomComponent.DEFAULT_COUNTDOWN;
+	countdownSub?: Subscription;
+
 	get TotalDuration() {
 		return this.activitiesService.calculateDuration(this.activities);
+	}
+
+	ngOnChanges(changes: SimpleChanges) {
+		if (changes['isChanged']) {
+			if (this.isChanged) {
+				this.startCountdown();
+			} else {
+				this.stopCountdown();
+			}
+		}
+	}
+
+	private startCountdown() {
+		const { DEFAULT_COUNTDOWN } = DailyActivitiesWeekDayStickyBottomComponent
+		this.countdown = DEFAULT_COUNTDOWN;
+
+		this.countdownSub = interval(1000)
+			.pipe(take(this.countdown))
+			.subscribe((elapsed: number) => {
+				this.updateCountdown(elapsed)
+			});
+	}
+
+	private updateCountdown(elapsed: number): void {
+		const { DEFAULT_COUNTDOWN } = DailyActivitiesWeekDayStickyBottomComponent
+		this.countdown = DEFAULT_COUNTDOWN - (elapsed + 1);
+
+		if (this.countdown <= 0) {
+			this.save.emit();
+			this.stopCountdown();
+		}
+	}
+
+	private stopCountdown() {
+		if (this.countdownSub) {
+			this.countdownSub.unsubscribe();
+			delete this.countdownSub;
+		}
 	}
 }
