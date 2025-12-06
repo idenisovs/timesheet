@@ -6,6 +6,7 @@ For a more abstract and high-level perspective, please refer to the [Roadmap](./
 
 ## Mobile Mode
 
+- Try to move Activity Name operations to pipes;
 - Implement autosave in Mobile Mode;
 - Add Reset button;
 - Add modal confirmation for Delete button;

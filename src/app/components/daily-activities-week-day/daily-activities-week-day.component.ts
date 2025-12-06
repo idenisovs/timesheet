@@ -75,8 +75,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 		private saveActivitiesWorkflow: SaveActivitiesWorkflowService,
 		private removeActivitiesWorkflow: RemoveActivitiesWorkflowService,
 		private screenService: ScreenService,
-	) {
-	}
+	) {}
 
 	async ngOnInit() {
 		this.isMobileSub = this.screenService.isMobile$.subscribe((value: boolean) => {
