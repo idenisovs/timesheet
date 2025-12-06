@@ -67,6 +67,20 @@ export class DailyActivityItemMobileComponent {
 		return this.activityForm.get('name')?.value ?? '';
 	}
 
+	get ActivityDescription(): string {
+		const name = this.ActivityName;
+
+		const idx = name.indexOf(':');
+
+		if (idx === -1) {
+			return name;
+		}
+
+		const description = name.slice(idx + 1, name.length).trim();
+
+		return description ?? '';
+	}
+
 	handleFromChanges() {
 		this.service.handleFromChanges(this.activityForm);
 	}
