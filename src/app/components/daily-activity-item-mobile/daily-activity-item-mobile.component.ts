@@ -13,6 +13,7 @@ import { DailyActivityItemService } from '../daily-activity-item/daily-activity-
 import { ActivityItemEditModalComponent } from './activity-item-edit-modal/activity-item-edit-modal.component';
 import { MenuItemComponent } from './menu-item/menu-item.component';
 import { ActivityItemTitleComponent } from './activity-item-title/activity-item-title.component';
+import { DescriptionPipe } from '../../pipes/description.pipe';
 
 type ActivityValue = {
 	id: string | null;
@@ -32,6 +33,7 @@ type ActivityValue = {
 		NgbDropdownMenu,
 		MenuItemComponent,
 		ActivityItemTitleComponent,
+		DescriptionPipe,
 	],
 	templateUrl: './daily-activity-item-mobile.component.html',
 	styleUrl: './daily-activity-item-mobile.component.scss',
@@ -65,20 +67,6 @@ export class DailyActivityItemMobileComponent {
 
 	get ActivityName(): string {
 		return this.activityForm.get('name')?.value ?? '';
-	}
-
-	get ActivityDescription(): string {
-		const name = this.ActivityName;
-
-		const idx = name.indexOf(':');
-
-		if (idx === -1) {
-			return name;
-		}
-
-		const description = name.slice(idx + 1, name.length).trim();
-
-		return description ?? '';
 	}
 
 	handleFromChanges() {
