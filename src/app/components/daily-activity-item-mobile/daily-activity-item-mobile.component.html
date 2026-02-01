@@ -1,15 +1,16 @@
 <section class="card">
   <main class="card-body">
-    <div class="d-flex justify-content-between mb-3">
+    <div class="d-flex justify-content-between">
       <h5 class="h5 m-0 p-0">
         <app-activity-item-title [activityName]="ActivityName" />
+
         <button type="button" class="btn btn-link btn-sm" (click)="openEditModal()">
           <i class="material-symbols-outlined">edit</i>
         </button>
       </h5>
 
       <div ngbDropdown class="d-inline-block">
-        <button type="button" class="btn btn-sm btn-link align-self-start p-0 m-0 no-caret" ngbDropdownToggle>
+        <button type="button" class="btn btn-sm btn-light align-self-start p-0 m-0 no-caret" ngbDropdownToggle>
           <span class="material-symbols-outlined">
             more_vert
           </span>
@@ -24,17 +25,17 @@
       </div>
     </div>
 
-    <div class="mb-3">
+    <div class="mt-1">
       {{ActivityName|description}}
     </div>
 
-    <div class="row g-2 mb-3">
+    <div class="row g-2 mt-1 mb-0">
       <div class="col-6">
-        <app-time-picker [control]="activityForm.controls.from" (changes)="handleFromChanges()" />
+        <app-time-picker [control]="activityForm.controls.from" />
       </div>
 
       <div class="col-6">
-        <app-time-picker [control]="activityForm.controls.till" (changes)="handleTillChanges()" />
+        <app-time-picker [control]="activityForm.controls.till" />
       </div>
     </div>
   </main>

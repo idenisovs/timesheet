@@ -88,7 +88,6 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 
 		this.valueChangesSub = this.form.valueChanges.subscribe(() => {
 			this.isChanged = true;
-			console.log('this.isChanged', this.isChanged);
 		});
 	}
 
