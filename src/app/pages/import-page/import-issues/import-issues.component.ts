@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NgForOf } from '@angular/common';
+
 
 import { Issue } from '../../../dto';
 import { ImportedIssueDiffComponent } from './imported-issue-diff/imported-issue-diff.component';
@@ -9,9 +9,8 @@ import { ImportIssuesService } from './import-issues.service';
 @Component({
     selector: 'app-import-issues',
     imports: [
-        NgForOf,
-        ImportedIssueDiffComponent,
-    ],
+    ImportedIssueDiffComponent
+],
     templateUrl: './import-issues.component.html',
     styleUrl: './import-issues.component.scss'
 })

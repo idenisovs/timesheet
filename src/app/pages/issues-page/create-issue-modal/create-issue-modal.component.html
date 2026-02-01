@@ -11,11 +11,11 @@
         Issue name
       </label>
       <input id="issue-name"
-             type="text"
-             class="form-control"
-             aria-describedby="issue-name-help"
-             formControlName="name"
-      >
+        type="text"
+        class="form-control"
+        aria-describedby="issue-name-help"
+        formControlName="name"
+        >
       <div id="issue-name-help" class="form-text">
         Specify issue name like <code>ABC-123: Hello World</code>.
       </div>
@@ -26,11 +26,11 @@
         Estimate
       </label>
       <input id="issue-estimate"
-             type="text"
-             class="form-control"
-             aria-describedby="issue-estimate-help"
-             formControlName="estimate"
-      >
+        type="text"
+        class="form-control"
+        aria-describedby="issue-estimate-help"
+        formControlName="estimate"
+        >
       <div id="issue-estimate-help" class="form-text">
         Specify estimate in hours and minutes, like <code>8h</code>, <code>16h</code> or <code>1h 30m</code>.
       </div>
@@ -40,18 +40,26 @@
 
 <footer class="modal-footer justify-content-between flex-nowrap">
   <div>
-    <div *ngIf="NameInput.errors?.['required']">
-      Issue name is required!
-    </div>
-    <div *ngIf="!NameInput.errors?.['required'] && NameInput.errors?.['format']">
-      Issue name should match the <i>ABC-123: The name of issue</i> format!
-    </div>
-    <div *ngIf="NameInput.errors?.['unique']">
-      Issue name should have the unique key!
-    </div>
-    <div *ngIf="EstimateInput.errors?.['format']">
-      Estimate field misformatted!
-    </div>
+    @if (NameInput.errors?.['required']) {
+      <div>
+        Issue name is required!
+      </div>
+    }
+    @if (!NameInput.errors?.['required'] && NameInput.errors?.['format']) {
+      <div>
+        Issue name should match the <i>ABC-123: The name of issue</i> format!
+      </div>
+    }
+    @if (NameInput.errors?.['unique']) {
+      <div>
+        Issue name should have the unique key!
+      </div>
+    }
+    @if (EstimateInput.errors?.['format']) {
+      <div>
+        Estimate field misformatted!
+      </div>
+    }
   </div>
 
   <div class="text-nowrap">

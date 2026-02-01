@@ -1,45 +1,47 @@
 <table class="table mt-3">
   <thead>
-  <tr>
-    <th scope="col">
-    </th>
-    <th scope="col" class="w-50">
-      Name
-    </th>
-    <th scope="col" class="text-center">
-      Start
-    </th>
-    <th scope="col" class="text-center">
-      End
-    </th>
-    <th scope="col" class="text-center">
-      Duration
-    </th>
-    <th scope="col" class="text-end">
-      Created At
-    </th>
-  </tr>
+    <tr>
+      <th scope="col">
+      </th>
+      <th scope="col" class="w-50">
+        Name
+      </th>
+      <th scope="col" class="text-center">
+        Start
+      </th>
+      <th scope="col" class="text-center">
+        End
+      </th>
+      <th scope="col" class="text-center">
+        Duration
+      </th>
+      <th scope="col" class="text-end">
+        Created At
+      </th>
+    </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let activity of activities; let idx = index">
-    <td>
-      {{idx + 1}}.
-    </td>
-    <td>
-      {{activity.name}}
-    </td>
-    <td class="text-center">
-      {{activity.from}}
-    </td>
-    <td class="text-center">
-      {{activity.till}}
-    </td>
-    <td class="text-center">
-      {{activity.duration}}
-    </td>
-    <td class="text-end">
-      {{activity.date|date}}
-    </td>
-  </tr>
+    @for (activity of activities; track activity; let idx = $index) {
+      <tr>
+        <td>
+          {{idx + 1}}.
+        </td>
+        <td>
+          {{activity.name}}
+        </td>
+        <td class="text-center">
+          {{activity.from}}
+        </td>
+        <td class="text-center">
+          {{activity.till}}
+        </td>
+        <td class="text-center">
+          {{activity.duration}}
+        </td>
+        <td class="text-end">
+          {{activity.date|date}}
+        </td>
+      </tr>
+    }
   </tbody>
 </table>

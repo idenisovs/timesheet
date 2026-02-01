@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
-import { NgIf, PercentPipe } from '@angular/common';
+import { PercentPipe } from '@angular/common';
 import { ChartData, ChartOptions, TooltipItem } from 'chart.js';
 import parseDuration from 'parse-duration';
 
@@ -10,9 +10,8 @@ import { DurationService } from '../../../../services/duration.service';
 @Component({
     selector: 'app-project-ratio-chart',
     imports: [
-        BaseChartDirective,
-        NgIf
-    ],
+    BaseChartDirective
+],
     providers: [PercentPipe],
     templateUrl: './project-ratio-chart.component.html',
     styleUrl: './project-ratio-chart.component.scss'

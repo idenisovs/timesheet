@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgIf } from '@angular/common';
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { Issue, Project } from '../../dto';
 import { ProjectPageService } from './project-page.service';
@@ -12,12 +12,11 @@ import { Subscription } from 'rxjs';
 @Component({
     selector: 'app-project-page',
     imports: [
-        ReactiveFormsModule,
-        NgIf,
-        ProjectEditComponent,
-        ProjectIssuesComponent,
-        ProjectDetailsComponent
-    ],
+    ReactiveFormsModule,
+    ProjectEditComponent,
+    ProjectIssuesComponent,
+    ProjectDetailsComponent
+],
     templateUrl: './project-page.component.html',
     styleUrl: './project-page.component.scss'
 })

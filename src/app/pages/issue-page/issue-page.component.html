@@ -1,16 +1,20 @@
-<div *ngIf="issue; else issueNotFoundAlert">
-  <app-issue-card [issue]="issue" />
-  <app-activities-list *ngIf="activities.length; else noActivitiesAlert" [activities]="activities" />
-</div>
-
-<ng-template #issueNotFoundAlert>
-  <div *ngIf="isNotFound" class="alert alert-danger">
-    The issue {{ issueKey }} is not found!
+@if (issue) {
+  <div>
+    <app-issue-card [issue]="issue" />
+    @if (activities.length) {
+      <app-activities-list [activities]="activities" />
+    } @else {
+      <div class="alert alert-info">
+        There is no activities at the moment!
+      </div>
+    }
   </div>
-</ng-template>
+} @else {
+  @if (isNotFound) {
+    <div class="alert alert-danger">
+      The issue {{ issueKey }} is not found!
+    </div>
+  }
+}
 
-<ng-template #noActivitiesAlert>
-  <div class="alert alert-info">
-    There is no activities at the moment!
-  </div>
-</ng-template>
+

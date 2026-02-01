@@ -10,57 +10,60 @@
     <main>
       <div class="row mb-2">
         <div class="col-3">
-        <span class="fw-bold">
-          Issues:
-        </span>
-          <span class="float-end">
-          {{issues.length}}
-        </span>
-        </div>
-
-        <div class="col-3">
-        <span class="fw-bold">
-          Duration:
-        </span>
-          <span class="float-end">
-          {{totalDuration}}
-        </span>
-        </div>
-
-        <div class="col-3">
-        <span class="fw-bold">
-          Average Accuracy:
-        </span>
-          <span class="float-end" *ngIf="averageAccuracy; else average_accuracy_not_available">
-            {{averageAccuracy}} of 1000 ({{averageAccuracyRate|percent}})
+          <span class="fw-bold">
+            Issues:
           </span>
-          <ng-template #average_accuracy_not_available>
+          <span class="float-end">
+            {{issues.length}}
+          </span>
+        </div>
+
+        <div class="col-3">
+          <span class="fw-bold">
+            Duration:
+          </span>
+          <span class="float-end">
+            {{totalDuration}}
+          </span>
+        </div>
+
+        <div class="col-3">
+          <span class="fw-bold">
+            Average Accuracy:
+          </span>
+          @if (averageAccuracy) {
+            <span class="float-end">
+              {{averageAccuracy}} of 1000 ({{averageAccuracyRate|percent}})
+            </span>
+          } @else {
             <span class="float-end">
               n/a
             </span>
-          </ng-template>
+          }
         </div>
       </div>
 
       <div class="row">
         <div class="col-3">
-        <span class="fw-bold">
-          Created At:
-        </span>
+          <span class="fw-bold">
+            Created At:
+          </span>
           <span class="float-end">
-          {{project.createdAt|date}}
-        </span>
+            {{project.createdAt|date}}
+          </span>
         </div>
 
         <div class="col-3">
-        <span class="fw-bold">
-          Keys:
-        </span>
-          <span class="float-end">
-          <span class="badge bg-primary ms-1" *ngFor="let key of project.keys">
-            {{key}}
+          <span class="fw-bold">
+            Keys:
           </span>
-        </span>
+          <span class="float-end">
+            @for (key of project.keys; track key) {
+              <span class="badge bg-primary ms-1">
+                {{key}}
+              </span>
+            }
+          </span>
         </div>
       </div>
     </main>

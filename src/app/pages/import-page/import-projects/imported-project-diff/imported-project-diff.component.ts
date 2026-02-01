@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DatePipe, NgClass, NgIf } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 
 import { Project } from '../../../../dto';
 import { ProjectRepositoryService } from '../../../../repository/project-repository.service';
@@ -8,10 +8,9 @@ import { DiffStatus } from '../../DiffStatus';
 @Component({
     selector: 'app-imported-project-diff',
     imports: [
-        NgClass,
-        NgIf,
-        DatePipe,
-    ],
+    NgClass,
+    DatePipe
+],
     templateUrl: './imported-project-diff.component.html',
     styleUrl: './imported-project-diff.component.scss'
 })

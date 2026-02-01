@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgIf } from '@angular/common';
+
 import * as XLSX from 'xlsx';
 import { WorkBook } from 'xlsx';
 
@@ -12,11 +12,10 @@ import { ReaderService } from '../../reader/reader.service';
 @Component({
     selector: 'app-import-page',
     imports: [
-        ImportProjectsComponent,
-        NgIf,
-        ImportIssuesComponent,
-        ImportActivitiesComponent,
-    ],
+    ImportProjectsComponent,
+    ImportIssuesComponent,
+    ImportActivitiesComponent
+],
     templateUrl: './import-page.component.html',
     styleUrl: './import-page.component.scss'
 })

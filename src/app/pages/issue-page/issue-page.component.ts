@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgIf } from '@angular/common';
+
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { Activity, Issue } from '../../dto';
@@ -12,11 +12,10 @@ import { IssueRepositoryService } from '../../repository/issue-repository.servic
 @Component({
     selector: 'app-issue-page',
     imports: [
-        NgIf,
-        ReactiveFormsModule,
-        ActivitiesListComponent,
-        IssueCardComponent
-    ],
+    ReactiveFormsModule,
+    ActivitiesListComponent,
+    IssueCardComponent
+],
     templateUrl: './issue-page.component.html',
     styleUrl: './issue-page.component.scss'
 })

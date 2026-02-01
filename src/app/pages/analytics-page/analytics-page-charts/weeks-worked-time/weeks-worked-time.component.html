@@ -1,5 +1,7 @@
 <section class="card">
   <main class="card-body">
-    <canvas *ngIf="load" baseChart [data]="data" [options]="options" [type]="'bar'"></canvas>
+    @if (load) {
+      <canvas baseChart [data]="data" [options]="options" [type]="'bar'"></canvas>
+    }
   </main>
 </section>

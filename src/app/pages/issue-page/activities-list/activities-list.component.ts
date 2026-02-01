@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgForOf } from '@angular/common';
+
 
 import { getDateString } from '../../../utils';
 import { ActivitiesTableComponent } from './activities-table/activities-table.component';
@@ -8,9 +8,8 @@ import { Activity } from '../../../dto';
 @Component({
     selector: 'app-activities-list',
     imports: [
-        NgForOf,
-        ActivitiesTableComponent
-    ],
+    ActivitiesTableComponent
+],
     templateUrl: './activities-list.component.html',
     styleUrl: './activities-list.component.scss'
 })

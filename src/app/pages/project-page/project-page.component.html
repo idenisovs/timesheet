@@ -1,14 +1,15 @@
-<ng-container *ngIf="project && isIssuesReady; else no_project_message">
-  <app-project-details *ngIf="!isEditMode" [project]="project" [issues]="issues" (edit)="toggleEditMode()" />
-
-  <app-project-edit *ngIf="isEditMode" [project]="project" (changes)="handleProjectChanges($event)" (cancel)="toggleEditMode()" />
-
+@if (project && isIssuesReady) {
+  @if (!isEditMode) {
+    <app-project-details [project]="project" [issues]="issues" (edit)="toggleEditMode()" />
+  }
+  @if (isEditMode) {
+    <app-project-edit [project]="project" (changes)="handleProjectChanges($event)" (cancel)="toggleEditMode()" />
+  }
   <app-project-issues [issues]="issues" />
-</ng-container>
-
-<ng-template #no_project_message>
+} @else {
   <div class="alert alert-warning">
     The project is not found!
   </div>
-</ng-template>
+}
+
 

@@ -4,10 +4,11 @@
   </header>
 
   <main class="card-body">
-    <app-imported-project-diff
-      *ngFor="let project of importedProjects"
-      [importedProject]="project"
-      (completed)="removeCompletedProject($event)"
-    />
+    @for (project of importedProjects; track project) {
+      <app-imported-project-diff
+        [importedProject]="project"
+        (completed)="removeCompletedProject($event)"
+        />
+    }
   </main>
 </section>

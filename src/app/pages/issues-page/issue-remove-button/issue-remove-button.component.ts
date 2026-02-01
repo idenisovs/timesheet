@@ -1,13 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'app-issue-remove-button',
     imports: [
-        NgbTooltip,
-        NgIf
-    ],
+    NgbTooltip
+],
     templateUrl: './issue-remove-button.component.html',
     styleUrl: './issue-remove-button.component.scss'
 })

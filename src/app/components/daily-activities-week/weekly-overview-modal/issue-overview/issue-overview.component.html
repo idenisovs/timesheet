@@ -32,11 +32,13 @@
 </button>
 
 <section [(ngbCollapse)]="isActivityListCollapsed">
-  <div class="d-flex align-items-center my-1" *ngFor="let activityOverview of issueOverview.activityOverview">
-    <div style="width: 4%"></div>
-    <div class="flex-grow-1">{{activityOverview.name}}</div>
-    <div class="badge bg-primary">{{activityOverview.duration}}</div>
-    <div class="badge bg-info ms-1">{{activityOverview.durationRatio | percent}}</div>
-    <div class="badge bg-success ms-1">{{activityOverview.activities.length}}</div>
-  </div>
+  @for (activityOverview of issueOverview.activityOverview; track activityOverview) {
+    <div class="d-flex align-items-center my-1">
+      <div style="width: 4%"></div>
+      <div class="flex-grow-1">{{activityOverview.name}}</div>
+      <div class="badge bg-primary">{{activityOverview.duration}}</div>
+      <div class="badge bg-info ms-1">{{activityOverview.durationRatio | percent}}</div>
+      <div class="badge bg-success ms-1">{{activityOverview.activities.length}}</div>
+    </div>
+  }
 </section>
