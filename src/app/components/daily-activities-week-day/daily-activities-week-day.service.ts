@@ -56,4 +56,10 @@ export class DailyActivitiesWeekDayService {
 		createdActivity.duration = '';
 		return createdActivity;
 	}
+
+	findById(activities: Activity[], activityId: string): [Activity, number] {
+		const activity = activities.find((activity: Activity) => activity.id === activityId) as Activity;
+		const activityIdx = activities.indexOf(activity);
+		return [activity, activityIdx];
+	}
 }
