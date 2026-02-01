@@ -1,14 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { DatePipe, NgIf } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 import { Day } from '../../dto';
 
 @Component({
     selector: 'app-daily-activities-week-day-missing',
     imports: [
-        NgIf,
-        DatePipe
-    ],
+    DatePipe
+],
     templateUrl: './daily-activities-week-day-missing.component.html',
     styleUrl: './daily-activities-week-day-missing.component.scss'
 })

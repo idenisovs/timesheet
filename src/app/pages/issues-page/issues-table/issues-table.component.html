@@ -1,34 +1,35 @@
 <table class="table mb-0">
   <thead>
-  <tr>
-    <th scope="col" class="align-middle" colspan="2">Issue</th>
-    <th scope="col" class="text-center align-middle">Activities</th>
-    <th scope="col" class="text-center align-middle">Time</th>
-    <th scope="col" class="text-center align-middle">Estimate</th>
-    <th scope="col" class="text-center">Accuracy<br>Points</th>
-    <th scope="col" class="text-center align-middle">Created At</th>
-    <th scope="col"></th>
-  </tr>
+    <tr>
+      <th scope="col" class="align-middle" colspan="2">Issue</th>
+      <th scope="col" class="text-center align-middle">Activities</th>
+      <th scope="col" class="text-center align-middle">Time</th>
+      <th scope="col" class="text-center align-middle">Estimate</th>
+      <th scope="col" class="text-center">Accuracy<br>Points</th>
+      <th scope="col" class="text-center align-middle">Created At</th>
+      <th scope="col"></th>
+    </tr>
   </thead>
 
   <tbody>
-  <tr *ngFor="let issue of issues" class="align-middle">
-    <th scope="row">{{issue.key}}</th>
-    <td>{{issue.name}}</td>
-    <td class="text-center">{{issue.activities}}</td>
-    <td class="text-center">{{issue.duration}}</td>
-    <td class="text-center">{{issue.estimate && issue.estimate.length ? issue.estimate : '--'}}</td>
-    <td class="text-center">{{getPenaltyPoints(issue)}}</td>
-    <td class="text-center">{{issue.createdAt|date}}</td>
-    <td class="text-end">
-      <button class="btn btn-sm btn-link" [routerLink]="['/', 'issues', issue.key]">
-        <i class="material-symbols-outlined">
-          edit
-        </i>
-      </button>
-
-      <app-issue-remove-button [disabled]="issue.activities > 0" (remove)="remove(issue)" />
-    </td>
-  </tr>
-  </tbody>
-</table>
+    @for (issue of issues; track issue) {
+      <tr class="align-middle">
+        <th scope="row">{{issue.key}}</th>
+        <td>{{issue.name}}</td>
+        <td class="text-center">{{issue.activities}}</td>
+        <td class="text-center">{{issue.duration}}</td>
+        <td class="text-center">{{issue.estimate && issue.estimate.length ? issue.estimate : '--'}}</td>
+        <td class="text-center">{{getPenaltyPoints(issue)}}</td>
+        <td class="text-center">{{issue.createdAt|date}}</td>
+        <td class="text-end">
+          <button class="btn btn-sm btn-link" [routerLink]="['/', 'issues', issue.key]">
+            <i class="material-symbols-outlined">
+              edit
+            </i>
+          </button>
+          <app-issue-remove-button [disabled]="issue.activities > 0" (remove)="remove(issue)" />
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>

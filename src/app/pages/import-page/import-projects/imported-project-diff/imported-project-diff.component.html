@@ -2,66 +2,72 @@
   <main class="card-body">
     <table class="table table-sm">
       <thead>
-      <tr>
-        <th scope="col">
-          Name
-        </th>
-        <th scope="col">
-          Description
-        </th>
-        <th scope="col">
-          Keys
-        </th>
-        <th scope="col" class="text-end">
-          Created At
-        </th>
-        <th scope="col" class="text-center">
-          Actions
-        </th>
-      </tr>
+        <tr>
+          <th scope="col">
+            Name
+          </th>
+          <th scope="col">
+            Description
+          </th>
+          <th scope="col">
+            Keys
+          </th>
+          <th scope="col" class="text-end">
+            Created At
+          </th>
+          <th scope="col" class="text-center">
+            Actions
+          </th>
+        </tr>
       </thead>
       <tbody>
-      <tr class="align-middle">
-        <td [ngClass]="getRowStyle()">
-          {{importedProject.name}}
-        </td>
-        <td [ngClass]="getRowStyle()">
-          {{importedProject.description}}
-        </td>
-        <td [ngClass]="getRowStyle()">
-          {{importedProject.keys.join(', ')}}
-        </td>
-        <td class="text-end" [ngClass]="getRowStyle()">
-          {{importedProject.createdAt|date:'MMMM d, y hh:mm:ss'}}
-        </td>
-        <td class="text-center align-middle" [rowSpan]="status === DiffStatus.new ? 1 : 2">
-          <button class="btn btn-sm btn-primary" *ngIf="status === DiffStatus.new" (click)="save()">
-            <i class="material-symbols-outlined">done</i>
-          </button>
+        <tr class="align-middle">
+          <td [ngClass]="getRowStyle()">
+            {{importedProject.name}}
+          </td>
+          <td [ngClass]="getRowStyle()">
+            {{importedProject.description}}
+          </td>
+          <td [ngClass]="getRowStyle()">
+            {{importedProject.keys.join(', ')}}
+          </td>
+          <td class="text-end" [ngClass]="getRowStyle()">
+            {{importedProject.createdAt|date:'MMMM d, y hh:mm:ss'}}
+          </td>
+          <td class="text-center align-middle" [rowSpan]="status === DiffStatus.new ? 1 : 2">
+            @if (status === DiffStatus.new) {
+              <button class="btn btn-sm btn-primary" (click)="save()">
+                <i class="material-symbols-outlined">done</i>
+              </button>
+            }
 
-          <button class="btn btn-sm btn-success" *ngIf="status === DiffStatus.updated" (click)="update()">
-            <i class="material-symbols-outlined">done</i>
-          </button>
+            @if (status === DiffStatus.updated) {
+              <button class="btn btn-sm btn-success" (click)="update()">
+                <i class="material-symbols-outlined">done</i>
+              </button>
+            }
 
-          <button class="btn btn-sm btn-outline-dark ms-1" (click)="cancel()">
-            <i class="material-symbols-outlined">clear</i>
-          </button>
-        </td>
-      </tr>
-      <tr *ngIf="existingProject">
-        <td>
-          {{existingProject.name}}
-        </td>
-        <td>
-          {{existingProject.description}}
-        </td>
-        <td>
-          {{existingProject.keys.join(', ')}}
-        </td>
-        <td class="text-end">
-          {{existingProject.createdAt|date:'MMMM d, y hh:mm:ss'}}
-        </td>
-      </tr>
+            <button class="btn btn-sm btn-outline-dark ms-1" (click)="cancel()">
+              <i class="material-symbols-outlined">clear</i>
+            </button>
+          </td>
+        </tr>
+        @if (existingProject) {
+          <tr>
+            <td>
+              {{existingProject.name}}
+            </td>
+            <td>
+              {{existingProject.description}}
+            </td>
+            <td>
+              {{existingProject.keys.join(', ')}}
+            </td>
+            <td class="text-end">
+              {{existingProject.createdAt|date:'MMMM d, y hh:mm:ss'}}
+            </td>
+          </tr>
+        }
       </tbody>
     </table>
   </main>

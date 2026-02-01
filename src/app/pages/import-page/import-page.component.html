@@ -12,8 +12,14 @@
   </main>
 </section>
 
-<app-import-projects *ngIf="projects.length" [importedProjects]="projects" />
+@if (projects.length) {
+  <app-import-projects [importedProjects]="projects" />
+}
 
-<app-import-issues *ngIf="issues.length" [importedIssues]="issues" />
+@if (issues.length) {
+  <app-import-issues [importedIssues]="issues" />
+}
 
-<app-import-activities *ngIf="activities.length" [importedActivities]="activities" />
+@if (activities.length) {
+  <app-import-activities [importedActivities]="activities" />
+}

@@ -5,21 +5,19 @@
   <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 </header>
 
-<ng-container *ngIf="dailyOverview">
+@if (dailyOverview) {
   <main class="modal-body p-3">
     @for (issueOverview of dailyOverview.issueOverviewList; track issueOverview.issue.id) {
       <div class="IssueOverview">
         <app-issue-overview [issueOverview]="issueOverview" />
       </div>
     }
-
     @if (!dailyOverview.activities) {
       <div class="alert alert-info m-0">
         No activity this day!
       </div>
     }
   </main>
-
   <footer class="modal-footer h5 d-flex justify-content-end">
     <span class="badge bg-primary">
       {{ dailyOverview.duration }}
@@ -31,4 +29,4 @@
       {{ dailyOverview.activities }}
     </span>
   </footer>
-</ng-container>
+}

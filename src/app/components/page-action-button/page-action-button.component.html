@@ -1,6 +1,8 @@
 <button class="btn btn-sm btn-outline-primary" (click)="handleClick()">
   <div class="d-flex align-items-center">
-    <i *ngIf="icon" class="material-symbols-outlined">{{icon}}</i>
+    @if (icon) {
+      <i class="material-symbols-outlined">{{icon}}</i>
+    }
     <span [ngClass]="{ 'ms-1': !!icon }">
       <ng-content></ng-content>
     </span>

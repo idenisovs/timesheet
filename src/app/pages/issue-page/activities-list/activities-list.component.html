@@ -1,3 +1,5 @@
-<section *ngFor="let date of activityDates" class="mt-5">
-  <app-activities-table [activities]="activitiesByDate.get(date)!" />
-</section>
+@for (date of activityDates; track date) {
+  <section class="mt-5">
+    <app-activities-table [activities]="activitiesByDate.get(date)!" />
+  </section>
+}

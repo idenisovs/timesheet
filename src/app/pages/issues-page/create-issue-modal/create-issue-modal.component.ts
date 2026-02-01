@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgIf } from '@angular/common';
+
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreateIssueModalService } from './create-issue-modal.service';
@@ -7,9 +7,8 @@ import { CreateIssueModalService } from './create-issue-modal.service';
 @Component({
     selector: 'app-create-issue-modal',
     imports: [
-        NgIf,
-        ReactiveFormsModule,
-    ],
+    ReactiveFormsModule
+],
     templateUrl: './create-issue-modal.component.html',
     styleUrl: './create-issue-modal.component.scss'
 })

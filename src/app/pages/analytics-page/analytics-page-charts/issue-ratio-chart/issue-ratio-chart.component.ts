@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
-import { NgIf } from '@angular/common';
+
 import { ChartData, ChartOptions, TooltipItem } from 'chart.js';
 import parseDuration from 'parse-duration';
 
@@ -17,9 +17,8 @@ interface IssueData {
 @Component({
     selector: 'app-issue-ratio-chart',
     imports: [
-        BaseChartDirective,
-        NgIf,
-    ],
+    BaseChartDirective
+],
     templateUrl: './issue-ratio-chart.component.html',
     styleUrl: './issue-ratio-chart.component.scss'
 })

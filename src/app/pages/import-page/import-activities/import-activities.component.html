@@ -19,10 +19,11 @@
   </header>
 
   <main class="card-body">
-    <app-imported-activity-diff
-      *ngFor="let activity of importedActivities"
-      [importedActivity]="activity"
-      (completed)="removeCompletedActivity($event)"
-    />
+    @for (activity of importedActivities; track activity) {
+      <app-imported-activity-diff
+        [importedActivity]="activity"
+        (completed)="removeCompletedActivity($event)"
+        />
+    }
   </main>
 </section>

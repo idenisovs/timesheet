@@ -2,76 +2,82 @@
   <main class="card-body">
     <table class="table table-sm">
       <thead>
-      <tr>
-        <th scope="col">
-          Key
-        </th>
-        <th scope="col">
-          Name
-        </th>
-        <th scope="col" class="text-center">
-          Duration
-        </th>
-        <th scope="col" class="text-center">
-          Estimate
-        </th>
-        <th scope="col" class="text-end">
-          Created At
-        </th>
-        <th scope="col" class="text-center" style="width: 12%">
-          Actions
-        </th>
-      </tr>
+        <tr>
+          <th scope="col">
+            Key
+          </th>
+          <th scope="col">
+            Name
+          </th>
+          <th scope="col" class="text-center">
+            Duration
+          </th>
+          <th scope="col" class="text-center">
+            Estimate
+          </th>
+          <th scope="col" class="text-end">
+            Created At
+          </th>
+          <th scope="col" class="text-center" style="width: 12%">
+            Actions
+          </th>
+        </tr>
       </thead>
       <tbody>
-      <tr class="align-middle">
-        <td [ngClass]="getRowStyle()">
-          {{importedIssue.key}}
-        </td>
-        <td [ngClass]="getRowStyle()">
-          {{importedIssue.name}}
-        </td>
-        <td class="text-center" [ngClass]="getRowStyle()">
-          {{importedIssue.duration}}
-        </td>
-        <td class="text-center" [ngClass]="getRowStyle()">
-          {{importedIssue.estimate}}
-        </td>
-        <td class="text-end" [ngClass]="getRowStyle()">
-          {{importedIssue.createdAt|date:'MMM d, y hh:mm:ss'}}
-        </td>
-        <td class="text-center align-middle" [rowSpan]="status === DiffStatus.new ? 1 : 2">
-          <button class="btn btn-sm btn-primary" *ngIf="status === DiffStatus.new" (click)="save()">
-            <i class="material-symbols-outlined">done</i>
-          </button>
+        <tr class="align-middle">
+          <td [ngClass]="getRowStyle()">
+            {{importedIssue.key}}
+          </td>
+          <td [ngClass]="getRowStyle()">
+            {{importedIssue.name}}
+          </td>
+          <td class="text-center" [ngClass]="getRowStyle()">
+            {{importedIssue.duration}}
+          </td>
+          <td class="text-center" [ngClass]="getRowStyle()">
+            {{importedIssue.estimate}}
+          </td>
+          <td class="text-end" [ngClass]="getRowStyle()">
+            {{importedIssue.createdAt|date:'MMM d, y hh:mm:ss'}}
+          </td>
+          <td class="text-center align-middle" [rowSpan]="status === DiffStatus.new ? 1 : 2">
+            @if (status === DiffStatus.new) {
+              <button class="btn btn-sm btn-primary" (click)="save()">
+                <i class="material-symbols-outlined">done</i>
+              </button>
+            }
 
-          <button class="btn btn-sm btn-success" *ngIf="status === DiffStatus.updated" (click)="update()">
-            <i class="material-symbols-outlined">done</i>
-          </button>
+            @if (status === DiffStatus.updated) {
+              <button class="btn btn-sm btn-success" (click)="update()">
+                <i class="material-symbols-outlined">done</i>
+              </button>
+            }
 
-          <button class="btn btn-sm btn-outline-dark ms-1" (click)="cancel()">
-            <i class="material-symbols-outlined">clear</i>
-          </button>
-        </td>
-      </tr>
+            <button class="btn btn-sm btn-outline-dark ms-1" (click)="cancel()">
+              <i class="material-symbols-outlined">clear</i>
+            </button>
+          </td>
+        </tr>
 
-      <tr *ngIf="existingIssue">
-        <td>
-          {{existingIssue.key}}
-        </td>
-        <td>
-          {{existingIssue.name}}
-        </td>
-        <td class="text-center">
-          {{existingIssue.duration}}
-        </td>
-        <td class="text-center">
-          {{existingIssue.estimate}}
-        </td>
-        <td class="text-end">
-          {{existingIssue.createdAt|date:'MMM d, y hh:mm:ss'}}
-        </td>
-      </tr>
+        @if (existingIssue) {
+          <tr>
+            <td>
+              {{existingIssue.key}}
+            </td>
+            <td>
+              {{existingIssue.name}}
+            </td>
+            <td class="text-center">
+              {{existingIssue.duration}}
+            </td>
+            <td class="text-center">
+              {{existingIssue.estimate}}
+            </td>
+            <td class="text-end">
+              {{existingIssue.createdAt|date:'MMM d, y hh:mm:ss'}}
+            </td>
+          </tr>
+        }
       </tbody>
     </table>
   </main>

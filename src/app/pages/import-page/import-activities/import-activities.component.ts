@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NgForOf } from '@angular/common';
+
 
 import { Activity } from '../../../dto';
 import { ImportedActivityDiffComponent } from './imported-activity-diff/imported-activity-diff.component';
@@ -9,9 +9,8 @@ import { ActivitiesRepositoryService } from '../../../repository/activities-repo
 @Component({
     selector: 'app-import-activities',
     imports: [
-        NgForOf,
-        ImportedActivityDiffComponent,
-    ],
+    ImportedActivityDiffComponent
+],
     templateUrl: './import-activities.component.html',
     styleUrl: './import-activities.component.scss'
 })

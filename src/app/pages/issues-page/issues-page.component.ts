@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DatePipe, NgIf } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Issue } from '../../dto';
@@ -13,9 +13,8 @@ import { IssueRepositoryService } from '../../repository/issue-repository.servic
 @Component({
     selector: 'app-issues-pages',
     imports: [
-        NgIf,
-        IssuesListComponent
-    ],
+    IssuesListComponent
+],
     providers: [DatePipe],
     templateUrl: './issues-page.component.html',
     styleUrl: './issues-page.component.scss'

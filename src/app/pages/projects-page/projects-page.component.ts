@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgForOf, NgIf } from '@angular/common';
+
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
@@ -14,10 +14,8 @@ import { ProjectRepositoryService } from '../../repository/project-repository.se
 @Component({
     selector: 'app-projects-page',
     imports: [
-        ProjectCardComponent,
-        NgForOf,
-        NgIf,
-    ],
+    ProjectCardComponent
+],
     templateUrl: './projects-page.component.html',
     styleUrl: './projects-page.component.scss'
 })

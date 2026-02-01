@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DatePipe, NgClass, NgIf } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 
 import { Issue } from '../../../../dto';
 import { DiffStatus } from '../../DiffStatus';
@@ -9,10 +9,9 @@ import { ImportIssuesService } from '../import-issues.service';
 @Component({
     selector: 'app-imported-issue-diff',
     imports: [
-        DatePipe,
-        NgIf,
-        NgClass,
-    ],
+    DatePipe,
+    NgClass
+],
     templateUrl: './imported-issue-diff.component.html',
     styleUrl: './imported-issue-diff.component.scss'
 })

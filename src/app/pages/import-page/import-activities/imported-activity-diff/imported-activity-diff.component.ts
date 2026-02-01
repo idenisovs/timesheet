@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 
 import { Activity } from '../../../../dto';
 import { DiffStatus } from '../../DiffStatus';
@@ -11,11 +11,9 @@ import { ActivitiesService } from '../../../../services/activities.service';
 @Component({
     selector: 'app-imported-activity-diff',
     imports: [
-        DatePipe,
-        NgIf,
-        NgClass,
-        NgForOf,
-    ],
+    DatePipe,
+    NgClass
+],
     templateUrl: './imported-activity-diff.component.html',
     styleUrl: './imported-activity-diff.component.scss'
 })

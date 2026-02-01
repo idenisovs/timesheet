@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgForOf } from '@angular/common';
+
 
 import { Project } from '../../../dto';
 import { ImportedProjectDiffComponent } from './imported-project-diff/imported-project-diff.component';
@@ -7,9 +7,8 @@ import { ImportedProjectDiffComponent } from './imported-project-diff/imported-p
 @Component({
     selector: 'app-import-projects',
     imports: [
-        NgForOf,
-        ImportedProjectDiffComponent,
-    ],
+    ImportedProjectDiffComponent
+],
     templateUrl: './import-projects.component.html',
     styleUrl: './import-projects.component.scss'
 })

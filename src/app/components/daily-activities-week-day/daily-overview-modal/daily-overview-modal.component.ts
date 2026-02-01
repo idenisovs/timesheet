@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DatePipe, NgIf, PercentPipe } from '@angular/common';
+import { DatePipe, PercentPipe } from '@angular/common';
 import {
     IssueOverviewComponent
 } from '../../daily-activities-week/weekly-overview-modal/issue-overview/issue-overview.component';
@@ -12,11 +12,10 @@ import { WORK_DAY } from '../../../constants';
 @Component({
     selector: 'app-daily-overview-modal',
     imports: [
-        DatePipe,
-        IssueOverviewComponent,
-        NgIf,
-        PercentPipe
-    ],
+    DatePipe,
+    IssueOverviewComponent,
+    PercentPipe
+],
     templateUrl: './daily-overview-modal.component.html',
     styleUrl: './daily-overview-modal.component.scss'
 })

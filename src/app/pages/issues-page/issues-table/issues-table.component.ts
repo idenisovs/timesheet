@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { DatePipe, NgForOf } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { IssueRemoveButtonComponent } from '../issue-remove-button/issue-remove-button.component';
@@ -10,11 +10,10 @@ import { IssueRepositoryService } from '../../../repository/issue-repository.ser
 @Component({
     selector: 'app-issues-table',
     imports: [
-        DatePipe,
-        IssueRemoveButtonComponent,
-        NgForOf,
-        RouterLink
-    ],
+    DatePipe,
+    IssueRemoveButtonComponent,
+    RouterLink
+],
     templateUrl: './issues-table.component.html',
     styleUrl: './issues-table.component.scss'
 })

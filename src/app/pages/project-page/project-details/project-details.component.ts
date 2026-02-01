@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DatePipe, NgForOf, NgIf, PercentPipe } from '@angular/common';
+import { DatePipe, PercentPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { Issue, Project } from '../../../dto';
@@ -8,12 +8,10 @@ import { IssuesService } from '../../../services/issues.service';
 @Component({
     selector: 'app-project-details',
     imports: [
-        NgIf,
-        PercentPipe,
-        DatePipe,
-        NgForOf,
-        RouterLink
-    ],
+    PercentPipe,
+    DatePipe,
+    RouterLink
+],
     templateUrl: './project-details.component.html',
     styleUrl: './project-details.component.scss'
 })

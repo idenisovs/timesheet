@@ -21,10 +21,11 @@
   </header>
 
   <main class="card-body">
-    <app-imported-issue-diff
-      *ngFor="let issue of importedIssues"
-      [importedIssue]="issue"
-      (completed)="removeCompletedIssue($event)"
-    />
+    @for (issue of importedIssues; track issue) {
+      <app-imported-issue-diff
+        [importedIssue]="issue"
+        (completed)="removeCompletedIssue($event)"
+        />
+    }
   </main>
 </section>

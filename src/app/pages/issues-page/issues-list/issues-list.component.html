@@ -1,8 +1,10 @@
-<section class="card mb-3" *ngFor="let group of issues|keyvalue:sortByDate">
-  <h2 class="card-header">
-    {{group.key|dateIndex}}
-  </h2>
-  <main class="card-body py-0">
-    <app-issues-table [issues]="group.value" />
-  </main>
-</section>
+@for (group of issues|keyvalue:sortByDate; track group) {
+  <section class="card mb-3">
+    <h2 class="card-header">
+      {{group.key|dateIndex}}
+    </h2>
+    <main class="card-body py-0">
+      <app-issues-table [issues]="group.value" />
+    </main>
+  </section>
+}
