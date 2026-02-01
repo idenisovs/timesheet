@@ -43,7 +43,7 @@ npm start
 * Refactoring:
 	* [Database Structure](./docs/refactoring/database_structure.md)
 * Views
-	* [Daily Activities View](./docs/views/daily_activity.md)
+	* [Daily Activities View](./docs/views/daily_activity_view.md)
 	* [Issues View](./docs/views/issues.md)
 		* [Accuracy Points](./docs/accuracy_points.md)
 	* Projects View
