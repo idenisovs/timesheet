@@ -48,7 +48,6 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 	isMobile: boolean = false;
 	totalDuration = '0h';
 	numberOfChanges = 0;
-	activatedActivityId: string | null = null;
 
 	form: FormGroup<DailyActivitiesForm> = this.fb.group({
 		activities: this.fb.array<ActivityFormGroup>([]),
@@ -83,8 +82,6 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 		});
 
 		await this.loadActivities();
-
-		this.activatedActivityId = this.activities[0].id
 
 		this.valueChangesSub = this.form.valueChanges.subscribe(() => {
 			this.numberOfChanges++;
