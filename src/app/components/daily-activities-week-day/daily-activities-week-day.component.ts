@@ -100,7 +100,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 		this.activities = await this.activitiesService.loadDailyActivities(this.day);
 
 		if (!this.activities.length) {
-			this.activities.push(new Activity());
+			this.add();
 		}
 
 		this.updateActivitiesForm();
@@ -116,35 +116,35 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 	}
 
 	add() {
-		const activityFormItem = this.service.makeActivityFormItem();
+		const activity = this.service.createActivity(null, this.day);
 
 		if (this.isMobile) {
-			this.ActivityFormArray.insert(0, activityFormItem)
+			this.activities.splice(0, 0, activity);
 		} else {
-			this.ActivityFormArray.push(activityFormItem);
+			this.activities.push(activity);
 		}
+
+		this.updateActivitiesForm();
 	}
 
 	proceed(activityId: string) {
 		const existingActivity = this.activities.find((activity: Activity) => activity.id === activityId) as Activity;
 		const existingActivityIdx = this.activities.indexOf(existingActivity);
-		const createdActivity = new Activity(existingActivity).regenerateId();
-		createdActivity.from = existingActivity.till;
-		createdActivity.till = '';
-		createdActivity.duration = '';
-		this.activities.splice(existingActivityIdx, 0, createdActivity);
+		const activity = this.service.continueActivity(existingActivity);
+		this.activities.splice(existingActivityIdx, 0, activity);
 		this.updateActivitiesForm();
 	}
 
 	remove(activityId: string) {
+		const removableActivity = this.activities.find((activity: Activity) => activity.id === activityId) as Activity;
+		const removableActivityIdx = this.activities.indexOf(removableActivity);
+		this.activities.splice(removableActivityIdx, 1);
 		this.removableActivityIds.push(activityId);
 
-		const idx = this.ActivityFormArray.value.findIndex((item: any) => item.id === activityId);
-
-		this.ActivityFormArray.removeAt(idx);
-
-		if (!this.ActivityFormArray.length) {
+		if (this.activities.length === 0) {
 			this.add();
+		} else {
+			this.updateActivitiesForm();
 		}
 	}
 

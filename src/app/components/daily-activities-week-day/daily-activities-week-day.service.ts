@@ -1,50 +1,59 @@
-import { Injectable } from '@angular/core';
-import {FormArray, FormBuilder} from '@angular/forms';
+import { inject, Injectable } from '@angular/core';
+import { FormArray, FormBuilder } from '@angular/forms';
 
 import { Activity, Day } from '../../dto';
 import { ActivityFormItem } from './ActivityFormItem';
 import { ActivityFormGroup } from './DailyActivitiesForm';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class DailyActivitiesWeekDayService {
+	private fb = inject(FormBuilder);
 
-  constructor(private fb: FormBuilder) { }
+	makeActivityFormItem(activity?: Activity): ActivityFormGroup {
+		return this.fb.group(new ActivityFormItem(activity));
+	}
 
-  makeActivityFormItem(activity?: Activity): ActivityFormGroup {
-    return this.fb.group(new ActivityFormItem(activity));
-  }
+	processActivityFormArray(activityFormArray: FormArray<ActivityFormGroup>, day: Day, activities: Activity[]): Activity[] {
+		return activityFormArray.value.map((item) => {
+			const existingActivity = activities.find((activity: Activity) => {
+				return activity.id === item.id;
+			});
 
-  processActivityFormArray(activityFormArray: FormArray<ActivityFormGroup>, day: Day, activities: Activity[]): Activity[] {
-    return activityFormArray.value.map((item) => {
-      const existingActivity = activities.find((activity: Activity) => {
-        return activity.id === item.id;
-      });
+			if (existingActivity) {
+				return this.updateActivity(item, existingActivity);
+			} else {
+				return this.createActivity(item, day);
+			}
+		});
+	}
 
-      if (existingActivity) {
-        return this.updateActivity(item, existingActivity);
-      } else {
-        return this.createActivity(item, day);
-      }
-    });
-  }
+	createActivity(formValue?: any, day?: Day): Activity {
+		const activity = new Activity();
 
-  createActivity(formValue: any, day?: Day): Activity {
-    const activity = new Activity();
+		if (formValue) {
+			Object.assign(activity, formValue);
+		}
 
-    Object.assign(activity, formValue);
+		if (day) {
+			activity.date = day.date;
+			activity.dayId = day.id;
+			activity.weekId = day.weekId;
+		}
 
-    if (day) {
-      activity.date = day.date;
-      activity.dayId = day.id;
-      activity.weekId = day.weekId;
-    }
+		return activity;
+	}
 
-    return activity;
-  }
+	updateActivity(formValue: any, activity: Activity): Activity {
+		return Object.assign(activity, formValue);
+	}
 
-  updateActivity(formValue: any, activity: Activity): Activity {
-    return Object.assign(activity, formValue);
-  }
+	continueActivity(activity: Activity) {
+		const createdActivity = new Activity(activity).regenerateId();
+		createdActivity.from = activity.till;
+		createdActivity.till = '';
+		createdActivity.duration = '';
+		return createdActivity;
+	}
 }
