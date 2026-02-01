@@ -23,7 +23,7 @@
 
 	<app-daily-activities-week-day-sticky-bottom
 		[activities]="activities"
-		[isChanged]="isChanged"
+		[numberOfChanges]="numberOfChanges"
 		(save)="save()"
 		(reset)="reset()"
 	/>
@@ -68,7 +68,7 @@
 		</main>
 
 		<footer class="card-footer">
-			<app-daily-activities-week-day-footer (reset)="reset()" [activities]="activities" [isChanged]="isChanged"/>
+			<app-daily-activities-week-day-footer (reset)="reset()" [activities]="activities" [isChanged]="numberOfChanges > 0"/>
 		</footer>
 	</section>
 }

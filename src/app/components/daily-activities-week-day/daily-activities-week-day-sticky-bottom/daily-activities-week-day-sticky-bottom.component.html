@@ -8,12 +8,12 @@
 				</div>
 
 				<div>
-					<button type="button" class="btn btn-outline-danger" [ngClass]="{'invisible': !isChanged}"
+					<button type="button" class="btn btn-outline-danger" [ngClass]="{'invisible': !numberOfChanges}"
 							(click)="reset.emit()">
 						Reset
 					</button>
 
-					<button type="button" class="btn btn-primary ms-2" [ngClass]="{'invisible': !isChanged}"
+					<button type="button" class="btn btn-primary ms-2" [ngClass]="{'invisible': !numberOfChanges}"
 							(click)="save.emit()">
 						Save ({{ countdown }})
 					</button>

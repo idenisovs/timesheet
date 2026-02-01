@@ -47,7 +47,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 	activities: Activity[] = [];
 	isMobile: boolean = false;
 	totalDuration = '0h';
-	isChanged = false;
+	numberOfChanges = 0;
 	activatedActivityId: string | null = null;
 
 	form: FormGroup<DailyActivitiesForm> = this.fb.group({
@@ -87,7 +87,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 		this.activatedActivityId = this.activities[0].id
 
 		this.valueChangesSub = this.form.valueChanges.subscribe(() => {
-			this.isChanged = true;
+			this.numberOfChanges++;
 		});
 	}
 
@@ -153,13 +153,13 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 		await this.removeActivitiesWorkflow.run(this.removableActivityIds);
 		await this.saveActivitiesWorkflow.run(this.activities);
 
-		this.isChanged = false;
+		this.numberOfChanges = 0;
 		this.removableActivityIds = [];
 		this.changes.emit();
 	}
 
 	async reset() {
 		await this.loadActivities();
-		this.isChanged = false;
+		this.numberOfChanges = 0;
 	}
 }

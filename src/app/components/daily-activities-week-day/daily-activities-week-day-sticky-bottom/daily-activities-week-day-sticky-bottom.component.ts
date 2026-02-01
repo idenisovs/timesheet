@@ -22,7 +22,7 @@ export class DailyActivitiesWeekDayStickyBottomComponent implements OnChanges, O
 	activities: Activity[] = [];
 
 	@Input()
-	isChanged = false;
+	numberOfChanges: number = 0;
 
 	@Output()
 	save = new EventEmitter<void>();
@@ -38,12 +38,15 @@ export class DailyActivitiesWeekDayStickyBottomComponent implements OnChanges, O
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
-		if (changes['isChanged']) {
-			if (this.isChanged) {
-				this.startCountdown();
-			} else {
-				this.stopCountdown();
-			}
+		if (!changes['numberOfChanges']) {
+			return;
+		}
+
+		if (this.numberOfChanges > 0) {
+			this.stopCountdown();
+			this.startCountdown();
+		} else {
+			this.stopCountdown();
 		}
 	}
 
@@ -53,6 +56,7 @@ export class DailyActivitiesWeekDayStickyBottomComponent implements OnChanges, O
 
 	private startCountdown() {
 		const { DEFAULT_COUNTDOWN } = DailyActivitiesWeekDayStickyBottomComponent
+
 		this.countdown = DEFAULT_COUNTDOWN;
 
 		this.countdownSub = interval(1000)
