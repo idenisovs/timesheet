@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import {
 	FormArray,
 	FormBuilder,
@@ -40,6 +40,13 @@ import {
 	styleUrl: './daily-activities-week-day.component.scss',
 })
 export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
+	private fb = inject(FormBuilder);
+	private service = inject(DailyActivitiesWeekDayService);
+	private activitiesService = inject(ActivitiesService);
+	private saveActivitiesWorkflow = inject(SaveActivitiesWorkflowService);
+	private removeActivitiesWorkflow = inject(RemoveActivitiesWorkflowService);
+	private screenService = inject(ScreenService);
+
 	valueChangesSub!: Subscription;
 	isMobileSub!: Subscription;
 
@@ -66,15 +73,6 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 	get ActivityFormArrayItems(): ActivityFormGroup[] {
 		return this.ActivityFormArray.controls;
 	}
-
-	constructor(
-		private fb: FormBuilder,
-		private service: DailyActivitiesWeekDayService,
-		private activitiesService: ActivitiesService,
-		private saveActivitiesWorkflow: SaveActivitiesWorkflowService,
-		private removeActivitiesWorkflow: RemoveActivitiesWorkflowService,
-		private screenService: ScreenService,
-	) {}
 
 	async ngOnInit() {
 		this.isMobileSub = this.screenService.isMobile$.subscribe((value: boolean) => {
@@ -125,17 +123,15 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 	}
 
 	proceed(activityId: string) {
-		const existingActivity = this.activities.find((activity: Activity) => activity.id === activityId) as Activity;
-		const existingActivityIdx = this.activities.indexOf(existingActivity);
+		const [existingActivity, existingActivityIdx] = this.service.findById(this.activities, activityId);
 		const activity = this.service.continueActivity(existingActivity);
 		this.activities.splice(existingActivityIdx, 0, activity);
 		this.updateActivitiesForm();
 	}
 
 	remove(activityId: string) {
-		const removableActivity = this.activities.find((activity: Activity) => activity.id === activityId) as Activity;
-		const removableActivityIdx = this.activities.indexOf(removableActivity);
-		this.activities.splice(removableActivityIdx, 1);
+		const [_, existingActivityIdx] = this.service.findById(this.activities, activityId);
+		this.activities.splice(existingActivityIdx, 1);
 		this.removableActivityIds.push(activityId);
 
 		if (this.activities.length === 0) {
