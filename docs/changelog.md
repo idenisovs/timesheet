@@ -1,4 +1,5 @@
 # Changelog
+- `3.5.0` - Reworked mobile UI. Updated Angular version to 21. Temporary disabled Analytics View due to unsupported charting package;
 - `3.4.0` - Integrated the very basic version of responsiveness. Activities page is now working on mobile devices;
 - `3.3.0` - Analytics Page got the Charts tab. This version also introduces different visual and UX tweaks for layout of Analytics Page;
   - `3.3.1` - Added Weekly Tracked Time bar chart;
