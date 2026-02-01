@@ -7,10 +7,7 @@ For a more abstract and high-level perspective, please refer to the [Roadmap](./
 ## Mobile Mode
 
 - Add modal confirmation for Delete button;
-- Add handler for Copy button;
 - If activity is new / empty, it should be sorted at top of activity list (in Mobile) or bottom (in Desktop).
-- In mobile view, save the changes automatically.
-- Add Cancel (Reset) button.
 
 ## Time Rounding
 
