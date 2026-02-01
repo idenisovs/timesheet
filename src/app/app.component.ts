@@ -5,12 +5,15 @@ import { Subscription } from 'rxjs';
 import { Actions } from './services/Actions';
 import { ColorModeService } from './services/color-mode.service';
 import { version } from '../environments/version';
+import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    standalone: false
+    standalone: true,
+	imports: [RouterOutlet, NavbarComponent],
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'timesheet';
