@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 
 import { Week } from '../../dto';
 import { WeeksRepositoryService } from '../../repository/weeks-repository.service';
@@ -8,12 +9,14 @@ import { ActionsService } from '../../services/actions.service';
 import { ExportWorkflowService } from '../../workflows/export-workflow.service';
 import { PrepareForTodayWorkflowService } from '../../workflows/prepare-for-today-workflow.service';
 import { delay } from '../../utils';
+import { DailyActivitiesWeekComponent } from '../../components/daily-activities-week/daily-activities-week.component';
 
 @Component({
     selector: 'app-daily-activities-page',
     templateUrl: './daily-activities-page.component.html',
     styleUrls: ['./daily-activities-page.component.scss'],
-    standalone: false
+    standalone: true,
+	imports: [InfiniteScrollDirective, DailyActivitiesWeekComponent],
 })
 export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDestroy {
   weeks: Week[] = [];

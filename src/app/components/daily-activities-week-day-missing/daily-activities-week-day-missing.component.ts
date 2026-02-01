@@ -4,20 +4,20 @@ import { DatePipe } from '@angular/common';
 import { Day } from '../../dto';
 
 @Component({
-    selector: 'app-daily-activities-week-day-missing',
-    imports: [
-    DatePipe
-],
-    templateUrl: './daily-activities-week-day-missing.component.html',
-    styleUrl: './daily-activities-week-day-missing.component.scss'
+	selector: 'app-daily-activities-week-day-missing',
+	imports: [
+		DatePipe,
+	],
+	templateUrl: './daily-activities-week-day-missing.component.html',
+	styleUrl: './daily-activities-week-day-missing.component.scss',
 })
 export class DailyActivitiesWeekDayMissingComponent {
-  @Input()
-  day!: Day;
+	@Input()
+	day!: Day;
 
-  appendMissingDay() {
-    if (this.day) {
-      this.day.isMissing = false;
-    }
-  }
+	appendMissingDay() {
+		if (this.day) {
+			this.day.isMissing = false;
+		}
+	}
 }

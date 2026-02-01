@@ -1,16 +1,19 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+// src/main.ts
+import { enableProdMode, provideZoneChangeDetection } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
 
-import { AppModule } from './app/app.module';
+import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
+import { routes } from './app/app.routes';
 
 if (environment.production) {
-  enableProdMode();
+	enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule, {
-  providers: [provideCharts(withDefaultRegisterables())]
-})
-  .then(() => {})
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+	providers: [
+		provideZoneChangeDetection(),
+		provideRouter(routes),
+	],
+}).catch((err) => console.error(err));

@@ -4,12 +4,19 @@ import { ActivitySummary, Day, Week } from '../../dto';
 import { DaysRepositoryService } from '../../repository/days-repository.service';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 import { ActivitiesService } from '../../services/activities.service';
+import {
+	DailyActivitiesWeekHeaderComponent
+} from './daily-activities-week-header/daily-activities-week-header.component';
+import {
+	DailyActivitiesWeekDayMissingComponent
+} from '../daily-activities-week-day-missing/daily-activities-week-day-missing.component';
+import { DailyActivitiesWeekDayComponent } from '../daily-activities-week-day/daily-activities-week-day.component';
 
 @Component({
-    selector: 'app-daily-activities-week',
-    templateUrl: './daily-activities-week.component.html',
-    styleUrls: ['./daily-activities-week.component.scss'],
-    standalone: false
+	selector: 'app-daily-activities-week',
+	templateUrl: './daily-activities-week.component.html',
+	styleUrls: ['./daily-activities-week.component.scss'],
+	imports: [DailyActivitiesWeekHeaderComponent, DailyActivitiesWeekDayMissingComponent, DailyActivitiesWeekDayComponent],
 })
 export class DailyActivitiesWeekComponent implements OnInit {
   days: Day[] = [];

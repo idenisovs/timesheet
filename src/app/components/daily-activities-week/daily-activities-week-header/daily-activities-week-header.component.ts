@@ -4,12 +4,15 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { Day, Week, ActivitySummary } from '../../../dto';
 import { DaysService } from '../../../services/days.service';
 import {WeeklyOverviewModalComponent} from '../weekly-overview-modal/weekly-overview-modal.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
-    selector: 'app-daily-activities-week-header',
-    templateUrl: './daily-activities-week-header.component.html',
-    styleUrls: ['./daily-activities-week-header.component.scss'],
-    standalone: false
+	selector: 'app-daily-activities-week-header',
+	templateUrl: './daily-activities-week-header.component.html',
+	styleUrls: ['./daily-activities-week-header.component.scss'],
+	imports: [
+		DatePipe,
+	],
 })
 export class DailyActivitiesWeekHeaderComponent implements OnInit {
   isMissingDaysVisible = false;
