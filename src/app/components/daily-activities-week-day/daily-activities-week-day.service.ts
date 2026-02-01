@@ -44,7 +44,7 @@ export class DailyActivitiesWeekDayService {
     return activity;
   }
 
-  updateActivity(formValue: any, activity: Activity) {
+  updateActivity(formValue: any, activity: Activity): Activity {
     return Object.assign(activity, formValue);
   }
 }

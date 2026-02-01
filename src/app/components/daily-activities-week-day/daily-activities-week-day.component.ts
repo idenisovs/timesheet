@@ -125,6 +125,17 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 		}
 	}
 
+	proceed(activityId: string) {
+		const existingActivity = this.activities.find((activity: Activity) => activity.id === activityId) as Activity;
+		const existingActivityIdx = this.activities.indexOf(existingActivity);
+		const createdActivity = new Activity(existingActivity).regenerateId();
+		createdActivity.from = existingActivity.till;
+		createdActivity.till = '';
+		createdActivity.duration = '';
+		this.activities.splice(existingActivityIdx, 0, createdActivity);
+		this.updateActivitiesForm();
+	}
+
 	remove(activityId: string) {
 		this.removableActivityIds.push(activityId);
 

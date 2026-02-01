@@ -52,6 +52,9 @@ export class DailyActivityItemMobileComponent implements OnInit {
 		duration: '',
 	});
 
+	@Input()
+	isFirst = true;
+
 	@Output()
 	add = new EventEmitter<string>();
 

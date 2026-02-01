@@ -1,46 +1,46 @@
 <section class="card">
-  <main class="card-body">
-    <div class="d-flex justify-content-between">
-      <h5 class="h5 m-0 p-0">
-        <app-activity-item-title [activityName]="ActivityName" />
+	<main class="card-body">
+		<div class="d-flex justify-content-between align-items-center">
+			<h5 class="h5 m-0 p-0">
+				<app-activity-item-title [activityName]="ActivityName" />
 
-        <button type="button" class="btn btn-link btn-sm" (click)="openEditModal()">
-          <i class="material-symbols-outlined">edit</i>
-        </button>
-      </h5>
+				<button (click)="openEditModal()" class="btn btn-link btn-sm" type="button">
+					<i class="material-symbols-outlined">edit</i>
+				</button>
+			</h5>
 
-      <div ngbDropdown class="d-inline-block">
-        <button type="button" class="btn btn-sm btn-light align-self-start p-0 m-0 no-caret" ngbDropdownToggle>
-          <span class="material-symbols-outlined">
-            more_vert
-          </span>
-        </button>
+			<div class="d-inline-block" ngbDropdown>
+				<button class="btn btn-sm btn-light align-self-start p-0 m-0 no-caret" ngbDropdownToggle type="button">
+					<i class="material-symbols-outlined">more_vert</i>
+				</button>
 
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <app-menu-item label="Add" icon="add" (click)="add.emit(ActivityId)" />
-          <app-menu-item label="Edit" icon="edit" (click)="openEditModal()" />
-          <app-menu-item label="Copy" icon="content_copy" />
-          <app-menu-item label="Delete" icon="delete" (click)="remove.emit(ActivityId)" />
-        </div>
-      </div>
-    </div>
+				<div aria-labelledby="dropdownBasic1" ngbDropdownMenu>
+					@if (isFirst) {
+						<app-menu-item (click)="add.emit(ActivityId)" icon="add" label="Add" />
+					}
+					<app-menu-item (click)="openEditModal()" icon="edit" label="Edit" />
+					<app-menu-item (click)="proceed.emit(ActivityId)" icon="content_copy" label="Continue" />
+					<app-menu-item (click)="remove.emit(ActivityId)" icon="delete" label="Delete" />
+				</div>
+			</div>
+		</div>
 
-    <div class="mt-1">
-      {{ActivityName|description}}
-    </div>
+		<div class="mt-1">
+			{{ ActivityName|description }}
+		</div>
 
-    <div class="row g-2 mt-1 mb-0">
-      <div class="col-6">
-        <app-time-picker [control]="activityForm.controls.from" />
-      </div>
+		<div class="row g-2 mt-1 mb-0">
+			<div class="col-6">
+				<app-time-picker [control]="activityForm.controls.from" />
+			</div>
 
-      <div class="col-6">
-        <app-time-picker [control]="activityForm.controls.till" />
-      </div>
-    </div>
-  </main>
+			<div class="col-6">
+				<app-time-picker [control]="activityForm.controls.till" />
+			</div>
+		</div>
+	</main>
 
-  <footer class="card-footer">
-    Duration: {{activityForm.controls.duration.value || '0h'}}
-  </footer>
+	<footer class="card-footer">
+		Duration: {{ activityForm.controls.duration.value || '0h' }}
+	</footer>
 </section>
