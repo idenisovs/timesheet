@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
 	NgbDropdown,
@@ -38,7 +38,7 @@ type ActivityValue = {
 	templateUrl: './daily-activity-item-mobile.component.html',
 	styleUrl: './daily-activity-item-mobile.component.scss',
 })
-export class DailyActivityItemMobileComponent {
+export class DailyActivityItemMobileComponent implements OnInit {
 	fb = inject(FormBuilder);
 	service = inject(DailyActivityItemService);
 	modalService = inject(NgbModal);
@@ -56,7 +56,7 @@ export class DailyActivityItemMobileComponent {
 	add = new EventEmitter<string>();
 
 	@Output()
-	copy = new EventEmitter<string>();
+	proceed = new EventEmitter<string>();
 
 	@Output()
 	remove = new EventEmitter<string>();
@@ -69,12 +69,14 @@ export class DailyActivityItemMobileComponent {
 		return this.activityForm.get('name')?.value ?? '';
 	}
 
-	handleFromChanges() {
-		this.service.handleFromChanges(this.activityForm);
-	}
+	ngOnInit(): void {
+		this.activityForm.get('from')?.valueChanges.subscribe(() => {
+			this.service.handleFromChanges(this.activityForm);
+		});
 
-	handleTillChanges() {
-		this.service.handleTillChanges(this.activityForm);
+		this.activityForm.get('till')?.valueChanges.subscribe(() => {
+			this.service.handleTillChanges(this.activityForm);
+		});
 	}
 
 	async openEditModal() {

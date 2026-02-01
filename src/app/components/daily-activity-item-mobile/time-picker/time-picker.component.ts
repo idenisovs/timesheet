@@ -22,7 +22,7 @@ export class TimePickerComponent {
 
 	openTimePicker() {
 		const el = this.timeInput.nativeElement;
-		el.value = ''; // Display current time on Time Picker opening!
+		el.value = this.control.value;
 		(el as any).showPicker();
 	}
 
