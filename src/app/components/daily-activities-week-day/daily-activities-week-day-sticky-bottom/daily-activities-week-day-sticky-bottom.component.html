@@ -7,15 +7,17 @@
 					<i class="material-symbols-outlined text-info">schedule</i> {{ TotalDuration || '0h' }}
 				</div>
 
-				<button type="button" class="btn btn-outline-danger" [ngClass]="{'invisible': !isChanged}"
-						(click)="reset.emit()">
-					Reset
-				</button>
+				<div>
+					<button type="button" class="btn btn-outline-danger" [ngClass]="{'invisible': !isChanged}"
+							(click)="reset.emit()">
+						Reset
+					</button>
 
-				<button type="button" class="btn btn-primary" [ngClass]="{'invisible': !isChanged}"
-						(click)="save.emit()">
-					Save ({{ countdown }})
-				</button>
+					<button type="button" class="btn btn-primary ms-2" [ngClass]="{'invisible': !isChanged}"
+							(click)="save.emit()">
+						Save ({{ countdown }})
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
