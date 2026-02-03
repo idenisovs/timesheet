@@ -1,6 +1,15 @@
-import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+	AfterViewInit,
+	Component,
+	ElementRef,
+	inject,
+	OnDestroy,
+	OnInit,
+	ViewChild
+} from '@angular/core';
 import { Router } from '@angular/router';
-import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { fromEvent, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 import { Week } from '../../dto';
 import { WeeksRepositoryService } from '../../repository/weeks-repository.service';
@@ -11,12 +20,13 @@ import { PrepareForTodayWorkflowService } from '../../workflows/prepare-for-toda
 import { delay } from '../../utils';
 import { DailyActivitiesWeekComponent } from '../../components/daily-activities-week/daily-activities-week.component';
 
+
 @Component({
 	selector: 'app-daily-activities-page',
 	templateUrl: './daily-activities-page.component.html',
 	styleUrls: ['./daily-activities-page.component.scss'],
 	standalone: true,
-	imports: [InfiniteScrollDirective, DailyActivitiesWeekComponent],
+	imports: [DailyActivitiesWeekComponent],
 })
 export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDestroy {
 	private router = inject(Router);
@@ -24,7 +34,9 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	private actionsService = inject(ActionsService);
 	private exportWorkflow = inject(ExportWorkflowService);
 	private prepareForTodayWorkflow = inject(PrepareForTodayWorkflowService);
+
 	private actionSubs = this.actionsService.on.subscribe(this.handlePageActions.bind(this));
+	private myOwnLittleInfiniteScroll!: Subscription;
 
 	@ViewChild('weeksList') weekListRef!: ElementRef;
 
@@ -34,6 +46,17 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	async ngOnInit() {
 		await this.prepareForTodayWorkflow.run();
 		await this.loadNextWeek();
+
+		this.myOwnLittleInfiniteScroll = fromEvent(window, 'scroll', { passive: true })
+			.pipe(
+				debounceTime(150)
+			)
+			.subscribe(() => {
+				const remainingPx = this.getRemainingPx();
+				if (remainingPx < 400) {
+					void this.loadNextWeek();
+				}
+			});
 	}
 
 	async ngAfterViewInit() {
@@ -42,6 +65,7 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 
 	ngOnDestroy() {
 		this.actionSubs.unsubscribe();
+		this.myOwnLittleInfiniteScroll.unsubscribe();
 	}
 
 	async preloadWeeks() {
@@ -76,5 +100,10 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 				await this.router.navigate(['import']);
 				break;
 		}
+	}
+
+	private getRemainingPx(): number {
+		const doc = document.documentElement;
+		return doc.scrollHeight - (window.scrollY + window.innerHeight);
 	}
 }
