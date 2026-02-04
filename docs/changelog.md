@@ -1,20 +1,23 @@
 # Changelog
-- `3.5.0` - Reworked mobile UI. Updated Angular version to 21. Temporary disabled Analytics View due to unsupported charting package;
+
+- `3.5.0` - Reworked mobile UI. Updated Angular version to 21.
+	- Temporarily disabled the Analytics View, which is caused by charting library, which seems abandoned now and not working with Angular above version 19. See this issue for more details: https://github.com/valor-software/ng2-charts/issues/2021
+	- Temporarily replaced the `ngx-infinite-scroll` due to issue with Window Scrolling. See this issue for details - https://github.com/orizens/ngx-infinite-scroll/issues/449
 - `3.4.0` - Integrated the very basic version of responsiveness. Activities page is now working on mobile devices;
 - `3.3.0` - Analytics Page got the Charts tab. This version also introduces different visual and UX tweaks for layout of Analytics Page;
-  - `3.3.1` - Added Weekly Tracked Time bar chart;
-  - `3.3.2` - Added Issues Time Ratio bar chart;
+	- `3.3.1` - Added Weekly Tracked Time bar chart;
+	- `3.3.2` - Added Issues Time Ratio bar chart;
 - `3.2.0` - Added basic Analytics View;
-  - `3.2.1` - Analytics View Filters got the Issue and Activity visibility switches;
-  - `3.2.2` - Visual improvements for Analytics View;
-  - `3.2.3` - Fixes for Project and Issue import bugs;
-  - `3.2.4` - Changes for Activity Linking approach. This fixes Issue Stats issue, when stats is not updated if activity is being linked to another Issue;
-  - `3.2.5` - Minor fixes for Projects and Project views;
-  - `3.2.6` - Contains some improvements and refactoring for Activity Import. As also got minor fix for calculation of the time if duration field is changing;
-  - `3.2.7` - Migration from Material Icons to Material Symbols;
-  - `3.2.8` - Added _Take Time From Previous Activity_ button and also the _Reset_ (Cancel Changes) button;
-  - `3.2.9` - Slightly changed UI, it is now displaying the actual version of application. It was made with help of GitHub Workflow and automated builds, that was finally introduced in this version. _Visit me on GitHub_ is moved to NavBar as well;
-  - `3.2.10` - Fixed the bug related to activity creation in the missing day. Previously the date of such activity was wrongly set to the current date. Now it is set to the date of missing day;
+	- `3.2.1` - Analytics View Filters got the Issue and Activity visibility switches;
+	- `3.2.2` - Visual improvements for Analytics View;
+	- `3.2.3` - Fixes for Project and Issue import bugs;
+	- `3.2.4` - Changes for Activity Linking approach. This fixes Issue Stats issue, when stats is not updated if activity is being linked to another Issue;
+	- `3.2.5` - Minor fixes for Projects and Project views;
+	- `3.2.6` - Contains some improvements and refactoring for Activity Import. As also got minor fix for calculation of the time if duration field is changing;
+	- `3.2.7` - Migration from Material Icons to Material Symbols;
+	- `3.2.8` - Added _Take Time From Previous Activity_ button and also the _Reset_ (Cancel Changes) button;
+	- `3.2.9` - Slightly changed UI, it is now displaying the actual version of application. It was made with help of GitHub Workflow and automated builds, that was finally introduced in this version. _Visit me on GitHub_ is moved to NavBar as well;
+	- `3.2.10` - Fixed the bug related to activity creation in the missing day. Previously the date of such activity was wrongly set to the current date. Now it is set to the date of missing day;
 - `3.1.7` - Made the Overview Service, migrated the Weekly Overview to Overview Service and the Daily Summary to the Daily Overview;
 - `3.1.6` - In Daily Summary, displaying the same metrics as in Weekly Overview;
 - `3.1.5` - In Weekly Overview, added an option to expand the activities list of an issue;
@@ -32,8 +35,8 @@
 - `2.1.0` - Application got the basic Edit Issue view;
 - `2.0.0` - Application got the basic Issues view;
 - `1.3.0` - Added the following:
-  1. Added the _Copy to Clipboard_ button;
-  2. Added the buttons allowed to set the current time for `From` and `Till` fields;
+	1. Added the _Copy to Clipboard_ button;
+	2. Added the buttons allowed to set the current time for `From` and `Till` fields;
 - `1.2.0` - Added possibility to add missing days;
 - `1.1.0` - Daily summary;
 - `1.0.0` - Basic functionality;
