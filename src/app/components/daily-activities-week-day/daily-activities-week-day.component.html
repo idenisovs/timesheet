@@ -50,13 +50,13 @@
 					</div>
 				</div>
 				<div formArrayName="activities">
-					@for (activity of ActivityFormArrayItems; track activity.controls.id.value; let idx = $index; let isFirst = $first; let isLast = $last) {
+					@for (activityFormItem of ActivityFormArrayItems; track activityFormItem.controls.id.value; let idx = $index; let isFirst = $first; let isLast = $last) {
 						<app-daily-activity-item
 							(add)="add()"
 							(remove)="remove($event)"
 							(save)="save()"
 							[activities]="ActivityFormArrayItems"
-							[activity]="activity"
+							[activityFormItem]="activityFormItem"
 							[idx]="idx"
 							[isFirst]=isFirst
 							[isLast]="isLast"
