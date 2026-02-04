@@ -95,7 +95,8 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 		this.activities = await this.activitiesService.loadDailyActivities(this.day);
 
 		if (!this.activities.length) {
-			this.add();
+			const activity = this.service.createActivity(null, this.day);
+			this.activities.push(activity);
 		}
 
 		this.updateActivitiesForm();
@@ -112,33 +113,39 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 
 	add() {
 		const activity = this.service.createActivity(null, this.day);
+		const activityFormItem = this.service.makeActivityFormItem(activity);
+
+		const next = [...this.ActivityFormArrayItems];
 
 		if (this.isMobile) {
-			this.activities.splice(0, 0, activity);
+			next.splice(0, 0, activityFormItem);
 		} else {
-			this.activities.push(activity);
+			next.push(activityFormItem);
 		}
 
-		this.updateActivitiesForm();
+		this.form.setControl('activities', this.fb.array(next));
 	}
 
 	proceed(activityId: string) {
 		const [existingActivity, existingActivityIdx] = this.service.findById(this.activities, activityId);
-		const activity = this.service.continueActivity(existingActivity);
-		this.activities.splice(existingActivityIdx, 0, activity);
-		this.updateActivitiesForm();
+		const activity: Activity = this.service.continueActivity(existingActivity);
+		const activityFormItem: ActivityFormGroup = this.service.makeActivityFormItem(activity);
+
+		const next = [...this.ActivityFormArrayItems];
+		next.splice(existingActivityIdx, 0, activityFormItem);
+		this.form.setControl('activities', this.fb.array(next));
 	}
 
 	remove(activityId: string) {
-		const [_, existingActivityIdx] = this.service.findById(this.activities, activityId);
-		this.activities.splice(existingActivityIdx, 1);
-		this.removableActivityIds.push(activityId);
+		const activityIdx = this.ActivityFormArrayItems.findIndex((activityFormItem: ActivityFormGroup) => {
+			return activityFormItem.get('id')?.value === activityId;
+		});
 
-		if (this.activities.length === 0) {
-			this.add();
-		} else {
-			this.updateActivitiesForm();
-		}
+		const next = [...this.ActivityFormArrayItems];
+		next.splice(activityIdx, 1);
+		this.form.setControl('activities', this.fb.array(next));
+
+		this.removableActivityIds.push(activityId);
 	}
 
 	async save() {
