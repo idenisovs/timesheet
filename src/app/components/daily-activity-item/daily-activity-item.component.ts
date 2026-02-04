@@ -6,117 +6,118 @@ import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesF
 import { DailyActivityItemService } from './daily-activity-item.service';
 
 @Component({
-    selector: 'app-daily-activity-item',
-    templateUrl: './daily-activity-item.component.html',
-    styleUrls: ['./daily-activity-item.component.scss'],
-    imports: [
-        ReactiveFormsModule,
-        NgClass,
-    ]
+	selector: 'app-daily-activity-item',
+	templateUrl: './daily-activity-item.component.html',
+	styleUrls: ['./daily-activity-item.component.scss'],
+	imports: [
+		ReactiveFormsModule,
+		NgClass,
+	]
 })
 export class DailyActivityItemComponent {
-  @Input()
-  activity = this.fb.group({
-    id: [''],
-    name: [''],
-    from: [''],
-    till: [''],
-    duration: ['']
-  });
+	@Input()
+	activityFormItem = this.fb.group({
+		id: [''],
+		name: [''],
+		from: [''],
+		till: [''],
+		duration: ['']
+	});
 
-  @Input()
-  activities: ActivityFormGroup[] = [];
+	@Input()
+	activities: ActivityFormGroup[] = [];
 
-  @Input()
-  idx = 0;
+	@Input()
+	idx = 0;
 
-  @Input()
-  isFirst = false;
+	@Input()
+	isFirst = false;
 
-  @Input()
-  isLast = false;
+	@Input()
+	isLast = false;
 
-  @Input()
-  isMobile = false;
+	@Input()
+	isMobile = false;
 
-  @Output()
-  add = new EventEmitter<void>();
+	@Output()
+	add = new EventEmitter<void>();
 
-  @Output()
-  remove = new EventEmitter<string>();
+	@Output()
+	remove = new EventEmitter<string>();
 
-  @Output()
-  save = new EventEmitter<void>();
+	@Output()
+	save = new EventEmitter<void>();
 
-  get ActivityId(): string {
-    return this.activity.get('id')?.value;
-  }
+	get ActivityId(): string {
+		return this.activityFormItem.get('id')?.value;
+	}
 
-  get isFirstActivity(): boolean {
-    return this.isMobile ? this.isLast : this.isFirst;
-  }
+	get isFirstActivity(): boolean {
+		return this.isMobile ? this.isLast : this.isFirst;
+	}
 
-  get isLastActivity(): boolean {
-    return this.isMobile ? this.isFirst : this.isLast;
-  }
+	get isLastActivity(): boolean {
+		return this.isMobile ? this.isFirst : this.isLast;
+	}
 
-  constructor(
-    private fb: UntypedFormBuilder,
-    private service: DailyActivityItemService
-  ) { }
+	constructor(
+		private fb: UntypedFormBuilder,
+		private service: DailyActivityItemService
+	) {
+	}
 
-  handleFromChanges() {
-    this.service.handleFromChanges(this.activity);
-  }
+	handleFromChanges() {
+		this.service.handleFromChanges(this.activityFormItem);
+	}
 
-  handleTillChanges() {
-    this.service.handleTillChanges(this.activity);
-  }
+	handleTillChanges() {
+		this.service.handleTillChanges(this.activityFormItem);
+	}
 
-  handleDurationChanges() {
-    this.service.handleDurationChanges(this.activity);
-  }
+	handleDurationChanges() {
+		this.service.handleDurationChanges(this.activityFormItem);
+	}
 
-  async copyActivityName() {
-    const activityName: string | undefined = this.activity.get('name')?.value;
+	async copyActivityName() {
+		const activityName: string | undefined = this.activityFormItem.get('name')?.value;
 
-    if (!activityName) {
-      return;
-    }
+		if (!activityName) {
+			return;
+		}
 
-    if (navigator.clipboard) {
-      await navigator.clipboard.writeText(activityName);
-    }
+		if (navigator.clipboard) {
+			await navigator.clipboard.writeText(activityName);
+		}
 
-    sessionStorage.setItem('clipboard', activityName);
-  }
+		sessionStorage.setItem('clipboard', activityName);
+	}
 
-  async pasteActivityName() {
-    const activityName = sessionStorage.getItem('clipboard');
+	async pasteActivityName() {
+		const activityName = sessionStorage.getItem('clipboard');
 
-    if (activityName) {
-      this.activity.get('name')?.setValue(activityName);
-    }
-  }
+		if (activityName) {
+			this.activityFormItem.get('name')?.setValue(activityName);
+		}
+	}
 
-  setCurrentTime(field: 'from'|'till') {
-    this.service.setCurrentTime(this.activity, field);
-  }
+	setCurrentTime(field: 'from' | 'till') {
+		this.service.setCurrentTime(this.activityFormItem, field);
+	}
 
-  setTimeFromPreviousActivity() {
-    const previousActivityDirection = this.isMobile ? 1 : -1;
-    const previousActivity = this.activities[this.idx + previousActivityDirection];
-    const previousTillField = previousActivity.get('till');
+	setTimeFromPreviousActivity() {
+		const previousActivityDirection = this.isMobile ? 1 : -1;
+		const previousActivity = this.activities[this.idx + previousActivityDirection];
+		const previousTillField = previousActivity.get('till');
 
-    if (!previousTillField) {
-      return;
-    }
+		if (!previousTillField) {
+			return;
+		}
 
-    const formField = this.activity.get('from');
+		const formField = this.activityFormItem.get('from');
 
-    if (formField) {
-      formField.setValue(previousTillField.value);
-      this.handleFromChanges();
-    }
-  }
+		if (formField) {
+			formField.setValue(previousTillField.value);
+			this.handleFromChanges();
+		}
+	}
 }
