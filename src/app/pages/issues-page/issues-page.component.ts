@@ -83,6 +83,6 @@ export class IssuesPageComponent implements OnInit, OnDestroy {
 	}
 
 	getDateString(issueDate: Date): string {
-		return this.datePipe.transform(issueDate, 'yyyy-mm') as string;
+		return this.datePipe.transform(issueDate, 'yyyy-MM') as string;
 	}
 }
