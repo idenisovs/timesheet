@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -20,17 +20,15 @@ import { IssueRepositoryService } from '../../repository/issue-repository.servic
 	styleUrl: './issues-page.component.scss',
 })
 export class IssuesPageComponent implements OnInit, OnDestroy {
+	private actionsService = inject(ActionsService);
+	private modal = inject(NgbModal);
+	private datePipe = inject(DatePipe);
+	private issueRepository = inject(IssueRepositoryService);
+
 	issues: Issue[] = [];
 	actionsSubscription?: Subscription;
 	issuesGroupedByDate = new Map<string, Issue[]>();
 
-	constructor(
-		private actionsService: ActionsService,
-		private modal: NgbModal,
-		private datePipe: DatePipe,
-		private issueRepository: IssueRepositoryService,
-	) {
-	}
 
 	async ngOnInit() {
 		this.issues = await this.issueRepository.getAll();
