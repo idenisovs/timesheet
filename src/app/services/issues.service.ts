@@ -1,91 +1,82 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { Issue } from '../dto';
 import { HOUR, MINUTE } from '../constants';
 import { DurationService } from './duration.service';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class IssuesService {
-  constructor(private durationService: DurationService) { }
+	private durationService = inject(DurationService);
 
-  sort(issue1: Issue, issue2: Issue) {
-    if (issue1.createdAt > issue2.createdAt) {
-      return -1;
-    }
+	sort(issue1: Issue, issue2: Issue) {
+		if (issue1.createdAt > issue2.createdAt) {
+			return -1;
+		}
 
-    if (issue1.createdAt < issue2.createdAt) {
-      return 1;
-    }
+		if (issue1.createdAt < issue2.createdAt) {
+			return 1;
+		}
 
-    if (issue1.key > issue2.key) {
-      return -1;
-    }
+		if (issue1.key > issue2.key) {
+			return -1;
+		}
 
-    if (issue1.key < issue2.key) {
-      return 1;
-    }
+		if (issue1.key < issue2.key) {
+			return 1;
+		}
 
-    return 0;
-  }
+		return 0;
+	}
 
-  calculateDuration(issues: Issue[]): string {
-    const issueDurationValues = issues.map(issue => issue.duration);
-    return this.durationService.sum(issueDurationValues);
-  }
+	calculateDuration(issues: Issue[]): string {
+		const issueDurationValues = issues.map(issue => issue.duration);
+		return this.durationService.sum(issueDurationValues);
+	}
 
-  calculateAverageAccuracy(issues: Issue[]): number {
-    const estimatedIssues = this.calculateEstimatedIssues(issues);
+	calculateAverageEstimationScore(issues: Issue[]): number {
+		const estimatedIssues = this.countEstimatedIssues(issues);
 
-    if (!estimatedIssues) {
-      return 0;
-    }
+		if (!estimatedIssues) {
+			return 0;
+		}
 
-    const penaltyPoints = this.sumPenaltyPoints(issues);
+		const estimationScoreTotal = this.sumEstimationScores(issues);
 
-    return Math.round(penaltyPoints / estimatedIssues);
-  }
+		return Math.round(estimationScoreTotal / estimatedIssues);
+	}
 
-  sumPenaltyPoints(issues: Issue[]): number {
-    return issues.reduce((result: number, issue: Issue) => {
-      const penaltyPoints = this.calculatePenaltyPoints(issue);
+	sumEstimationScores(issues: Issue[]): number {
+		return issues.reduce((result: number, issue: Issue) => {
+			const estimationScore = this.calculateEstimationScore(issue);
+			return estimationScore ? result + estimationScore : result;
+		}, 0);
+	}
 
-      if (!penaltyPoints) {
-        return result;
-      }
+	calculateEstimationScore(issue: Issue): number | null {
+		if (!issue.estimate || !issue.duration) {
+			return null;
+		}
 
-      return result + penaltyPoints;
-    }, 0);
-  }
+		const estimatedMs = this.durationService.toMs(issue.estimate);
+		const actualMs = this.durationService.toMs(issue.duration);
+		const estimatedMinutes = estimatedMs / HOUR / MINUTE;
+		const actualMinutes = actualMs / HOUR / MINUTE;
+		const estimationAccuracy = actualMinutes / estimatedMinutes;
+		const estimationVariance = Math.abs(estimationAccuracy - 1);
 
-  calculatePenaltyPoints(issue: Issue): number|null {
-    if (!issue.estimate || !issue.duration) {
-      return null;
-    }
+		const strictness = 2.5;
+		const maxPoints = 1000;
 
-    const estimatedMs = this.durationService.toMs(issue.estimate);
-    const actualMs = this.durationService.toMs(issue.duration);
-    const estimatedMinutes = estimatedMs / HOUR / MINUTE;
-    const actualMinutes = actualMs / HOUR / MINUTE;
-    const estimateAccuracy = actualMinutes / estimatedMinutes;
-	const estimateVariance = Math.abs(estimateAccuracy - 1);
+		const penaltyMultiplier = Math.pow(strictness, estimationVariance);
 
-	const strictness = 2;
-    const maxPoints = 1000;
+		return Math.round(maxPoints / penaltyMultiplier);
+	}
 
-    const penaltyMultiplier = Math.pow(strictness, estimateVariance);
-
-    return Math.round(maxPoints / penaltyMultiplier);
-  }
-
-  calculateEstimatedIssues(issues: Issue[]): number {
-    return issues.reduce((result: number, issue: Issue) => {
-      if (issue.estimate) {
-        result++;
-      }
-
-      return result;
-    }, 0);
-  }
+	countEstimatedIssues(issues: Issue[]): number {
+		return issues.reduce((result: number, issue: Issue) => {
+			return issue.estimate ? result + 1 : result;
+		}, 0);
+	}
 }
