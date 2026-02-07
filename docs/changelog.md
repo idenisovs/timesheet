@@ -1,6 +1,7 @@
 # Changelog
 
-- `3.5.0` - Reworked mobile UI. Updated Angular version to 21.
+- `3.6.0` - Revised Accuracy Points calculation ([details](./accuracy_points.md));
+- `3.5.0` - **Reworked mobile UI**. Updated Angular version to 21;
 	- Temporarily disabled the Analytics View, which is caused by charting library, which seems abandoned now and not working with Angular above version 19. See this issue for more details: https://github.com/valor-software/ng2-charts/issues/2021
 	- Temporarily replaced the `ngx-infinite-scroll` due to issue with Window Scrolling. See this issue for details - https://github.com/orizens/ngx-infinite-scroll/issues/449
 - `3.4.0` - Integrated the very basic version of responsiveness. Activities page is now working on mobile devices;
