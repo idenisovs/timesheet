@@ -1,31 +1,43 @@
 # Accuracy Points
 
-Timesheet application got the possibility to set the time estimations for the Issues. 
+**To be clear: Nobody is good enough with estimation.**
 
-That gives the possibility to evaluate the difference between estimated and actual time of development - the Estimation Error.
+The timesheet application is supporting the time estimates for issues.
 
-However, I took a decision to give the evaluation of _Estimation Error_ in some more abstract value, named _Accuracy Points_.
+This makes it possible to compare the **estimated** development time with the **actual time spent** — the **Estimation Error**.
 
-Accuracy Points is the value between `0` for the worst and `1000` for the best case. In other words, if development was estimated for **8 hours**, and took also the **8 hours**, then Estimation Error is **0 hours** and therefore the **Accuracy Point** value will be **1000**;
+However, I decided to express the Estimation Error using a more abstract metric called **Accuracy Points**.
+
+**Accuracy Points** is a value between **0** (worst case) and **1000** (best case).
+
+In other words, if a task was estimated at **8 hours** and also took **8 hours**, the **Estimation Error** is **0 hours**, and the **Accuracy Points** value is **1000**.
 
 ## Calculation
 
-Some tasks might be estimated to take 30 minutes but end up taking 1 hour of development.
+### Estimation Variance
 
-Other tasks might be estimated for 8 hours but take 16 hours of development.
+**Estimation Variance** (EV) answers on question "_How much the estimation was off?_"
 
-In both cases, the development time was twice the estimated time. However, the Estimation Error in the case of minutes is not as significant as the Estimation Error for hours or days. This is the reason why Accuracy Points are calculated in a non-linear manner.
+$$ EV=\left|\frac{t_{actual}}{t_{estimated}}-1\right| $$
 
-The calculation of accuracy points is performed in the following steps:
+The $t$ is the time in **minutes**.
 
-1. Find the Estimated and Actual time in hours;
-2. Find the modulus of Estimation Error (`EE`), like `EE = | T_estimated - T_actual |`;
-3. Apply the Exponential function to EE: `P = 2^(-EE * 0.2)`;
-    - The factor `0.2` moderates the rate of decay;
-4. Find the Accuracy Points: `AP = P * 1000`;
+### Strictness
 
-### Exponential function
+Strictness is a value (`const`) that answers the question: “_How strict should the penalty be?_”.
 
-The following exponential function is used to scale the Estimation Error in order to calculate Accuracy Points.
+The bigger value - the more strict penalty.
 
-<img src="./exponential_function.png" alt="The graph of Exponential Function">
+I'm used a $Strictness = 2.5$.
+
+### Penalty Multiplier
+
+The **Penalty Multiplier** is calculated using an exponential function: $$ PM=Strictnes^{EV} $$
+
+### Accuracy Points
+
+Accuracy points are calculated as $$ {Accuracy Points} = \frac{1000}{PM} $$
+
+Given that $Strictness = 2.5$, it means that if the **estimation** was **4h** and **actual** time is like **5h**, the score will be around **800** points, which is **good**, while **2x** mistake gives around **400** points and **3x** mistake is around **160**.
+
+![Score vs Estimation Variance](score_vs_estimation.png)
