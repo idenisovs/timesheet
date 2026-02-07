@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Issue } from '../dto';
-import { HOUR } from '../constants';
+import { HOUR, MINUTE } from '../constants';
 import { DurationService } from './duration.service';
 
 @Injectable({
@@ -64,18 +64,19 @@ export class IssuesService {
       return null;
     }
 
-    const estimate = this.durationService.toMs(issue.estimate);
-    const duration = this.durationService.toMs(issue.duration);
-    const estimatedHours = estimate / HOUR;
-    const actualHours = duration / HOUR;
-    const error = Math.abs(estimatedHours - actualHours);
+    const estimatedMs = this.durationService.toMs(issue.estimate);
+    const actualMs = this.durationService.toMs(issue.duration);
+    const estimatedMinutes = estimatedMs / HOUR / MINUTE;
+    const actualMinutes = actualMs / HOUR / MINUTE;
+    const estimateAccuracy = actualMinutes / estimatedMinutes;
+	const estimateVariance = Math.abs(estimateAccuracy - 1);
 
-    const scalingFactor = 0.2;
-    const power = Math.pow(2, -error * scalingFactor);
+	const strictness = 2;
     const maxPoints = 1000;
-    const points = power * maxPoints;
 
-    return Math.round(points);
+    const penaltyMultiplier = Math.pow(strictness, estimateVariance);
+
+    return Math.round(maxPoints / penaltyMultiplier);
   }
 
   calculateEstimatedIssues(issues: Issue[]): number {
