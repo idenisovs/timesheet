@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { SheetStoreService } from '../services/sheet-store.service';
 import { DayRecord } from '../store/records';
@@ -6,50 +6,50 @@ import { Week, Day } from '../dto';
 import { startOfDay } from '../utils';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class DaysRepositoryService {
-  private db = this.store.Instance;
+	private store = inject(SheetStoreService);
 
-  constructor(private store: SheetStoreService) { }
+	private db = this.store.Instance;
 
-  async getAll(): Promise<Day[]> {
-    const dayEntities = await this.db.days.orderBy('date').reverse().toArray();
-    return this.map(dayEntities);
-  }
+	async getAll(): Promise<Day[]> {
+		const dayEntities = await this.db.days.orderBy('date').reverse().toArray();
+		return this.map(dayEntities);
+	}
 
-  async getById(id: string): Promise<Day|null> {
-    const record = await this.db.days.where('id').equals(id).first();
-    return record ? Day.build(record) : null;
-  }
+	async getById(id: string): Promise<Day | null> {
+		const record = await this.db.days.where('id').equals(id).first();
+		return record ? Day.build(record) : null;
+	}
 
-  async getByDate(date: Date): Promise<Day|null> {
-    const dayDate = startOfDay(date);
-    const record = await this.db.days.where('date').equals(dayDate).first();
-    return record ? Day.build(record) : null;
-  }
+	async getByDate(date: Date): Promise<Day | null> {
+		const dayDate = startOfDay(date);
+		const record = await this.db.days.where('date').equals(dayDate).first();
+		return record ? Day.build(record) : null;
+	}
 
-  async getByWeek(week: Week) {
-    const entities = await this.db.days.where('weekId').equals(week.id).reverse().sortBy('date');
+	async getByWeek(week: Week) {
+		const entities = await this.db.days.where('weekId').equals(week.id).reverse().sortBy('date');
 
-    return this.map(entities);
-  }
+		return this.map(entities);
+	}
 
-  async getByRange(from: Date, till: Date): Promise<Day[]> {
-    return this.db.days.where('date').between(from, till, true, true).sortBy('date');
-  }
+	async getByRange(from: Date, till: Date): Promise<Day[]> {
+		return this.db.days.where('date').between(from, till, true, true).sortBy('date');
+	}
 
-  async create(day: Day): Promise<Day> {
-    const entity = Day.entity(day);
-    await this.db.days.add(entity);
-    return day;
-  }
+	async create(day: Day): Promise<Day> {
+		const entity = Day.entity(day);
+		await this.db.days.add(entity);
+		return day;
+	}
 
-  async remove(day: Day): Promise<void> {
-    return this.db.days.delete(day.id);
-  }
+	async remove(day: Day): Promise<void> {
+		return this.db.days.delete(day.id);
+	}
 
-  private map(entities: DayRecord[]): Day[] {
-    return entities.map((entity) => Day.build(entity));
-  }
+	private map(entities: DayRecord[]): Day[] {
+		return entities.map((entity) => Day.build(entity));
+	}
 }
