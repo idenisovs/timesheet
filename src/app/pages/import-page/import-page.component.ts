@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import * as XLSX from 'xlsx';
 import { WorkBook } from 'xlsx';
@@ -10,65 +10,61 @@ import { ImportActivitiesComponent } from './import-activities/import-activities
 import { ReaderService } from '../../reader/reader.service';
 
 @Component({
-    selector: 'app-import-page',
-    imports: [
-    ImportProjectsComponent,
-    ImportIssuesComponent,
-    ImportActivitiesComponent
-],
-    templateUrl: './import-page.component.html',
-    styleUrl: './import-page.component.scss'
+	selector: 'app-import-page',
+	imports: [
+		ImportProjectsComponent,
+		ImportIssuesComponent,
+		ImportActivitiesComponent
+	],
+	templateUrl: './import-page.component.html',
+	styleUrl: './import-page.component.scss'
 })
 export class ImportPageComponent {
-  projects: Project[] = [];
-  issues: Issue[] = [];
-  activities: Activity[] = [];
-  isImportSectionsVisible = false;
+	private reader = inject(ReaderService);
 
-  constructor(
-    private reader: ReaderService
-  ) {}
+	projects: Project[] = [];
+	issues: Issue[] = [];
+	activities: Activity[] = [];
+	isImportSectionsVisible = false;
 
-  async readImportFile(event: Event) {
-    const workbook = await this.getWorkBook(event);
+	public async readImportFile(event: Event) {
+		const importFile = this.getImportFileFromInput(event);
 
-    if (workbook) {
-      this.isImportSectionsVisible = true;
-      this.readProjectImports(workbook);
-      this.readIssueImports(workbook);
-      this.readActivityImports(workbook);
-    }
-  }
+		if (!importFile) {
+			return;
+		}
 
-  private async getWorkBook(event: Event): Promise<WorkBook | null> {
-    const file = this.getFile(event);
+		const workbook: WorkBook = XLSX.read(await importFile.arrayBuffer());
 
-    if (!file) {
-      return null;
-    }
+		if (!workbook) {
+			return;
+		}
 
-    return XLSX.read(await file.arrayBuffer());
-  }
+		this.isImportSectionsVisible = true;
+		this.readProjectImports(workbook);
+		this.readIssueImports(workbook);
+		this.readActivityImports(workbook);
+	}
 
-  private getFile(event: Event): File | null {
-    const target = event.target as HTMLInputElement;
+	private getImportFileFromInput(event: Event): File | null {
+		const target = event.target as HTMLInputElement;
 
-    if (!target.files) {
-      return null;
-    }
+		if (!target.files) {
+			return null;
+		}
 
-    return target.files.item(0);
-  }
+		return target.files.item(0);
+	}
 
-  readProjectImports(workbook: XLSX.WorkBook) {
-    this.projects = this.reader.projects(workbook);
-  }
+	readProjectImports(workbook: XLSX.WorkBook) {
+		this.projects = this.reader.projects(workbook);
+	}
 
-  readIssueImports(workbook: XLSX.WorkBook) {
-    this.issues = this.reader.issues(workbook);
-  }
+	readIssueImports(workbook: XLSX.WorkBook) {
+		this.issues = this.reader.issues(workbook);
+	}
 
-  readActivityImports(workbook: XLSX.WorkBook) {
-    this.activities = this.reader.activities(workbook);
-  }
+	readActivityImports(workbook: XLSX.WorkBook) {
+		this.activities = this.reader.activities(workbook);
+	}
 }

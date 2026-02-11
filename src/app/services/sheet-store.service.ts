@@ -3,16 +3,16 @@ import { Injectable } from '@angular/core';
 import SheetStore from '../store/SheetStore';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class SheetStoreService {
-  private db = new SheetStore();
+	private db = new SheetStore();
 
-  public get Instance(): SheetStore {
-    return this.db;
-  }
+	public get Instance(): SheetStore {
+		return this.db;
+	}
 
-  constructor() {
-    this.db.open().then(() => {});
-  }
+	constructor() {
+		void this.db.open();
+	}
 }
