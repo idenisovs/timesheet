@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Project } from '../../../dto';
+import { Project } from '../../../entities';
 import { ProjectRepositoryService } from '../../../repository/project-repository.service';
 
 @Component({

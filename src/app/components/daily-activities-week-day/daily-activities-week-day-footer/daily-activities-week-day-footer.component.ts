@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 
-import { Activity } from '../../../dto';
+import { Activity } from '../../../entities';
 import { ActivitiesService } from '../../../services/activities.service';
 
 @Component({

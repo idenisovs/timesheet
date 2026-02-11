@@ -2,7 +2,7 @@ import { Metadata } from '../Metadata';
 import { ActivityReader } from './ActivityReader';
 import { ActivityRecord } from './ActivityRecord';
 import { ActivityReaderV1 } from './v1';
-import { Activity } from '../../dto';
+import { Activity } from '../../entities';
 
 export class ActivityReaderFactory {
   private readonly metadata = new Metadata();

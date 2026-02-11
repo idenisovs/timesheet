@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { AnalyticsPageFilterForm, AnalyticsPageFilters } from '../AnalyticsPageFilterForm';
 import { DateFromComponent } from './date-from/date-from.component';
 import { DateTillComponent } from './date-till/date-till.component';
-import { Week } from '../../../dto';
+import { Week } from '../../../entities';
 import { AnalyticsPageFilterService } from './analytics-page-filter.service';
 
 @Component({

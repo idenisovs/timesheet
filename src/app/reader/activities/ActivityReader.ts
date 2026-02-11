@@ -1,4 +1,4 @@
-import { Activity } from '../../dto';
+import { Activity } from '../../entities';
 import { ActivityRecord } from './ActivityRecord';
 
 export interface ActivityReader<T extends ActivityRecord> {

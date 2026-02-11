@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { getDateString } from '../../../utils';
 import { ActivitiesTableComponent } from './activities-table/activities-table.component';
-import { Activity } from '../../../dto';
+import { Activity } from '../../../entities';
 
 @Component({
     selector: 'app-activities-list',

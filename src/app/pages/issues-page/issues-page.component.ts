@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { Issue } from '../../dto';
+import { Issue } from '../../entities';
 import { ActionsService } from '../../services/actions.service';
 import { Actions } from '../../services/Actions';
 import { CreateIssueModalComponent } from './create-issue-modal/create-issue-modal.component';

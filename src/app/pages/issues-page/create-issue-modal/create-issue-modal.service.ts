@@ -5,7 +5,7 @@ import { first, map, switchMap } from 'rxjs/operators';
 import parseDuration from 'parse-duration';
 import { duration } from 'yet-another-duration';
 
-import { Issue } from '../../../dto';
+import { Issue } from '../../../entities';
 import { IssueRepositoryService } from '../../../repository/issue-repository.service';
 
 @Injectable({

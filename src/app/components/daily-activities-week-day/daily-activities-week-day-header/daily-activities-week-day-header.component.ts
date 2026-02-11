@@ -2,7 +2,7 @@ import { Component, inject, Input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { Day } from '../../../dto';
+import { Day } from '../../../entities';
 import { DailyOverviewModalComponent } from '../daily-overview-modal/daily-overview-modal.component';
 
 @Component({

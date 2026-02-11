@@ -3,7 +3,7 @@ import * as XLSX from 'xlsx';
 
 import { getDateString } from '../utils';
 import { ActivitiesRepositoryService } from '../repository/activities-repository.service';
-import { Activity, Issue, Project } from '../dto';
+import { Activity, Issue, Project } from '../entities';
 import { IssueRepositoryService } from '../repository/issue-repository.service';
 import { ProjectRepositoryService } from '../repository/project-repository.service';
 

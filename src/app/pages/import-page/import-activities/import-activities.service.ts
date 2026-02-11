@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { SaveActivitiesWorkflowService } from '../../../workflows/save-activities-workflow.service';
 import { RemoveActivitiesWorkflowService } from '../../../workflows/remove-activities-workflow.service';
-import { Activity } from '../../../dto';
+import { Activity } from '../../../entities';
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { Activity } from '../../../../dto';
+import { Activity } from '../../../../entities';
 
 @Component({
     selector: 'app-activities-table',

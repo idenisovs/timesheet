@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { SheetStoreService } from '../services/sheet-store.service';
 import { DayRecord } from '../store/records';
-import { Week, Day } from '../dto';
+import { Week, Day } from '../entities';
 import { startOfDay } from '../utils';
 
 @Injectable({

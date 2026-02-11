@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Project } from '../../../dto';
+import { Project } from '../../../entities';
 import { DatePipe } from '@angular/common';
 
 @Component({

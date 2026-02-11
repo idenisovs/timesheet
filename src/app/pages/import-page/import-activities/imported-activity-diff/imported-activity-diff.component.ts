@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DatePipe, NgClass } from '@angular/common';
 
-import { Activity } from '../../../../dto';
+import { Activity } from '../../../../entities';
 import { DiffStatus } from '../../DiffStatus';
 import { ActivitiesRepositoryService } from '../../../../repository/activities-repository.service';
 import { ImportActivitiesService } from '../import-activities.service';

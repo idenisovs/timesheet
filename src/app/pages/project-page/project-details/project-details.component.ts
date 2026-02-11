@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular
 import { DatePipe, PercentPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-import { Issue, Project } from '../../../dto';
+import { Issue, Project } from '../../../entities';
 import { IssuesService } from '../../../services/issues.service';
 
 @Component({

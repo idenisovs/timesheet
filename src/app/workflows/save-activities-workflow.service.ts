@@ -4,7 +4,7 @@ import { IssueRepositoryService } from '../repository/issue-repository.service';
 import { DaysRepositoryService } from '../repository/days-repository.service';
 import { ActivitiesRepositoryService } from '../repository/activities-repository.service';
 import { ActivitiesService } from '../services/activities.service';
-import { Activity, Day, Issue, Week } from '../dto';
+import { Activity, Day, Issue, Week } from '../entities';
 import { WeeksRepositoryService } from '../repository/weeks-repository.service';
 
 @Injectable({

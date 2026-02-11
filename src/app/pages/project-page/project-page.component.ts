@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { ReactiveFormsModule } from '@angular/forms';
-import { Issue, Project } from '../../dto';
+import { Issue, Project } from '../../entities';
 import { ProjectPageService } from './project-page.service';
 import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { ProjectIssuesComponent } from './project-issues/project-issues.component';

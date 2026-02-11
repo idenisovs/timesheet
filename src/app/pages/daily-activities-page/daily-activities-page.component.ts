@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
-import { Week } from '../../dto';
+import { Week } from '../../entities';
 import { WeeksRepositoryService } from '../../repository/weeks-repository.service';
 import { Actions } from '../../services/Actions';
 import { ActionsService } from '../../services/actions.service';

@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import parseDuration from 'parse-duration';
 
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
-import { Activity, Day, ProjectOverview } from '../../dto';
+import { Activity, Day, ProjectOverview } from '../../entities';
 import { AnalyticsPageFilters } from './AnalyticsPageFilterForm';
 import { DaysRepositoryService } from '../../repository/days-repository.service';
 import { OverviewService } from '../../services/overview.service';

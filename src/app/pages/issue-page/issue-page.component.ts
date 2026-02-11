@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { Activity, Issue } from '../../dto';
+import { Activity, Issue } from '../../entities';
 import { ActivitiesListComponent } from './activities-list/activities-list.component';
 import { IssueCardComponent } from './issue-card/issue-card.component';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';

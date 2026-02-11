@@ -3,7 +3,7 @@ import { DatePipe, PercentPipe } from '@angular/common';
 import {
     IssueOverviewComponent
 } from '../../daily-activities-week/weekly-overview-modal/issue-overview/issue-overview.component';
-import { Day, Overview } from '../../../dto';
+import { Day, Overview } from '../../../entities';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { OverviewService } from '../../../services/overview.service';
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';

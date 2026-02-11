@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
-import { Day } from '../../dto';
+import { Day } from '../../entities';
 
 @Component({
 	selector: 'app-daily-activities-week-day-missing',

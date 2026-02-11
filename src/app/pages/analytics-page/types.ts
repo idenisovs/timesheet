@@ -1,4 +1,4 @@
-import { ProjectOverview } from '../../dto';
+import { ProjectOverview } from '../../entities';
 
 export interface ActivityTotals {
   activities: number,

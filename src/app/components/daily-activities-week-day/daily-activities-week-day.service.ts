@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { FormArray, FormBuilder } from '@angular/forms';
 
-import { Activity, Day } from '../../dto';
+import { Activity, Day } from '../../entities';
 import { ActivityFormItem } from './ActivityFormItem';
 import { ActivityFormGroup } from './DailyActivitiesForm';
 

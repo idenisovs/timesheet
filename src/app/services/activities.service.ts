@@ -1,6 +1,6 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
 
-import { Activity, ActivitySummary, Day } from '../dto';
+import { Activity, ActivitySummary, Day } from '../entities';
 import { DurationService } from './duration.service';
 import { ScreenService } from './screen.service';
 import { ActivitiesRepositoryService } from '../repository/activities-repository.service';

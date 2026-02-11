@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Issue } from '../../../dto';
+import { Issue } from '../../../entities';
 import { IssueRepositoryService } from '../../../repository/issue-repository.service';
 import { DiffStatus } from '../DiffStatus';
 

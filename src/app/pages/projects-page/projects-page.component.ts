@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
-import { Project } from '../../dto';
+import { Project } from '../../entities';
 import { ProjectCardComponent } from './project-card/project-card.component';
 import { ActionsService } from '../../services/actions.service';
 import { Actions } from '../../services/Actions';

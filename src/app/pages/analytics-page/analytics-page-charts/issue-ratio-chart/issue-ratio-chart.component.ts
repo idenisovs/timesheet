@@ -5,7 +5,7 @@ import { ChartData, ChartOptions, TooltipItem } from 'chart.js';
 import parseDuration from 'parse-duration';
 
 import { Analytics } from '../../types';
-import { IssueOverview, ProjectOverview } from '../../../../dto';
+import { IssueOverview, ProjectOverview } from '../../../../entities';
 import { DurationService } from '../../../../services/duration.service';
 import { HOUR } from '../../../../constants';
 

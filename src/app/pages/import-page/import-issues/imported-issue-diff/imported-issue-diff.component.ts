@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DatePipe, NgClass } from '@angular/common';
 
-import { Issue } from '../../../../dto';
+import { Issue } from '../../../../entities';
 import { DiffStatus } from '../../DiffStatus';
 import { IssueRepositoryService } from '../../../../repository/issue-repository.service';
 import { ImportIssuesService } from '../import-issues.service';

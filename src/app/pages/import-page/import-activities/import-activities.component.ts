@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 
-import { Activity } from '../../../dto';
+import { Activity } from '../../../entities';
 import { ImportedActivityDiffComponent } from './imported-activity-diff/imported-activity-diff.component';
 import { ImportActivitiesService } from './import-activities.service';
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';

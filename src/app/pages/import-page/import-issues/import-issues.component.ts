@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 
-import { Issue } from '../../../dto';
+import { Issue } from '../../../entities';
 import { ImportedIssueDiffComponent } from './imported-issue-diff/imported-issue-diff.component';
 import {IssueRepositoryService} from "../../../repository/issue-repository.service";
 import { ImportIssuesService } from './import-issues.service';

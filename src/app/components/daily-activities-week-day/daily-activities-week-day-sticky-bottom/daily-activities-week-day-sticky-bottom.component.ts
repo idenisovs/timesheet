@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { Activity } from '../../../dto';
+import { Activity } from '../../../entities';
 import { ActivitiesService } from '../../../services/activities.service';
 import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';

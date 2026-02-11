@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 
-import { Issue } from '../dto';
+import { Issue } from '../entities';
 import { HOUR, MINUTE } from '../constants';
 import { DurationService } from './duration.service';
 

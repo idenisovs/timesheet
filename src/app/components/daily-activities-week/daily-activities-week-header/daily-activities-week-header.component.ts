@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import { Day, Week, ActivitySummary } from '../../../dto';
+import { Day, Week, ActivitySummary } from '../../../entities';
 import { DaysService } from '../../../services/days.service';
 import {WeeklyOverviewModalComponent} from '../weekly-overview-modal/weekly-overview-modal.component';
 import { DatePipe } from '@angular/common';

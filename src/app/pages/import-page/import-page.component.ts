@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { WorkBook } from 'xlsx';
 
-import { Activity, Issue, Project } from '../../dto';
+import { Activity, Issue, Project } from '../../entities';
 import { ImportProjectsComponent } from './import-projects/import-projects.component';
 import { ImportIssuesComponent } from './import-issues/import-issues.component';
 import { ImportActivitiesComponent } from './import-activities/import-activities.component';

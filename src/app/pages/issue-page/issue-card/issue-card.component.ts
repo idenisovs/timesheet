@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { Issue } from '../../../dto';
+import { Issue } from '../../../entities';
 import { IssuePageService } from '../issue-page.service';
 import { SheetStoreService } from '../../../services/sheet-store.service';
 import { CreateIssueModalService } from '../../issues-page/create-issue-modal/create-issue-modal.service';

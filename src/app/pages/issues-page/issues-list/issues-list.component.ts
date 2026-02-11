@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { KeyValue, KeyValuePipe } from '@angular/common';
-import { Issue } from '../../../dto';
+import { Issue } from '../../../entities';
 import { DateIndexPipe } from './date-index.pipe';
 import { IssuesTableComponent } from '../issues-table/issues-table.component';
 

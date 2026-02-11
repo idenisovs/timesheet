@@ -2,7 +2,7 @@ import { Transaction } from 'dexie';
 
 import SheetStore from '../SheetStore';
 import { getDateString, getMonday, startOfDay } from '../../utils';
-import { Activity, Week, Day } from '../../dto';
+import { Activity, Week, Day } from '../../entities';
 import { Sheet } from './types';
 
 export default async function migrateV5(store: SheetStore, trans: Transaction) {

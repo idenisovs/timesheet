@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 
 import { SheetStoreService } from '../services/sheet-store.service';
-import { Activity, Week, Day } from '../dto';
+import { Activity, Week, Day } from '../entities';
 import { ActivityRecord } from '../store/records';
 
 @Injectable({

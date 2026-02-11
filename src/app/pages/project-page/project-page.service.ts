@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Issue, Project } from '../../dto';
+import { Issue, Project } from '../../entities';
 import { IssuesService } from '../../services/issues.service';
 import { IssueRepositoryService } from '../../repository/issue-repository.service';
 

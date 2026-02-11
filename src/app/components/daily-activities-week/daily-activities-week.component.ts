@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { ActivitySummary, Day, Week } from '../../dto';
+import { ActivitySummary, Day, Week } from '../../entities';
 import { DaysRepositoryService } from '../../repository/days-repository.service';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 import { ActivitiesService } from '../../services/activities.service';

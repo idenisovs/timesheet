@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { DatePipe, PercentPipe } from '@angular/common';
-import { ProjectOverview } from '../../../../dto';
+import { ProjectOverview } from '../../../../entities';
 
 @Component({
     selector: '[app-project-row]',

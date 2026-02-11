@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
-import { Activity, Issue, Project } from '../dto';
+import { Activity, Issue, Project } from '../entities';
 import { Metadata, MetadataField, MetadataFieldType, MetadataRecord } from './Metadata';
 import { ActivityReaderFactory } from './activities/ActivityReaderFactory';
 import { ActivityRecord } from './activities/ActivityRecord';

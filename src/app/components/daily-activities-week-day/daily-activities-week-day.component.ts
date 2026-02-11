@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { Activity, Day } from '../../dto';
+import { Activity, Day } from '../../entities';
 import { DailyActivityItemComponent } from '../daily-activity-item/daily-activity-item.component';
 import { DailyActivitiesWeekDayService } from './daily-activities-week-day.service';
 import { DailyActivitiesForm, ActivityFormGroup } from './DailyActivitiesForm';

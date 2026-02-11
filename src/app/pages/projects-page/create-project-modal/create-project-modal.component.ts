@@ -3,7 +3,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Dexie from 'dexie';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { Project } from '../../../dto';
+import { Project } from '../../../entities';
 import { ProjectRepositoryService } from '../../../repository/project-repository.service';
 
 @Component({

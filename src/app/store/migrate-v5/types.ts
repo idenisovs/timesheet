@@ -1,4 +1,4 @@
-import { Activity } from '../../dto';
+import { Activity } from '../../entities';
 
 export interface Sheet {
   id?: number;

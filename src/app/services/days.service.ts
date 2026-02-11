@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Day, Week } from '../dto';
+import { Day, Week } from '../entities';
 import { startOfDay } from '../utils';
 
 @Injectable({

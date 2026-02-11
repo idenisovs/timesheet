@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 
-import { Week } from '../dto';
+import { Week } from '../entities';
 import { SheetStoreService } from '../services/sheet-store.service';
 import { WeekRecord } from '../store/records';
 import { getMonday } from '../utils';

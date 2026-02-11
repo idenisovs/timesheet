@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Activity, ActivityOverview } from '../../../../dto';
+import { Activity, ActivityOverview } from '../../../../entities';
 import { DatePipe, PercentPipe } from '@angular/common';
 
 @Component({

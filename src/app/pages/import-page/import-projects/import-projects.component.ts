@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 
-import { Project } from '../../../dto';
+import { Project } from '../../../entities';
 import { ImportedProjectDiffComponent } from './imported-project-diff/imported-project-diff.component';
 
 @Component({
