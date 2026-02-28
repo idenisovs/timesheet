@@ -1,43 +1,34 @@
 import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import {
-	FormArray,
-	FormBuilder,
-	FormGroup,
-	ReactiveFormsModule,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
-
-import { Activity, Day } from '../../entities';
-import { DailyActivitiesWeekDayService } from './daily-activities-week-day.service';
-import { DailyActivitiesForm, ActivityFormGroup } from './DailyActivitiesForm';
-import { SaveActivitiesWorkflowService } from '../../workflows/save-activities-workflow.service';
-import { ActivitiesService } from '../../services/activities.service';
-import { RemoveActivitiesWorkflowService } from '../../workflows/remove-activities-workflow.service';
-import { ScreenService } from '../../services/screen.service';
+import { DailyActivitiesWeekDayService } from '../daily-activities-week-day.service';
+import { ActivitiesService } from '../../../services/activities.service';
+import { SaveActivitiesWorkflowService } from '../../../workflows/save-activities-workflow.service';
+import { RemoveActivitiesWorkflowService } from '../../../workflows/remove-activities-workflow.service';
+import { ScreenService } from '../../../services/screen.service';
+import { Activity, Day } from '../../../entities';
+import { ActivityFormGroup, DailyActivitiesForm } from '../DailyActivitiesForm';
 import {
-	DailyActivitiesWeekDayHeaderComponent,
-} from './daily-activities-week-day-header/daily-activities-week-day-header.component';
-import { DailyActivityItemMobileComponent } from '../daily-activity-item-mobile/daily-activity-item-mobile.component';
+	DailyActivitiesWeekDayFooterComponent
+} from '../daily-activities-week-day-footer/daily-activities-week-day-footer.component';
 import {
-	DailyActivitiesWeekDayStickyBottomComponent
-} from './daily-activities-week-day-sticky-bottom/daily-activities-week-day-sticky-bottom.component';
-import {
-	DailyActivitiesWeekDayDesktopComponent
-} from './daily-activities-week-day-desktop/daily-activities-week-day-desktop.component';
+	DailyActivitiesWeekDayHeaderComponent
+} from '../daily-activities-week-day-header/daily-activities-week-day-header.component';
+import { DailyActivityItemComponent } from '../../daily-activity-item/daily-activity-item.component';
 
 @Component({
-	selector: 'app-daily-activities-week-day',
+  selector: 'app-daily-activities-week-day-desktop',
 	imports: [
-		ReactiveFormsModule,
+		DailyActivitiesWeekDayFooterComponent,
 		DailyActivitiesWeekDayHeaderComponent,
-		DailyActivityItemMobileComponent,
-		DailyActivitiesWeekDayStickyBottomComponent,
-		DailyActivitiesWeekDayDesktopComponent,
+		DailyActivityItemComponent,
+		FormsModule,
+		ReactiveFormsModule
 	],
-	templateUrl: './daily-activities-week-day.component.html',
-	styleUrl: './daily-activities-week-day.component.scss',
+  templateUrl: './daily-activities-week-day-desktop.component.html',
+  styleUrl: './daily-activities-week-day-desktop.component.scss',
 })
-export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
+export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy {
 	private fb = inject(FormBuilder);
 	private service = inject(DailyActivitiesWeekDayService);
 	private activitiesService = inject(ActivitiesService);
@@ -121,16 +112,6 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 			next.push(activityFormItem);
 		}
 
-		this.form.setControl('activities', this.fb.array(next));
-	}
-
-	proceed(activityId: string) {
-		const [existingActivity, existingActivityIdx] = this.service.findById(this.activities, activityId);
-		const activity: Activity = this.service.continueActivity(existingActivity);
-		const activityFormItem: ActivityFormGroup = this.service.makeActivityFormItem(activity);
-
-		const next = [...this.ActivityFormArrayItems];
-		next.splice(existingActivityIdx, 0, activityFormItem);
 		this.form.setControl('activities', this.fb.array(next));
 	}
 
