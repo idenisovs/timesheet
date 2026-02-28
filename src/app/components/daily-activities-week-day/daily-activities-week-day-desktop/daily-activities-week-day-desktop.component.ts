@@ -5,7 +5,6 @@ import { DailyActivitiesWeekDayService } from '../daily-activities-week-day.serv
 import { ActivitiesService } from '../../../services/activities.service';
 import { SaveActivitiesWorkflowService } from '../../../workflows/save-activities-workflow.service';
 import { RemoveActivitiesWorkflowService } from '../../../workflows/remove-activities-workflow.service';
-import { ScreenService } from '../../../services/screen.service';
 import { Activity, Day } from '../../../entities';
 import { ActivityFormGroup, DailyActivitiesForm } from '../DailyActivitiesForm';
 import {
@@ -17,7 +16,7 @@ import {
 import { DailyActivityItemComponent } from '../../daily-activity-item/daily-activity-item.component';
 
 @Component({
-  selector: 'app-daily-activities-week-day-desktop',
+	selector: 'app-daily-activities-week-day-desktop',
 	imports: [
 		DailyActivitiesWeekDayFooterComponent,
 		DailyActivitiesWeekDayHeaderComponent,
@@ -25,8 +24,8 @@ import { DailyActivityItemComponent } from '../../daily-activity-item/daily-acti
 		FormsModule,
 		ReactiveFormsModule
 	],
-  templateUrl: './daily-activities-week-day-desktop.component.html',
-  styleUrl: './daily-activities-week-day-desktop.component.scss',
+	templateUrl: './daily-activities-week-day-desktop.component.html',
+	styleUrl: './daily-activities-week-day-desktop.component.scss',
 })
 export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy {
 	protected fb = inject(FormBuilder);
@@ -34,14 +33,10 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 	private activitiesService = inject(ActivitiesService);
 	private saveActivitiesWorkflow = inject(SaveActivitiesWorkflowService);
 	private removeActivitiesWorkflow = inject(RemoveActivitiesWorkflowService);
-	private screenService = inject(ScreenService);
 
 	valueChangesSub!: Subscription;
-	isMobileSub!: Subscription;
-
 	removableActivityIds: string[] = [];
 	activities: Activity[] = [];
-	isMobile: boolean = false;
 	totalDuration = '0h';
 	numberOfChanges = 0;
 
@@ -64,10 +59,6 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 	}
 
 	async ngOnInit() {
-		this.isMobileSub = this.screenService.isMobile$.subscribe((value: boolean) => {
-			this.isMobile = value;
-		});
-
 		await this.loadActivities();
 
 		this.valueChangesSub = this.form.valueChanges.subscribe(() => {
@@ -77,7 +68,6 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 
 	ngOnDestroy() {
 		this.valueChangesSub.unsubscribe();
-		this.isMobileSub.unsubscribe();
 	}
 
 	async loadActivities() {
@@ -105,13 +95,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 		const activityFormItem = this.service.makeActivityFormItem(activity);
 
 		const next = [...this.ActivityFormArrayItems];
-
-		if (this.isMobile) {
-			next.splice(0, 0, activityFormItem);
-		} else {
-			next.push(activityFormItem);
-		}
-
+		next.push(activityFormItem);
 		this.form.setControl('activities', this.fb.array(next));
 	}
 

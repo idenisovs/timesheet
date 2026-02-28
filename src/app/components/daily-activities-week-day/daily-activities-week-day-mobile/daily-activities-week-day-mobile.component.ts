@@ -16,7 +16,7 @@ import { Activity } from '../../../entities';
 import { ActivityFormGroup } from '../DailyActivitiesForm';
 
 @Component({
-  selector: 'app-daily-activities-week-day-mobile',
+	selector: 'app-daily-activities-week-day-mobile',
 	imports: [
 		DailyActivitiesWeekDayHeaderComponent,
 		DailyActivitiesWeekDayStickyBottomComponent,
@@ -24,10 +24,19 @@ import { ActivityFormGroup } from '../DailyActivitiesForm';
 		FormsModule,
 		ReactiveFormsModule
 	],
-  templateUrl: './daily-activities-week-day-mobile.component.html',
-  styleUrl: './daily-activities-week-day-mobile.component.scss',
+	templateUrl: './daily-activities-week-day-mobile.component.html',
+	styleUrl: './daily-activities-week-day-mobile.component.scss',
 })
 export class DailyActivitiesWeekDayMobileComponent extends DailyActivitiesWeekDayDesktopComponent {
+	add() {
+		const activity = this.service.createActivity(null, this.day);
+		const activityFormItem = this.service.makeActivityFormItem(activity);
+
+		const next = [...this.ActivityFormArrayItems];
+		next.splice(0, 0, activityFormItem);
+		this.form.setControl('activities', this.fb.array(next));
+	}
+
 	proceed(activityId: string) {
 		const [existingActivity, existingActivityIdx] = this.service.findById(this.activities, activityId);
 		const activity: Activity = this.service.continueActivity(existingActivity);

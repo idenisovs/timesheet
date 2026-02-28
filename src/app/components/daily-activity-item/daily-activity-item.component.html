@@ -1,59 +1,77 @@
 <div class="row mb-2" [formGroup]="activityFormItem">
-  <div class="form-group col-12 col-md-4 m-0">
-    <div class="input-group mb-2 mb-md-0">
-      <input id="activity-name" name="name" formControlName="name" type="text" class="form-control">
-      <button class="btn btn-sm btn-outline-secondary" type="button" (click)="copyActivityName()">
-        <i class="material-symbols-outlined">content_copy</i>
-      </button>
-      <button class="btn btn-sm btn-outline-secondary" type="button" (click)="pasteActivityName()">
-        <i class="material-symbols-outlined">content_paste</i>
-      </button>
-    </div>
-  </div>
+	<div class="form-group col-12 col-md-4 m-0">
+		<div class="input-group mb-2 mb-md-0">
+			<input id="activity-name" name="name" formControlName="name" type="text" class="form-control">
+			<button class="btn btn-sm btn-outline-secondary" type="button" (click)="copyActivityName()">
+				<i class="material-symbols-outlined">content_copy</i>
+			</button>
+			<button class="btn btn-sm btn-outline-secondary" type="button" (click)="pasteActivityName()">
+				<i class="material-symbols-outlined">content_paste</i>
+			</button>
+		</div>
+	</div>
 
-  <div class="form-group col-12 col-md-2 m-0">
-    <div class="input-group mb-2 mb-md-0">
-      <!-- The changes handling is triggered by the Input event! -->
-      <input id="activity-from" name="from" formControlName="from" type="text" class="form-control" (input)="handleFromChanges()">
-      @if (!isFirstActivity) {
-        <button class="btn btn-sm btn-outline-secondary" type="button" (click)="setTimeFromPreviousActivity()">
-          @if (isMobile) {
-            <i class="material-symbols-outlined">u_turn_left</i>
-          } @else {
-            <i class="material-symbols-outlined">north_east</i>
-          }
-        </button>
-      }
-      <button class="btn btn-sm btn-outline-secondary" type="button" (click)="setCurrentTime('from')">
-        <i class="material-symbols-outlined">access_time</i>
-      </button>
-    </div>
-  </div>
+	<div class="form-group col-12 col-md-2 m-0">
+		<div class="input-group mb-2 mb-md-0">
+			<!-- The changes handling is triggered by the Input event! -->
+			<input
+				id="activity-from"
+				name="from"
+				formControlName="from"
+				type="text"
+				class="form-control"
+				(input)="handleFromChanges()"
+			>
 
-  <div class="form-group col-12 col-md-2 m-0">
-    <div class="input-group mb-2 mb-md-0">
-      <input id="activity-till" name="till" formControlName="till" type="text" class="form-control" (input)="handleTillChanges()">
-      <button class="btn btn-sm btn-outline-secondary" type="button" (click)="setCurrentTime('till')">
-        <i class="material-symbols-outlined">access_time</i>
-      </button>
-    </div>
-  </div>
+			@if (!isFirst) {
+				<button class="btn btn-sm btn-outline-secondary" type="button" (click)="setTimeFromPreviousActivity()">
+					<i class="material-symbols-outlined">north_east</i>
+				</button>
+			}
 
-  <div class="form-group col-12 col-md-2 m-0">
-    <div class="input-group mb-2 mb-md-0">
-      <input id="activity-duration" name="duration" formControlName="duration" type="text" class="form-control" (input)="handleDurationChanges()">
-    </div>
-  </div>
+			<button class="btn btn-sm btn-outline-secondary" type="button" (click)="setCurrentTime('from')">
+				<i class="material-symbols-outlined">access_time</i>
+			</button>
+		</div>
+	</div>
 
-  <div class="col-12 col-md-2 m-0 d-flex align-items-center justify-content-end justify-content-md-start">
-    <button type="button" class="btn btn-outline-info p-1 ms-2" [ngClass]="{ 'invisible': !isLastActivity }" (click)="add.emit()">
-      <i class="material-symbols-outlined">add</i>
-    </button>
-    <button type="button" class="btn btn-outline-info p-1 me-0 ms-2" (click)="remove.emit(ActivityId)">
-      <i class="material-symbols-outlined">remove</i>
-    </button>
-    <button type="button" class="btn btn-outline-primary p-1 ms-2" (click)="save.emit()" [hidden]="!isLastActivity && !isMobile">
-      <i class="material-symbols-outlined">save</i>
-    </button>
-  </div>
+	<div class="form-group col-12 col-md-2 m-0">
+		<div class="input-group mb-2 mb-md-0">
+			<input id="activity-till" name="till" formControlName="till" type="text" class="form-control"
+				   (input)="handleTillChanges()">
+			<button class="btn btn-sm btn-outline-secondary" type="button" (click)="setCurrentTime('till')">
+				<i class="material-symbols-outlined">access_time</i>
+			</button>
+		</div>
+	</div>
+
+	<div class="form-group col-12 col-md-2 m-0">
+		<div class="input-group mb-2 mb-md-0">
+			<input
+				id="activity-duration"
+				name="duration"
+				formControlName="duration"
+				type="text" class="form-control"
+				(input)="handleDurationChanges()"
+			/>
+		</div>
+	</div>
+
+	<div class="col-12 col-md-2 m-0 d-flex align-items-center justify-content-end justify-content-md-start">
+		<button type="button" class="btn btn-outline-info p-1 ms-2" [ngClass]="{ 'invisible': !isLast }"
+				(click)="add.emit()">
+			<i class="material-symbols-outlined">add</i>
+		</button>
+		<button type="button" class="btn btn-outline-info p-1 me-0 ms-2" (click)="remove.emit(ActivityId)">
+			<i class="material-symbols-outlined">remove</i>
+		</button>
+		<button
+			type="button"
+			class="btn btn-outline-primary p-1 ms-2"
+			[hidden]="!isLast"
+			(click)="save.emit()"
+		>
+			<i class="material-symbols-outlined">save</i>
+		</button>
+	</div>
 </div>

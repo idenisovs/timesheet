@@ -22,15 +22,14 @@
 			<div formArrayName="activities">
 				@for (activityFormItem of ActivityFormArrayItems; track activityFormItem.controls.id.value; let idx = $index; let isFirst = $first; let isLast = $last) {
 					<app-daily-activity-item
-						(add)="add()"
-						(remove)="remove($event)"
-						(save)="save()"
 						[activities]="ActivityFormArrayItems"
 						[activityFormItem]="activityFormItem"
 						[idx]="idx"
 						[isFirst]=isFirst
 						[isLast]="isLast"
-						[isMobile]="isMobile"
+						(add)="add()"
+						(remove)="remove($event)"
+						(save)="save()"
 					/>
 				}
 			</div>
@@ -38,7 +37,10 @@
 	</main>
 
 	<footer class="card-footer">
-		<app-daily-activities-week-day-footer (reset)="reset()" [activities]="activities"
-											  [isChanged]="numberOfChanges > 0"/>
+		<app-daily-activities-week-day-footer
+			[activities]="activities"
+			[isChanged]="numberOfChanges > 0"
+			(reset)="reset()"
+		/>
 	</footer>
 </section>

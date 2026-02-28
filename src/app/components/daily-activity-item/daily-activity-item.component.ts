@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { NgClass } from '@angular/common';
 
@@ -15,6 +15,9 @@ import { DailyActivityItemService } from './daily-activity-item.service';
 	]
 })
 export class DailyActivityItemComponent {
+	private fb = inject(UntypedFormBuilder);
+	private service = inject(DailyActivityItemService);
+
 	@Input()
 	activityFormItem = this.fb.group({
 		id: [''],
@@ -36,9 +39,6 @@ export class DailyActivityItemComponent {
 	@Input()
 	isLast = false;
 
-	@Input()
-	isMobile = false;
-
 	@Output()
 	add = new EventEmitter<void>();
 
@@ -50,20 +50,6 @@ export class DailyActivityItemComponent {
 
 	get ActivityId(): string {
 		return this.activityFormItem.get('id')?.value;
-	}
-
-	get isFirstActivity(): boolean {
-		return this.isMobile ? this.isLast : this.isFirst;
-	}
-
-	get isLastActivity(): boolean {
-		return this.isMobile ? this.isFirst : this.isLast;
-	}
-
-	constructor(
-		private fb: UntypedFormBuilder,
-		private service: DailyActivityItemService
-	) {
 	}
 
 	handleFromChanges() {
@@ -105,8 +91,7 @@ export class DailyActivityItemComponent {
 	}
 
 	setTimeFromPreviousActivity() {
-		const previousActivityDirection = this.isMobile ? 1 : -1;
-		const previousActivity = this.activities[this.idx + previousActivityDirection];
+		const previousActivity = this.activities[this.idx - 1];
 		const previousTillField = previousActivity.get('till');
 
 		if (!previousTillField) {

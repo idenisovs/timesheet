@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 
 import { ActivitySummary, Day, Week } from '../../entities';
 import { DaysRepositoryService } from '../../repository/days-repository.service';
@@ -19,30 +19,28 @@ import { DailyActivitiesWeekDayComponent } from '../daily-activities-week-day/da
 	imports: [DailyActivitiesWeekHeaderComponent, DailyActivitiesWeekDayMissingComponent, DailyActivitiesWeekDayComponent],
 })
 export class DailyActivitiesWeekComponent implements OnInit {
-  days: Day[] = [];
-  summary = new ActivitySummary();
+	private dayRepository = inject(DaysRepositoryService);
+	private activityRepository = inject(ActivitiesRepositoryService);
+	private activitiesService = inject(ActivitiesService);
 
-  @Input()
-  week!: Week;
+	days: Day[] = [];
+	summary = new ActivitySummary();
 
-  constructor(
-    private dayRepository: DaysRepositoryService,
-    private activityRepository: ActivitiesRepositoryService,
-    private activitiesService: ActivitiesService
-  ) { }
+	@Input()
+	week!: Week;
 
-  async ngOnInit() {
-    if (!this.week) {
-      return;
-    }
+	async ngOnInit() {
+		if (!this.week) {
+			return;
+		}
 
-    this.days = await this.dayRepository.getByWeek(this.week);
-    await this.recalculateActivitySummary();
-  }
+		this.days = await this.dayRepository.getByWeek(this.week);
+		await this.recalculateActivitySummary();
+	}
 
-  async recalculateActivitySummary() {
-    const activities = await this.activityRepository.getByWeek(this.week);
+	async recalculateActivitySummary() {
+		const activities = await this.activityRepository.getByWeek(this.week);
 
-    this.summary = this.activitiesService.getActivitySummary(activities);
-  }
+		this.summary = this.activitiesService.getActivitySummary(activities);
+	}
 }
