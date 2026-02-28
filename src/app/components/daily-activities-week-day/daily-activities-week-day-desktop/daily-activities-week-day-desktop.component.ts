@@ -29,8 +29,8 @@ import { DailyActivityItemComponent } from '../../daily-activity-item/daily-acti
   styleUrl: './daily-activities-week-day-desktop.component.scss',
 })
 export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy {
-	private fb = inject(FormBuilder);
-	private service = inject(DailyActivitiesWeekDayService);
+	protected fb = inject(FormBuilder);
+	protected service = inject(DailyActivitiesWeekDayService);
 	private activitiesService = inject(ActivitiesService);
 	private saveActivitiesWorkflow = inject(SaveActivitiesWorkflowService);
 	private removeActivitiesWorkflow = inject(RemoveActivitiesWorkflowService);
