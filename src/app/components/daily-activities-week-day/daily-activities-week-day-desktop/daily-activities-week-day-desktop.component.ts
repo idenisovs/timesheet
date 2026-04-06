@@ -109,6 +109,10 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 		this.form.setControl('activities', this.fb.array(next));
 
 		this.removableActivityIds.push(activityId);
+
+		if (this.form.get('activities')?.value.length === 0) {
+			this.add();
+		}
 	}
 
 	async save() {
