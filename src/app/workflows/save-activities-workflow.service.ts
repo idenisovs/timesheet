@@ -6,6 +6,7 @@ import { ActivitiesRepositoryService } from '../repository/activities-repository
 import { ActivitiesService } from '../services/activities.service';
 import { Activity, Day, Issue, Week } from '../entities';
 import { WeeksRepositoryService } from '../repository/weeks-repository.service';
+import { ProjectRepositoryService } from '../repository/project-repository.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -16,11 +17,15 @@ export class SaveActivitiesWorkflowService {
 	private activitiesRepository = inject(ActivitiesRepositoryService);
 	private activitiesService = inject(ActivitiesService);
 	private weekRepo = inject(WeeksRepositoryService);
+	private projectRepo = inject(ProjectRepositoryService);
 
 	public async run(activities: Activity[]) {
 		const affectedIssueIds = await this.relink(activities);
 		await this.activitiesRepository.save(activities);
-		await this.updateAffectedIssues(affectedIssueIds);
+
+		const affectedIssues = await this.getAffectedIssues(affectedIssueIds);
+		await this.updateAffectedIssues(affectedIssues);
+		await this.updateAffectedProjects(affectedIssues);
 	}
 
 	private async relink(activities: Activity[]) {
@@ -121,11 +126,13 @@ export class SaveActivitiesWorkflowService {
 		activity.issueId = issue.id;
 	}
 
-	private async updateAffectedIssues(rawIssueIds: (string | undefined)[]): Promise<void> {
+	private async getAffectedIssues(rawIssueIds: (string | undefined)[]): Promise<Issue[]> {
 		const filteredIssueIds = rawIssueIds.filter(issueId => !!issueId) as string[];
 		const uniqueIssueIds = Array.from(new Set(filteredIssueIds));
-		const issues = await this.issueRepository.getByIds(uniqueIssueIds);
+		return await this.issueRepository.getByIds(uniqueIssueIds);
+	}
 
+	private async updateAffectedIssues(issues: Issue[]): Promise<void> {
 		for (let issue of issues) {
 			const activities = await this.activitiesRepository.getByIssueId(issue.id);
 			issue.activities = activities.length;
@@ -133,6 +140,15 @@ export class SaveActivitiesWorkflowService {
 		}
 
 		await this.issueRepository.bulkUpdate(issues);
+	}
+
+	private async updateAffectedProjects(issues: Issue[]): Promise<void> {
+		const projectKeys = new Set(issues.map(i => i.key.split('-')[0]));
+		const projects = await this.projectRepo.getAllByKeys(Array.from(projectKeys));
+		for (const project of projects) {
+			project.updatedAt = new Date();
+			await this.projectRepo.update(project);
+		}
 	}
 
 	private async getLinkedIssue(activity: Activity): Promise<Issue> {

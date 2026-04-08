@@ -55,7 +55,7 @@ export class ProjectsPageComponent implements OnInit, OnDestroy {
 
 	private async getOrderedProjects() {
 		const projects = await this.projectsRepo.getAll();
-		projects.sort((a: Project, b: Project) => b.createdAt.getTime() - a.createdAt.getTime());
+		projects.sort((a: Project, b: Project) => b.updatedAt.getTime() - a.updatedAt.getTime());
 		return projects;
 	}
 }
