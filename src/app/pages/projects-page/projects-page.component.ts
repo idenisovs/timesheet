@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -12,52 +12,50 @@ import { handleModalResult } from '../../utils';
 import { ProjectRepositoryService } from '../../repository/project-repository.service';
 
 @Component({
-    selector: 'app-projects-page',
-    imports: [
-    ProjectCardComponent
-],
-    templateUrl: './projects-page.component.html',
-    styleUrl: './projects-page.component.scss'
+	selector: 'app-projects-page',
+	imports: [
+		ProjectCardComponent,
+	],
+	templateUrl: './projects-page.component.html',
+	styleUrl: './projects-page.component.scss',
 })
 export class ProjectsPageComponent implements OnInit, OnDestroy {
-  projects: Project[] = [];
+	private modal = inject(NgbModal);
+	private actions = inject(ActionsService);
+	private projectsRepo = inject(ProjectRepositoryService);
 
-  actionsSubscription?: Subscription;
+	projects: Project[] = [];
 
-  constructor(
-    private modal: NgbModal,
-    private actions: ActionsService,
-    private projectsService: ProjectRepositoryService,
-  ) {}
+	actionsSubscription?: Subscription;
 
-  async ngOnInit() {
-    this.actionsSubscription = this.actions.on.subscribe(this.actionsHandler.bind(this));
-    this.projects = await this.getOrderedProjects();
-  }
+	async ngOnInit() {
+		this.actionsSubscription = this.actions.on.subscribe(this.actionsHandler.bind(this));
+		this.projects = await this.getOrderedProjects();
+	}
 
-  ngOnDestroy() {
-    this.actionsSubscription?.unsubscribe();
-  }
+	ngOnDestroy() {
+		this.actionsSubscription?.unsubscribe();
+	}
 
-  actionsHandler(action: Actions) {
-    if (action === Actions.AddProject) {
-      void this.showAddProjectModal();
-    }
-  }
+	actionsHandler(action: Actions) {
+		if (action === Actions.AddProject) {
+			void this.showAddProjectModal();
+		}
+	}
 
-  async showAddProjectModal() {
-    const createProjectModal = this.modal.open(CreateProjectModalComponent);
+	async showAddProjectModal() {
+		const createProjectModal = this.modal.open(CreateProjectModalComponent);
 
-    const createdProject = await handleModalResult<Project | null>(createProjectModal.result);
+		const createdProject = await handleModalResult<Project | null>(createProjectModal.result);
 
-    if (createdProject) {
-      this.projects = await this.getOrderedProjects();
-    }
-  }
+		if (createdProject) {
+			this.projects = await this.getOrderedProjects();
+		}
+	}
 
-  private async getOrderedProjects() {
-    const projects = await this.projectsService.getAll();
-    projects.sort((a: Project, b: Project) => b.createdAt.getTime() - a.createdAt.getTime());
-    return projects;
-  }
+	private async getOrderedProjects() {
+		const projects = await this.projectsRepo.getAll();
+		projects.sort((a: Project, b: Project) => b.createdAt.getTime() - a.createdAt.getTime());
+		return projects;
+	}
 }

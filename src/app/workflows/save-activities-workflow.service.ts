@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { IssueRepositoryService } from '../repository/issue-repository.service';
 import { DaysRepositoryService } from '../repository/days-repository.service';
@@ -8,162 +8,159 @@ import { Activity, Day, Issue, Week } from '../entities';
 import { WeeksRepositoryService } from '../repository/weeks-repository.service';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class SaveActivitiesWorkflowService {
+	private issueRepository = inject(IssueRepositoryService);
+	private dayRepo = inject(DaysRepositoryService);
+	private activitiesRepository = inject(ActivitiesRepositoryService);
+	private activitiesService = inject(ActivitiesService);
+	private weekRepo = inject(WeeksRepositoryService);
 
-  constructor(
-    private issueRepository: IssueRepositoryService,
-    private dayRepo: DaysRepositoryService,
-    private activitiesRepository: ActivitiesRepositoryService,
-    private activitiesService: ActivitiesService,
-    private weekRepo: WeeksRepositoryService
-  ) { }
+	public async run(activities: Activity[]) {
+		const affectedIssueIds = await this.relink(activities);
+		await this.activitiesRepository.save(activities);
+		await this.updateAffectedIssues(affectedIssueIds);
+	}
 
-  public async run(activities: Activity[]) {
-    const affectedIssueIds = await this.relink(activities);
-    await this.activitiesRepository.save(activities);
-    await this.updateAffectedIssues(affectedIssueIds);
-  }
+	private async relink(activities: Activity[]) {
+		const issueIdsBeforeUpdate = activities.map(activity => activity.issueId);
 
-  private async relink(activities: Activity[]) {
-    const issueIdsBeforeUpdate = activities.map(activity => activity.issueId);
+		for (let activity of activities) {
+			await this.updateActivityLinks(activity);
+		}
 
-    for (let activity of activities) {
-      await this.updateActivityLinks(activity);
-    }
+		const issueIdsAfterUpdate = activities.map(activity => activity.issueId);
 
-    const issueIdsAfterUpdate = activities.map(activity => activity.issueId);
+		return [...issueIdsBeforeUpdate, ...issueIdsAfterUpdate];
+	}
 
-    return [...issueIdsBeforeUpdate, ...issueIdsAfterUpdate];
-  }
+	private async updateActivityLinks(activity: Activity) {
+		await this.processWeekLink(activity);
+		await this.processDayLink(activity);
+		await this.processIssueLink(activity);
+	}
 
-  private async updateActivityLinks(activity: Activity) {
-    await this.processWeekLink(activity);
-    await this.processDayLink(activity);
-    await this.processIssueLink(activity);
-  }
+	private async processWeekLink(activity: Activity): Promise<void> {
+		let week = await this.weekRepo.getById(activity.weekId);
 
-  private async processWeekLink(activity: Activity): Promise<void> {
-    let week = await this.weekRepo.getById(activity.weekId);
+		if (week) {
+			return;
+		}
 
-    if (week) {
-      return;
-    }
+		week = await this.weekRepo.getByDate(activity.date);
 
-    week = await this.weekRepo.getByDate(activity.date);
+		if (!week) {
+			week = new Week(activity.date);
+			await this.weekRepo.save(week);
+		}
 
-    if (!week) {
-      week = new Week(activity.date);
-      await this.weekRepo.save(week);
-    }
+		activity.weekId = week.id;
+	}
 
-    activity.weekId = week.id;
-  }
+	private async processDayLink(activity: Activity): Promise<void> {
+		let day = await this.dayRepo.getById(activity.dayId);
 
-  private async processDayLink(activity: Activity): Promise<void> {
-    let day = await this.dayRepo.getById(activity.dayId);
+		if (day) {
+			return;
+		}
 
-    if (day) {
-      return;
-    }
+		day = await this.dayRepo.getByDate(activity.date);
 
-    day = await this.dayRepo.getByDate(activity.date);
+		if (!day) {
+			day = new Day(activity.date);
+			day.weekId = activity.weekId;
+			await this.dayRepo.create(day);
+		}
 
-    if (!day) {
-      day = new Day(activity.date);
-      day.weekId = activity.weekId;
-      await this.dayRepo.create(day);
-    }
+		activity.dayId = day.id;
+	}
 
-    activity.dayId = day.id;
-  }
+	private async processIssueLink(activity: Activity): Promise<void> {
+		if (!activity.isLinkedToIssue()) {
+			return;
+		}
 
-  private async processIssueLink(activity: Activity): Promise<void> {
-    if (!activity.isLinkedToIssue()) {
-      return;
-    }
+		if (!activity.hasIssueKey() && activity.issueId) {
+			return this.unlinkIssue(activity);
+		}
 
-    if (!activity.hasIssueKey() && activity.issueId) {
-      return this.unlinkIssue(activity);
-    }
+		if (activity.hasIssueKey() && !activity.issueId) {
+			return this.linkActivity(activity);
+		}
 
-    if (activity.hasIssueKey() && !activity.issueId) {
-      return this.linkActivity(activity);
-    }
+		const linkedIssue = await this.issueRepository.getByKey(activity.getIssueKey() as string);
 
-    const linkedIssue = await this.issueRepository.getByKey(activity.getIssueKey() as string);
+		if (!linkedIssue || linkedIssue.id !== activity.issueId) {
+			return this.relinkIssue(activity);
+		}
+	}
 
-    if (!linkedIssue || linkedIssue.id !== activity.issueId) {
-      return this.relinkIssue(activity);
-    }
-  }
+	private async relinkIssue(activity: Activity): Promise<void> {
+		await this.unlinkIssue(activity);
+		await this.linkActivity(activity);
+	}
 
-  private async relinkIssue(activity: Activity): Promise<void> {
-    await this.unlinkIssue(activity);
-    await this.linkActivity(activity);
-  }
+	private async unlinkIssue(activity: Activity): Promise<void> {
+		if (!activity.issueId) {
+			throw new Error(`Cannot unlink activity ${activity.name}: Missing Issue ID!`);
+		}
 
-  private async unlinkIssue(activity: Activity): Promise<void> {
-    if (!activity.issueId) {
-      throw new Error(`Cannot unlink activity ${activity.name}: Missing Issue ID!`);
-    }
+		delete activity.issueId;
+	}
 
-    delete activity.issueId;
-  }
+	private async linkActivity(activity: Activity): Promise<void> {
+		const issueKey = activity.getIssueKey();
 
-  private async linkActivity(activity: Activity): Promise<void> {
-    const issueKey = activity.getIssueKey();
+		if (!issueKey) {
+			throw new Error(`Cannot link activity ${activity.name}: Missing Issue Key!`);
+		}
 
-    if (!issueKey) {
-      throw new Error(`Cannot link activity ${activity.name}: Missing Issue Key!`);
-    }
+		const issue = await this.getLinkedIssue(activity);
 
-    const issue = await this.getLinkedIssue(activity);
+		activity.issueId = issue.id;
+	}
 
-    activity.issueId = issue.id;
-  }
+	private async updateAffectedIssues(rawIssueIds: (string | undefined)[]): Promise<void> {
+		const filteredIssueIds = rawIssueIds.filter(issueId => !!issueId) as string[];
+		const uniqueIssueIds = Array.from(new Set(filteredIssueIds));
+		const issues = await this.issueRepository.getByIds(uniqueIssueIds);
 
-  private async updateAffectedIssues(rawIssueIds: (string | undefined)[]): Promise<void> {
-    const filteredIssueIds = rawIssueIds.filter(issueId => !!issueId) as string[];
-    const uniqueIssueIds = Array.from(new Set(filteredIssueIds));
-    const issues = await this.issueRepository.getByIds(uniqueIssueIds);
+		for (let issue of issues) {
+			const activities = await this.activitiesRepository.getByIssueId(issue.id);
+			issue.activities = activities.length;
+			issue.duration = this.activitiesService.calculateDuration(activities);
+		}
 
-    for (let issue of issues) {
-      const activities = await this.activitiesRepository.getByIssueId(issue.id);
-      issue.activities = activities.length;
-      issue.duration = this.activitiesService.calculateDuration(activities);
-    }
+		await this.issueRepository.bulkUpdate(issues);
+	}
 
-    await this.issueRepository.bulkUpdate(issues);
-  }
+	private async getLinkedIssue(activity: Activity): Promise<Issue> {
+		const issueKey = activity.getIssueKey();
 
-  private async getLinkedIssue(activity: Activity): Promise<Issue> {
-    const issueKey = activity.getIssueKey();
+		if (!issueKey) {
+			throw new Error(`Cannot get linked issue, activity ${activity.name} is missing issue key!`);
+		}
 
-    if (!issueKey) {
-      throw new Error(`Cannot get linked issue, activity ${activity.name} is missing issue key!`);
-    }
+		let issue = await this.issueRepository.getByKey(issueKey);
 
-    let issue = await this.issueRepository.getByKey(issueKey);
+		if (issue) {
+			return issue;
+		}
 
-    if (issue) {
-      return issue;
-    }
+		return this.createMissingIssue(activity);
+	}
 
-    return this.createMissingIssue(activity);
-  }
+	private createMissingIssue(activity: Activity): Promise<Issue> {
+		if (!activity.isLinkedToIssue()) {
+			throw new Error(`Activity ${activity.name} cannot be linked to issue!`);
+		}
 
-  private createMissingIssue(activity: Activity): Promise<Issue> {
-    if (!activity.isLinkedToIssue()) {
-      throw new Error(`Activity ${activity.name} cannot be linked to issue!`);
-    }
+		const issue = new Issue({
+			key: activity.getIssueKey() as string,
+			name: activity.getShortName(),
+		});
 
-    const issue = new Issue({
-      key: activity.getIssueKey() as string,
-      name: activity.getShortName(),
-    });
-
-    return this.issueRepository.create(issue);
-  }
+		return this.issueRepository.create(issue);
+	}
 }
