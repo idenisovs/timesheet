@@ -1,5 +1,5 @@
 @if (projects.length) {
-	@for (project of projects; track project.id) {
+	@for (project of projects; track project.id; let isLast = $last) {
 		<app-project-card [project]="project"/>
 	}
 } @else {

@@ -1,6 +1,6 @@
 import { Component, effect, inject, input, InputSignal, signal, WritableSignal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, PercentPipe } from '@angular/common';
 import { Issue, Project } from '../../../entities';
 import { IssuesService } from '../../../services/issues.service';
 import { IssueRepositoryService } from '../../../repository/issue-repository.service';
@@ -10,6 +10,7 @@ import { IssueRepositoryService } from '../../../repository/issue-repository.ser
 	imports: [
 		RouterLink,
 		DatePipe,
+		PercentPipe,
 	],
 	templateUrl: './project-card.component.html',
 	styleUrl: './project-card.component.scss',

@@ -1,18 +1,61 @@
-<section class="card ms-1 me-1 mb-2">
+<section class="card border-0 mb-3">
 	<main class="card-body">
-		<div>
-			<a [routerLink]="'/projects/' + project().id" class="stretched-link">
-				{{ project().name }}
-			</a>
-			@if (project().description) {
-				<span class="mt-2">{{ project().description }}</span>
-			}
+		<div class="row">
+			<div class="col-12 d-flex flex-row align-items-baseline gap-2">
+				<h3>
+					<a [routerLink]="'/projects/' + project().id" class="stretched-link">
+						{{ project().name }}
+					</a>
+				</h3>
+				<span>{{project().description}}</span>
+			</div>
+
 		</div>
-		<div class="mt-2">
-			<div class="d-flex flex-row">
-				<small class="text-muted">
-					Last updated at {{ project().updatedAt|date }}
-				</small>
+
+
+		<div class="row mt-2">
+			<div class="col-3">
+				<div class="card">
+					<div class="card-header">
+						Last updated at
+					</div>
+					<div class="card-body">
+						{{ project().updatedAt|date }}
+					</div>
+				</div>
+			</div>
+
+			<div class="col-3">
+				<div class="card">
+					<div class="card-header">
+						Total issues
+					</div>
+					<div class="card-body">
+						{{ issues().length }}
+					</div>
+				</div>
+			</div>
+
+			<div class="col-3">
+				<div class="card">
+					<div class="card-header">
+						Total duration
+					</div>
+					<div class="card-body">
+						{{ totalDuration }}
+					</div>
+				</div>
+			</div>
+
+			<div class="col-3">
+				<div class="card">
+					<div class="card-header">
+						Average accuracy
+					</div>
+					<div class="card-body">
+						{{ averageAccuracy }} of 1000 ({{ averageAccuracyRate|percent }})
+					</div>
+				</div>
 			</div>
 		</div>
 	</main>
