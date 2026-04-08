@@ -9,6 +9,12 @@ export class Project {
 	createdAt = new Date();
 	updatedAt = new Date();
 
+	constructor(project?: Project) {
+		if (project) {
+			Object.assign(this, project);
+		}
+	}
+
 	equals(other: Project): boolean {
 		if (this.name !== other.name) {
 			return false;
@@ -38,6 +44,7 @@ export class Project {
 
 		project.keys = importedProject.keys.split(';').map((key: string) => key.trim());
 		project.createdAt = new Date(importedProject.createdAt);
+		project.updatedAt = new Date(importedProject.updatedAt);
 
 		return project;
 	}

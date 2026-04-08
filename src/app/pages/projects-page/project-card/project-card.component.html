@@ -1,19 +1,19 @@
 <section class="card ms-1 me-1 mb-2">
-  <main class="card-body">
-    <div>
-      <a [routerLink]="'/projects/' + project.id" class="stretched-link">
-        {{project.name}}
-      </a>
-    </div>
-    @if (project.description) {
-      <div class="mt-2">
-        {{project.description}}
-      </div>
-    }
-    <div class="mt-2">
-      <small class="text-muted">
-        {{project.createdAt|date}}
-      </small>
-    </div>
-  </main>
+	<main class="card-body">
+		<div>
+			<a [routerLink]="'/projects/' + project().id" class="stretched-link">
+				{{ project().name }}
+			</a>
+			@if (project().description) {
+				<span class="mt-2">{{ project().description }}</span>
+			}
+		</div>
+		<div class="mt-2">
+			<div class="d-flex flex-row">
+				<small class="text-muted">
+					Last updated at {{ project().updatedAt|date }}
+				</small>
+			</div>
+		</div>
+	</main>
 </section>
