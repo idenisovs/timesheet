@@ -2,16 +2,15 @@
 	<main class="card-body">
 		<div class="row">
 			<div class="col-12 d-flex flex-row align-items-baseline gap-2">
-				<h3>
+				<h3 class="mb-0">
 					<a [routerLink]="'/projects/' + project().id" class="stretched-link">
 						{{ project().name }}
 					</a>
 				</h3>
-				<span>{{project().description}}</span>
+
+				<span>{{ project().description }}</span>
 			</div>
-
 		</div>
-
 
 		<div class="row mt-2">
 			<div class="col-3">
@@ -56,6 +55,33 @@
 						{{ averageAccuracy }} of 1000 ({{ averageAccuracyRate|percent }})
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<div class="row mt-2">
+			<div class="col-3">
+				<div class="card">
+					<div class="card-header">
+						Created at
+					</div>
+					<div class="card-body">
+						{{ project().createdAt|date }}
+					</div>
+				</div>
+			</div>
+
+			<div class="col-3">
+				<div class="card">
+					<div class="card-header">
+						Project keys
+					</div>
+					<div class="card-body">
+						@for (key of project().keys; track key) {
+							<span class="badge bg-primary me-1">{{ key }}</span>
+						}
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</main>
