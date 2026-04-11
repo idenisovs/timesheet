@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { FormArray, FormBuilder } from '@angular/forms';
 
 import { Activity, Day } from '../../entities';
+import { getDateString } from '../../utils';
 import { ActivityFormItem } from './ActivityFormItem';
 import { ActivityFormGroup } from './DailyActivitiesForm';
 
@@ -37,7 +38,7 @@ export class DailyActivitiesWeekDayService {
 		}
 
 		if (day) {
-			activity.date = day.date;
+			activity.date = getDateString(day.date);
 			activity.dayId = day.id;
 			activity.weekId = day.weekId;
 		}
