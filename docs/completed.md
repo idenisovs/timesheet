@@ -46,7 +46,7 @@ And you should be able to set the Project description and get here some overview
 
 I decided to make Issues view first. This view allow to oversee the summary of Issues. As it has a lot of different things to do, I decided to move specification into separate file.
 
-See it [here](./issues).
+See it [here](views/issues.md).
 
 ## Add Copy button (06 Feb 2024)
 
