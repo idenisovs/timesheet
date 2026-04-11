@@ -5,13 +5,15 @@ import { ActivityRecord } from '../store/records';
 export class Activity {
 	id = crypto.randomUUID() as string;
 	name = '';
-	date = new Date();
+	date = '';
 	from = '';
 	till = '';
 	duration = '';
 	weekId = '';
 	dayId = '';
 	issueId?: string;
+	createdAt = new Date();
+	updatedAt = new Date();
 
 	constructor(entity?: Activity) {
 		if (!entity) {
@@ -83,7 +85,7 @@ export class Activity {
 			return false;
 		}
 
-		return this.date.getTime() === other.date.getTime();
+		return this.createdAt.getTime() === other.createdAt.getTime();
 	}
 
 	overlaps(other: Activity): boolean {
