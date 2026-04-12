@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { Component, inject, Input } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Day, Week, ActivitySummary } from '../../../entities';
 import { DaysService } from '../../../services/days.service';
-import {WeeklyOverviewModalComponent} from '../weekly-overview-modal/weekly-overview-modal.component';
+import { WeeklyOverviewModalComponent } from '../weekly-overview-modal/weekly-overview-modal.component';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -14,51 +14,47 @@ import { DatePipe } from '@angular/common';
 		DatePipe,
 	],
 })
-export class DailyActivitiesWeekHeaderComponent implements OnInit {
-  isMissingDaysVisible = false;
+export class DailyActivitiesWeekHeaderComponent {
+	private daysService = inject(DaysService);
+	private modal = inject(NgbModal);
 
-  @Input()
-  week = new Week();
+	isMissingDaysVisible = false;
 
-  @Input()
-  days: Day[] = [];
+	@Input()
+	week = new Week();
 
-  @Input()
-  summary = new ActivitySummary();
+	@Input()
+	days: Day[] = [];
 
-  get MissingDaysButtonLabel(): string {
-    if (this.isMissingDaysVisible) {
-      return 'Hide missing days';
-    } else {
-      return 'Show missing days';
-    }
-  }
+	@Input()
+	summary = new ActivitySummary();
 
-  constructor(
-    private daysService: DaysService,
-    private modal: NgbModal
-  ) { }
+	get MissingDaysButtonLabel(): string {
+		if (this.isMissingDaysVisible) {
+			return 'Hide missing days';
+		} else {
+			return 'Show missing days';
+		}
+	}
 
-  async ngOnInit() {}
+	toggleMissingDays() {
+		this.isMissingDaysVisible = !this.isMissingDaysVisible;
 
-  toggleMissingDays() {
-    this.isMissingDaysVisible = !this.isMissingDaysVisible;
+		if (this.isMissingDaysVisible) {
+			this.daysService.addMissingDays(this.week, this.days);
+		} else {
+			this.daysService.removeMissingDays(this.days);
+		}
+	}
 
-    if (this.isMissingDaysVisible) {
-      this.daysService.addMissingDays(this.week, this.days);
-    }  else {
-      this.daysService.removeMissingDays(this.days);
-    }
-  }
+	displayWeeklyOverview() {
+		const weeklyOverviewModalRef = this.modal.open(WeeklyOverviewModalComponent, {
+			centered: true,
+			size: 'lg',
+		});
 
-  displayWeeklyOverview() {
-    const weeklyOverviewModalRef =  this.modal.open(WeeklyOverviewModalComponent, {
-      centered: true,
-      size: 'lg'
-    });
+		const weeklyOverviewModal = (weeklyOverviewModalRef.componentInstance as WeeklyOverviewModalComponent);
 
-    const weeklyOverviewModal = (weeklyOverviewModalRef.componentInstance as WeeklyOverviewModalComponent);
-
-    weeklyOverviewModal.week = this.week;
-  }
+		weeklyOverviewModal.week = this.week;
+	}
 }

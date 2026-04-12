@@ -8,6 +8,9 @@ import { Day, Week } from '../entities';
 })
 export class DaysService {
 	addMissingDays(week: Week, days: Day[]) {
+		console.log('addMissingDays');
+		console.log(days);
+
 		let currentDate = week.till;
 
 		for (let idx = 0; idx < 7; idx++) {
