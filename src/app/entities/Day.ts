@@ -14,14 +14,14 @@ export class Day {
 		this.date.setHours(0, 0, 0, 0);
 	}
 
-	static build(source: DayRecord): Day {
+	static fromRecord(source: DayRecord): Day {
 		const day = new Day();
 		Object.assign(day, source);
 		day.date = new Date(source.date);
 		return day;
 	}
 
-	static entity(source: Day): DayRecord {
+	static toRecord(source: Day): DayRecord {
 		const { id, date, weekId } = source;
 
 		return {

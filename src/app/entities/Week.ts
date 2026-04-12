@@ -11,13 +11,13 @@ export class Week {
 		this.till = getSunday(date);
 	}
 
-	static build(record: WeekRecord): Week {
+	static fromRecord(record: WeekRecord): Week {
 		const week = new Week();
 		Object.assign(week, record);
 		return week;
 	}
 
-	static entity(source: Week): WeekRecord {
+	static toRecord(source: Week): WeekRecord {
 		return { ...source };
 	}
 }

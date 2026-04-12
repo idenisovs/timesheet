@@ -20,13 +20,13 @@ export class DaysRepositoryService {
 
 	async getById(id: string): Promise<Day | null> {
 		const record = await this.db.days.where('id').equals(id).first();
-		return record ? Day.build(record) : null;
+		return record ? Day.fromRecord(record) : null;
 	}
 
 	async getByDate(date: Date): Promise<Day | null> {
 		const dayDate = startOfDay(date);
 		const record = await this.db.days.where('date').equals(dayDate).first();
-		return record ? Day.build(record) : null;
+		return record ? Day.fromRecord(record) : null;
 	}
 
 	async getByWeek(week: Week) {
@@ -40,7 +40,7 @@ export class DaysRepositoryService {
 	}
 
 	async create(day: Day): Promise<Day> {
-		const entity = Day.entity(day);
+		const entity = Day.toRecord(day);
 		await this.db.days.add(entity);
 		return day;
 	}
@@ -50,6 +50,6 @@ export class DaysRepositoryService {
 	}
 
 	private map(entities: DayRecord[]): Day[] {
-		return entities.map((entity) => Day.build(entity));
+		return entities.map((entity) => Day.fromRecord(entity));
 	}
 }
