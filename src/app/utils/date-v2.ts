@@ -21,3 +21,17 @@ export function getSunday(date: Date | string): string {
 
 	return result;
 }
+
+export function getDateIso(date: Date): string {
+	const result = DateTime.fromJSDate(date).toISODate();
+
+	if (result === null) {
+		throw new Error(`${date} is not a valid date.`);
+	}
+
+	return result;
+}
+
+export function getCurrentDateIso(): string {
+	return getDateIso(new Date());
+}

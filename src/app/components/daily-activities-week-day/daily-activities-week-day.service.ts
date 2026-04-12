@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { FormArray, FormBuilder } from '@angular/forms';
+import { DateTime } from 'luxon';
 
 import { Activity, Day } from '../../entities';
 import { ActivityFormItem } from './ActivityFormItem';
@@ -37,7 +38,7 @@ export class DailyActivitiesWeekDayService {
 		}
 
 		if (day) {
-			activity.date = day.date;
+			activity.date = DateTime.fromISO(day.date).toJSDate();
 			activity.dayId = day.id;
 			activity.weekId = day.weekId;
 		}

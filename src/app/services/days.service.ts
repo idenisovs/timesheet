@@ -1,26 +1,26 @@
 import { Injectable } from '@angular/core';
+import { DateTime } from 'luxon';
 
 import { Day, Week } from '../entities';
-import { startOfDay } from '../utils';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class DaysService {
 	addMissingDays(week: Week, days: Day[]) {
-		let expectedDate = startOfDay(week.till);
+		let currentDate = week.till;
 
 		for (let idx = 0; idx < 7; idx++) {
 			const day = days[idx];
 
-			if (!day || day.date < expectedDate) {
-				const missingDay = new Day(expectedDate);
+			if (!day || day.date < currentDate) {
+				const missingDay = new Day(currentDate);
 				missingDay.weekId = week.id;
 				missingDay.isMissing = true;
 				days.splice(idx, 0, missingDay);
 			}
 
-			expectedDate.setDate(expectedDate.getDate() - 1);
+			currentDate = DateTime.fromISO(currentDate).minus({ days: 1 }).toISODate() as string;
 		}
 	}
 

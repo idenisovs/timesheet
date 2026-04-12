@@ -1,5 +1,5 @@
 export interface DayRecord {
   id: string;
-  date: Date;
+  date: string;
   weekId: string;
 }

@@ -1,23 +1,27 @@
 import { DayRecord } from '../store/records';
+import { getCurrentDateIso, getDateIso } from '../utils/date-v2';
 
 export class Day {
 	id: string = crypto.randomUUID();
-	date: Date = new Date();
+	date: string = getCurrentDateIso();
 	weekId: string = '';
 	isMissing?: boolean;
 
-	constructor(date?: Date) {
-		if (date) {
-			this.date = new Date(date);
+	constructor(date?: Date | string) {
+		if (!date) {
+			return;
 		}
 
-		this.date.setHours(0, 0, 0, 0);
+		if (typeof date === 'string') {
+			this.date = date;
+		} else {
+			this.date = getDateIso(date);
+		}
 	}
 
 	static fromRecord(source: DayRecord): Day {
 		const day = new Day();
 		Object.assign(day, source);
-		day.date = new Date(source.date);
 		return day;
 	}
 

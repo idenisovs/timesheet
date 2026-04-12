@@ -45,3 +45,42 @@ export class Week {
 	}
 }
 
+export interface DayRecord {
+	id: string;
+	date: Date;
+	weekId: string;
+}
+
+export class Day {
+	id: string = crypto.randomUUID();
+	date: Date = new Date();
+	weekId: string = '';
+	isMissing?: boolean;
+
+	constructor(date?: Date) {
+		if (date) {
+			this.date = new Date(date);
+		}
+
+		this.date.setHours(0, 0, 0, 0);
+	}
+
+	static fromRecord(source: DayRecord): Day {
+		const day = new Day();
+		Object.assign(day, source);
+		day.date = new Date(source.date);
+		return day;
+	}
+
+	static toRecord(source: Day): DayRecord {
+		const { id, date, weekId } = source;
+
+		return {
+			id,
+			date,
+			weekId,
+		};
+	}
+}
+
+
