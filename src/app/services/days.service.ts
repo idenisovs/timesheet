@@ -4,40 +4,38 @@ import { Day, Week } from '../entities';
 import { startOfDay } from '../utils';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class DaysService {
-  constructor() { }
+	addMissingDays(week: Week, days: Day[]) {
+		let expectedDate = startOfDay(week.till);
 
-  addMissingDays(week: Week, days: Day[]) {
-    let expectedDate = startOfDay(week.till);
+		for (let idx = 0; idx < 7; idx++) {
+			const day = days[idx];
 
-    for (let idx = 0; idx < 7; idx++) {
-      const day = days[idx];
+			if (!day || day.date < expectedDate) {
+				const missingDay = new Day(expectedDate);
+				missingDay.weekId = week.id;
+				missingDay.isMissing = true;
+				days.splice(idx, 0, missingDay);
+			}
 
-      if (!day || day.date < expectedDate) {
-        const missingDay = new Day(expectedDate);
-        missingDay.weekId = week.id;
-        missingDay.isMissing = true;
-        days.splice(idx, 0, missingDay);
-      }
+			expectedDate.setDate(expectedDate.getDate() - 1);
+		}
+	}
 
-      expectedDate.setDate(expectedDate.getDate() - 1);
-    }
-  }
+	removeMissingDays(days: Day[]) {
+		for (let idx = 0; idx < 7; idx++) {
+			const day = days[idx];
 
-  removeMissingDays(days: Day[]) {
-    for (let idx = 0; idx < 7; idx++) {
-      const day = days[idx];
+			if (!day) {
+				continue;
+			}
 
-      if (!day) {
-        continue;
-      }
-
-      if (day.isMissing) {
-        days.splice(idx, 1);
-        idx--;
-      }
-    }
-  }
+			if (day.isMissing) {
+				days.splice(idx, 1);
+				idx--;
+			}
+		}
+	}
 }

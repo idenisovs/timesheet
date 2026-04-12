@@ -2,73 +2,73 @@ import parse from 'parse-duration';
 import { duration } from 'yet-another-duration';
 
 export function getDateString(date = new Date()): string {
-  const [ dateStr ] = date.toISOString().split('T');
+	const [dateStr] = date.toISOString().split('T');
 
-  return dateStr;
+	return dateStr;
 }
 
-export function getMonday(date: Date|string): Date {
-  let currentDay;
+export function getMonday(date: Date | string): Date {
+	let currentDay;
 
-  if (typeof date === 'string') {
-    currentDay = new Date(date);
-  } else {
-    currentDay = date;
-  }
+	if (typeof date === 'string') {
+		currentDay = new Date(date);
+	} else {
+		currentDay = date;
+	}
 
-  const dayOfWeek = currentDay.getDay() === 0 ? 7 : currentDay.getDay();
+	const dayOfWeek = currentDay.getDay() === 0 ? 7 : currentDay.getDay();
 
-  const monday = new Date(currentDay);
+	const monday = new Date(currentDay);
 
-  monday.setDate(currentDay.getDate() - (dayOfWeek - 1));
+	monday.setDate(currentDay.getDate() - (dayOfWeek - 1));
 
-  return startOfDay(monday);
+	return startOfDay(monday);
 }
 
-export function getSunday(currentDay: Date|string): Date {
-  const monday = getMonday(currentDay);
-  monday.setDate(monday.getDate() + 6);
-  return monday;
+export function getSunday(currentDay: Date | string): Date {
+	const monday = getMonday(currentDay);
+	monday.setDate(monday.getDate() + 6);
+	return monday;
 }
 
-export function startOfDay(date: Date): Date {
-  const result = new Date(date);
+export function startOfDay(date: Date | string): Date {
+	const result = new Date(date);
 
-  result.setHours(0, 0, 0, 0);
+	result.setHours(0, 0, 0, 0);
 
-  return result;
+	return result;
 }
 
 export function endOfDay(date: Date): Date {
-  const result = new Date(date);
+	const result = new Date(date);
 
-  result.setHours(23, 59, 59, 999);
+	result.setHours(23, 59, 59, 999);
 
-  return result;
+	return result;
 }
 
 export function startOfMonth(date: Date): Date {
-  const result = new Date(date);
+	const result = new Date(date);
 
-  result.setDate(1);
+	result.setDate(1);
 
-  return result;
+	return result;
 }
 
 export function endOfMonth(date = new Date()): Date {
-  const year = date.getFullYear();
-  const month = date.getMonth()+1;
-  const day = 0;
-  return new Date(year, month, day);
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = 0;
+	return new Date(year, month, day);
 }
 
 export function sumDuration(duration1: string, duration2: string): string {
-  let d1 = parse(duration1);
-  let d2 = parse(duration2);
+	let d1 = parse(duration1);
+	let d2 = parse(duration2);
 
-  if (!d1 || !d2) {
-    throw new Error('duration1 or duration2 is not defined!');
-  }
+	if (!d1 || !d2) {
+		throw new Error('duration1 or duration2 is not defined!');
+	}
 
-  return duration(d1 + d2).toString();
+	return duration(d1 + d2).toString();
 }

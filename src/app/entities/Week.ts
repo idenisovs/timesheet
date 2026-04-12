@@ -1,33 +1,23 @@
-import { endOfDay, getMonday, getSunday, startOfDay } from '../utils';
+import { getMonday, getSunday } from '../utils/date-v2';
 import { WeekRecord } from '../store/records';
 
 export class Week {
-  id: string = crypto.randomUUID();
-  from: Date;
-  till: Date;
+	id: string = crypto.randomUUID();
+	from: string;
+	till: string;
 
-  constructor(date = new Date()) {
-    this.from = startOfDay(getMonday(date));
-    this.till = endOfDay(getSunday(date));
-  }
+	constructor(date = new Date()) {
+		this.from = getMonday(date);
+		this.till = getSunday(date);
+	}
 
-  static build(source: WeekRecord): Week {
-    const week = new Week();
+	static build(record: WeekRecord): Week {
+		const week = new Week();
+		Object.assign(week, record);
+		return week;
+	}
 
-    week.id = source.id;
-    week.from = new Date(source.from);
-    week.till = new Date(source.till);
-
-    return week;
-  }
-
-  static entity(source: Week): WeekRecord {
-    const { id, from, till } = source;
-
-    return {
-      id,
-      from: from.toISOString(),
-      till: till.toISOString()
-    };
-  }
+	static entity(source: Week): WeekRecord {
+		return { ...source };
+	}
 }
