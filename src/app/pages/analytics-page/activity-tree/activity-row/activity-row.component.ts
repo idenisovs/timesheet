@@ -1,24 +1,25 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Activity, ActivityOverview } from '../../../../entities';
 import { DatePipe, PercentPipe } from '@angular/common';
+import { Activity, ActivityOverview } from '../../../../entities';
+import { getCurrentDateIso } from '../../../../utils/date-v2';
 
 @Component({
-    selector: '[app-activity-row]',
-    imports: [
-        PercentPipe,
-        DatePipe,
-    ],
-    templateUrl: './activity-row.component.html',
-    styleUrl: './activity-row.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+	selector: '[app-activity-row]',
+	imports: [
+		PercentPipe,
+		DatePipe,
+	],
+	templateUrl: './activity-row.component.html',
+	styleUrl: './activity-row.component.scss',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityRowComponent {
-  get CreatedAt(): Date {
-    return this.activityOverview.activities.reduce<Date>((date: Date, activity: Activity) => {
-      return activity.date < date ? activity.date : date;
-    }, new Date());
-  }
+	get CreatedAt(): string {
+		return this.activityOverview.activities.reduce<string>((date: string, activity: Activity) => {
+			return activity.date < date ? activity.date : date;
+		}, getCurrentDateIso());
+	}
 
-  @Input()
-  activityOverview!: ActivityOverview;
+	@Input()
+	activityOverview!: ActivityOverview;
 }
