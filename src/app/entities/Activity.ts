@@ -1,11 +1,12 @@
 import { Issue } from './Issue';
 import { ImportedActivity } from '../pages/import-page/Imports';
 import { ActivityRecord } from '../store/records';
+import { getCurrentDateIso } from '../utils/date-v2';
 
 export class Activity {
 	id = crypto.randomUUID() as string;
 	name = '';
-	date = new Date();
+	date = getCurrentDateIso();
 	from = '';
 	till = '';
 	duration = '';
@@ -83,7 +84,7 @@ export class Activity {
 			return false;
 		}
 
-		return this.date.getTime() === other.date.getTime();
+		return this.date === other.date;
 	}
 
 	overlaps(other: Activity): boolean {

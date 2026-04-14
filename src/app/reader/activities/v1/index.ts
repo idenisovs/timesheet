@@ -19,7 +19,6 @@ export class ActivityReaderV1 implements ActivityReader<ActivityRecordV1> {
 	private processRecord(record: ActivityRecordV1): Activity {
 		const activity = new Activity();
 		Object.assign(activity, record);
-		activity.date = new Date(record.date);
 		return activity;
 	}
 }

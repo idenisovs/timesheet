@@ -1,7 +1,7 @@
 export interface ActivityRecord {
   id: string;
   name: string;
-  date: Date;
+  date: string;
   from: string;
   till: string;
   duration: string;

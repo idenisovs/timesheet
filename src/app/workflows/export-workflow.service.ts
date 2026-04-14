@@ -45,7 +45,7 @@ export class ExportWorkflowService {
 		const activitiesJson = activities.map((activity: Activity) => {
 			return {
 				...activity,
-				date: activity.date.toISOString(),
+				date: activity.date,
 			};
 		});
 

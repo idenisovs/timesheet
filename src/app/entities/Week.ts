@@ -1,4 +1,4 @@
-import { getMonday, getSunday } from '../utils/date-v2';
+import { getCurrentDateIso, getMonday, getSunday } from '../utils/date-v2';
 import { WeekRecord } from '../store/records';
 
 export class Week {
@@ -6,7 +6,7 @@ export class Week {
 	from: string;
 	till: string;
 
-	constructor(date = new Date()) {
+	constructor(date = getCurrentDateIso()) {
 		this.from = getMonday(date);
 		this.till = getSunday(date);
 	}

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 
-import { getDateString } from '../../../utils';
 import { ActivitiesTableComponent } from './activities-table/activities-table.component';
 import { Activity } from '../../../entities';
 
@@ -27,12 +26,10 @@ export class ActivitiesListComponent implements OnInit {
 
   private groupByDate() {
     this.activities.forEach((activity: Activity) => {
-      const activityDate = getDateString(activity.date);
-
-      if (this.activitiesByDate.has(activityDate)) {
-        this.activitiesByDate.get(activityDate)?.push(activity);
+      if (this.activitiesByDate.has(activity.date)) {
+        this.activitiesByDate.get(activity.date)?.push(activity);
       } else {
-        this.activitiesByDate.set(activityDate, [ activity ]);
+        this.activitiesByDate.set(activity.date, [ activity ]);
       }
     });
   }

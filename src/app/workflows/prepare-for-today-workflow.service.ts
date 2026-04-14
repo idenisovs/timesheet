@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { WeeksRepositoryService } from '../repository/weeks-repository.service';
 import { DaysRepositoryService } from '../repository/days-repository.service';
 import { Day, Week } from '../entities';
+import { getCurrentDateIso } from '../utils/date-v2';
 
 @Injectable({
 	providedIn: 'root',
@@ -12,7 +13,7 @@ export class PrepareForTodayWorkflowService {
 	private daysRepo = inject(DaysRepositoryService);
 
 	async run() {
-		const today = new Date();
+		const today = getCurrentDateIso();
 
 		let currentWeek = await this.weeksRepo.getByDate(today);
 

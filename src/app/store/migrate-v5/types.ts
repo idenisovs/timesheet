@@ -1,4 +1,3 @@
-import { Activity } from '../../entities';
 import { endOfDay, getMonday, getSunday, startOfDay } from '../../utils';
 
 export interface Sheet {
@@ -83,4 +82,22 @@ export class Day {
 	}
 }
 
+export class Activity {
+	id = crypto.randomUUID() as string;
+	name = '';
+	date = new Date();
+	from = '';
+	till = '';
+	duration = '';
+	weekId = '';
+	dayId = '';
+	issueId?: string;
 
+	constructor(entity?: Activity) {
+		if (!entity) {
+			return;
+		}
+
+		Object.assign(this, entity);
+	}
+}

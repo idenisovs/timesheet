@@ -18,7 +18,7 @@ export class WeeksRepositoryService {
 		return record ? Week.fromRecord(record) : null;
 	}
 
-	async getByDate(date: Date): Promise<Week | null> {
+	async getByDate(date: Date | string): Promise<Week | null> {
 		const monday = getMonday(date);
 		const record = await this.db.weeks.where({ from: monday }).first();
 		return record ? Week.fromRecord(record) : null;

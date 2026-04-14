@@ -62,4 +62,25 @@ export default async function migrateV9(store: SheetStore, trans: Transaction) {
 	}
 
 	console.log('Day records migration completed!');
+
+
+	console.log('Migrate Activity records!');
+
+	const activities = await trans.table('activities').toArray();
+
+	for (const activity of activities) {
+		const update = { ...activity };
+		update.date = getIsoDate(activity.date);
+
+		try {
+			await trans.table('activities').update(activity.id, update);
+		} catch (e) {
+			console.error(e);
+			console.log(activity);
+			console.log(update);
+			throw e;
+		}
+	}
+
+	console.log('Activity records migration completed!');
 }
