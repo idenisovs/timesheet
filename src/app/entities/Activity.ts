@@ -98,11 +98,7 @@ export class Activity {
 
 	static fromImport(activityImport: ImportedActivity): Activity {
 		const activity = new Activity();
-
-		Object.assign(activity, activityImport, {
-			date: new Date(activityImport.date),
-		});
-
+		Object.assign(activity, activityImport);
 		return activity;
 	}
 
