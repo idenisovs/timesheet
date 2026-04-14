@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import parseDuration from 'parse-duration';
+import { DateTime } from 'luxon';
 
 import { DurationService } from '../../services/duration.service';
 
@@ -17,14 +18,12 @@ export class DailyActivityItemService {
 	}
 
 	getTimeString(date = new Date()): string {
-		return date.toTimeString().slice(0, 5);
+		return DateTime.fromJSDate(date).toFormat('HH:mm');
 	}
 
 	parseTime(activity: FormGroup, field: string): number {
-		const [hh, mm] = this.getValue(activity, field).split(':').map(Number);
-		const date = new Date();
-		date.setHours(hh, mm, 0, 0);
-		return date.getTime();
+		const timeValue = this.getValue(activity, field);
+		return DateTime.fromFormat(timeValue, 'H:mm').toMillis();
 	}
 
 	getDuration(activity: FormGroup): number {
