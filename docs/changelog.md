@@ -1,44 +1,45 @@
 # Changelog
 
 - `3.6.0` - Revised Accuracy Points calculation ([details](./accuracy_points.md));
-	- `3.6.1` - Split Daily Activities Week Day component into separate Desktop and Mobile components;
+	- `3.6.1` - Split the Daily Activities Week Day component into separate Desktop and Mobile components;
+	- `3.6.2` - The date fields in the `Activity`, `Week`, and `Day` entities now use an **ISO 8601** string format (`YYYY-MM-DD`) instead of JS Date objects.
 - `3.5.0` - **Reworked mobile UI**. Updated Angular version to 21;
-	- Temporarily disabled the Analytics View, which is caused by charting library, which seems abandoned now and not working with Angular above version 19. See this issue for more details: https://github.com/valor-software/ng2-charts/issues/2021
-	- Temporarily replaced the `ngx-infinite-scroll` due to issue with Window Scrolling. See this issue for details - https://github.com/orizens/ngx-infinite-scroll/issues/449
-- `3.4.0` - Integrated the very basic version of responsiveness. Activities page is now working on mobile devices;
-- `3.3.0` - Analytics Page got the Charts tab. This version also introduces different visual and UX tweaks for layout of Analytics Page;
+	- Temporarily disabled the Analytics View due to the charting library, which appears abandoned and does not work with Angular above version 19. See this issue for more details: https://github.com/valor-software/ng2-charts/issues/2021
+	- Temporarily replaced `ngx-infinite-scroll` due to an issue with window scrolling. See this issue for details: https://github.com/orizens/ngx-infinite-scroll/issues/449
+- `3.4.0` - Integrated a basic version of responsiveness. The Activities page now works on mobile devices;
+- `3.3.0` - Analytics Page received the Charts tab. This version also introduces various visual and UX tweaks to the Analytics Page layout;
 	- `3.3.1` - Added Weekly Tracked Time bar chart;
 	- `3.3.2` - Added Issues Time Ratio bar chart;
 - `3.2.0` - Added basic Analytics View;
-	- `3.2.1` - Analytics View Filters got the Issue and Activity visibility switches;
+	- `3.2.1` - Analytics View Filters received Issue and Activity visibility switches;
 	- `3.2.2` - Visual improvements for Analytics View;
-	- `3.2.3` - Fixes for Project and Issue import bugs;
-	- `3.2.4` - Changes for Activity Linking approach. This fixes Issue Stats issue, when stats is not updated if activity is being linked to another Issue;
-	- `3.2.5` - Minor fixes for Projects and Project views;
-	- `3.2.6` - Contains some improvements and refactoring for Activity Import. As also got minor fix for calculation of the time if duration field is changing;
+	- `3.2.3` - Fixed Project and Issue import bugs;
+	- `3.2.4` - Changed the Activity Linking approach. This fixes the Issue Stats bug where stats were not updated when an activity was linked to a different Issue;
+	- `3.2.5` - Minor fixes for the Projects and Project views;
+	- `3.2.6` - Improvements and refactoring for Activity Import. Also includes a minor fix for time calculation when the duration field changes;
 	- `3.2.7` - Migration from Material Icons to Material Symbols;
-	- `3.2.8` - Added _Take Time From Previous Activity_ button and also the _Reset_ (Cancel Changes) button;
-	- `3.2.9` - Slightly changed UI, it is now displaying the actual version of application. It was made with help of GitHub Workflow and automated builds, that was finally introduced in this version. _Visit me on GitHub_ is moved to NavBar as well;
-	- `3.2.10` - Fixed the bug related to activity creation in the missing day. Previously the date of such activity was wrongly set to the current date. Now it is set to the date of missing day;
-- `3.1.7` - Made the Overview Service, migrated the Weekly Overview to Overview Service and the Daily Summary to the Daily Overview;
-- `3.1.6` - In Daily Summary, displaying the same metrics as in Weekly Overview;
-- `3.1.5` - In Weekly Overview, added an option to expand the activities list of an issue;
-- `3.1.4` - Fixed a bug where Infinite Scroll was not triggered in the Daily Activities View. Added a preloader for the Week List, which ensures the screen is filled, triggering the next scroll event from the user;
-- `3.1.3` - In Daily Activities Page, added support for Infinite Scroll feature;
-- `3.1.2` - In Weekly Overview, display the list of general activities (not related to any Issue);
-- `3.1.1` - In Weekly Overview, display the percents of completed Week in Weekly Overview instead of hardcoded value 100%;
+	- `3.2.8` - Added the _Take Time From Previous Activity_ button and the _Reset_ (Cancel Changes) button;
+	- `3.2.9` - Slightly updated UI now displays the actual application version. Built with the help of GitHub Workflows and automated builds, which were introduced in this version. _Visit me on GitHub_ has also been moved to the NavBar;
+	- `3.2.10` - Fixed a bug related to activity creation on a missing day. Previously the date of such an activity was incorrectly set to the current date. Now it is set to the date of the missing day;
+- `3.1.7` - Introduced the Overview Service; migrated Weekly Overview and Daily Summary to use it;
+- `3.1.6` - Daily Summary now displays the same metrics as Weekly Overview;
+- `3.1.5` - Weekly Overview now has an option to expand the activity list of an issue;
+- `3.1.4` - Fixed a bug where Infinite Scroll was not triggered in the Daily Activities View. Added a preloader for the Week List to ensure the screen is filled, which triggers the next scroll event;
+- `3.1.3` - Added Infinite Scroll support to the Daily Activities Page;
+- `3.1.2` - Weekly Overview now displays the list of general activities (not related to any Issue);
+- `3.1.1` - Weekly Overview now displays the percentage of the completed week instead of a hardcoded 100%;
 - `3.1.0` - Added Weekly Overview modal;
-- `3.0.2` - Fixed Activities Summary bug in Week Header component;
-- `3.0.1` - Fixed different minor bugs related to date matching during import;
-- `3.0.0` - Application is moved to the new data structure;
-- `2.4.0` - Application got the Projects view;
-- `2.3.0` - Daily Overview showing the predefined issue name;
-- `2.2.0` - Issues section got possibility to remove Issue;
-- `2.1.0` - Application got the basic Edit Issue view;
-- `2.0.0` - Application got the basic Issues view;
+- `3.0.2` - Fixed an Activities Summary bug in the Week Header component;
+- `3.0.1` - Fixed various minor bugs related to date matching during import;
+- `3.0.0` - Application migrated to a new data structure;
+- `2.4.0` - Application received the Projects view;
+- `2.3.0` - Daily Overview now shows the predefined issue name;
+- `2.2.0` - Issues section now supports removing an Issue;
+- `2.1.0` - Application received the basic Edit Issue view;
+- `2.0.0` - Application received the basic Issues view;
 - `1.3.0` - Added the following:
 	1. Added the _Copy to Clipboard_ button;
-	2. Added the buttons allowed to set the current time for `From` and `Till` fields;
-- `1.2.0` - Added possibility to add missing days;
+	2. Added buttons to set the current time for the `From` and `Till` fields;
+- `1.2.0` - Added the ability to add missing days;
 - `1.1.0` - Daily summary;
 - `1.0.0` - Basic functionality;
