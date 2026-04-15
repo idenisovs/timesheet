@@ -15,8 +15,8 @@
 | `components/daily-activities-week/weekly-overview-modal/…component.ts`        | Weekly overview popup                      |
 | `pages/analytics-page/analytics-page-filter/…component.ts`                    | "Current week" filter shortcut             |
 | `services/days.service.ts`                                                    | Fill missing days using week boundaries    |
-| `repository/days-repository.service.ts`                                       | Query days by week                         |
-| `repository/activities-repository.service.ts`                                 | Query activities by week                   |
+| `repository/days-repository.service.ts`                                       | ~~Query days by week~~                     |
+| `repository/activities-repository.service.ts`                                 | ~~Query activities by week~~               |
 | `store/migrate-v5/index.ts`                                                   | Legacy migration (v5)                      |
 | `store/migrate-v9/index.ts`                                                   | Date format migration (v9)                 |
 

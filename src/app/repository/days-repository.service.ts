@@ -6,7 +6,7 @@ import { Week, Day } from '../entities';
 import { getDateIso } from '../utils/date-v2';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class DaysRepositoryService {
 	private store = inject(SheetStoreService);
@@ -30,7 +30,11 @@ export class DaysRepositoryService {
 	}
 
 	async getByWeek(week: Week) {
-		const entities = await this.db.days.where('weekId').equals(week.id).reverse().sortBy('date');
+		const entities = await this.db.days
+			.where('date')
+			.between(week.from, week.till, true, true)
+			.reverse()
+			.sortBy('date');
 
 		return this.map(entities);
 	}
