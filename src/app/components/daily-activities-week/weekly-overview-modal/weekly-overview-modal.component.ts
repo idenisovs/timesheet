@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { DatePipe, PercentPipe } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -19,16 +19,14 @@ import { WORK_WEEK } from '../../../constants';
     styleUrl: './weekly-overview-modal.component.scss'
 })
 export class WeeklyOverviewModalComponent implements OnInit {
+  protected modal = inject(NgbActiveModal);
+  private overviewService = inject(OverviewService);
+  private activityRepository = inject(ActivitiesRepositoryService);
+
   weeklyOverview!: Overview;
 
   @Input()
   week!: Week;
-
-  constructor(
-    public modal: NgbActiveModal,
-    private overviewService: OverviewService,
-    private activityRepository: ActivitiesRepositoryService
-  ) {}
 
   async ngOnInit() {
     if (!this.week) {

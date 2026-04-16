@@ -1,10 +1,10 @@
 import { Component, inject, Input } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Day, Week, ActivitySummary } from '../../../entities';
 import { DaysService } from '../../../services/days.service';
 import { WeeklyOverviewModalComponent } from '../weekly-overview-modal/weekly-overview-modal.component';
-import { DatePipe } from '@angular/common';
 
 @Component({
 	selector: 'app-daily-activities-week-header',
@@ -18,7 +18,7 @@ export class DailyActivitiesWeekHeaderComponent {
 	private daysService = inject(DaysService);
 	private modal = inject(NgbModal);
 
-	isMissingDaysVisible = false;
+	private isMissingDaysVisible = false;
 
 	@Input()
 	week = new Week();

@@ -5,7 +5,7 @@ import { Activity, Week, Day } from '../entities';
 import { ActivityRecord } from '../store/records';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class ActivitiesRepositoryService {
 	private store = inject(SheetStoreService);
@@ -23,7 +23,10 @@ export class ActivitiesRepositoryService {
 	}
 
 	async getByWeek(week: Week): Promise<Activity[]> {
-		const records = await this.db.activities.where('date').between(week.from, week.till, true, true).toArray();
+		const records = await this.db.activities
+			.where('date')
+			.between(week.from, week.till, true, true)
+			.toArray();
 		return records.map(Activity.fromRecord);
 	}
 
