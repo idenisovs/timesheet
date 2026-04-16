@@ -73,6 +73,11 @@ export class ActivitiesRepositoryService {
 		return records.map(Activity.fromRecord);
 	}
 
+	async getFirstActivity(): Promise<Activity | null> {
+		const record = await this.db.activities.orderBy('date').first();
+		return record ? Activity.fromRecord(record) : null;
+	}
+
 	async save(activities: Activity[]): Promise<void> {
 		await this.db.activities.bulkPut(activities);
 	}

@@ -2,23 +2,23 @@
 
 ## Summary of `Week` consumers
 
-| File                                                                          | Role                                       |
-|-------------------------------------------------------------------------------|--------------------------------------------|
-| `entities/Week.ts`                                                            | Definition                                 |
-| `store/records/week-record.ts`                                                | DB record interface                        |
-| `repository/weeks-repository.service.ts`                                      | DB CRUD                                    |
-| `workflows/prepare-for-today-workflow.service.ts`                             | Create week for today                      |
-| `workflows/save-activities-workflow.service.ts`                               | Create/resolve week when saving activities |
-| `pages/daily-activities-page/daily-activities-page.component.ts`              | Display list of weeks                      |
-| `components/daily-activities-week/daily-activities-week.component.ts`         | Render a single week                       |
-| `components/daily-activities-week/daily-activities-week-header/…component.ts` | Week header with date range                |
-| `components/daily-activities-week/weekly-overview-modal/…component.ts`        | Weekly overview popup                      |
-| `pages/analytics-page/analytics-page-filter/…component.ts`                    | "Current week" filter shortcut             |
-| `services/days.service.ts`                                                    | Fill missing days using week boundaries    |
-| `repository/days-repository.service.ts`                                       | ~~Query days by week~~                     |
-| `repository/activities-repository.service.ts`                                 | ~~Query activities by week~~               |
-| `store/migrate-v5/index.ts`                                                   | Legacy migration (v5)                      |
-| `store/migrate-v9/index.ts`                                                   | Date format migration (v9)                 |
+| File                                                                          | Role                                         |
+|-------------------------------------------------------------------------------|----------------------------------------------|
+| `entities/Week.ts`                                                            | Definition                                   |
+| `store/records/week-record.ts`                                                | DB record interface                          |
+| `repository/weeks-repository.service.ts`                                      | DB CRUD                                      |
+| `workflows/prepare-for-today-workflow.service.ts`                             | Create week for today                        |
+| `workflows/save-activities-workflow.service.ts`                               | Create/resolve week when saving activities   |
+| `pages/daily-activities-page/daily-activities-page.component.ts`              | Display list of weeks                        |
+| `components/daily-activities-week/daily-activities-week.component.ts`         | Render a single week                         |
+| `components/daily-activities-week/daily-activities-week-header/…component.ts` | ~~Week header with date range~~              |
+| `components/daily-activities-week/weekly-overview-modal/…component.ts`        | ~~Weekly overview popup~~                    |
+| `pages/analytics-page/analytics-page-filter/…component.ts`                    | ~~"Current week" filter shortcut~~           |
+| `services/days.service.ts`                                                    | ~~Fill missing days using week boundaries~~  |
+| `repository/days-repository.service.ts`                                       | ~~Query days by week~~                       |
+| `repository/activities-repository.service.ts`                                 | ~~Query activities by week~~                 |
+| `store/migrate-v5/index.ts`                                                   | Legacy migration (v5)                        |
+| `store/migrate-v9/index.ts`                                                   | Date format migration (v9)                   |
 
 ## Definition
 

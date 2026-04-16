@@ -19,6 +19,7 @@ import { ExportWorkflowService } from '../../workflows/export-workflow.service';
 import { PrepareForTodayWorkflowService } from '../../workflows/prepare-for-today-workflow.service';
 import { delay } from '../../utils';
 import { DailyActivitiesWeekComponent } from '../../components/daily-activities-week/daily-activities-week.component';
+import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	private actionsService = inject(ActionsService);
 	private exportWorkflow = inject(ExportWorkflowService);
 	private prepareForTodayWorkflow = inject(PrepareForTodayWorkflowService);
+	private activitiesRepo = inject(ActivitiesRepositoryService);
 
 	private actionSubs = this.actionsService.on.subscribe(this.handlePageActions.bind(this));
 	private myOwnLittleInfiniteScroll!: Subscription;
@@ -44,6 +46,10 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	offset = 0;
 
 	async ngOnInit() {
+		console.log('ngOnInit');
+		const firstActivity = await this.activitiesRepo.getFirstActivity();
+		console.log(firstActivity);
+
 		await this.prepareForTodayWorkflow.run();
 		await this.loadNextWeek();
 
