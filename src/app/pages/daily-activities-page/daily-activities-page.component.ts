@@ -5,7 +5,7 @@ import {
 	inject,
 	OnDestroy,
 	OnInit,
-	ViewChild
+	ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { fromEvent, Subscription } from 'rxjs';
@@ -20,6 +20,7 @@ import { PrepareForTodayWorkflowService } from '../../workflows/prepare-for-toda
 import { delay } from '../../utils';
 import { DailyActivitiesWeekComponent } from '../../components/daily-activities-week/daily-activities-week.component';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
+import { CalendarService } from '../../services/calendar.service';
 
 
 @Component({
@@ -36,12 +37,14 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	private exportWorkflow = inject(ExportWorkflowService);
 	private prepareForTodayWorkflow = inject(PrepareForTodayWorkflowService);
 	private activitiesRepo = inject(ActivitiesRepositoryService);
+	private calendarService = inject(CalendarService);
 
 	private actionSubs = this.actionsService.on.subscribe(this.handlePageActions.bind(this));
 	private myOwnLittleInfiniteScroll!: Subscription;
 
 	@ViewChild('weeksList') weekListRef!: ElementRef;
 
+	currentWeek: Week = this.calendarService.getCurrentWeek();
 	weeks: Week[] = [];
 	offset = 0;
 
@@ -53,16 +56,7 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 		await this.prepareForTodayWorkflow.run();
 		await this.loadNextWeek();
 
-		this.myOwnLittleInfiniteScroll = fromEvent(window, 'scroll', { passive: true })
-			.pipe(
-				debounceTime(150)
-			)
-			.subscribe(() => {
-				const remainingPx = this.getRemainingPx();
-				if (remainingPx < 400) {
-					void this.loadNextWeek();
-				}
-			});
+		this.myOwnLittleInfiniteScroll = this.attachInfiniteScroll();
 	}
 
 	async ngAfterViewInit() {
@@ -75,6 +69,7 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	}
 
 	async preloadWeeks() {
+		console.log('preloadWeeks');
 		await delay(150);
 
 		const weekListHeight = (this.weekListRef.nativeElement as HTMLElement).offsetHeight;
@@ -82,12 +77,27 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 		const numberOfWeeks = await this.weekRepo.getCount();
 
 		if (weekListHeight <= windowHeight && this.weeks.length < numberOfWeeks) {
+			console.log('preloadWeeks:loadNextWeek');
 			await this.loadNextWeek();
 			void this.preloadWeeks();
 		}
 	}
 
-	public async loadNextWeek() {
+	private attachInfiniteScroll() {
+		return fromEvent(window, 'scroll', { passive: true })
+			.pipe(
+				debounceTime(150),
+			)
+			.subscribe(() => {
+				const remainingPx = this.getRemainingPx();
+				if (remainingPx < 400) {
+					void this.loadNextWeek();
+				}
+			});
+	}
+
+	private async loadNextWeek() {
+		console.log('loadNextWeek');
 		const week = await this.weekRepo.getByOffset(this.offset);
 
 		this.offset += 1;
@@ -95,6 +105,11 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 		if (week) {
 			this.weeks.push(week);
 		}
+	}
+
+	private getRemainingPx(): number {
+		const doc = document.documentElement;
+		return doc.scrollHeight - (window.scrollY + window.innerHeight);
 	}
 
 	private async handlePageActions(action: Actions) {
@@ -106,10 +121,5 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 				await this.router.navigate(['import']);
 				break;
 		}
-	}
-
-	private getRemainingPx(): number {
-		const doc = document.documentElement;
-		return doc.scrollHeight - (window.scrollY + window.innerHeight);
 	}
 }
