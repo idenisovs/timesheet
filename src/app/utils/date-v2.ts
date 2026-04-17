@@ -34,8 +34,8 @@ export function getDateIso(date: Date): string {
 	return result;
 }
 
-export function getCurrentDateIso(): string {
-	return getDateIso(new Date());
+export function getCurrentDate(): string {
+	return DateTime.now().toISODate();
 }
 
 export function getCurrentWeek(): Week {

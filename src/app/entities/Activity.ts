@@ -1,12 +1,12 @@
 import { Issue } from './Issue';
 import { ImportedActivity } from '../pages/import-page/Imports';
 import { ActivityRecord } from '../store/records';
-import { getCurrentDateIso } from '../utils/date-v2';
+import { getCurrentDate } from '../utils/date-v2';
 
 export class Activity {
 	id = crypto.randomUUID() as string;
 	name = '';
-	date = getCurrentDateIso();
+	date = getCurrentDate();
 	from = '';
 	till = '';
 	duration = '';

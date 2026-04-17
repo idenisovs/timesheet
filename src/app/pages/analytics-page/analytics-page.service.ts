@@ -8,7 +8,7 @@ import { AnalyticsPageFilters } from './AnalyticsPageFilterForm';
 import { OverviewService } from '../../services/overview.service';
 import { ActivityTotals, Analytics } from './types';
 import { DurationService } from '../../services/duration.service';
-import { getCurrentDateIso, getDateIso, getDaysByRange } from '../../utils/date-v2';
+import { getCurrentDate, getDateIso, getDaysByRange } from '../../utils/date-v2';
 
 @Injectable({
 	providedIn: 'root',
@@ -36,8 +36,8 @@ export class AnalyticsPageService {
 	async getDays(filters: AnalyticsPageFilters): Promise<Day[]> {
 		if (!filters.from && !filters.till) {
 			const firstActivity = await this.activityRepository.getFirstActivity();
-			const from = firstActivity ? firstActivity.date : getCurrentDateIso();
-			const till = getCurrentDateIso();
+			const from = firstActivity ? firstActivity.date : getCurrentDate();
+			const till = getCurrentDate();
 			return getDaysByRange(from, till);
 		}
 

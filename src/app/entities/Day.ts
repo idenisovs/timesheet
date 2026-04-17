@@ -1,18 +1,20 @@
-import { getCurrentDateIso, getDateIso } from '../utils/date-v2';
+import { getCurrentDate } from '../utils/date-v2';
+import { DateTime } from 'luxon';
 
 export class Day {
-	date: string = getCurrentDateIso();
-	weekId: string = '';
+	date: string = getCurrentDate();
 
-	constructor(date?: Date | string) {
+	constructor(date?: string) {
 		if (!date) {
 			return;
 		}
 
-		if (typeof date === 'string') {
-			this.date = date;
-		} else {
-			this.date = getDateIso(date);
+		const update = DateTime.fromISO(date).toLocal().toISODate();
+
+		if (update == null) {
+			throw new Error(`Invalid date: ${date}`);
 		}
+
+		this.date = update;
 	}
 }
