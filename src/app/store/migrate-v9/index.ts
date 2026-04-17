@@ -2,7 +2,7 @@ import { Transaction } from 'dexie';
 import { DateTime } from 'luxon';
 
 import SheetStore from '../SheetStore';
-import { DayRecord, WeekRecord } from '../records';
+import { DayRecord, WeekRecord } from './types';
 
 function getIsoDate(date: Date | string) {
 	let result: string | null;

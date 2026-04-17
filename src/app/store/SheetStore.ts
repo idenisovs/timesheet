@@ -1,6 +1,6 @@
 import Dexie, { Transaction } from 'dexie';
 
-import { WeekRecord, DayRecord, ProjectRecord, IssueRecord, ActivityRecord, SheetRecord } from './records';
+import { ProjectRecord, IssueRecord, ActivityRecord } from './records';
 
 import migrateV2 from './migrate-v2';
 import migrateV3 from './migrate-v3';
@@ -49,8 +49,10 @@ export default class SheetStore extends Dexie {
 		this.version(9).stores({
 			weeks: '&id,&from,&till',
 		}).upgrade((tx: Transaction) => migrateV9(this, tx));
-
 		this.version(10).stores({
+			activities: '&id,name,date,issueId',
+			issues: '&id,&key,name,activities,createdAt',
+			projects: '&id,&name,description,*keys,createdAt',
 			sheet: null,
 			weeks: null,
 			days: null,
