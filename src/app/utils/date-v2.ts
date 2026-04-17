@@ -2,9 +2,8 @@ import { DateTime } from 'luxon';
 
 import { Day, Week } from '../entities';
 
-export function getMonday(date: Date | string): string {
-	const d = typeof date === 'string' ? new Date(date) : date;
-	const result = DateTime.fromJSDate(d).startOf('week').toISODate();
+export function getMonday(date: string): string {
+	const result = DateTime.fromISO(date).startOf('week').toISODate();
 
 	if (!result) {
 		throw new Error(`${date} is not a valid date.`);
@@ -13,9 +12,8 @@ export function getMonday(date: Date | string): string {
 	return result;
 }
 
-export function getSunday(date: Date | string): string {
-	const d = typeof date === 'string' ? new Date(date) : date;
-	const result = DateTime.fromJSDate(d).endOf('week').toISODate();
+export function getSunday(date: string): string {
+	const result = DateTime.fromISO(date).endOf('week').toISODate();
 
 	if (!result) {
 		throw new Error(`${date} is not a valid date.`);
@@ -36,10 +34,6 @@ export function getDateIso(date: Date): string {
 
 export function getCurrentDate(): string {
 	return DateTime.now().toISODate();
-}
-
-export function getCurrentWeek(): Week {
-	return new Week();
 }
 
 export function getPreviousWeek(week: Week): Week {

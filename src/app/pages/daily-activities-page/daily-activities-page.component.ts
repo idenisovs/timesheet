@@ -16,7 +16,7 @@ import { Actions } from '../../services/Actions';
 import { ActionsService } from '../../services/actions.service';
 import { ExportWorkflowService } from '../../workflows/export-workflow.service';
 import { delay } from '../../utils';
-import { getCurrentWeek, getPreviousWeek } from '../../utils/date-v2';
+import { getPreviousWeek } from '../../utils/date-v2';
 import { DailyActivitiesWeekComponent } from '../../components/daily-activities-week/daily-activities-week.component';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 
@@ -46,7 +46,7 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 
 	async ngOnInit() {
 		this.firstActivity = await this.loadFirstActivity();
-		this.currentWeek = getCurrentWeek();
+		this.currentWeek = new Week();
 		this.weeks.push(this.currentWeek);
 		this.myOwnLittleInfiniteScroll = this.attachInfiniteScroll();
 	}
