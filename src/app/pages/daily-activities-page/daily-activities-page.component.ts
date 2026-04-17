@@ -11,12 +11,10 @@ import { Router } from '@angular/router';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
-import { Week } from '../../entities';
-import { WeeksRepositoryService } from '../../repository/weeks-repository.service';
+import { Activity, Week } from '../../entities';
 import { Actions } from '../../services/Actions';
 import { ActionsService } from '../../services/actions.service';
 import { ExportWorkflowService } from '../../workflows/export-workflow.service';
-import { PrepareForTodayWorkflowService } from '../../workflows/prepare-for-today-workflow.service';
 import { delay } from '../../utils';
 import { DailyActivitiesWeekComponent } from '../../components/daily-activities-week/daily-activities-week.component';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
@@ -32,10 +30,8 @@ import { CalendarService } from '../../services/calendar.service';
 })
 export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDestroy {
 	private router = inject(Router);
-	private weekRepo = inject(WeeksRepositoryService);
 	private actionsService = inject(ActionsService);
 	private exportWorkflow = inject(ExportWorkflowService);
-	private prepareForTodayWorkflow = inject(PrepareForTodayWorkflowService);
 	private activitiesRepo = inject(ActivitiesRepositoryService);
 	private calendarService = inject(CalendarService);
 
@@ -44,18 +40,14 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 
 	@ViewChild('weeksList') weekListRef!: ElementRef;
 
-	currentWeek: Week = this.calendarService.getCurrentWeek();
+	firstActivity: Activity = new Activity();
+	currentWeek: Week = new Week();
 	weeks: Week[] = [];
-	offset = 0;
 
 	async ngOnInit() {
-		console.log('ngOnInit');
-		const firstActivity = await this.activitiesRepo.getFirstActivity();
-		console.log(firstActivity);
-
-		await this.prepareForTodayWorkflow.run();
-		await this.loadNextWeek();
-
+		this.firstActivity = await this.loadFirstActivity();
+		this.currentWeek = this.calendarService.getCurrentWeek();
+		this.weeks.push(this.currentWeek);
 		this.myOwnLittleInfiniteScroll = this.attachInfiniteScroll();
 	}
 
@@ -69,18 +61,25 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	}
 
 	async preloadWeeks() {
-		console.log('preloadWeeks');
 		await delay(150);
 
 		const weekListHeight = (this.weekListRef.nativeElement as HTMLElement).offsetHeight;
 		const windowHeight = window.innerHeight;
-		const numberOfWeeks = await this.weekRepo.getCount();
 
-		if (weekListHeight <= windowHeight && this.weeks.length < numberOfWeeks) {
-			console.log('preloadWeeks:loadNextWeek');
+		if (weekListHeight <= windowHeight && this.currentWeek.from > this.firstActivity.date) {
 			await this.loadNextWeek();
 			void this.preloadWeeks();
 		}
+	}
+
+	private async loadFirstActivity(): Promise<Activity> {
+		const existingActivity: Activity | null = await this.activitiesRepo.getFirstActivity();
+
+		if (existingActivity) {
+			return existingActivity;
+		}
+
+		return await this.activitiesRepo.create();
 	}
 
 	private attachInfiniteScroll() {
@@ -97,14 +96,8 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	}
 
 	private async loadNextWeek() {
-		console.log('loadNextWeek');
-		const week = await this.weekRepo.getByOffset(this.offset);
-
-		this.offset += 1;
-
-		if (week) {
-			this.weeks.push(week);
-		}
+		this.currentWeek = this.calendarService.getPreviousWeek(this.currentWeek);
+		this.weeks.push(this.currentWeek);
 	}
 
 	private getRemainingPx(): number {
