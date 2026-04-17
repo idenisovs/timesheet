@@ -31,7 +31,11 @@ export class ActivitiesRepositoryService {
 	}
 
 	async getByDay(day: Day, reverse = false): Promise<Activity[]> {
-		let query = this.db.activities.where('date').equals(day.date);
+		return this.getByDate(day.date, reverse);
+	}
+
+	async getByDate(date: string, reverse = false): Promise<Activity[]> {
+		let query = this.db.activities.where('date').equals(date);
 
 		if (reverse) {
 			query = query.reverse();

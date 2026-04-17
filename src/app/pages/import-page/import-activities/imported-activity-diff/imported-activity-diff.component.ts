@@ -5,7 +5,6 @@ import { Activity } from '../../../../entities';
 import { DiffStatus } from '../../DiffStatus';
 import { ActivitiesRepositoryService } from '../../../../repository/activities-repository.service';
 import { ImportActivitiesService } from '../import-activities.service';
-import { DaysRepositoryService } from '../../../../repository/days-repository.service';
 import { ActivitiesService } from '../../../../services/activities.service';
 
 @Component({
@@ -19,7 +18,6 @@ import { ActivitiesService } from '../../../../services/activities.service';
 })
 export class ImportedActivityDiffComponent implements OnInit {
 	private activityRepository = inject(ActivitiesRepositoryService);
-	private dayRepository = inject(DaysRepositoryService);
 	private importService = inject(ImportActivitiesService);
 	private activitiesService = inject(ActivitiesService);
 
@@ -56,14 +54,7 @@ export class ImportedActivityDiffComponent implements OnInit {
 	}
 
 	async getOverlappingActivities(importedActivity: Activity): Promise<Activity[]> {
-		const day = await this.dayRepository.getByDate(importedActivity.date);
-
-		if (!day) {
-			return [];
-		}
-
-		const activities = await this.activityRepository.getByDay(day);
-
+		const activities: Activity[] = await this.activityRepository.getByDate(importedActivity.date);
 		return this.activitiesService.findOverlappingActivities(activities, importedActivity);
 	}
 

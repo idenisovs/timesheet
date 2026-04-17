@@ -5,75 +5,78 @@ import parseDuration from 'parse-duration';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 import { Activity, Day, ProjectOverview } from '../../entities';
 import { AnalyticsPageFilters } from './AnalyticsPageFilterForm';
-import { DaysRepositoryService } from '../../repository/days-repository.service';
 import { OverviewService } from '../../services/overview.service';
 import { ActivityTotals, Analytics } from './types';
 import { DurationService } from '../../services/duration.service';
+import { getCurrentDateIso, getDateIso, getDaysByRange } from '../../utils/date-v2';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class AnalyticsPageService {
-  constructor(
-    private activityRepository: ActivitiesRepositoryService,
-    private dayRepository: DaysRepositoryService,
-    private overviewService: OverviewService,
-    private durationService: DurationService
-  ) { }
+	constructor(
+		private activityRepository: ActivitiesRepositoryService,
+		private overviewService: OverviewService,
+		private durationService: DurationService,
+	) {
+	}
 
-  async getAnalytics(filters: AnalyticsPageFilters): Promise<Analytics> {
-    const days = await this.getDays(filters);
-    const activities = await this.activityRepository.getByDays(days);
-    const projectOverview = await this.overviewService.getProjectOverview(activities)
-    const totals = this.calculateTotals(projectOverview);
-    const weeklyHours = this.calculateWeeklyHours(activities);
+	async getAnalytics(filters: AnalyticsPageFilters): Promise<Analytics> {
+		const days = await this.getDays(filters);
+		const activities = await this.activityRepository.getByDays(days);
+		const projectOverview = await this.overviewService.getProjectOverview(activities);
+		const totals = this.calculateTotals(projectOverview);
+		const weeklyHours = this.calculateWeeklyHours(activities);
 
-    return {
-      projectOverview, totals, weeklyHours
-    }
-  }
+		return {
+			projectOverview, totals, weeklyHours,
+		};
+	}
 
-  async getDays(filters: AnalyticsPageFilters): Promise<Day[]> {
-    if (!filters.from && !filters.till) {
-      return this.dayRepository.getAll();
-    }
+	async getDays(filters: AnalyticsPageFilters): Promise<Day[]> {
+		if (!filters.from && !filters.till) {
+			const firstActivity = await this.activityRepository.getFirstActivity();
+			const from = firstActivity ? firstActivity.date : getCurrentDateIso();
+			const till = getCurrentDateIso();
+			return getDaysByRange(from, till);
+		}
 
-    if (filters.from && filters.till) {
-      return this.dayRepository.getByRange(filters.from, filters.till);
-    }
+		if (filters.from && filters.till) {
+			return getDaysByRange(getDateIso(filters.from), getDateIso(filters.till));
+		}
 
-    throw new Error('Filter functionality is not fully implemented yet!');
-  }
+		throw new Error('Filter functionality is not fully implemented yet!');
+	}
 
-  calculateTotals(projectOverview: ProjectOverview[]) {
-    return projectOverview.reduce((result: ActivityTotals, projectOverview: ProjectOverview) => {
-      result.activities += projectOverview.activities.length;
-      result.time = this.durationService.sum([result.time, projectOverview.duration]);
-      result.rate += projectOverview.durationRatio;
-      return result;
-    }, { activities: 0, time: '0', rate: 0 });
-  }
+	calculateTotals(projectOverview: ProjectOverview[]) {
+		return projectOverview.reduce((result: ActivityTotals, projectOverview: ProjectOverview) => {
+			result.activities += projectOverview.activities.length;
+			result.time = this.durationService.sum([result.time, projectOverview.duration]);
+			result.rate += projectOverview.durationRatio;
+			return result;
+		}, { activities: 0, time: '0', rate: 0 });
+	}
 
-  calculateWeeklyHours(activities: Activity[]) {
-    const weeklyHours = new Map<number, number>();
+	calculateWeeklyHours(activities: Activity[]) {
+		const weeklyHours = new Map<number, number>();
 
-    for (const activity of activities) {
-      const weekNumber = DateTime.fromJSDate(activity.date).weekNumber;
-      const activityTimeMs = parseDuration(activity.duration) ?? 0;
-      const workedTime = weeklyHours.get(weekNumber) ?? 0;
-      weeklyHours.set(weekNumber, workedTime + activityTimeMs);
-    }
+		for (const activity of activities) {
+			const weekNumber = DateTime.fromISO(activity.date).weekNumber;
+			const activityTimeMs = parseDuration(activity.duration) ?? 0;
+			const workedTime = weeklyHours.get(weekNumber) ?? 0;
+			weeklyHours.set(weekNumber, workedTime + activityTimeMs);
+		}
 
-    const weeks = Array.from(weeklyHours.keys());
-    const firstWeek = Math.min(...weeks);
-    const lastWeek = Math.max(...weeks);
+		const weeks = Array.from(weeklyHours.keys());
+		const firstWeek = Math.min(...weeks);
+		const lastWeek = Math.max(...weeks);
 
-    for (let week = firstWeek; week < lastWeek; week++) {
-      if (!weeklyHours.has(week)) {
-        weeklyHours.set(week, 0);
-      }
-    }
+		for (let week = firstWeek; week < lastWeek; week++) {
+			if (!weeklyHours.has(week)) {
+				weeklyHours.set(week, 0);
+			}
+		}
 
-    return weeklyHours;
-  }
+		return weeklyHours;
+	}
 }

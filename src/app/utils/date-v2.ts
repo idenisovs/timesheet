@@ -63,3 +63,16 @@ export function getDaysByWeek(week: Week, desc = false): Day[] {
 
 	return days;
 }
+
+export function getDaysByRange(from: string, till: string): Day[] {
+	const days: Day[] = [];
+
+	let currentDate = from;
+
+	while (currentDate <= till) {
+		days.push(new Day(currentDate));
+		currentDate = DateTime.fromISO(currentDate).plus({ days: 1 }).toISODate() as string;
+	}
+
+	return days;
+}

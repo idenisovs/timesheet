@@ -1,11 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 
 import { IssueRepositoryService } from '../repository/issue-repository.service';
-import { DaysRepositoryService } from '../repository/days-repository.service';
 import { ActivitiesRepositoryService } from '../repository/activities-repository.service';
 import { ActivitiesService } from '../services/activities.service';
-import { Activity, Day, Issue, Week } from '../entities';
-import { WeeksRepositoryService } from '../repository/weeks-repository.service';
+import { Activity, Issue } from '../entities';
 import { ProjectRepositoryService } from '../repository/project-repository.service';
 
 @Injectable({
@@ -13,10 +11,8 @@ import { ProjectRepositoryService } from '../repository/project-repository.servi
 })
 export class SaveActivitiesWorkflowService {
 	private issueRepository = inject(IssueRepositoryService);
-	private dayRepo = inject(DaysRepositoryService);
 	private activitiesRepository = inject(ActivitiesRepositoryService);
 	private activitiesService = inject(ActivitiesService);
-	private weekRepo = inject(WeeksRepositoryService);
 	private projectRepo = inject(ProjectRepositoryService);
 
 	public async run(activities: Activity[]) {
@@ -41,44 +37,7 @@ export class SaveActivitiesWorkflowService {
 	}
 
 	private async updateActivityLinks(activity: Activity) {
-		await this.processWeekLink(activity);
-		await this.processDayLink(activity);
 		await this.processIssueLink(activity);
-	}
-
-	private async processWeekLink(activity: Activity): Promise<void> {
-		let week = await this.weekRepo.getById(activity.weekId);
-
-		if (week) {
-			return;
-		}
-
-		week = await this.weekRepo.getByDate(activity.date);
-
-		if (!week) {
-			week = new Week(activity.date);
-			await this.weekRepo.save(week);
-		}
-
-		activity.weekId = week.id;
-	}
-
-	private async processDayLink(activity: Activity): Promise<void> {
-		let day = await this.dayRepo.getById(activity.dayId);
-
-		if (day) {
-			return;
-		}
-
-		day = await this.dayRepo.getByDate(activity.date);
-
-		if (!day) {
-			day = new Day(activity.date);
-			day.weekId = activity.weekId;
-			await this.dayRepo.create(day);
-		}
-
-		activity.dayId = day.id;
 	}
 
 	private async processIssueLink(activity: Activity): Promise<void> {
