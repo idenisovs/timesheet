@@ -70,7 +70,6 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 	}
 
 	async ngOnInit() {
-		console.log('week:day init');
 		await this.loadActivities();
 
 		this.valueChangesSub = this.form.valueChanges.subscribe(() => {
@@ -83,9 +82,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 	}
 
 	async loadActivities() {
-		console.log('week:day loadActivities', this.day().date);
 		this.activities = await this.activitiesService.loadDailyActivities(this.day());
-		console.log('week:day activity count -', this.activities.length);
 		this.updateActivitiesForm();
 		this.totalDuration = this.activitiesService.calculateDuration(this.activities);
 	}
