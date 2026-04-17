@@ -4,7 +4,7 @@
 	</header>
 
 	<main class="card-body">
-		@for (project of importedProjects; track project) {
+		@for (project of importedProjects; track project.id) {
 			<app-imported-project-diff
 				[importedProject]="project"
 				(completed)="removeCompletedProject($event)"

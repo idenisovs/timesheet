@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, inject, input, OnInit, output } from '@angular/core';
 import { DatePipe, NgClass } from '@angular/common';
 
 import { Project } from '../../../../entities';
@@ -6,94 +6,85 @@ import { ProjectRepositoryService } from '../../../../repository/project-reposit
 import { DiffStatus } from '../../DiffStatus';
 
 @Component({
-    selector: 'app-imported-project-diff',
-    imports: [
-    NgClass,
-    DatePipe
-],
-    templateUrl: './imported-project-diff.component.html',
-    styleUrl: './imported-project-diff.component.scss'
+	selector: 'app-imported-project-diff',
+	imports: [
+		NgClass,
+		DatePipe,
+	],
+	templateUrl: './imported-project-diff.component.html',
+	styleUrl: './imported-project-diff.component.scss',
 })
 export class ImportedProjectDiffComponent implements OnInit {
-  status = DiffStatus.same;
-  existingProject: Project|null = null;
+	private projectsRepository = inject(ProjectRepositoryService);
 
-  @Input()
-  importedProject!: Project;
+	importedProject = input.required<Project>();
+	completed = output<Project>();
 
-  @Output()
-  completed = new EventEmitter<Project>();
+	status = DiffStatus.same;
+	existingProject: Project | null = null;
 
-  constructor(
-    private projectsRepository: ProjectRepositoryService
-  ) {}
+	async ngOnInit() {
+		this.existingProject = await this.getExistingProject();
+		this.status = this.getDiffStatus();
 
-  async ngOnInit() {
-    if (!this.importedProject) {
-      return;
-    }
+		if (this.status === DiffStatus.same) {
+			this.completed.emit(this.importedProject());
+		}
+	}
 
-    this.existingProject = await this.getExistingProject();
+	async getExistingProject(): Promise<Project | null> {
+		const existingProject = await this.projectsRepository.getById(this.importedProject().id);
 
-    this.status = this.getDiffStatus();
+		if (existingProject) {
+			return existingProject;
+		}
 
-    if (this.status === DiffStatus.same) {
-      this.completed.emit(this.importedProject);
-    }
-  }
+		return this.projectsRepository.getByName(this.importedProject().name);
+	}
 
-  async getExistingProject(): Promise<Project|null> {
-    let existingProject = await this.projectsRepository.getById(this.importedProject.id);
+	getDiffStatus(): DiffStatus {
+		if (!this.existingProject) {
+			return DiffStatus.new;
+		}
 
-    if (existingProject) {
-      return existingProject;
-    }
+		if (!this.existingProject.equals(this.importedProject())) {
+			return DiffStatus.updated;
+		}
 
-    return this.projectsRepository.getByName(this.importedProject.name);
-  }
+		return DiffStatus.same;
+	}
 
-  getDiffStatus(): DiffStatus {
-    if (!this.existingProject) {
-      return DiffStatus.new;
-    }
+	async save() {
+		await this.projectsRepository.create(this.importedProject());
+		this.status = DiffStatus.same;
+		this.completed.emit(this.importedProject());
+	}
 
-    if (!this.existingProject.equals(this.importedProject)) {
-      return DiffStatus.updated;
-    }
+	async update() {
+		if (!this.existingProject) {
+			return;
+		}
 
-    return DiffStatus.same;
-  }
+		const project = this.importedProject();
+		project.id = this.existingProject.id;
+		await this.projectsRepository.update(project);
+		this.completed.emit(project);
+	}
 
-  async save() {
-    await this.projectsRepository.create(this.importedProject);
-    this.status = DiffStatus.same;
-    this.completed.emit(this.importedProject);
-  }
+	async cancel() {
+		this.completed.emit(this.importedProject());
+	}
 
-  async update() {
-    if (!this.existingProject) {
-      return;
-    }
+	getRowStyle() {
+		switch (this.status) {
+			case DiffStatus.new:
+				return 'text-primary';
+			case DiffStatus.updated:
+				return 'text-success';
+			default:
+				return '';
+		}
+	}
 
-    this.importedProject.id = this.existingProject.id;
-    await this.projectsRepository.update(this.importedProject);
-    this.completed.emit(this.importedProject);
-  }
-
-  async cancel() {
-    this.completed.emit(this.importedProject);
-  }
-
-  getRowStyle() {
-    switch (this.status) {
-      case DiffStatus.new:
-        return 'text-primary';
-      case DiffStatus.updated:
-        return 'text-success';
-      default:
-        return '';
-    }
-  }
-
-  protected readonly DiffStatus = DiffStatus;
+	protected readonly DiffStatus = DiffStatus;
 }

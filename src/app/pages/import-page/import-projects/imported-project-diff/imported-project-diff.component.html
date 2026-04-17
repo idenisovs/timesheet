@@ -1,74 +1,62 @@
-<section class="card mb-2" [ngClass]="{ 'border-primary': status === DiffStatus.new }">
-  <main class="card-body">
-    <table class="table table-sm">
-      <thead>
-        <tr>
-          <th scope="col">
-            Name
-          </th>
-          <th scope="col">
-            Description
-          </th>
-          <th scope="col">
-            Keys
-          </th>
-          <th scope="col" class="text-end">
-            Created At
-          </th>
-          <th scope="col" class="text-center">
-            Actions
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="align-middle">
-          <td [ngClass]="getRowStyle()">
-            {{importedProject.name}}
-          </td>
-          <td [ngClass]="getRowStyle()">
-            {{importedProject.description}}
-          </td>
-          <td [ngClass]="getRowStyle()">
-            {{importedProject.keys.join(', ')}}
-          </td>
-          <td class="text-end" [ngClass]="getRowStyle()">
-            {{importedProject.createdAt|date:'MMMM d, y hh:mm:ss'}}
-          </td>
-          <td class="text-center align-middle" [rowSpan]="status === DiffStatus.new ? 1 : 2">
-            @if (status === DiffStatus.new) {
-              <button class="btn btn-sm btn-primary" (click)="save()">
-                <i class="material-symbols-outlined">done</i>
-              </button>
-            }
+<section class="card mb-2 shadow-sm"
+         [ngClass]="{ 'border-primary': status === DiffStatus.new, 'border-success': status === DiffStatus.updated }">
 
-            @if (status === DiffStatus.updated) {
-              <button class="btn btn-sm btn-success" (click)="update()">
-                <i class="material-symbols-outlined">done</i>
-              </button>
-            }
+	<header class="card-header d-flex justify-content-between align-items-center py-2">
+		<div class="d-flex align-items-center gap-2">
+			@if (status === DiffStatus.new) {
+				<span class="badge bg-primary">New</span>
+			}
+			@if (status === DiffStatus.updated) {
+				<span class="badge bg-success">Updated</span>
+			}
+			<span class="fw-semibold">{{ importedProject().name }}</span>
+		</div>
+		<div class="d-flex gap-1">
+			@if (status === DiffStatus.new) {
+				<button class="btn btn-sm btn-primary" (click)="save()" title="Save">
+					<i class="material-symbols-outlined">done</i>
+				</button>
+			}
+			@if (status === DiffStatus.updated) {
+				<button class="btn btn-sm btn-success" (click)="update()" title="Update">
+					<i class="material-symbols-outlined">done</i>
+				</button>
+			}
+			<button class="btn btn-sm btn-outline-secondary" (click)="cancel()" title="Skip">
+				<i class="material-symbols-outlined">clear</i>
+			</button>
+		</div>
+	</header>
 
-            <button class="btn btn-sm btn-outline-dark ms-1" (click)="cancel()">
-              <i class="material-symbols-outlined">clear</i>
-            </button>
-          </td>
-        </tr>
-        @if (existingProject) {
-          <tr>
-            <td>
-              {{existingProject.name}}
-            </td>
-            <td>
-              {{existingProject.description}}
-            </td>
-            <td>
-              {{existingProject.keys.join(', ')}}
-            </td>
-            <td class="text-end">
-              {{existingProject.createdAt|date:'MMMM d, y hh:mm:ss'}}
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </main>
+	<main class="card-body py-2">
+		<div class="row g-2">
+			<div class="col-sm-4">
+				<div class="text-muted small mb-1">Description</div>
+				<div [ngClass]="getRowStyle()">{{ importedProject().description || '—' }}</div>
+				@if (existingProject && existingProject.description !== importedProject().description) {
+					<div class="text-muted fst-italic small mt-1">was: {{ existingProject.description || '—' }}</div>
+				}
+			</div>
+			<div class="col-sm-4">
+				<div class="text-muted small mb-1">Keys</div>
+				<div>
+					@for (key of importedProject().keys; track key) {
+						<span class="badge text-bg-primary me-1">{{ key }}</span>
+					}
+				</div>
+				@if (existingProject && existingProject.keys.join() !== importedProject().keys.join()) {
+					<div class="mt-1">
+						@for (key of existingProject.keys; track key) {
+							<span class="badge text-bg-primary me-1">{{ key }}</span>
+						}
+					</div>
+				}
+			</div>
+			<div class="col-sm-4">
+				<div class="text-muted small mb-1">Created At</div>
+				<div class="small">{{ importedProject().createdAt | date:'MMM d, y' }}</div>
+			</div>
+		</div>
+	</main>
+
 </section>
