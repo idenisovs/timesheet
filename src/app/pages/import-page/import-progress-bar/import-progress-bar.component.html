@@ -1,0 +1,10 @@
+<ngb-progressbar
+	class="mb-3"
+	[value]="imported()"
+	[max]="total()"
+	[striped]="imported() < total()"
+	[animated]="imported() < total()"
+	type="success"
+>
+	{{ imported() }} / {{ total() }}
+</ngb-progressbar>

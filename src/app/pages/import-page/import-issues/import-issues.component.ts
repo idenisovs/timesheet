@@ -21,7 +21,7 @@ export class ImportIssuesComponent {
 	protected updatedIssues = signal<Issue[]>([]);
 	protected sameIssueCount = signal(0);
 
-	get TotalLength() {
+	get TotalIssuesToImport() {
 		return this.updatedIssues().length + this.createdIssues().length;
 	}
 

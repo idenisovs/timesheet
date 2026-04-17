@@ -5,16 +5,25 @@
 				Activity Import
 			</div>
 			<div>
-				@if (TotalLength) {
-					<button class="btn btn-sm btn-link link-dark" (click)="saveAll()">
+				@if (IsActivitiesToSaveAvailable) {
+					<button class="btn btn-sm btn-link link-dark"
+					        [disabled]="!IsActivitiesToSaveAvailable"
+					        (click)="saveAll()"
+					>
 						Save All
 					</button>
 
-					<button class="btn btn-sm btn-link link-dark" (click)="saveNew()">
+					<button class="btn btn-sm btn-link link-dark"
+					        [disabled]="!createdActivities().length"
+					        (click)="saveNew()"
+					>
 						Save New
 					</button>
 
-					<button class="btn btn-sm btn-link link-dark" (click)="cancel()">
+					<button class="btn btn-sm btn-link link-dark"
+					        [disabled]="!IsActivitiesToSaveAvailable"
+					        (click)="cancel()"
+					>
 						Cancel
 					</button>
 				}
@@ -23,6 +32,10 @@
 	</header>
 
 	<main class="card-body">
+		@if (savedActivityCount() > 0) {
+			<app-import-progress-bar [imported]="savedActivityCount()" [total]="activitiesToSaveCount()"/>
+		}
+
 		<div class="row row-cols-2 row-cols-sm-4 g-3">
 			<div class="col">
 				<div class="border rounded p-3 text-center">

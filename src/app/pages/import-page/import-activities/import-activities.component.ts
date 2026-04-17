@@ -1,13 +1,15 @@
 import { Component, effect, inject, input, signal } from '@angular/core';
+import { disabled } from '@angular/forms/signals';
 
 import { Activity } from '../../../entities';
 import { ImportActivitiesService } from './import-activities.service';
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
 import { DiffStatus } from '../DiffStatus';
+import { ImportProgressBarComponent } from '../import-progress-bar/import-progress-bar.component';
 
 @Component({
 	selector: 'app-import-activities',
-	imports: [],
+	imports: [ImportProgressBarComponent],
 	templateUrl: './import-activities.component.html',
 	styleUrl: './import-activities.component.scss',
 })
@@ -20,9 +22,11 @@ export class ImportActivitiesComponent {
 	protected createdActivities = signal<Activity[]>([]);
 	protected updatedActivities = signal<Activity[]>([]);
 	protected sameActivityCount = signal(0);
+	protected savedActivityCount = signal(0);
+	protected activitiesToSaveCount = signal(0);
 
-	get TotalLength() {
-		return this.createdActivities().length + this.updatedActivities().length;
+	get IsActivitiesToSaveAvailable() {
+		return (this.createdActivities().length + this.updatedActivities().length) > 0;
 	}
 
 	constructor() {
@@ -32,21 +36,32 @@ export class ImportActivitiesComponent {
 	}
 
 	async saveAll() {
+		this.activitiesToSaveCount.set(this.createdActivities().length + this.updatedActivities().length);
 		await this.saveNew();
 		await this.saveUpdated();
 	}
 
 	async saveNew() {
+		if (this.activitiesToSaveCount() === 0) {
+			this.activitiesToSaveCount.set(this.createdActivities().length);
+		}
+
 		for (const activity of this.createdActivities()) {
 			await this.importService.save(activity);
+			this.savedActivityCount.update(prev => prev + 1);
 		}
 
 		this.createdActivities.set([]);
 	}
 
 	async saveUpdated() {
+		if (this.activitiesToSaveCount() === 0) {
+			this.activitiesToSaveCount.set(this.updatedActivities().length);
+		}
+
 		for (const activity of this.updatedActivities()) {
 			await this.importService.save(activity);
+			this.savedActivityCount.update(prev => prev + 1);
 		}
 
 		this.updatedActivities.set([]);
@@ -86,4 +101,6 @@ export class ImportActivitiesComponent {
 
 		return DiffStatus.updated;
 	}
+
+	protected readonly disabled = disabled;
 }
