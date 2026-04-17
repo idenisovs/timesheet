@@ -1,25 +1,25 @@
 <section class="card">
-  <header class="card-header fw-bold">
-    Import
-  </header>
-  <main class="card-body">
-    <div class="mb-3">
-      <label for="formFile" class="form-label">
-        Default file input example
-      </label>
-      <input class="form-control" type="file" id="formFile" (change)="readImportFile($event)">
-    </div>
-  </main>
+	<header class="card-header fw-bold">
+		Import
+	</header>
+	<main class="card-body">
+		<div class="mb-3">
+			<label for="formFile" class="form-label">
+				Default file input example
+			</label>
+			<input class="form-control" type="file" id="formFile" (change)="readImportFile($event)">
+		</div>
+	</main>
 </section>
 
 @if (projects.length) {
-  <app-import-projects [importedProjects]="projects" />
+	<app-import-projects [importedProjects]="projects"/>
 }
 
 @if (issues.length) {
-  <app-import-issues [importedIssues]="issues" />
+	<app-import-issues [importedIssues]="issues"/>
 }
 
 @if (activities.length) {
-  <app-import-activities [importedActivities]="activities" />
+	<app-import-activities [importedActivities]="activities"/>
 }

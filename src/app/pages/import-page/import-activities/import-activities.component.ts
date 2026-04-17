@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-
+import { Component, inject, input } from '@angular/core';
 
 import { Activity } from '../../../entities';
 import { ImportedActivityDiffComponent } from './imported-activity-diff/imported-activity-diff.component';
@@ -7,62 +6,59 @@ import { ImportActivitiesService } from './import-activities.service';
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
 
 @Component({
-    selector: 'app-import-activities',
-    imports: [
-    ImportedActivityDiffComponent
-],
-    templateUrl: './import-activities.component.html',
-    styleUrl: './import-activities.component.scss'
+	selector: 'app-import-activities',
+	imports: [
+		ImportedActivityDiffComponent,
+	],
+	templateUrl: './import-activities.component.html',
+	styleUrl: './import-activities.component.scss',
 })
 export class ImportActivitiesComponent {
-  @Input()
-  importedActivities!: Activity[];
+	private importService = inject(ImportActivitiesService);
+	private activityRepository = inject(ActivitiesRepositoryService);
 
-  constructor(
-    private importService: ImportActivitiesService,
-    private activityRepository: ActivitiesRepositoryService
-  ) {}
+	importedActivities = input.required<Activity[]>();
 
-  removeCompletedActivity(activity: Activity) {
-    const idx = this.importedActivities.indexOf(activity);
-    this.importedActivities.splice(idx, 1);
-  }
+	async saveAll() {
+		let savedActivitiesCount = 0;
 
-  async saveAll() {
-    let savedActivitiesCount = 0;
+		for (let idx = 0; idx < this.importedActivities().length; idx++) {
+			const activity = this.importedActivities()[idx];
+			await this.importService.save(activity);
+			this.removeCompletedActivity(activity);
+			idx--;
+			savedActivitiesCount++;
+		}
 
-    for (let idx = 0; idx < this.importedActivities.length; idx++) {
-      const activity = this.importedActivities[idx];
-      await this.importService.save(activity);
-      this.removeCompletedActivity(activity);
-      idx--;
-      savedActivitiesCount++;
-    }
+		alert(`Saved ${savedActivitiesCount} activities!`);
+	}
 
-    alert(`Saved ${savedActivitiesCount} activities!`);
-  }
+	removeCompletedActivity(activity: Activity) {
+		const idx = this.importedActivities().indexOf(activity);
+		this.importedActivities().splice(idx, 1);
+	}
 
-  async saveNewActivities() {
-    let savedActivitiesCount = 0;
+	async saveNewActivities() {
+		let savedActivitiesCount = 0;
 
-    for (let idx = 0; idx < this.importedActivities.length; idx++) {
-      const activity = this.importedActivities[idx];
-      const existingActivity = await this.activityRepository.getById(activity.id);
+		for (let idx = 0; idx < this.importedActivities().length; idx++) {
+			const activity = this.importedActivities()[idx];
+			const existingActivity = await this.activityRepository.getById(activity.id);
 
-      if (existingActivity) {
-        continue;
-      }
+			if (existingActivity) {
+				continue;
+			}
 
-      await this.importService.save(activity);
-      this.removeCompletedActivity(activity);
-      idx--;
-      savedActivitiesCount++;
-    }
+			await this.importService.save(activity);
+			this.removeCompletedActivity(activity);
+			idx--;
+			savedActivitiesCount++;
+		}
 
-    alert(`Saved ${savedActivitiesCount} activities!`);
-  }
+		alert(`Saved ${savedActivitiesCount} activities!`);
+	}
 
-  cancelImportingActivities() {
-    this.importedActivities.splice(0);
-  }
+	cancelImportingActivities() {
+		this.importedActivities().splice(0);
+	}
 }

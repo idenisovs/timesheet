@@ -1,24 +1,22 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { SaveActivitiesWorkflowService } from '../../../workflows/save-activities-workflow.service';
 import { RemoveActivitiesWorkflowService } from '../../../workflows/remove-activities-workflow.service';
 import { Activity } from '../../../entities';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class ImportActivitiesService {
-  constructor(
-    private activitySaveWorkflow: SaveActivitiesWorkflowService,
-    private activityRemoveWorkflow: RemoveActivitiesWorkflowService
-  ) { }
+	private activitySaveWorkflow = inject(SaveActivitiesWorkflowService);
+	private activityRemoveWorkflow = inject(RemoveActivitiesWorkflowService);
 
-  async save(activity: Activity): Promise<void> {
-    await this.activitySaveWorkflow.run([activity])
-  }
+	async save(activity: Activity): Promise<void> {
+		await this.activitySaveWorkflow.run([activity]);
+	}
 
-  async remove(activities: Activity[]): Promise<void> {
-    const activityIds = activities.map(activity => activity.id);
-    await this.activityRemoveWorkflow.run(activityIds);
-  }
+	async remove(activities: Activity[]): Promise<void> {
+		const activityIds = activities.map(activity => activity.id);
+		await this.activityRemoveWorkflow.run(activityIds);
+	}
 }

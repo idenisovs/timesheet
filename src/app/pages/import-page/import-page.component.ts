@@ -14,10 +14,10 @@ import { ReaderService } from '../../reader/reader.service';
 	imports: [
 		ImportProjectsComponent,
 		ImportIssuesComponent,
-		ImportActivitiesComponent
+		ImportActivitiesComponent,
 	],
 	templateUrl: './import-page.component.html',
-	styleUrl: './import-page.component.scss'
+	styleUrl: './import-page.component.scss',
 })
 export class ImportPageComponent {
 	private reader = inject(ReaderService);
