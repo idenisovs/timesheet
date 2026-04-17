@@ -38,8 +38,6 @@ export class DailyActivitiesWeekDayService {
 
 		if (day) {
 			activity.date = day.date;
-			activity.dayId = day.id;
-			activity.weekId = day.weekId;
 		}
 
 		return activity;

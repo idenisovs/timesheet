@@ -1,5 +1,5 @@
 <section #weeksList class="DailyActivitiesPage">
-	@for (week of weeks; track week.id) {
+	@for (week of weeks; track week.start) {
 		<app-daily-activities-week [week]="week"/>
 	}
 </section>

@@ -1,7 +1,6 @@
 import { getCurrentDateIso, getDateIso } from '../utils/date-v2';
 
 export class Day {
-	id: string = crypto.randomUUID();
 	date: string = getCurrentDateIso();
 	weekId: string = '';
 

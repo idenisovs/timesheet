@@ -10,8 +10,6 @@ export class Activity {
 	from = '';
 	till = '';
 	duration = '';
-	weekId = '';
-	dayId = '';
 	issueId?: string;
 
 	constructor(entity?: Activity) {
@@ -74,11 +72,10 @@ export class Activity {
 		if (
 			this.id !== other.id
 			|| this.name !== other.name
+			|| this.date !== other.date
 			|| this.from !== other.from
 			|| this.till !== other.till
 			|| this.duration !== other.duration
-			|| this.weekId !== other.weekId
-			|| this.dayId !== other.dayId
 			|| this.issueId !== other.issueId
 		) {
 			return false;
