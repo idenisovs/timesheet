@@ -51,8 +51,6 @@ export default class SheetStore extends Dexie {
 		}).upgrade((tx: Transaction) => migrateV9(this, tx));
 		this.version(10).stores({
 			activities: '&id,name,date,issueId',
-			issues: '&id,&key,name,activities,createdAt',
-			projects: '&id,&name,description,*keys,createdAt',
 			sheet: null,
 			weeks: null,
 			days: null,
