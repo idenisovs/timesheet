@@ -43,6 +43,7 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	firstActivity: Activity = new Activity();
 	currentWeek: Week = new Week();
 	weeks: Week[] = [];
+	nextWeekListHeight: number = this.getNextWeekListHeight();
 
 	async ngOnInit() {
 		this.firstActivity = await this.loadFirstActivity();
@@ -58,18 +59,6 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	ngOnDestroy() {
 		this.actionSubs.unsubscribe();
 		this.myOwnLittleInfiniteScroll.unsubscribe();
-	}
-
-	async preloadWeeks() {
-		await delay(150);
-
-		const weekListHeight = (this.weekListRef.nativeElement as HTMLElement).offsetHeight;
-		const windowHeight = window.innerHeight;
-
-		if (weekListHeight <= windowHeight && this.currentWeek.from > this.firstActivity.date) {
-			await this.loadNextWeek();
-			void this.preloadWeeks();
-		}
 	}
 
 	private async loadFirstActivity(): Promise<Activity> {
@@ -88,21 +77,36 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 				debounceTime(150),
 			)
 			.subscribe(() => {
-				const remainingPx = this.getRemainingPx();
-				if (remainingPx < 400) {
-					void this.loadNextWeek();
+				if (this.getRemainingPx() < 400) {
+					this.nextWeekListHeight = this.getNextWeekListHeight();
+					void this.preloadWeeks();
 				}
 			});
 	}
 
-	private async loadNextWeek() {
-		this.currentWeek = this.calendarService.getPreviousWeek(this.currentWeek);
-		this.weeks.push(this.currentWeek);
+	private async preloadWeeks() {
+		await delay(100);
+
+		const weekListHeight = (this.weekListRef.nativeElement as HTMLElement).offsetHeight;
+
+		if (weekListHeight <= this.nextWeekListHeight && this.currentWeek.from > this.firstActivity.date) {
+			this.currentWeek = this.calendarService.getPreviousWeek(this.currentWeek);
+			this.weeks.push(this.currentWeek);
+			void this.preloadWeeks();
+		}
 	}
 
 	private getRemainingPx(): number {
 		const doc = document.documentElement;
 		return doc.scrollHeight - (window.scrollY + window.innerHeight);
+	}
+
+	private getNextWeekListHeight(): number {
+		if (this.nextWeekListHeight) {
+			return this.nextWeekListHeight * 1.3;
+		} else {
+			return window.innerHeight * 1.3;
+		}
 	}
 
 	private async handlePageActions(action: Actions) {
