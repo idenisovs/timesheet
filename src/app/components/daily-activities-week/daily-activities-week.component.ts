@@ -1,7 +1,6 @@
 import { Component, inject, input, OnInit } from '@angular/core';
 
 import { ActivitySummary, Day, Week } from '../../entities';
-import { DaysRepositoryService } from '../../repository/days-repository.service';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 import { ActivitiesService } from '../../services/activities.service';
 import {
@@ -11,6 +10,7 @@ import {
 	DailyActivitiesWeekDayMissingComponent
 } from '../daily-activities-week-day-missing/daily-activities-week-day-missing.component';
 import { DailyActivitiesWeekDayComponent } from '../daily-activities-week-day/daily-activities-week-day.component';
+import { getDaysByWeek } from '../../utils/date-v2';
 
 @Component({
 	selector: 'app-daily-activities-week',
@@ -19,7 +19,6 @@ import { DailyActivitiesWeekDayComponent } from '../daily-activities-week-day/da
 	imports: [DailyActivitiesWeekHeaderComponent, DailyActivitiesWeekDayMissingComponent, DailyActivitiesWeekDayComponent],
 })
 export class DailyActivitiesWeekComponent implements OnInit {
-	private dayRepository = inject(DaysRepositoryService);
 	private activityRepository = inject(ActivitiesRepositoryService);
 	private activitiesService = inject(ActivitiesService);
 
@@ -29,7 +28,7 @@ export class DailyActivitiesWeekComponent implements OnInit {
 	week = input.required<Week>();
 
 	async ngOnInit() {
-		this.days = await this.dayRepository.getByWeek(this.week());
+		this.days = getDaysByWeek(this.week(), true);
 		await this.recalculateActivitySummary();
 	}
 

@@ -25,7 +25,7 @@ export class ActivitiesRepositoryService {
 	async getByWeek(week: Week): Promise<Activity[]> {
 		const records = await this.db.activities
 			.where('date')
-			.between(week.from, week.till, true, true)
+			.between(week.start, week.end, true, true)
 			.toArray();
 		return records.map(Activity.fromRecord);
 	}

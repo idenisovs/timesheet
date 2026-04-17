@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { Week } from '../entities';
+import { Day, Week } from '../entities';
 
 export function getMonday(date: Date | string): string {
 	const d = typeof date === 'string' ? new Date(date) : date;
@@ -43,6 +43,23 @@ export function getCurrentWeek(): Week {
 }
 
 export function getPreviousWeek(week: Week): Week {
-	const prevMonday = DateTime.fromISO(week.from).minus({ weeks: 1 }).toISODate() as string;
+	const prevMonday = DateTime.fromISO(week.start).minus({ weeks: 1 }).toISODate() as string;
 	return new Week(prevMonday);
+}
+
+export function getDaysByWeek(week: Week, desc = false): Day[] {
+	const days: Day[] = [];
+
+	let currentDate = week.start;
+
+	while (currentDate <= week.end) {
+		days.push(new Day(currentDate));
+		currentDate = DateTime.fromISO(currentDate).plus({ days: 1 }).toISODate() as string;
+	}
+
+	if (desc) {
+		days.sort((a, b) => -a.date.localeCompare(b.date));
+	}
+
+	return days;
 }

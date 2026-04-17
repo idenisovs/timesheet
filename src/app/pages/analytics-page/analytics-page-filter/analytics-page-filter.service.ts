@@ -31,8 +31,8 @@ export class AnalyticsPageFilterService {
 
 	getStartAndEndOfWeek(): { startOfWeek: NgbDate, endOfWeek: NgbDate } {
 		const week = new Week();
-		const startOfWeek = this.getDayFromDate(week.from);
-		const endOfWeek = this.getDayFromDate(week.till);
+		const startOfWeek = this.getDayFromDate(week.start);
+		const endOfWeek = this.getDayFromDate(week.end);
 		return { startOfWeek, endOfWeek };
 	}
 

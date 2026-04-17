@@ -88,7 +88,7 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 
 		const weekListHeight = (this.weekListRef.nativeElement as HTMLElement).offsetHeight;
 
-		if (weekListHeight <= this.nextWeekListHeight && this.currentWeek.from > this.firstActivity.date) {
+		if (weekListHeight <= this.nextWeekListHeight && this.currentWeek.start > this.firstActivity.date) {
 			this.currentWeek = getPreviousWeek(this.currentWeek);
 			this.weeks.push(this.currentWeek);
 			void this.preloadWeeks();

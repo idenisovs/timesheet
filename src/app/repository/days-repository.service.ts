@@ -32,7 +32,7 @@ export class DaysRepositoryService {
 	async getByWeek(week: Week) {
 		const entities = await this.db.days
 			.where('date')
-			.between(week.from, week.till, true, true)
+			.between(week.start, week.end, true, true)
 			.reverse()
 			.sortBy('date');
 

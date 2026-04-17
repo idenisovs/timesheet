@@ -8,7 +8,7 @@ import { Day, Week } from '../entities';
 })
 export class DaysService {
 	addMissingDays(week: Week, days: Day[]) {
-		let currentDate = week.till;
+		let currentDate = week.end;
 
 		for (let idx = 0; idx < 7; idx++) {
 			const day = days[idx];

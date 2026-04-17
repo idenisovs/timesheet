@@ -3,12 +3,12 @@ import { WeekRecord } from '../store/records';
 
 export class Week {
 	id: string = crypto.randomUUID();
-	from: string;
-	till: string;
+	start: string;
+	end: string;
 
 	constructor(date = getCurrentDateIso()) {
-		this.from = getMonday(date);
-		this.till = getSunday(date);
+		this.start = getMonday(date);
+		this.end = getSunday(date);
 	}
 
 	static fromRecord(record: WeekRecord): Week {
@@ -18,6 +18,10 @@ export class Week {
 	}
 
 	static toRecord(source: Week): WeekRecord {
-		return { ...source };
+		return {
+			id: source.id,
+			from: source.start,
+			till: source.end,
+		};
 	}
 }
