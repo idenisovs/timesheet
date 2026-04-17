@@ -1,5 +1,9 @@
 # Completed things
 
+## Data type migration
+
+For `date` fields, I migrated from JS Objects to the string representation, like `2023-12-21`. It should help to deal with different things like sorting in Dexie, lookups, dealing with time zones, etc.
+
 ## Analytics View
 
 For those times when you need detailed insights, whether preparing a report, overseeing completed work, or tracking down a specific activity from months ago, the Analytics View will be invaluable.
@@ -12,13 +16,13 @@ Add Infinite Scroll option to Daily Activity View. It should help to deal with h
 
 ## Refactoring of data structure
 
-Previous data structure persisted from Sheet documents, which had Activities field with list of Activity records. Each Sheet represented a day, and so a lot of calculations must be performed manually, especially having new Issues and Projects views. 
+Previous data structure persisted from Sheet documents, which had Activities field with list of Activity records. Each Sheet represented a day, and so a lot of calculations must be performed manually, especially having new Issues and Projects views.
 
 This led to the necessity of developing a new data structure, which was described in [this refactoring file](./refactoring/database_structure.md).
 
 ## Create missing days
 
-I implemented it through _Show missing days_ feature. 
+I implemented it through _Show missing days_ feature.
 
 ### Previous thoughts about it
 
