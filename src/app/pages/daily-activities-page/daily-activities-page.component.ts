@@ -42,7 +42,7 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	firstActivity: Activity = new Activity();
 	currentWeek: Week = new Week();
 	weeks: Week[] = [];
-	nextWeekListHeight: number = this.getNextWeekListHeight();
+	nextWeekListHeight: number = window.innerHeight;
 
 	async ngOnInit() {
 		this.firstActivity = await this.loadFirstActivity();
@@ -73,10 +73,10 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	private attachInfiniteScroll() {
 		return fromEvent(window, 'scroll', { passive: true })
 			.pipe(
-				debounceTime(150),
+				debounceTime(50),
 			)
 			.subscribe(() => {
-				if (this.getRemainingPx() < 400) {
+				if (this.getRemainingPx() < 600) {
 					this.nextWeekListHeight = this.getNextWeekListHeight();
 					void this.preloadWeeks();
 				}
@@ -84,9 +84,9 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	}
 
 	private async preloadWeeks() {
-		await delay(100);
+		await delay(50);
 
-		const weekListHeight = (this.weekListRef.nativeElement as HTMLElement).offsetHeight;
+		const weekListHeight = this.getCurrentWeekListHeight();
 
 		if (weekListHeight <= this.nextWeekListHeight && this.currentWeek.start > this.firstActivity.date) {
 			this.currentWeek = getPreviousWeek(this.currentWeek);
@@ -101,12 +101,11 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	}
 
 	private getNextWeekListHeight(): number {
-		if (this.nextWeekListHeight) {
-			const offset = window.innerHeight * 0.3;
-			return this.nextWeekListHeight + offset;
-		} else {
-			return window.innerHeight * 1.3;
-		}
+		return this.getCurrentWeekListHeight() * 1.30;
+	}
+
+	private getCurrentWeekListHeight(): number {
+		return (this.weekListRef.nativeElement as HTMLElement).offsetHeight;
 	}
 
 	private async handlePageActions(action: Actions) {
