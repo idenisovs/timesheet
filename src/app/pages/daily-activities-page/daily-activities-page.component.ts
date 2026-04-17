@@ -102,7 +102,8 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 
 	private getNextWeekListHeight(): number {
 		if (this.nextWeekListHeight) {
-			return this.nextWeekListHeight * 1.3;
+			const offset = window.innerHeight * 0.3;
+			return this.nextWeekListHeight + offset;
 		} else {
 			return window.innerHeight * 1.3;
 		}
