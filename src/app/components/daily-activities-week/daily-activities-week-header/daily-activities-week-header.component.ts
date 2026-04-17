@@ -1,4 +1,4 @@
-import { Component, inject, Input, output } from '@angular/core';
+import { Component, inject, input, InputSignal, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -16,18 +16,13 @@ import { WeeklyOverviewModalComponent } from '../weekly-overview-modal/weekly-ov
 export class DailyActivitiesWeekHeaderComponent {
 	private modal = inject(NgbModal);
 
+	public week: InputSignal<Week> = input<Week>(new Week());
+	public days: InputSignal<Day[]> = input<Day[]>([]);
+	public summary: InputSignal<ActivitySummary> = input<ActivitySummary>(new ActivitySummary());
+
+	public missingDaysVisible = output<boolean>();
+
 	private isMissingDaysVisible = false;
-
-	@Input()
-	week = new Week();
-
-	@Input()
-	days: Day[] = [];
-
-	@Input()
-	summary = new ActivitySummary();
-
-	missingDaysVisible = output<boolean>();
 
 	get MissingDaysButtonLabel(): string {
 		if (this.isMissingDaysVisible) {
@@ -50,6 +45,6 @@ export class DailyActivitiesWeekHeaderComponent {
 
 		const weeklyOverviewModal = (weeklyOverviewModalRef.componentInstance as WeeklyOverviewModalComponent);
 
-		weeklyOverviewModal.week = this.week;
+		weeklyOverviewModal.week = this.week();
 	}
 }
