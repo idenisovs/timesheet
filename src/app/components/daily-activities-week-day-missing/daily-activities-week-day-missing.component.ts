@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
 import { Day } from '../../entities';
@@ -12,12 +12,6 @@ import { Day } from '../../entities';
 	styleUrl: './daily-activities-week-day-missing.component.scss',
 })
 export class DailyActivitiesWeekDayMissingComponent {
-	@Input()
-	day!: Day;
-
-	appendMissingDay() {
-		if (this.day) {
-			this.day.isMissing = false;
-		}
-	}
+	day = input.required<Day>();
+	appendMissingDay = output<Day>();
 }

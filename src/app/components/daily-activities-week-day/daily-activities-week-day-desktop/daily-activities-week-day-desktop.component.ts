@@ -1,4 +1,12 @@
-import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+	Component,
+	inject,
+	input,
+	InputSignal,
+	OnDestroy,
+	OnInit,
+	output,
+} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DailyActivitiesWeekDayService } from '../daily-activities-week-day.service';
@@ -8,12 +16,15 @@ import { RemoveActivitiesWorkflowService } from '../../../workflows/remove-activ
 import { Activity, Day } from '../../../entities';
 import { ActivityFormGroup, DailyActivitiesForm } from '../DailyActivitiesForm';
 import {
-	DailyActivitiesWeekDayFooterComponent
+	DailyActivitiesWeekDayFooterComponent,
 } from '../daily-activities-week-day-footer/daily-activities-week-day-footer.component';
 import {
-	DailyActivitiesWeekDayHeaderComponent
+	DailyActivitiesWeekDayHeaderComponent,
 } from '../daily-activities-week-day-header/daily-activities-week-day-header.component';
 import { DailyActivityItemComponent } from '../../daily-activity-item/daily-activity-item.component';
+import {
+	DailyActivitiesWeekDayMissingComponent,
+} from '../../daily-activities-week-day-missing/daily-activities-week-day-missing.component';
 
 @Component({
 	selector: 'app-daily-activities-week-day-desktop',
@@ -22,7 +33,8 @@ import { DailyActivityItemComponent } from '../../daily-activity-item/daily-acti
 		DailyActivitiesWeekDayHeaderComponent,
 		DailyActivityItemComponent,
 		FormsModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		DailyActivitiesWeekDayMissingComponent,
 	],
 	templateUrl: './daily-activities-week-day-desktop.component.html',
 	styleUrl: './daily-activities-week-day-desktop.component.scss',
@@ -44,11 +56,10 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 		activities: this.fb.array<ActivityFormGroup>([]),
 	});
 
-	@Input()
-	day!: Day;
+	day: InputSignal<Day> = input.required<Day>();
+	isMissingDaysVisible: InputSignal<boolean> = input(false);
 
-	@Output()
-	changes = new EventEmitter<void>();
+	changes = output();
 
 	get ActivityFormArray(): FormArray<ActivityFormGroup> {
 		return this.form.get('activities') as FormArray<ActivityFormGroup>;
@@ -71,14 +82,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 	}
 
 	async loadActivities() {
-		this.activities = await this.activitiesService.loadDailyActivities(this.day);
-		console.log('activities', this.activities);
-
-		// if (!this.activities.length && this.day.date) {
-		// 	const activity = this.service.createActivity(null, this.day);
-		// 	this.activities.push(activity);
-		// }
-
+		this.activities = await this.activitiesService.loadDailyActivities(this.day());
 		this.updateActivitiesForm();
 		this.totalDuration = this.activitiesService.calculateDuration(this.activities);
 	}
@@ -92,7 +96,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 	}
 
 	add() {
-		const activity = this.service.createActivity(null, this.day);
+		const activity = this.service.createActivity(null, this.day());
 		const activityFormItem = this.service.makeActivityFormItem(activity);
 
 		const next = [...this.ActivityFormArrayItems];
@@ -117,7 +121,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 	}
 
 	async save() {
-		this.activities = this.service.processActivityFormArray(this.ActivityFormArray, this.day, this.activities);
+		this.activities = this.service.processActivityFormArray(this.ActivityFormArray, this.day(), this.activities);
 		await this.removeActivitiesWorkflow.run(this.removableActivityIds);
 		await this.saveActivitiesWorkflow.run(this.activities);
 
@@ -129,5 +133,10 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 	async reset() {
 		await this.loadActivities();
 		this.numberOfChanges = 0;
+	}
+
+	protected async appendMissingDay($event: Day) {
+		await this.activitiesService.createDailyActivity($event);
+		await this.reset();
 	}
 }

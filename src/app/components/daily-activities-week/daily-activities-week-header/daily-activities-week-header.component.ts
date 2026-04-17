@@ -1,9 +1,8 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Day, Week, ActivitySummary } from '../../../entities';
-import { DaysService } from '../../../services/days.service';
 import { WeeklyOverviewModalComponent } from '../weekly-overview-modal/weekly-overview-modal.component';
 
 @Component({
@@ -15,7 +14,6 @@ import { WeeklyOverviewModalComponent } from '../weekly-overview-modal/weekly-ov
 	],
 })
 export class DailyActivitiesWeekHeaderComponent {
-	private daysService = inject(DaysService);
 	private modal = inject(NgbModal);
 
 	private isMissingDaysVisible = false;
@@ -29,6 +27,8 @@ export class DailyActivitiesWeekHeaderComponent {
 	@Input()
 	summary = new ActivitySummary();
 
+	missingDaysVisible = output<boolean>();
+
 	get MissingDaysButtonLabel(): string {
 		if (this.isMissingDaysVisible) {
 			return 'Hide missing days';
@@ -39,12 +39,7 @@ export class DailyActivitiesWeekHeaderComponent {
 
 	toggleMissingDays() {
 		this.isMissingDaysVisible = !this.isMissingDaysVisible;
-
-		if (this.isMissingDaysVisible) {
-			this.daysService.addMissingDays(this.week, this.days);
-		} else {
-			this.daysService.removeMissingDays(this.days);
-		}
+		this.missingDaysVisible.emit(this.isMissingDaysVisible);
 	}
 
 	displayWeeklyOverview() {

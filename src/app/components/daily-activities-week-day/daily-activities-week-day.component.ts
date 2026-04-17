@@ -30,6 +30,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 	isMobile: boolean = false;
 
 	day = input.required<Day>();
+	isMissingDaysVisible = input(false);
 
 	@Output()
 	changes = new EventEmitter<void>();

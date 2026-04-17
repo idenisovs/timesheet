@@ -6,6 +6,7 @@
 } @else {
 	<app-daily-activities-week-day-desktop
 		[day]="day()"
+		[isMissingDaysVisible]="isMissingDaysVisible()"
 		(changes)="changes.emit()"
 	/>
 }

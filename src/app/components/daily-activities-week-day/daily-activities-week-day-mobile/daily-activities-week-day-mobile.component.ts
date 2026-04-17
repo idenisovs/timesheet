@@ -29,7 +29,7 @@ import { ActivityFormGroup } from '../DailyActivitiesForm';
 })
 export class DailyActivitiesWeekDayMobileComponent extends DailyActivitiesWeekDayDesktopComponent {
 	add() {
-		const activity = this.service.createActivity(null, this.day);
+		const activity = this.service.createActivity(null, this.day());
 		const activityFormItem = this.service.makeActivityFormItem(activity);
 
 		const next = [...this.ActivityFormArrayItems];
