@@ -1,25 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 
 import { Project } from '../../../entities';
 import { ImportedProjectDiffComponent } from './imported-project-diff/imported-project-diff.component';
 
 @Component({
-    selector: 'app-import-projects',
-    imports: [
-    ImportedProjectDiffComponent
-],
-    templateUrl: './import-projects.component.html',
-    styleUrl: './import-projects.component.scss'
+	selector: 'app-import-projects',
+	imports: [
+		ImportedProjectDiffComponent,
+	],
+	templateUrl: './import-projects.component.html',
+	styleUrl: './import-projects.component.scss',
 })
-export class ImportProjectsComponent implements OnInit {
-  @Input()
-  importedProjects: Project[] = [];
+export class ImportProjectsComponent {
+	@Input()
+	importedProjects: Project[] = [];
 
-  ngOnInit() {}
-
-  removeCompletedProject(project: Project) {
-    const idx = this.importedProjects.indexOf(project);
-    this.importedProjects.splice(idx, 1);
-  }
+	removeCompletedProject(project: Project) {
+		const idx = this.importedProjects.indexOf(project);
+		this.importedProjects.splice(idx, 1);
+	}
 }

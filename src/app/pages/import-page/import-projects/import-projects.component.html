@@ -1,14 +1,14 @@
 <section class="card mt-3">
-  <header class="card-header fw-bold">
-    Project Import
-  </header>
+	<header class="card-header fw-bold">
+		Project Import
+	</header>
 
-  <main class="card-body">
-    @for (project of importedProjects; track project) {
-      <app-imported-project-diff
-        [importedProject]="project"
-        (completed)="removeCompletedProject($event)"
-        />
-    }
-  </main>
+	<main class="card-body">
+		@for (project of importedProjects; track project) {
+			<app-imported-project-diff
+				[importedProject]="project"
+				(completed)="removeCompletedProject($event)"
+			/>
+		}
+	</main>
 </section>
