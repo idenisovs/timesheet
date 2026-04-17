@@ -1,75 +1,77 @@
-import { Component, Input } from '@angular/core';
-
+import { Component, effect, inject, input, InputSignal, signal } from '@angular/core';
 
 import { Issue } from '../../../entities';
-import { ImportedIssueDiffComponent } from './imported-issue-diff/imported-issue-diff.component';
-import {IssueRepositoryService} from "../../../repository/issue-repository.service";
 import { ImportIssuesService } from './import-issues.service';
+import { IssueRepositoryService } from '../../../repository/issue-repository.service';
+import { DiffStatus } from '../DiffStatus';
 
 @Component({
-    selector: 'app-import-issues',
-    imports: [
-    ImportedIssueDiffComponent
-],
-    templateUrl: './import-issues.component.html',
-    styleUrl: './import-issues.component.scss'
+	selector: 'app-import-issues',
+	imports: [],
+	templateUrl: './import-issues.component.html',
+	styleUrl: './import-issues.component.scss',
 })
 export class ImportIssuesComponent {
-  @Input()
-  importedIssues: Issue[] = [];
+	private service = inject(ImportIssuesService);
+	private repo = inject(IssueRepositoryService);
 
-  constructor(
-    private issueRepo: IssueRepositoryService,
-    private importIssuesService: ImportIssuesService
-  ) {}
+	public importedIssues: InputSignal<Issue[]> = input<Issue[]>([]);
 
-  removeCompletedIssue(issue: Issue) {
-    const idx = this.importedIssues.indexOf(issue);
-    this.importedIssues.splice(idx, 1);
-  }
+	protected createdIssues = signal<Issue[]>([]);
+	protected updatedIssues = signal<Issue[]>([]);
+	protected sameIssueCount = signal(0);
 
-  async saveAll() {
-    let importedIssuesCount = 0;
+	get TotalLength() {
+		return this.updatedIssues().length + this.createdIssues().length;
+	}
 
-    for (let idx = 0; idx < this.importedIssues.length; idx++) {
-      const importedIssue = this.importedIssues[idx];
-      const existingIssue = await this.importIssuesService.getExistingIssue(importedIssue);
+	constructor() {
+		effect(() => {
+			void this.processImportedIssues();
+		});
+	}
 
-      if (existingIssue) {
-        importedIssue.id = existingIssue.id;
-        await this.issueRepo.update(importedIssue);
-      } else {
-        await this.issueRepo.create(importedIssue);
-      }
+	async saveAll() {
+		await this.saveNew();
+		await this.saveUpdated();
+	}
 
-      this.importedIssues.splice(idx, 1);
-      idx--;
-      importedIssuesCount++;
-    }
-  }
+	async saveNew() {
+		for (const issue of this.createdIssues()) {
+			await this.repo.create(issue);
+		}
 
-  async saveNew() {
-    let importedIssuesCount = 0;
+		this.createdIssues.set([]);
+	}
 
-    for (let idx = 0; idx < this.importedIssues.length; idx++) {
-      const importedIssue = this.importedIssues[idx];
+	async saveUpdated() {
+		for (const issue of this.updatedIssues()) {
+			await this.repo.update(issue);
+		}
 
-      const existingIssue = await this.issueRepo.getById(importedIssue.id);
+		this.updatedIssues.set([]);
+	}
 
-      if (existingIssue) {
-        continue;
-      }
+	cancel() {
+		this.createdIssues.set([]);
+		this.updatedIssues.set([]);
+	}
 
-      await this.issueRepo.create(importedIssue);
-      this.importedIssues.splice(idx, 1);
-      idx--;
-      importedIssuesCount++;
-    }
+	private async processImportedIssues() {
+		for (const importedIssue of this.importedIssues()) {
+			const existingIssue = await this.service.getExistingIssue(importedIssue);
+			const diffStatus = this.service.getDiffStatus(existingIssue, importedIssue);
 
-    alert(`Imported ${importedIssuesCount} issues!`);
-  }
-
-  cancel() {
-    this.importedIssues.splice(0);
-  }
+			switch (diffStatus) {
+				case DiffStatus.new:
+					this.createdIssues.update(prev => [...prev, importedIssue]);
+					break;
+				case DiffStatus.updated:
+					this.updatedIssues.update(prev => [...prev, importedIssue]);
+					break;
+				default:
+					this.sameIssueCount.update(prev => prev + 1);
+			}
+		}
+	}
 }

@@ -1,31 +1,42 @@
 <section class="card mt-3">
-  <header class="card-header fw-bold">
-    <div class="d-flex justify-content-between align-items-center">
-      <div>
-        Issue Import
-      </div>
-      <div>
-        <button class="btn btn-sm btn-link link-dark" (click)="saveAll()">
-          Save All
-        </button>
+	<header class="card-header fw-bold">
+		<div class="d-flex justify-content-between align-items-center">
+			<div>
+				Issue Import
+			</div>
+			<div>
+				@if (TotalLength > 0) {
+					<button class="btn btn-sm btn-link link-dark" (click)="saveAll()">
+						Save All
+					</button>
 
-        <button class="btn btn-sm btn-link link-dark" (click)="saveNew()">
-          Save New
-        </button>
+					<button class="btn btn-sm btn-link link-dark" (click)="saveNew()">
+						Save New
+					</button>
 
-        <button class="btn btn-sm btn-link link-dark" (click)="cancel()">
-          Cancel
-        </button>
-      </div>
-    </div>
-  </header>
+					<button class="btn btn-sm btn-link link-dark" (click)="cancel()">
+						Cancel
+					</button>
+				}
+			</div>
+		</div>
+	</header>
 
-  <main class="card-body">
-    @for (issue of importedIssues; track issue) {
-      <app-imported-issue-diff
-        [importedIssue]="issue"
-        (completed)="removeCompletedIssue($event)"
-        />
-    }
-  </main>
+	<main class="card-body">
+		<div>
+			Total issues read - {{ importedIssues().length }}.
+		</div>
+
+		<div>
+			Issues to create - {{ createdIssues().length }}.
+		</div>
+
+		<div>
+			Issues to update - {{ updatedIssues().length }}.
+		</div>
+
+		<div>
+			Same issues - {{ sameIssueCount() }}.
+		</div>
+	</main>
 </section>
