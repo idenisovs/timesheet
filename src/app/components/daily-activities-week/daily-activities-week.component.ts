@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 
 import { ActivitySummary, Day, Week } from '../../entities';
 import { DaysRepositoryService } from '../../repository/days-repository.service';
@@ -26,20 +26,15 @@ export class DailyActivitiesWeekComponent implements OnInit {
 	days: Day[] = [];
 	summary = new ActivitySummary();
 
-	@Input()
-	week!: Week;
+	week = input.required<Week>();
 
 	async ngOnInit() {
-		if (!this.week) {
-			return;
-		}
-
-		this.days = await this.dayRepository.getByWeek(this.week);
+		this.days = await this.dayRepository.getByWeek(this.week());
 		await this.recalculateActivitySummary();
 	}
 
 	async recalculateActivitySummary() {
-		const activities = await this.activityRepository.getByWeek(this.week);
+		const activities = await this.activityRepository.getByWeek(this.week());
 
 		this.summary = this.activitiesService.getActivitySummary(activities);
 	}

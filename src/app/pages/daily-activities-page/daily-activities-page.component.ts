@@ -16,9 +16,9 @@ import { Actions } from '../../services/Actions';
 import { ActionsService } from '../../services/actions.service';
 import { ExportWorkflowService } from '../../workflows/export-workflow.service';
 import { delay } from '../../utils';
+import { getCurrentWeek, getPreviousWeek } from '../../utils/date-v2';
 import { DailyActivitiesWeekComponent } from '../../components/daily-activities-week/daily-activities-week.component';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
-import { CalendarService } from '../../services/calendar.service';
 
 
 @Component({
@@ -33,7 +33,6 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	private actionsService = inject(ActionsService);
 	private exportWorkflow = inject(ExportWorkflowService);
 	private activitiesRepo = inject(ActivitiesRepositoryService);
-	private calendarService = inject(CalendarService);
 
 	private actionSubs = this.actionsService.on.subscribe(this.handlePageActions.bind(this));
 	private myOwnLittleInfiniteScroll!: Subscription;
@@ -47,7 +46,7 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 
 	async ngOnInit() {
 		this.firstActivity = await this.loadFirstActivity();
-		this.currentWeek = this.calendarService.getCurrentWeek();
+		this.currentWeek = getCurrentWeek();
 		this.weeks.push(this.currentWeek);
 		this.myOwnLittleInfiniteScroll = this.attachInfiniteScroll();
 	}
@@ -90,7 +89,7 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 		const weekListHeight = (this.weekListRef.nativeElement as HTMLElement).offsetHeight;
 
 		if (weekListHeight <= this.nextWeekListHeight && this.currentWeek.from > this.firstActivity.date) {
-			this.currentWeek = this.calendarService.getPreviousWeek(this.currentWeek);
+			this.currentWeek = getPreviousWeek(this.currentWeek);
 			this.weeks.push(this.currentWeek);
 			void this.preloadWeeks();
 		}
