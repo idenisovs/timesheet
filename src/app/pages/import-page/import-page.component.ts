@@ -14,6 +14,7 @@ import { ReaderService } from '../../reader/reader.service';
 	imports: [
 		ImportProjectsComponent,
 		ImportIssuesComponent,
+		ImportActivitiesComponent,
 	],
 	templateUrl: './import-page.component.html',
 	styleUrl: './import-page.component.scss',

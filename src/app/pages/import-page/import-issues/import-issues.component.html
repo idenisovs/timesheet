@@ -23,20 +23,31 @@
 	</header>
 
 	<main class="card-body">
-		<div>
-			Total issues read - {{ importedIssues().length }}.
-		</div>
-
-		<div>
-			Issues to create - {{ createdIssues().length }}.
-		</div>
-
-		<div>
-			Issues to update - {{ updatedIssues().length }}.
-		</div>
-
-		<div>
-			Same issues - {{ sameIssueCount() }}.
+		<div class="row row-cols-2 row-cols-sm-4 g-3">
+			<div class="col">
+				<div class="border rounded p-3 text-center">
+					<div class="fs-4 fw-bold">{{ importedIssues().length }}</div>
+					<div class="text-muted small">Total Read</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="border rounded p-3 text-center border-primary">
+					<div class="fs-4 fw-bold text-primary">{{ createdIssues().length }}</div>
+					<div class="text-muted small">To Create</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="border rounded p-3 text-center border-success">
+					<div class="fs-4 fw-bold text-success">{{ updatedIssues().length }}</div>
+					<div class="text-muted small">To Update</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="border rounded p-3 text-center border-secondary">
+					<div class="fs-4 fw-bold text-secondary">{{ sameIssueCount() }}</div>
+					<div class="text-muted small">Same</div>
+				</div>
+			</div>
 		</div>
 	</main>
 </section>

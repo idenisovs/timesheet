@@ -1,64 +1,89 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 
 import { Activity } from '../../../entities';
-import { ImportedActivityDiffComponent } from './imported-activity-diff/imported-activity-diff.component';
 import { ImportActivitiesService } from './import-activities.service';
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
+import { DiffStatus } from '../DiffStatus';
 
 @Component({
 	selector: 'app-import-activities',
-	imports: [
-		ImportedActivityDiffComponent,
-	],
+	imports: [],
 	templateUrl: './import-activities.component.html',
 	styleUrl: './import-activities.component.scss',
 })
 export class ImportActivitiesComponent {
 	private importService = inject(ImportActivitiesService);
-	private activityRepository = inject(ActivitiesRepositoryService);
+	private repo = inject(ActivitiesRepositoryService);
 
-	importedActivities = input.required<Activity[]>();
+	importedActivities = input<Activity[]>([]);
+
+	protected createdActivities = signal<Activity[]>([]);
+	protected updatedActivities = signal<Activity[]>([]);
+	protected sameActivityCount = signal(0);
+
+	get TotalLength() {
+		return this.createdActivities().length + this.updatedActivities().length;
+	}
+
+	constructor() {
+		effect(() => {
+			void this.processImportedActivities();
+		});
+	}
 
 	async saveAll() {
-		let savedActivitiesCount = 0;
+		await this.saveNew();
+		await this.saveUpdated();
+	}
 
-		for (let idx = 0; idx < this.importedActivities().length; idx++) {
-			const activity = this.importedActivities()[idx];
+	async saveNew() {
+		for (const activity of this.createdActivities()) {
 			await this.importService.save(activity);
-			this.removeCompletedActivity(activity);
-			idx--;
-			savedActivitiesCount++;
 		}
 
-		alert(`Saved ${savedActivitiesCount} activities!`);
+		this.createdActivities.set([]);
 	}
 
-	removeCompletedActivity(activity: Activity) {
-		const idx = this.importedActivities().indexOf(activity);
-		this.importedActivities().splice(idx, 1);
+	async saveUpdated() {
+		for (const activity of this.updatedActivities()) {
+			await this.importService.save(activity);
+		}
+
+		this.updatedActivities.set([]);
 	}
 
-	async saveNewActivities() {
-		let savedActivitiesCount = 0;
+	cancel() {
+		this.createdActivities.set([]);
+		this.updatedActivities.set([]);
+	}
 
-		for (let idx = 0; idx < this.importedActivities().length; idx++) {
-			const activity = this.importedActivities()[idx];
-			const existingActivity = await this.activityRepository.getById(activity.id);
+	private async processImportedActivities() {
+		for (const importedActivity of this.importedActivities()) {
+			const existingActivity = await this.repo.getById(importedActivity.id);
+			const diffStatus = this.getDiffStatus(existingActivity, importedActivity);
 
-			if (existingActivity) {
-				continue;
+			switch (diffStatus) {
+				case DiffStatus.new:
+					this.createdActivities.update(prev => [...prev, importedActivity]);
+					break;
+				case DiffStatus.updated:
+					this.updatedActivities.update(prev => [...prev, importedActivity]);
+					break;
+				default:
+					this.sameActivityCount.update(prev => prev + 1);
 			}
-
-			await this.importService.save(activity);
-			this.removeCompletedActivity(activity);
-			idx--;
-			savedActivitiesCount++;
 		}
-
-		alert(`Saved ${savedActivitiesCount} activities!`);
 	}
 
-	cancelImportingActivities() {
-		this.importedActivities().splice(0);
+	private getDiffStatus(existing: Activity | null, imported: Activity): DiffStatus {
+		if (!existing) {
+			return DiffStatus.new;
+		}
+
+		if (existing.equals(imported)) {
+			return DiffStatus.same;
+		}
+
+		return DiffStatus.updated;
 	}
 }

@@ -1,29 +1,53 @@
 <section class="card mt-3">
-	<header class="card-header">
-		<div class="d-flex align-items-center justify-content-between">
-			<div class="fw-bold">
+	<header class="card-header fw-bold">
+		<div class="d-flex justify-content-between align-items-center">
+			<div>
 				Activity Import
 			</div>
 			<div>
-				<button class="btn btn-sm btn-link link-dark" (click)="saveAll()">
-					Save All
-				</button>
-				<button class="btn btn-sm btn-link link-dark" (click)="saveNewActivities()">
-					Save New
-				</button>
-				<button class="btn btm-sm btn-link link-dark" (click)="cancelImportingActivities()">
-					Cancel
-				</button>
+				@if (TotalLength) {
+					<button class="btn btn-sm btn-link link-dark" (click)="saveAll()">
+						Save All
+					</button>
+
+					<button class="btn btn-sm btn-link link-dark" (click)="saveNew()">
+						Save New
+					</button>
+
+					<button class="btn btn-sm btn-link link-dark" (click)="cancel()">
+						Cancel
+					</button>
+				}
 			</div>
 		</div>
 	</header>
 
 	<main class="card-body">
-		@for (activity of importedActivities(); track activity) {
-			<app-imported-activity-diff
-				[importedActivity]="activity"
-				(completed)="removeCompletedActivity($event)"
-			/>
-		}
+		<div class="row row-cols-2 row-cols-sm-4 g-3">
+			<div class="col">
+				<div class="border rounded p-3 text-center">
+					<div class="fs-4 fw-bold">{{ importedActivities().length }}</div>
+					<div class="text-muted small">Total Read</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="border rounded p-3 text-center border-primary">
+					<div class="fs-4 fw-bold text-primary">{{ createdActivities().length }}</div>
+					<div class="text-muted small">To Create</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="border rounded p-3 text-center border-success">
+					<div class="fs-4 fw-bold text-success">{{ updatedActivities().length }}</div>
+					<div class="text-muted small">To Update</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="border rounded p-3 text-center border-secondary">
+					<div class="fs-4 fw-bold text-secondary">{{ sameActivityCount() }}</div>
+					<div class="text-muted small">Same</div>
+				</div>
+			</div>
+		</div>
 	</main>
 </section>
