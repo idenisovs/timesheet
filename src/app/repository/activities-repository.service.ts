@@ -31,19 +31,19 @@ export class ActivitiesRepositoryService {
 	}
 
 	async getByDay(day: Day, reverse = false): Promise<Activity[]> {
-		let query = this.db.activities.where('dayId').equals(day.id);
+		let query = this.db.activities.where('date').equals(day.date);
 
 		if (reverse) {
 			query = query.reverse();
 		}
 
-		const records = await query.sortBy('from');
+		const records: ActivityRecord[] = await query.sortBy('from');
 		return records.map(Activity.fromRecord);
 	}
 
 	async getByDays(days: Day[], reverse = false): Promise<Activity[]> {
-		const dayIds = days.map(day => day.id);
-		let query = this.db.activities.where('dayId').anyOf(dayIds);
+		const dates = days.map(day => day.date);
+		let query = this.db.activities.where('date').anyOf(dates);
 
 		if (reverse) {
 			query = query.reverse();

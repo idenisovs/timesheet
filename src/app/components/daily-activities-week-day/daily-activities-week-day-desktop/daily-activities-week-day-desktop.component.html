@@ -1,46 +1,48 @@
-<section class="card">
-	<header class="card-header">
-		<app-daily-activities-week-day-header [day]="day"/>
-	</header>
+@if (activities.length > 0) {
+	<section class="card">
+		<header class="card-header">
+			<app-daily-activities-week-day-header [day]="day"/>
+		</header>
 
-	<main class="card-body">
-		<form [formGroup]="form">
-			<div class="row d-none d-md-flex">
-				<div class="col-4">
-					Activity
+		<main class="card-body">
+			<form [formGroup]="form">
+				<div class="row d-none d-md-flex">
+					<div class="col-4">
+						Activity
+					</div>
+					<div class="col-2">
+						From
+					</div>
+					<div class="col-2">
+						Till
+					</div>
+					<div class="col-2">
+						Duration
+					</div>
 				</div>
-				<div class="col-2">
-					From
+				<div formArrayName="activities">
+					@for (activityFormItem of ActivityFormArrayItems; track activityFormItem.controls.id.value; let idx = $index; let isFirst = $first; let isLast = $last) {
+						<app-daily-activity-item
+							[activities]="ActivityFormArrayItems"
+							[activityFormItem]="activityFormItem"
+							[idx]="idx"
+							[isFirst]=isFirst
+							[isLast]="isLast"
+							(add)="add()"
+							(remove)="remove($event)"
+							(save)="save()"
+						/>
+					}
 				</div>
-				<div class="col-2">
-					Till
-				</div>
-				<div class="col-2">
-					Duration
-				</div>
-			</div>
-			<div formArrayName="activities">
-				@for (activityFormItem of ActivityFormArrayItems; track activityFormItem.controls.id.value; let idx = $index; let isFirst = $first; let isLast = $last) {
-					<app-daily-activity-item
-						[activities]="ActivityFormArrayItems"
-						[activityFormItem]="activityFormItem"
-						[idx]="idx"
-						[isFirst]=isFirst
-						[isLast]="isLast"
-						(add)="add()"
-						(remove)="remove($event)"
-						(save)="save()"
-					/>
-				}
-			</div>
-		</form>
-	</main>
+			</form>
+		</main>
 
-	<footer class="card-footer">
-		<app-daily-activities-week-day-footer
-			[activities]="activities"
-			[isChanged]="numberOfChanges > 0"
-			(reset)="reset()"
-		/>
-	</footer>
-</section>
+		<footer class="card-footer">
+			<app-daily-activities-week-day-footer
+				[activities]="activities"
+				[isChanged]="numberOfChanges > 0"
+				(reset)="reset()"
+			/>
+		</footer>
+	</section>
+}

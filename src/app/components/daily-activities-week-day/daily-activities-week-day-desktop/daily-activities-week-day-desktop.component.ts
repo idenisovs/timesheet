@@ -72,11 +72,12 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 
 	async loadActivities() {
 		this.activities = await this.activitiesService.loadDailyActivities(this.day);
+		console.log('activities', this.activities);
 
-		if (!this.activities.length) {
-			const activity = this.service.createActivity(null, this.day);
-			this.activities.push(activity);
-		}
+		// if (!this.activities.length && this.day.date) {
+		// 	const activity = this.service.createActivity(null, this.day);
+		// 	this.activities.push(activity);
+		// }
 
 		this.updateActivitiesForm();
 		this.totalDuration = this.activitiesService.calculateDuration(this.activities);

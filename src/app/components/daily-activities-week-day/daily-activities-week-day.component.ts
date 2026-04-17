@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, input, OnDestroy, OnInit, Output } from '@angular/core';
 import {
 	ReactiveFormsModule,
 } from '@angular/forms';
@@ -29,8 +29,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 	isMobileSub!: Subscription;
 	isMobile: boolean = false;
 
-	@Input()
-	day!: Day;
+	day = input.required<Day>();
 
 	@Output()
 	changes = new EventEmitter<void>();

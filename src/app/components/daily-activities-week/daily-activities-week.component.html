@@ -3,11 +3,7 @@
 
 	@for (day of days; track day) {
 		<div class="mt-3">
-			@if (day.isMissing) {
-				<app-daily-activities-week-day-missing [day]="day"/>
-			} @else {
-				<app-daily-activities-week-day [day]="day" (changes)="recalculateActivitySummary()"/>
-			}
+			<app-daily-activities-week-day [day]="day" (changes)="recalculateActivitySummary()"/>
 		</div>
 	}
 </section>

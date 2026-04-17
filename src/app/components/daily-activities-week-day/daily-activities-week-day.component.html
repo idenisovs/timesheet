@@ -1,11 +1,11 @@
 @if (isMobile) {
 	<app-daily-activities-week-day-mobile
-		[day]="day"
+		[day]="day()"
 		(changes)="changes.emit()"
 	/>
 } @else {
 	<app-daily-activities-week-day-desktop
-		[day]="day"
+		[day]="day()"
 		(changes)="changes.emit()"
 	/>
 }
