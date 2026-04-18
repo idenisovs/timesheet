@@ -25,6 +25,7 @@ import { DailyActivityItemComponent } from '../../daily-activity-item/daily-acti
 import {
 	DailyActivitiesWeekDayMissingComponent,
 } from '../../daily-activities-week-day-missing/daily-activities-week-day-missing.component';
+import { getCurrentDate } from '../../../utils/date-v2';
 
 @Component({
 	selector: 'app-daily-activities-week-day-desktop',
@@ -83,6 +84,12 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 
 	async loadActivities() {
 		this.activities = await this.activitiesService.loadDailyActivities(this.day());
+
+		if (this.activities.length === 0 && this.day().date === getCurrentDate()) {
+			const activity = this.service.createActivity(null, this.day());
+			this.activities.push(activity);
+		}
+
 		this.updateActivitiesForm();
 		this.totalDuration = this.activitiesService.calculateDuration(this.activities);
 	}
