@@ -2,11 +2,20 @@
 	<div class="col-12">
 		<section class="card">
 			<header class="card-header fw-bold">
-				Header
+				Time Rounding
 			</header>
-			<main class="card-body">
-				hello world
-			</main>
+			<div class="card-body">
+				<div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" role="switch" id="timeRoundingSwitch" style="cursor: pointer;">
+					<label class="form-check-label" for="timeRoundingSwitch" style="cursor: pointer;">
+						<strong>Round activity times</strong>
+					</label>
+				</div>
+				<small class="text-muted">
+					When enabled, activity times are rounded to the nearest 5 minutes.
+					For example, 13:47 becomes 13:50, and 13:44 becomes 13:45.
+				</small>
+			</div>
 		</section>
 	</div>
 </div>
