@@ -1,3 +1,4 @@
+export * from './AppSettings';
 export * from './Activity';
 export * from './Week';
 export * from './Day';
