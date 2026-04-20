@@ -13,6 +13,7 @@ import {
 import { ProjectPageComponent } from './pages/project-page/project-page.component';
 import { projectResolver } from './resolvers';
 import { ImportPageComponent } from './pages/import-page/import-page.component';
+import { SettingsPageComponent } from './pages/settings-page/settings-page.component';
 
 export const routes: Routes = [
 	{
@@ -68,5 +69,9 @@ export const routes: Routes = [
 	{
 		path: 'import',
 		component: ImportPageComponent
+	},
+	{
+		path: 'settings',
+		component: SettingsPageComponent
 	}
 ];
