@@ -1,11 +1,12 @@
 # Changelog
 
+- `3.7.0` - Added the **Settings page** and also the feature to **round the time** to the nearest **five** minutes;
 - `3.6.0` - Revised Accuracy Points calculation ([details](./accuracy_points.md));
 	- `3.6.1` - Split the Daily Activities Week Day component into separate Desktop and Mobile components;
 	- `3.6.2` - The date fields in the `Activity`, `Week`, and `Day` entities now use an **ISO 8601** string format (`YYYY-MM-DD`) instead of JS Date objects;
 	- `3.6.3` - Removed the **Week** and **Day** repository usage, using the ISO date (`YYYY-MM-DD`) instead;
 	- `3.6.4` - Reworked the Import view and improved Infinite Scroll performance;
-- `3.5.0` - **Reworked mobile UI**. Updated Angular version to 21;
+- `3.5.0` - **Reworked mobile UI**. Updated an Angular version to 21;
 	- Temporarily disabled the Analytics View due to the charting library, which appears abandoned and does not work with Angular above version 19. See this issue for more details: https://github.com/valor-software/ng2-charts/issues/2021
 	- Temporarily replaced `ngx-infinite-scroll` due to an issue with window scrolling. See this issue for details: https://github.com/orizens/ngx-infinite-scroll/issues/449
 - `3.4.0` - Integrated a basic version of responsiveness. The Activities page now works on mobile devices;

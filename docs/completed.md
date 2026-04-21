@@ -1,5 +1,15 @@
 # Completed things
 
+## Settings Page
+
+Add a page for settings. For the first version, it should also have a Time Rounding feature switch.
+
+### Time Rounding
+
+Option to set the rounding for time values (e.g., round to nearest **5** minutes);
+
+Like, if I set the current time with Time Button, and it is `14:34`, then time appearing in input will be rounded to `14:35`. Or, if there is `12:21`, then it will be rounded to `12:20`.
+
 ## Data type migration
 
 For `date` fields, I migrated from JS Objects to the string representation, like `2023-12-21`. It should help to deal with different things like sorting in Dexie, lookups, dealing with time zones, etc.
