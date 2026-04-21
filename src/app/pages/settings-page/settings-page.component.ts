@@ -4,10 +4,11 @@ import { Subscription } from 'rxjs';
 
 import { SettingsService } from '../../services/settings.service';
 import { AppSettings } from '../../entities';
+import { TimeRoundingSettingsComponent } from './time-rounding-settings/time-rounding-settings.component';
 
 @Component({
 	selector: 'app-settings-page',
-	imports: [ReactiveFormsModule],
+	imports: [ReactiveFormsModule, TimeRoundingSettingsComponent],
 	templateUrl: './settings-page.component.html',
 	styleUrl: './settings-page.component.scss',
 })
