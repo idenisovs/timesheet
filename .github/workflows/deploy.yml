@@ -19,6 +19,9 @@ jobs:
       - name: Update version in environment
         run: sed -i "s/dev/${{ env.VERSION }}/g" src/environments/version.ts
 
+      - name: Update build time in environment
+        run: sed -i "s/export const build = '.*'/export const build = '$(date -u +%Y-%m-%dT%H:%M:%SZ)'/" src/environments/version.ts
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
