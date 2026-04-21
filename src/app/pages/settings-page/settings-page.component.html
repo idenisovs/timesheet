@@ -6,19 +6,19 @@
 			</header>
 			<div class="card-body">
 				<form [formGroup]="form">
-				<div class="form-check form-switch">
-					<input
-						id="timeRoundingSwitch"
-						type="checkbox"
-						role="switch"
-						class="form-check-input"
-						style="cursor: pointer;"
-						formControlName="isTimeRoundingEnabled"
-					>
-					<label class="form-check-label" for="timeRoundingSwitch" style="cursor: pointer;">
-						<strong>Round activity times</strong>
-					</label>
-				</div>
+					<div class="form-check form-switch">
+						<input
+							id="timeRoundingSwitch"
+							type="checkbox"
+							role="switch"
+							class="form-check-input"
+							style="cursor: pointer;"
+							formControlName="isTimeRoundingEnabled"
+						>
+						<label class="form-check-label" for="timeRoundingSwitch" style="cursor: pointer;">
+							<strong>Round activity times</strong>
+						</label>
+					</div>
 				</form>
 				<small class="text-muted">
 					When enabled, activity times are rounded to the nearest 5 minutes.

@@ -4,6 +4,7 @@ import parseDuration from 'parse-duration';
 import { DateTime } from 'luxon';
 
 import { DurationService } from '../../services/duration.service';
+import { SettingsService } from '../../services/settings.service';
 
 const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/;
 
@@ -11,7 +12,8 @@ const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/;
 	providedIn: 'root',
 })
 export class DailyActivityItemService {
-	durationService = inject(DurationService);
+	private readonly durationService = inject(DurationService);
+	private readonly settingsService = inject(SettingsService);
 
 	getValue(activity: FormGroup, field: string): string {
 		return activity.get(field)?.value;
@@ -26,10 +28,6 @@ export class DailyActivityItemService {
 		const duration = this.getValue(activity, 'duration');
 		const dT = parseDuration(duration);
 		return dT ? dT : 0;
-	}
-
-	getTimeStr(millis: number): string {
-		return DateTime.fromMillis(millis).toFormat('HH:mm');
 	}
 
 	isTimeDefined(activity: FormGroup, field: string): boolean {
@@ -126,5 +124,25 @@ export class DailyActivityItemService {
 		} else {
 			this.handleTillChanges(activity);
 		}
+	}
+
+	getTimeStr(millis: number): string {
+		const settings = this.settingsService.settings$();
+
+		if (settings.isTimeRoundingEnabled) {
+			millis = this.getRoundedTimestamp(millis);
+		}
+
+		return DateTime.fromMillis(millis).toFormat('HH:mm');
+	}
+
+	getRoundedTimestamp(millis: number): number {
+		// Drop the second fraction
+		const minute = parseDuration('1m') as number;
+		millis = Math.floor(millis / minute) * minute;
+
+		// Round to the nearest 5-minute step
+		const step = parseDuration('5m') as number;
+		return Math.round(millis / step) * step;
 	}
 }
