@@ -9,27 +9,41 @@ import { ActivityFormGroup } from './DailyActivitiesForm';
 	providedIn: 'root',
 })
 export class DailyActivitiesWeekDayService {
-	private fb = inject(FormBuilder);
+	private readonly fb = inject(FormBuilder);
 
-	makeActivityFormItem(activity?: Activity): ActivityFormGroup {
+	public makeActivityFormItem(activity?: Activity): ActivityFormGroup {
 		return this.fb.group(new ActivityFormItem(activity));
 	}
 
-	processActivityFormArray(activityFormArray: FormArray<ActivityFormGroup>, day: Day, activities: Activity[]): Activity[] {
-		return activityFormArray.value.map((item) => {
+	public continueActivity(activity: Activity) {
+		const nextActivity = new Activity(activity).regenerateId();
+		nextActivity.from = activity.till;
+		nextActivity.till = '';
+		nextActivity.duration = '';
+		return nextActivity;
+	}
+
+	public findById(activities: Activity[], activityId: string): [Activity, number] {
+		const activity = activities.find((activity: Activity) => activity.id === activityId) as Activity;
+		const activityIdx = activities.indexOf(activity);
+		return [activity, activityIdx];
+	}
+
+	public processActivityFormArray(activityFormArray: FormArray<ActivityFormGroup>, day: Day, activities: Activity[]): Activity[] {
+		return activityFormArray.value.map((formItem) => {
 			const existingActivity = activities.find((activity: Activity) => {
-				return activity.id === item.id;
+				return activity.id === formItem.id;
 			});
 
 			if (existingActivity) {
-				return this.updateActivity(item, existingActivity);
+				return this.updateActivity(formItem, existingActivity);
 			} else {
-				return this.createActivity(item, day);
+				return this.createActivity(formItem, day);
 			}
 		});
 	}
 
-	createActivity(formValue?: any, day?: Day): Activity {
+	private createActivity(formValue?: any, day?: Day): Activity {
 		const activity = new Activity();
 
 		if (formValue) {
@@ -43,21 +57,7 @@ export class DailyActivitiesWeekDayService {
 		return activity;
 	}
 
-	updateActivity(formValue: any, activity: Activity): Activity {
+	private updateActivity(formValue: any, activity: Activity): Activity {
 		return Object.assign(activity, formValue);
-	}
-
-	continueActivity(activity: Activity) {
-		const createdActivity = new Activity(activity).regenerateId();
-		createdActivity.from = activity.till;
-		createdActivity.till = '';
-		createdActivity.duration = '';
-		return createdActivity;
-	}
-
-	findById(activities: Activity[], activityId: string): [Activity, number] {
-		const activity = activities.find((activity: Activity) => activity.id === activityId) as Activity;
-		const activityIdx = activities.indexOf(activity);
-		return [activity, activityIdx];
 	}
 }

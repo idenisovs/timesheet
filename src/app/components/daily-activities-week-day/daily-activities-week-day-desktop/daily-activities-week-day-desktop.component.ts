@@ -71,6 +71,10 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 		return this.ActivityFormArray.controls;
 	}
 
+	get ActivityFormArrayLength(): number {
+		return this.ActivityFormArray.value.length;
+	}
+
 	async ngOnInit() {
 		await this.loadActivities();
 
@@ -87,7 +91,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 		this.activities = await this.activitiesService.loadDailyActivities(this.day());
 
 		if (this.activities.length === 0 && this.day().date === getCurrentDate()) {
-			const activity = this.service.createActivity(null, this.day());
+			const activity = new Activity().at(this.day());
 			this.activities.push(activity);
 		}
 
@@ -104,9 +108,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 	}
 
 	add() {
-		const activity = this.service.createActivity(null, this.day());
-		const activityFormItem = this.service.makeActivityFormItem(activity);
-
+		const activityFormItem = this.createActivityFormItem();
 		const next = [...this.ActivityFormArrayItems];
 		next.push(activityFormItem);
 		this.form.setControl('activities', this.fb.array(next));
@@ -123,9 +125,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 
 		this.removableActivityIds.push(activityId);
 
-		const activityFormItems = this.form.get('activities')?.value.length;
-
-		if (!activityFormItems && this.day().date === getCurrentDate()) {
+		if (!this.ActivityFormArrayLength && this.day().date === getCurrentDate()) {
 			this.add();
 		}
 	}
@@ -145,8 +145,13 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 		this.numberOfChanges.set(0);
 	}
 
-	protected async appendMissingDay($event: Day) {
-		await this.activitiesService.createDailyActivity($event);
+	protected async appendMissingDay(day: Day) {
+		await this.activitiesService.createDailyActivity(day);
 		await this.reset();
+	}
+
+	protected createActivityFormItem(): ActivityFormGroup {
+		const activity = new Activity().at(this.day());
+		return this.service.makeActivityFormItem(activity);
 	}
 }
