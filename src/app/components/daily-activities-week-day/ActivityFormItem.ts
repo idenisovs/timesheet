@@ -1,21 +1,21 @@
 import { Activity } from '../../entities';
 
 export class ActivityFormItem {
-  id: string = crypto.randomUUID();
-  name = '';
-  from = '';
-  till = '';
-  duration = '';
+	id: string = crypto.randomUUID();
+	name = '';
+	from = '';
+	till = '';
+	duration = '';
 
-  constructor(activity?: Activity) {
-    if (!activity) {
-      return;
-    }
+	constructor(activity?: Activity) {
+		if (!activity) {
+			return;
+		}
 
-    this.id = activity.id;
-    this.name = activity.name;
-    this.from = activity.from;
-    this.till = activity.till;
-    this.duration = activity.duration;
-  }
+		this.id = activity.id;
+		this.name = activity.name;
+		this.from = activity.from;
+		this.till = activity.till;
+		this.duration = activity.duration;
+	}
 }
