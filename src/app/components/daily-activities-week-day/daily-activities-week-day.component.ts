@@ -1,4 +1,4 @@
-import { Component, inject, input, OnDestroy, OnInit, output } from '@angular/core';
+import { Component, inject, input, OnDestroy, OnInit, output, signal } from '@angular/core';
 import {
 	ReactiveFormsModule,
 } from '@angular/forms';
@@ -7,10 +7,10 @@ import { Subscription } from 'rxjs';
 import { Day } from '../../entities';
 import { ScreenService } from '../../services/screen.service';
 import {
-	DailyActivitiesWeekDayDesktopComponent
+	DailyActivitiesWeekDayDesktopComponent,
 } from './daily-activities-week-day-desktop/daily-activities-week-day-desktop.component';
 import {
-	DailyActivitiesWeekDayMobileComponent
+	DailyActivitiesWeekDayMobileComponent,
 } from './daily-activities-week-day-mobile/daily-activities-week-day-mobile.component';
 
 @Component({
@@ -24,19 +24,19 @@ import {
 	styleUrl: './daily-activities-week-day.component.scss',
 })
 export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
-	private screenService = inject(ScreenService);
+	private readonly screenService = inject(ScreenService);
 
-	isMobileSub!: Subscription;
-	isMobile: boolean = false;
+	public day = input.required<Day>();
+	public isMissingDaysVisible = input(false);
 
-	day = input.required<Day>();
-	isMissingDaysVisible = input(false);
+	public changes = output<void>();
 
-	changes = output<void>();
+	protected isMobile = signal<Boolean>(false);
+	private isMobileSub!: Subscription;
 
 	async ngOnInit() {
 		this.isMobileSub = this.screenService.isMobile$.subscribe((value: boolean) => {
-			this.isMobile = value;
+			this.isMobile.set(value);
 		});
 	}
 

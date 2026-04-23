@@ -6,6 +6,7 @@ import {
 	OnDestroy,
 	OnInit,
 	output,
+	signal,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -51,7 +52,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 	removableActivityIds: string[] = [];
 	activities: Activity[] = [];
 	totalDuration = '0h';
-	numberOfChanges = 0;
+	numberOfChanges = signal(0);
 
 	form: FormGroup<DailyActivitiesForm> = this.fb.group({
 		activities: this.fb.array<ActivityFormGroup>([]),
@@ -74,7 +75,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 		await this.loadActivities();
 
 		this.valueChangesSub = this.form.valueChanges.subscribe(() => {
-			this.numberOfChanges++;
+			this.numberOfChanges.update(n => n + 1);
 		});
 	}
 
@@ -134,14 +135,14 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 		await this.removeActivitiesWorkflow.run(this.removableActivityIds);
 		await this.saveActivitiesWorkflow.run(this.activities);
 
-		this.numberOfChanges = 0;
+		this.numberOfChanges.set(0);
 		this.removableActivityIds = [];
 		this.changes.emit();
 	}
 
 	async reset() {
 		await this.loadActivities();
-		this.numberOfChanges = 0;
+		this.numberOfChanges.set(0);
 	}
 
 	protected async appendMissingDay($event: Day) {
