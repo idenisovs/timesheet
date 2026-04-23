@@ -1,4 +1,5 @@
 import { Issue } from './Issue';
+import { Day } from './Day';
 import { ImportedActivity } from '../pages/import-page/Imports';
 import { ActivityRecord } from '../store/records';
 import { getCurrentDate } from '../utils/date-v2';
@@ -90,6 +91,11 @@ export class Activity {
 
 	regenerateId(): Activity {
 		this.id = crypto.randomUUID();
+		return this;
+	}
+
+	at(day: Day) {
+		this.date = day.date;
 		return this;
 	}
 
