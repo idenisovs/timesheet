@@ -1,6 +1,7 @@
 @if (isMobile) {
 	<app-daily-activities-week-day-mobile
 		[day]="day()"
+		[isMissingDaysVisible]="isMissingDaysVisible()"
 		(changes)="changes.emit()"
 	/>
 } @else {

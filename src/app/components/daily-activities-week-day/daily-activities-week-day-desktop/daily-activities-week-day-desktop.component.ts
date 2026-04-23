@@ -122,7 +122,9 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 
 		this.removableActivityIds.push(activityId);
 
-		if (this.form.get('activities')?.value.length === 0) {
+		const activityFormItems = this.form.get('activities')?.value.length;
+
+		if (!activityFormItems && this.day().date === getCurrentDate()) {
 			this.add();
 		}
 	}
