@@ -1,9 +1,9 @@
-import { Component, EventEmitter, inject, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
+import { Component, effect, inject, input, OnDestroy, output } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { Activity } from '../../../entities';
-import { ActivitiesService } from '../../../services/activities.service';
 import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { Activity } from '../../../entities';
+import { ActivitiesService } from '../../../services/activities.service';
 
 @Component({
 	selector: 'app-daily-activities-week-day-sticky-bottom',
@@ -13,41 +13,33 @@ import { take } from 'rxjs/operators';
 	templateUrl: './daily-activities-week-day-sticky-bottom.component.html',
 	styleUrl: './daily-activities-week-day-sticky-bottom.component.scss'
 })
-export class DailyActivitiesWeekDayStickyBottomComponent implements OnChanges, OnDestroy {
+export class DailyActivitiesWeekDayStickyBottomComponent implements OnDestroy {
 	private static readonly DEFAULT_COUNTDOWN: number = 5;
 
-	activitiesService = inject(ActivitiesService);
+	private readonly activitiesService = inject(ActivitiesService);
 
-	@Input()
-	activities: Activity[] = [];
+	activities = input<Activity[]>([]);
+	numberOfChanges = input<number>(0);
 
-	@Input()
-	numberOfChanges: number = 0;
-
-	@Output()
-	save = new EventEmitter<void>();
-
-	@Output()
-	reset = new EventEmitter<void>();
+	save = output<void>();
+	reset = output<void>();
 
 	countdown = DailyActivitiesWeekDayStickyBottomComponent.DEFAULT_COUNTDOWN;
 	countdownSub?: Subscription;
 
-	get TotalDuration() {
-		return this.activitiesService.calculateDuration(this.activities);
+	constructor() {
+		effect(() => {
+			if (this.numberOfChanges() > 0) {
+				this.stopCountdown();
+				this.startCountdown();
+			} else {
+				this.stopCountdown();
+			}
+		});
 	}
 
-	ngOnChanges(changes: SimpleChanges) {
-		if (!changes['numberOfChanges']) {
-			return;
-		}
-
-		if (this.numberOfChanges > 0) {
-			this.stopCountdown();
-			this.startCountdown();
-		} else {
-			this.stopCountdown();
-		}
+	get TotalDuration() {
+		return this.activitiesService.calculateDuration(this.activities());
 	}
 
 	ngOnDestroy() {

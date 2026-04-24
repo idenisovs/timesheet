@@ -43,7 +43,6 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 
 	public day: InputSignal<Day> = input.required<Day>();
 	public activities: InputSignal<Activity[]> = input.required<Activity[]>();
-	public isMissingDaysVisible: InputSignal<boolean> = input(false);
 
 	public changes = output<Activity[]>();
 

@@ -3,17 +3,17 @@
 		<div class="card-body">
 			<div class="d-flex align-items-center justify-content-between">
 				<div>
-					<i class="material-symbols-outlined text-info">assignment</i> {{ activities.length }}
+					<i class="material-symbols-outlined text-info">assignment</i> {{ activities().length }}
 					<i class="material-symbols-outlined text-info">schedule</i> {{ TotalDuration || '0h' }}
 				</div>
 
 				<div>
-					<button type="button" class="btn btn-outline-danger" [ngClass]="{'invisible': !numberOfChanges}"
+					<button type="button" class="btn btn-outline-danger" [ngClass]="{'invisible': !numberOfChanges()}"
 							(click)="reset.emit()">
 						Reset
 					</button>
 
-					<button type="button" class="btn btn-primary ms-2" [ngClass]="{'invisible': !numberOfChanges}"
+					<button type="button" class="btn btn-primary ms-2" [ngClass]="{'invisible': !numberOfChanges()}"
 							(click)="save.emit()">
 						Save ({{ countdown }})
 					</button>
