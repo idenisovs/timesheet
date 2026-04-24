@@ -1,5 +1,6 @@
 import {
-	Component, effect,
+	Component,
+	effect,
 	inject,
 	input,
 	InputSignal,
@@ -37,8 +38,8 @@ import { getCurrentDate } from '../../../utils/date-v2';
 })
 export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy {
 	protected readonly service = inject(DailyActivitiesWeekDayService);
+	protected readonly activitiesService = inject(ActivitiesService);
 	private readonly fb = inject(FormBuilder);
-	private readonly activitiesService = inject(ActivitiesService);
 
 	public day: InputSignal<Day> = input.required<Day>();
 	public activities: InputSignal<Activity[]> = input.required<Activity[]>();
@@ -117,8 +118,12 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 		return this.service.makeFormItemFromActivity(activity);
 	}
 
+	protected sorted() {
+		return this.activitiesService.sort(this.activities());
+	}
+
 	private updateActivitiesForm() {
-		const activityFormItems: ActivityFormGroup[] = this.activities().map((activity: Activity) => {
+		const activityFormItems: ActivityFormGroup[] = this.sorted().map((activity: Activity) => {
 			return this.service.makeFormItemFromActivity(activity);
 		});
 

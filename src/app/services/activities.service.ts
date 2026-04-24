@@ -29,6 +29,15 @@ export class ActivitiesService {
 		return summary;
 	}
 
+	public sort(activities: Activity[], reverse = false): Activity[] {
+		return [...activities].sort((a, b) => {
+			if (!a.from && !b.from) return 0;
+			if (!a.from) return reverse ? -1 : 1;
+			if (!b.from) return reverse ? 1 : -1;
+			return reverse ? b.from.localeCompare(a.from) : a.from.localeCompare(b.from);
+		});
+	}
+
 	public findOverlappingActivities(activities: Activity[], target: Activity): Activity[] {
 		return activities.filter(activity => activity.overlaps(target));
 	}

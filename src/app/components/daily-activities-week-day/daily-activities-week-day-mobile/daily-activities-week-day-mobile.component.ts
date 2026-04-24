@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-	DailyActivitiesWeekDayDesktopComponent
+	DailyActivitiesWeekDayDesktopComponent,
 } from '../daily-activities-week-day-desktop/daily-activities-week-day-desktop.component';
 import {
-	DailyActivitiesWeekDayHeaderComponent
+	DailyActivitiesWeekDayHeaderComponent,
 } from '../daily-activities-week-day-header/daily-activities-week-day-header.component';
 import {
-	DailyActivitiesWeekDayStickyBottomComponent
+	DailyActivitiesWeekDayStickyBottomComponent,
 } from '../daily-activities-week-day-sticky-bottom/daily-activities-week-day-sticky-bottom.component';
 import {
-	DailyActivityItemMobileComponent
+	DailyActivityItemMobileComponent,
 } from '../../daily-activity-item-mobile/daily-activity-item-mobile.component';
 import { Activity } from '../../../entities';
 import { ActivityFormGroup } from '../DailyActivitiesForm';
@@ -28,15 +28,19 @@ import { ActivityFormGroup } from '../DailyActivitiesForm';
 	styleUrl: './daily-activities-week-day-mobile.component.scss',
 })
 export class DailyActivitiesWeekDayMobileComponent extends DailyActivitiesWeekDayDesktopComponent {
-	add() {
+	protected add() {
 		const activityFormItem = this.createActivityFormItem();
 		this.ActivityFormArray.insert(0, activityFormItem);
 	}
 
-	proceed(activityId: string) {
+	protected proceed(activityId: string) {
 		const [existingActivity] = this.service.findById(this.activities(), activityId);
 		const activity: Activity = this.service.continueActivity(existingActivity);
 		const activityFormItem: ActivityFormGroup = this.service.makeFormItemFromActivity(activity);
 		this.ActivityFormArray.insert(0, activityFormItem);
+	}
+
+	protected sorted(): Activity[] {
+		return this.activitiesService.sort(this.activities(), true);
 	}
 }
