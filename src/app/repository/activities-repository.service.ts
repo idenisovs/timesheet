@@ -86,7 +86,8 @@ export class ActivitiesRepositoryService {
 		await this.db.activities.bulkPut(activities);
 	}
 
-	async remove(activityIds: string[]): Promise<void> {
+	async remove(activities: Activity[]): Promise<void> {
+		const activityIds = activities.map(activity => activity.id);
 		await this.db.activities.bulkDelete(activityIds);
 	}
 

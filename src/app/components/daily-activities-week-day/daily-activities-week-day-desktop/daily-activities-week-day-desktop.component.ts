@@ -1,5 +1,5 @@
 import {
-	Component,
+	Component, effect,
 	inject,
 	input,
 	InputSignal,
@@ -12,8 +12,6 @@ import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } f
 import { Subscription } from 'rxjs';
 import { DailyActivitiesWeekDayService } from '../daily-activities-week-day.service';
 import { ActivitiesService } from '../../../services/activities.service';
-import { SaveActivitiesWorkflowService } from '../../../workflows/save-activities-workflow.service';
-import { RemoveActivitiesWorkflowService } from '../../../workflows/remove-activities-workflow.service';
 import { Activity, Day } from '../../../entities';
 import { ActivityFormGroup, DailyActivitiesForm } from '../DailyActivitiesForm';
 import {
@@ -42,98 +40,78 @@ import { getCurrentDate } from '../../../utils/date-v2';
 	styleUrl: './daily-activities-week-day-desktop.component.scss',
 })
 export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy {
-	protected fb = inject(FormBuilder);
 	protected service = inject(DailyActivitiesWeekDayService);
+	private fb = inject(FormBuilder);
 	private activitiesService = inject(ActivitiesService);
-	private saveActivitiesWorkflow = inject(SaveActivitiesWorkflowService);
-	private removeActivitiesWorkflow = inject(RemoveActivitiesWorkflowService);
 
-	valueChangesSub!: Subscription;
-	removableActivityIds: string[] = [];
-	activities = signal<Activity[]>([]);
-	totalDuration = '0h';
-	numberOfChanges = signal(0);
+	public day: InputSignal<Day> = input.required<Day>();
+	public activities: InputSignal<Activity[]> = input.required<Activity[]>();
+	public isMissingDaysVisible: InputSignal<boolean> = input(false);
 
-	form: FormGroup<DailyActivitiesForm> = this.fb.group({
+	public changes = output<Activity[]>();
+
+	protected totalDuration = '0h';
+	protected numberOfChanges = signal(0);
+	protected form: FormGroup<DailyActivitiesForm> = this.fb.group({
 		activities: this.fb.array<ActivityFormGroup>([]),
 	});
 
-	day: InputSignal<Day> = input.required<Day>();
-	isMissingDaysVisible: InputSignal<boolean> = input(false);
+	private valueChangesSub!: Subscription;
 
-	changes = output();
-
-	get ActivityFormArray(): FormArray<ActivityFormGroup> {
+	protected get ActivityFormArray(): FormArray<ActivityFormGroup> {
 		return this.form.get('activities') as FormArray<ActivityFormGroup>;
 	}
 
-	get ActivityFormArrayItems(): ActivityFormGroup[] {
+	protected get ActivityFormArrayItems(): ActivityFormGroup[] {
 		return this.ActivityFormArray.controls;
 	}
 
-	async ngOnInit() {
-		await this.loadActivities();
+	constructor() {
+		effect(() => {
+			this.updateActivitiesForm();
+			this.totalDuration = this.activitiesService.calculateDuration(this.activities());
+			this.numberOfChanges.set(0);
+		});
+	}
 
+	public async ngOnInit() {
 		this.valueChangesSub = this.form.valueChanges.subscribe(() => {
 			this.numberOfChanges.update(n => n + 1);
 		});
 	}
 
-	ngOnDestroy() {
+	public ngOnDestroy() {
 		this.valueChangesSub.unsubscribe();
 	}
 
-	async loadActivities() {
-		const loaded = await this.activitiesService.loadDailyActivities(this.day());
-
-		if (loaded.length === 0 && this.day().date === getCurrentDate()) {
-			loaded.push(new Activity().at(this.day()));
-		}
-
-		this.activities.set(loaded);
-		this.updateActivitiesForm();
-		this.totalDuration = this.activitiesService.calculateDuration(this.activities());
-	}
-
-	updateActivitiesForm() {
-		const activityFormItems: ActivityFormGroup[] = this.activities().map((activity: Activity) => {
-			return this.service.makeActivityFormItem(activity);
-		});
-
-		this.form.setControl('activities', this.fb.array(activityFormItems));
-	}
-
-	add() {
+	protected add() {
 		const activityFormItem = this.createActivityFormItem();
 		this.ActivityFormArray.push(activityFormItem);
 	}
 
-	remove(activityId: string) {
+	protected remove(activityId: string) {
 		const activityIdx = this.ActivityFormArrayItems.findIndex((activityFormItem: ActivityFormGroup) => {
 			return activityFormItem.get('id')?.value === activityId;
 		});
 
 		this.ActivityFormArray.removeAt(activityIdx);
 
-		this.removableActivityIds.push(activityId);
-
 		if (!this.ActivityFormArray.length && this.day().date === getCurrentDate()) {
 			this.add();
 		}
 	}
 
-	async save() {
-		this.activities.set(this.service.processActivityFormArray(this.ActivityFormArray, this.day(), this.activities()));
-		await this.removeActivitiesWorkflow.run(this.removableActivityIds);
-		await this.saveActivitiesWorkflow.run(this.activities());
-
-		this.numberOfChanges.set(0);
-		this.removableActivityIds = [];
-		this.changes.emit();
+	protected async save() {
+		const activities: Activity[] = this.service.processActivityFormArray(
+			this.ActivityFormArray,
+			this.day(),
+			this.activities(),
+		);
+		this.changes.emit(activities);
 	}
 
-	async reset() {
-		await this.loadActivities();
+	protected async reset() {
+		this.updateActivitiesForm();
 		this.numberOfChanges.set(0);
 	}
 
@@ -144,6 +122,14 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 
 	protected createActivityFormItem(): ActivityFormGroup {
 		const activity = new Activity().at(this.day());
-		return this.service.makeActivityFormItem(activity);
+		return this.service.makeFormItemFromActivity(activity);
+	}
+
+	private updateActivitiesForm() {
+		const activityFormItems: ActivityFormGroup[] = this.activities().map((activity: Activity) => {
+			return this.service.makeFormItemFromActivity(activity);
+		});
+
+		this.form.setControl('activities', this.fb.array(activityFormItems), { emitEvent: false });
 	}
 }

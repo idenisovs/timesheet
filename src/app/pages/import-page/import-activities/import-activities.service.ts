@@ -16,7 +16,6 @@ export class ImportActivitiesService {
 	}
 
 	async remove(activities: Activity[]): Promise<void> {
-		const activityIds = activities.map(activity => activity.id);
-		await this.activityRemoveWorkflow.run(activityIds);
+		await this.activityRemoveWorkflow.run(activities);
 	}
 }

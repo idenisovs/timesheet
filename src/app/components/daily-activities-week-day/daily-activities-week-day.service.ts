@@ -11,7 +11,7 @@ import { ActivityFormGroup } from './DailyActivitiesForm';
 export class DailyActivitiesWeekDayService {
 	private readonly fb = inject(FormBuilder);
 
-	public makeActivityFormItem(activity?: Activity): ActivityFormGroup {
+	public makeFormItemFromActivity(activity?: Activity): ActivityFormGroup {
 		return this.fb.group(new ActivityFormItem(activity));
 	}
 

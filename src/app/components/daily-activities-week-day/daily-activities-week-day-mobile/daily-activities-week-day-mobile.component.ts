@@ -40,7 +40,7 @@ export class DailyActivitiesWeekDayMobileComponent extends DailyActivitiesWeekDa
 	proceed(activityId: string) {
 		const [existingActivity] = this.service.findById(this.activities(), activityId);
 		const activity: Activity = this.service.continueActivity(existingActivity);
-		const activityFormItem: ActivityFormGroup = this.service.makeActivityFormItem(activity);
+		const activityFormItem: ActivityFormGroup = this.service.makeFormItemFromActivity(activity);
 		this.ActivityFormArray.insert(0, activityFormItem);
 	}
 }

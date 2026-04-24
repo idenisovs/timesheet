@@ -4,7 +4,7 @@ import {
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { Day } from '../../entities';
+import { Activity, Day } from '../../entities';
 import { ScreenService } from '../../services/screen.service';
 import {
 	DailyActivitiesWeekDayDesktopComponent,
@@ -12,6 +12,10 @@ import {
 import {
 	DailyActivitiesWeekDayMobileComponent,
 } from './daily-activities-week-day-mobile/daily-activities-week-day-mobile.component';
+import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
+import { getCurrentDate } from '../../utils/date-v2';
+import { RemoveActivitiesWorkflowService } from '../../workflows/remove-activities-workflow.service';
+import { SaveActivitiesWorkflowService } from '../../workflows/save-activities-workflow.service';
 
 @Component({
 	selector: 'app-daily-activities-week-day',
@@ -25,6 +29,9 @@ import {
 })
 export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 	private readonly screenService = inject(ScreenService);
+	private readonly activitiesRepo = inject(ActivitiesRepositoryService);
+	private readonly saveActivitiesWorkflow = inject(SaveActivitiesWorkflowService);
+	private readonly removeActivitiesWorkflow = inject(RemoveActivitiesWorkflowService);
 
 	public day = input.required<Day>();
 	public isMissingDaysVisible = input(false);
@@ -32,15 +39,44 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 	public changes = output<void>();
 
 	protected isMobile = signal<Boolean>(false);
+	protected activities = signal<Activity[]>([]);
 	private isMobileSub!: Subscription;
 
-	async ngOnInit() {
+	public async ngOnInit() {
 		this.isMobileSub = this.screenService.isMobile$.subscribe((value: boolean) => {
 			this.isMobile.set(value);
 		});
+
+		await this.loadActivities();
 	}
 
-	ngOnDestroy() {
+	public ngOnDestroy() {
 		this.isMobileSub.unsubscribe();
+	}
+
+	protected async saveActivities(updatedActivities: Activity[]) {
+		const removable: Activity[] = this.findRemovableActivities(updatedActivities);
+		await this.removeActivitiesWorkflow.run(removable);
+		await this.saveActivitiesWorkflow.run(updatedActivities);
+		this.activities.set(updatedActivities);
+		this.changes.emit();
+	}
+
+	private async loadActivities() {
+		const activities: Activity[] = await this.activitiesRepo.getByDay(this.day());
+
+		if (activities.length === 0 && this.day().date === getCurrentDate()) {
+			activities.push(new Activity().at(this.day()));
+		}
+
+		this.activities.set(activities);
+	}
+
+	private findRemovableActivities(update: Activity[]) {
+		return this.activities().filter((activity: Activity) => {
+			return !update.some((updatedActivity: Activity) => {
+				return updatedActivity.id === activity.id;
+			});
+		});
 	}
 }

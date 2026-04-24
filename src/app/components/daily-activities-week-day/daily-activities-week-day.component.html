@@ -1,13 +1,15 @@
 @if (isMobile()) {
 	<app-daily-activities-week-day-mobile
 		[day]="day()"
+		[activities]="activities()"
 		[isMissingDaysVisible]="isMissingDaysVisible()"
 		(changes)="changes.emit()"
 	/>
 } @else {
 	<app-daily-activities-week-day-desktop
 		[day]="day()"
+		[activities]="activities()"
 		[isMissingDaysVisible]="isMissingDaysVisible()"
-		(changes)="changes.emit()"
+		(changes)="saveActivities($event)"
 	/>
 }
