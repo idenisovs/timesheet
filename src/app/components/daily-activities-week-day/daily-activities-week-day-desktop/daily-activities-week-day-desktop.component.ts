@@ -36,9 +36,9 @@ import { getCurrentDate } from '../../../utils/date-v2';
 	styleUrl: './daily-activities-week-day-desktop.component.scss',
 })
 export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy {
-	protected service = inject(DailyActivitiesWeekDayService);
-	private fb = inject(FormBuilder);
-	private activitiesService = inject(ActivitiesService);
+	protected readonly service = inject(DailyActivitiesWeekDayService);
+	private readonly fb = inject(FormBuilder);
+	private readonly activitiesService = inject(ActivitiesService);
 
 	public day: InputSignal<Day> = input.required<Day>();
 	public activities: InputSignal<Activity[]> = input.required<Activity[]>();
@@ -46,7 +46,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 
 	public changes = output<Activity[]>();
 
-	protected totalDuration = '0h';
+	protected totalDuration = signal('0h');
 	protected numberOfChanges = signal(0);
 	protected form: FormGroup<DailyActivitiesForm> = this.fb.group({
 		activities: this.fb.array<ActivityFormGroup>([]),
@@ -65,7 +65,8 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 	constructor() {
 		effect(() => {
 			this.updateActivitiesForm();
-			this.totalDuration = this.activitiesService.calculateDuration(this.activities());
+			const totalDuration = this.activitiesService.calculateDuration(this.activities());
+			this.totalDuration.set(totalDuration);
 			this.numberOfChanges.set(0);
 		});
 	}
