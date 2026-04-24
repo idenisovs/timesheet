@@ -16,6 +16,9 @@ import { ActivitiesRepositoryService } from '../../repository/activities-reposit
 import { getCurrentDate } from '../../utils/date-v2';
 import { RemoveActivitiesWorkflowService } from '../../workflows/remove-activities-workflow.service';
 import { SaveActivitiesWorkflowService } from '../../workflows/save-activities-workflow.service';
+import {
+	DailyActivitiesWeekDayMissingComponent,
+} from '../daily-activities-week-day-missing/daily-activities-week-day-missing.component';
 
 @Component({
 	selector: 'app-daily-activities-week-day',
@@ -23,13 +26,14 @@ import { SaveActivitiesWorkflowService } from '../../workflows/save-activities-w
 		ReactiveFormsModule,
 		DailyActivitiesWeekDayDesktopComponent,
 		DailyActivitiesWeekDayMobileComponent,
+		DailyActivitiesWeekDayMissingComponent,
 	],
 	templateUrl: './daily-activities-week-day.component.html',
 	styleUrl: './daily-activities-week-day.component.scss',
 })
 export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 	private readonly screenService = inject(ScreenService);
-	private readonly activitiesRepo = inject(ActivitiesRepositoryService);
+	private readonly activityRepository = inject(ActivitiesRepositoryService);
 	private readonly saveActivitiesWorkflow = inject(SaveActivitiesWorkflowService);
 	private readonly removeActivitiesWorkflow = inject(RemoveActivitiesWorkflowService);
 
@@ -62,8 +66,14 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 		this.changes.emit();
 	}
 
+	protected async appendMissingDay(day: Day) {
+		const activity = new Activity().at(day);
+		await this.activityRepository.save([activity]);
+		this.activities.set([activity]);
+	}
+
 	private async loadActivities() {
-		const activities: Activity[] = await this.activitiesRepo.getByDay(this.day());
+		const activities: Activity[] = await this.activityRepository.getByDay(this.day());
 
 		if (activities.length === 0 && this.day().date === getCurrentDate()) {
 			activities.push(new Activity().at(this.day()));

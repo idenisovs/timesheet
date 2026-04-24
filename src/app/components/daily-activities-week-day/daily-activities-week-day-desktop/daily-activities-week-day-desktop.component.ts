@@ -21,9 +21,6 @@ import {
 	DailyActivitiesWeekDayHeaderComponent,
 } from '../daily-activities-week-day-header/daily-activities-week-day-header.component';
 import { DailyActivityItemComponent } from '../../daily-activity-item/daily-activity-item.component';
-import {
-	DailyActivitiesWeekDayMissingComponent,
-} from '../../daily-activities-week-day-missing/daily-activities-week-day-missing.component';
 import { getCurrentDate } from '../../../utils/date-v2';
 
 @Component({
@@ -34,7 +31,6 @@ import { getCurrentDate } from '../../../utils/date-v2';
 		DailyActivityItemComponent,
 		FormsModule,
 		ReactiveFormsModule,
-		DailyActivitiesWeekDayMissingComponent,
 	],
 	templateUrl: './daily-activities-week-day-desktop.component.html',
 	styleUrl: './daily-activities-week-day-desktop.component.scss',
@@ -113,11 +109,6 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 	protected async reset() {
 		this.updateActivitiesForm();
 		this.numberOfChanges.set(0);
-	}
-
-	protected async appendMissingDay(day: Day) {
-		await this.activitiesService.createDailyActivity(day);
-		await this.reset();
 	}
 
 	protected createActivityFormItem(): ActivityFormGroup {

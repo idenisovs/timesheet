@@ -14,9 +14,6 @@ import {
 } from '../../daily-activity-item-mobile/daily-activity-item-mobile.component';
 import { Activity } from '../../../entities';
 import { ActivityFormGroup } from '../DailyActivitiesForm';
-import {
-	DailyActivitiesWeekDayMissingComponent
-} from '../../daily-activities-week-day-missing/daily-activities-week-day-missing.component';
 
 @Component({
 	selector: 'app-daily-activities-week-day-mobile',
@@ -26,7 +23,6 @@ import {
 		DailyActivityItemMobileComponent,
 		FormsModule,
 		ReactiveFormsModule,
-		DailyActivitiesWeekDayMissingComponent,
 	],
 	templateUrl: './daily-activities-week-day-mobile.component.html',
 	styleUrl: './daily-activities-week-day-mobile.component.scss',

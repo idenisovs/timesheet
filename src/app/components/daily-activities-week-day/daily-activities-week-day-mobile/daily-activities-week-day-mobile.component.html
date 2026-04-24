@@ -1,34 +1,28 @@
-@if (activities().length) {
-	<div class="card d-md-none bg-secondary-subtle">
-		<main class="card-body py-2">
-			<app-daily-activities-week-day-header [day]="day()"/>
-		</main>
+<div class="card d-md-none bg-secondary-subtle">
+	<main class="card-body py-2">
+		<app-daily-activities-week-day-header [day]="day()"/>
+	</main>
+</div>
+
+<form [formGroup]="form" class="mb-3">
+	<div formArrayName="activities">
+		@for (activityFormItem of ActivityFormArrayItems; track activityFormItem.controls.id.value; let isFirst = $first) {
+			<div class="mt-3">
+				<app-daily-activity-item-mobile
+					[activityForm]="activityFormItem"
+					[isFirst]="isFirst"
+					(add)="add()"
+					(proceed)="proceed($event)"
+					(remove)="remove($event)"
+				/>
+			</div>
+		}
 	</div>
+</form>
 
-	<form [formGroup]="form" class="mb-3">
-		<div formArrayName="activities">
-			@for (activityFormItem of ActivityFormArrayItems; track activityFormItem.controls.id.value; let isFirst = $first) {
-				<div class="mt-3">
-					<app-daily-activity-item-mobile
-						[activityForm]="activityFormItem"
-						[isFirst]="isFirst"
-						(add)="add()"
-						(proceed)="proceed($event)"
-						(remove)="remove($event)"
-					/>
-				</div>
-			}
-		</div>
-	</form>
-
-	<app-daily-activities-week-day-sticky-bottom
-		[activities]="activities()"
-		[numberOfChanges]="numberOfChanges()"
-		(save)="save()"
-		(reset)="reset()"
-	/>
-}
-
-@if (activities().length === 0 && isMissingDaysVisible()) {
-	<app-daily-activities-week-day-missing [day]="day()" (appendMissingDay)="appendMissingDay($event)"/>
-}
+<app-daily-activities-week-day-sticky-bottom
+	[activities]="activities()"
+	[numberOfChanges]="numberOfChanges()"
+	(save)="save()"
+	(reset)="reset()"
+/>

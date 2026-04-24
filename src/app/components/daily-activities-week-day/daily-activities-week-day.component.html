@@ -1,15 +1,21 @@
-@if (isMobile()) {
-	<app-daily-activities-week-day-mobile
-		[day]="day()"
-		[activities]="activities()"
-		[isMissingDaysVisible]="isMissingDaysVisible()"
-		(changes)="changes.emit()"
-	/>
-} @else {
-	<app-daily-activities-week-day-desktop
-		[day]="day()"
-		[activities]="activities()"
-		[isMissingDaysVisible]="isMissingDaysVisible()"
-		(changes)="saveActivities($event)"
-	/>
+@if (activities().length > 0) {
+	@if (isMobile()) {
+		<app-daily-activities-week-day-mobile
+			[day]="day()"
+			[activities]="activities()"
+			[isMissingDaysVisible]="isMissingDaysVisible()"
+			(changes)="changes.emit()"
+		/>
+	} @else {
+		<app-daily-activities-week-day-desktop
+			[day]="day()"
+			[activities]="activities()"
+			[isMissingDaysVisible]="isMissingDaysVisible()"
+			(changes)="saveActivities($event)"
+		/>
+	}
+}
+
+@if (activities().length === 0 && isMissingDaysVisible()) {
+	<app-daily-activities-week-day-missing [day]="day()" (appendMissingDay)="appendMissingDay($event)"/>
 }
