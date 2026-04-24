@@ -1,4 +1,4 @@
-@if (activities.length) {
+@if (activities().length) {
 	<div class="card d-md-none bg-secondary-subtle">
 		<main class="card-body py-2">
 			<app-daily-activities-week-day-header [day]="day()"/>
@@ -22,13 +22,13 @@
 	</form>
 
 	<app-daily-activities-week-day-sticky-bottom
-		[activities]="activities"
+		[activities]="activities()"
 		[numberOfChanges]="numberOfChanges()"
 		(save)="save()"
 		(reset)="reset()"
 	/>
 }
 
-@if (activities.length === 0 && isMissingDaysVisible()) {
+@if (activities().length === 0 && isMissingDaysVisible()) {
 	<app-daily-activities-week-day-missing [day]="day()" (appendMissingDay)="appendMissingDay($event)"/>
 }

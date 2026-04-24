@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
 	DailyActivitiesWeekDayDesktopComponent
 } from '../daily-activities-week-day-desktop/daily-activities-week-day-desktop.component';
@@ -11,7 +12,6 @@ import {
 import {
 	DailyActivityItemMobileComponent
 } from '../../daily-activity-item-mobile/daily-activity-item-mobile.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Activity } from '../../../entities';
 import { ActivityFormGroup } from '../DailyActivitiesForm';
 import {
@@ -34,18 +34,13 @@ import {
 export class DailyActivitiesWeekDayMobileComponent extends DailyActivitiesWeekDayDesktopComponent {
 	add() {
 		const activityFormItem = this.createActivityFormItem();
-		const next = [...this.ActivityFormArrayItems];
-		next.splice(0, 0, activityFormItem);
-		this.form.setControl('activities', this.fb.array(next));
+		this.ActivityFormArray.insert(0, activityFormItem);
 	}
 
 	proceed(activityId: string) {
-		const [existingActivity, existingActivityIdx] = this.service.findById(this.activities, activityId);
+		const [existingActivity] = this.service.findById(this.activities(), activityId);
 		const activity: Activity = this.service.continueActivity(existingActivity);
 		const activityFormItem: ActivityFormGroup = this.service.makeActivityFormItem(activity);
-
-		const next = [...this.ActivityFormArrayItems];
-		next.splice(existingActivityIdx, 0, activityFormItem);
-		this.form.setControl('activities', this.fb.array(next));
+		this.ActivityFormArray.insert(0, activityFormItem);
 	}
 }

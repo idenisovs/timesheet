@@ -50,7 +50,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 
 	valueChangesSub!: Subscription;
 	removableActivityIds: string[] = [];
-	activities: Activity[] = [];
+	activities = signal<Activity[]>([]);
 	totalDuration = '0h';
 	numberOfChanges = signal(0);
 
@@ -71,10 +71,6 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 		return this.ActivityFormArray.controls;
 	}
 
-	get ActivityFormArrayLength(): number {
-		return this.ActivityFormArray.value.length;
-	}
-
 	async ngOnInit() {
 		await this.loadActivities();
 
@@ -88,19 +84,19 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 	}
 
 	async loadActivities() {
-		this.activities = await this.activitiesService.loadDailyActivities(this.day());
+		const loaded = await this.activitiesService.loadDailyActivities(this.day());
 
-		if (this.activities.length === 0 && this.day().date === getCurrentDate()) {
-			const activity = new Activity().at(this.day());
-			this.activities.push(activity);
+		if (loaded.length === 0 && this.day().date === getCurrentDate()) {
+			loaded.push(new Activity().at(this.day()));
 		}
 
+		this.activities.set(loaded);
 		this.updateActivitiesForm();
-		this.totalDuration = this.activitiesService.calculateDuration(this.activities);
+		this.totalDuration = this.activitiesService.calculateDuration(this.activities());
 	}
 
 	updateActivitiesForm() {
-		const activityFormItems: ActivityFormGroup[] = this.activities.map((activity: Activity) => {
+		const activityFormItems: ActivityFormGroup[] = this.activities().map((activity: Activity) => {
 			return this.service.makeActivityFormItem(activity);
 		});
 
@@ -109,9 +105,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 
 	add() {
 		const activityFormItem = this.createActivityFormItem();
-		const next = [...this.ActivityFormArrayItems];
-		next.push(activityFormItem);
-		this.form.setControl('activities', this.fb.array(next));
+		this.ActivityFormArray.push(activityFormItem);
 	}
 
 	remove(activityId: string) {
@@ -119,21 +113,19 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 			return activityFormItem.get('id')?.value === activityId;
 		});
 
-		const next = [...this.ActivityFormArrayItems];
-		next.splice(activityIdx, 1);
-		this.form.setControl('activities', this.fb.array(next));
+		this.ActivityFormArray.removeAt(activityIdx);
 
 		this.removableActivityIds.push(activityId);
 
-		if (!this.ActivityFormArrayLength && this.day().date === getCurrentDate()) {
+		if (!this.ActivityFormArray.length && this.day().date === getCurrentDate()) {
 			this.add();
 		}
 	}
 
 	async save() {
-		this.activities = this.service.processActivityFormArray(this.ActivityFormArray, this.day(), this.activities);
+		this.activities.set(this.service.processActivityFormArray(this.ActivityFormArray, this.day(), this.activities()));
 		await this.removeActivitiesWorkflow.run(this.removableActivityIds);
-		await this.saveActivitiesWorkflow.run(this.activities);
+		await this.saveActivitiesWorkflow.run(this.activities());
 
 		this.numberOfChanges.set(0);
 		this.removableActivityIds = [];

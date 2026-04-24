@@ -1,4 +1,4 @@
-@if (activities.length > 0) {
+@if (activities().length > 0) {
 	<section class="card">
 		<header class="card-header">
 			<app-daily-activities-week-day-header [day]="day()"/>
@@ -39,7 +39,7 @@
 
 		<footer class="card-footer">
 			<app-daily-activities-week-day-footer
-				[activities]="activities"
+				[activities]="activities()"
 				[isChanged]="numberOfChanges() > 0"
 				(reset)="reset()"
 			/>
@@ -47,6 +47,6 @@
 	</section>
 }
 
-@if (activities.length === 0 && isMissingDaysVisible()) {
+@if (activities().length === 0 && isMissingDaysVisible()) {
 	<app-daily-activities-week-day-missing [day]="day()" (appendMissingDay)="appendMissingDay($event)"/>
 }
