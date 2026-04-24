@@ -1,5 +1,5 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Component, effect, inject, input, output } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
 	NgbDropdown,
 	NgbDropdownMenu,
@@ -14,14 +14,7 @@ import { ActivityItemEditModalComponent } from './activity-item-edit-modal/activ
 import { MenuItemComponent } from './menu-item/menu-item.component';
 import { ActivityItemTitleComponent } from './activity-item-title/activity-item-title.component';
 import { DescriptionPipe } from '../../pipes/description.pipe';
-
-type ActivityValue = {
-	id: string | null;
-	name: string | null;
-	from: string | null;
-	till: string | null;
-	duration: string | null;
-};
+import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
 
 @Component({
 	selector: 'app-daily-activity-item-mobile',
@@ -38,48 +31,42 @@ type ActivityValue = {
 	templateUrl: './daily-activity-item-mobile.component.html',
 	styleUrl: './daily-activity-item-mobile.component.scss',
 })
-export class DailyActivityItemMobileComponent implements OnInit {
-	fb = inject(FormBuilder);
-	service = inject(DailyActivityItemService);
-	modalService = inject(NgbModal);
+export class DailyActivityItemMobileComponent {
+	private readonly service = inject(DailyActivityItemService);
+	private readonly modalService = inject(NgbModal);
 
-	@Input()
-	activityForm = this.fb.group<ActivityValue>({
-		id: '',
-		name: '',
-		from: '',
-		till: '',
-		duration: '',
-	});
+	activityForm = input.required<ActivityFormGroup>();
+	isFirst = input(true);
 
-	@Input()
-	isFirst = true;
+	add = output<string>();
+	proceed = output<string>();
+	remove = output<string>();
 
-	@Output()
-	add = new EventEmitter<string>();
+	constructor() {
+		effect((onCleanup) => {
+			const form = this.activityForm();
 
-	@Output()
-	proceed = new EventEmitter<string>();
+			const fromSub = form.get('from')?.valueChanges.subscribe(() => {
+				this.service.handleFromChanges(form);
+			});
 
-	@Output()
-	remove = new EventEmitter<string>();
+			const tillSub = form.get('till')?.valueChanges.subscribe(() => {
+				this.service.handleTillChanges(form);
+			});
+
+			onCleanup(() => {
+				fromSub?.unsubscribe();
+				tillSub?.unsubscribe();
+			});
+		});
+	}
 
 	get ActivityId(): string {
-		return this.activityForm.get('id')?.value as string;
+		return this.activityForm().get('id')?.value as string;
 	}
 
 	get ActivityName(): string {
-		return this.activityForm.get('name')?.value ?? '';
-	}
-
-	ngOnInit(): void {
-		this.activityForm.get('from')?.valueChanges.subscribe(() => {
-			this.service.handleFromChanges(this.activityForm);
-		});
-
-		this.activityForm.get('till')?.valueChanges.subscribe(() => {
-			this.service.handleTillChanges(this.activityForm);
-		});
+		return this.activityForm().get('name')?.value ?? '';
 	}
 
 	async openEditModal() {
@@ -92,7 +79,7 @@ export class DailyActivityItemMobileComponent implements OnInit {
 			const instance = activityEditModal.componentInstance as ActivityItemEditModalComponent;
 			instance.name = this.ActivityName;
 			const nameUpdate = await activityEditModal.result as string;
-			this.activityForm.get('name')?.setValue(nameUpdate);
+			this.activityForm().get('name')?.setValue(nameUpdate);
 		} catch (e) {
 			console.log(e);
 		}

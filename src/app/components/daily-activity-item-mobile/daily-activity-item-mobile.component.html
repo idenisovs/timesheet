@@ -15,7 +15,7 @@
 				</button>
 
 				<div aria-labelledby="dropdownBasic1" ngbDropdownMenu>
-					@if (isFirst) {
+					@if (isFirst()) {
 						<app-menu-item (click)="add.emit(ActivityId)" icon="add" label="Add" />
 					}
 					<app-menu-item (click)="openEditModal()" icon="edit" label="Edit" />
@@ -31,16 +31,16 @@
 
 		<div class="row g-2 mt-1 mb-0">
 			<div class="col-6">
-				<app-time-picker [control]="activityForm.controls.from" />
+				<app-time-picker [control]="activityForm().controls.from" />
 			</div>
 
 			<div class="col-6">
-				<app-time-picker [control]="activityForm.controls.till" />
+				<app-time-picker [control]="activityForm().controls.till" />
 			</div>
 		</div>
 	</main>
 
 	<footer class="card-footer">
-		Duration: {{ activityForm.controls.duration.value || '0h' }}
+		Duration: {{ activityForm().controls.duration.value || '0h' }}
 	</footer>
 </section>
