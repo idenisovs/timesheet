@@ -1,9 +1,10 @@
-	<section class="card">
-		<header class="card-header">
-			<app-daily-activities-week-day-header [day]="day()"/>
-		</header>
+<section class="card">
+	<header class="card-header">
+		<app-daily-activities-week-day-header [day]="day()"/>
+	</header>
 
-		<main class="card-body">
+	<main class="card-body">
+		@if (ActivityFormArray.length > 0) {
 			<form [formGroup]="form">
 				<div class="row d-none d-md-flex">
 					<div class="col-4">
@@ -34,14 +35,31 @@
 					}
 				</div>
 			</form>
-		</main>
+		}
 
-		<footer class="card-footer">
-			<app-daily-activities-week-day-footer
-				[activities]="activities()"
-				[isChanged]="numberOfChanges() > 0"
-				(reset)="reset()"
-			/>
-		</footer>
-	</section>
+		@if (ActivityFormArray.length === 0) {
+			<div class="d-flex align-items-center justify-content-between">
+				<div class="text-secondary">
+					<i class="material-symbols-outlined">Info</i> No activities for this day!
+				</div>
+				<div>
+					<button type="button" class="btn btn-outline-danger me-2" (click)="save()">
+						<i class="material-symbols-outlined">Delete</i> Save and Remove The Day
+					</button>
+					<button type="button" class="btn btn-outline-primary" (click)="reset()">
+						<i class="material-symbols-outlined">Cancel</i> Discard
+					</button>
+				</div>
+			</div>
+		}
+	</main>
+
+	<footer class="card-footer">
+		<app-daily-activities-week-day-footer
+			[activities]="activities()"
+			[isChanged]="numberOfChanges() > 0"
+			(reset)="reset()"
+		/>
+	</footer>
+</section>
 
