@@ -1,6 +1,6 @@
 <div class="sticky-bottom z-0">
 	<div class="card">
-		<div class="card-body">
+		<div class="card-body p-2">
 			<div class="d-flex align-items-center justify-content-between">
 				<div>
 					<i class="material-symbols-outlined text-info">assignment</i> {{ activities().length }}
@@ -8,13 +8,21 @@
 				</div>
 
 				<div>
-					<button type="button" class="btn btn-outline-danger" [ngClass]="{'invisible': !numberOfChanges()}"
-							(click)="reset.emit()">
+					<button
+						type="button"
+						class="btn btn-outline-danger"
+						[ngClass]="{'invisible': !numberOfChanges()}"
+						(click)="reset.emit()"
+					>
 						Reset
 					</button>
 
-					<button type="button" class="btn btn-primary ms-2" [ngClass]="{'invisible': !numberOfChanges()}"
-							(click)="save.emit()">
+					<button
+						type="button"
+						class="btn btn-primary ms-2"
+						[ngClass]="{'invisible': !numberOfChanges()}"
+						(click)="save.emit()"
+					>
 						Save ({{ countdown }})
 					</button>
 				</div>
