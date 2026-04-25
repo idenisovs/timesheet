@@ -1,7 +1,8 @@
 # Changelog
 
 - `3.7.0` - Added the **Settings page** and also the feature to **round the time** to the nearest **five** minutes;
-- `3.6.0` - Revised Accuracy Points calculation ([details](./accuracy_points.md));
+	- `3.7.1` - Refactoring for **Daily Activities Week Day** components;
+- `3.6.0` - Revised Accuracy Points calculation ([details](accuracy_points.md));
 	- `3.6.1` - Split the Daily Activities Week Day component into separate Desktop and Mobile components;
 	- `3.6.2` - The date fields in the `Activity`, `Week`, and `Day` entities now use an **ISO 8601** string format (`YYYY-MM-DD`) instead of JS Date objects;
 	- `3.6.3` - Removed the **Week** and **Day** repository usage, using the ISO date (`YYYY-MM-DD`) instead;

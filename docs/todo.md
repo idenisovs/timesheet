@@ -4,10 +4,6 @@ This file contains a list of _technical_ tasks and considerations.
 
 For a more abstract and high-level perspective, please refer to the [Roadmap](roadmap.md) file.
 
-## Refactoring
-
-1. Check the changes in the Mobile DAWD (_Daily Activities Week Day_) component. 
-
 ## Mobile Mode
 
 - Update the mobile mode with recent changes for date string;
