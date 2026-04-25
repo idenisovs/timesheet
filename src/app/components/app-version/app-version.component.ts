@@ -13,4 +13,5 @@ import { version, build } from '../../../environments/version';
 export class AppVersionComponent {
 	version = version;
 	buildAgo = DateTime.fromISO(build).toRelative();
+	changelogUrl = 'https://github.com/idenisovs/timesheet/blob/master/docs/changelog.md';
 }
