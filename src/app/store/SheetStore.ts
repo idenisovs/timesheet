@@ -8,6 +8,8 @@ import migrateV5 from './migrate-v5';
 import migrateV7 from './migrate-v7';
 import migrateV8 from './migrate-v8';
 import migrateV9 from './migrate-v9';
+import migrateV11 from './migrate-v11';
+import migrateV15 from './migrate-v15';
 
 export default class SheetStore extends Dexie {
 	issues: Dexie.Table<IssueRecord, string>;
@@ -55,6 +57,12 @@ export default class SheetStore extends Dexie {
 			weeks: null,
 			days: null,
 		});
+
+		this.version(11).stores({
+			activities: '&id,name,date,from,till,issueId',
+		}).upgrade((tx: Transaction) => migrateV11(this, tx));
+
+		migrateV15(this);
 
 		this.projects = this.table('projects');
 		this.issues = this.table('issues');
