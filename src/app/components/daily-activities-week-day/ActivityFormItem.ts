@@ -6,6 +6,7 @@ export class ActivityFormItem {
 	from = '';
 	till = '';
 	duration = '';
+	color: string | null = null;
 
 	constructor(activity?: Activity) {
 		if (!activity) {
@@ -17,5 +18,6 @@ export class ActivityFormItem {
 		this.from = activity.from;
 		this.till = activity.till;
 		this.duration = activity.duration;
+		this.color = activity.color ?? null;
 	}
 }

@@ -24,7 +24,8 @@ export class DailyActivityItemComponent {
 		name: [''],
 		from: [''],
 		till: [''],
-		duration: ['']
+		duration: [''],
+		color: [null],
 	});
 
 	@Input()

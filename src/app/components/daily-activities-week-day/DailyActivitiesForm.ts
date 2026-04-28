@@ -6,6 +6,7 @@ export interface ActivityForm {
   till: FormControl<string | null>;
   from: FormControl<string | null>;
   duration: FormControl<string | null>;
+  color: FormControl<string | null>;
 }
 
 export type ActivityFormGroup = FormGroup<ActivityForm>;
