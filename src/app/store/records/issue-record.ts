@@ -5,5 +5,6 @@ export interface IssueRecord {
   activities: number;
   duration: string;
   estimate?: string;
+  color?: string;
   createdAt: Date;
 }
