@@ -54,6 +54,9 @@ Navbar action buttons use a named router outlet.
 - Single quotes in TypeScript files
 - Final newline at end of every file, no trailing whitespace
 - When changing a component's TypeScript, check its HTML template too — and vice versa
+- Getters and setters are OK
+- Getters and Setters must follow the PascalCase
+- Do not write long one-liners and nested function calls
 
 ### Key Conventions
 
