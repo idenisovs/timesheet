@@ -11,6 +11,7 @@ export class Activity {
 	from = '';
 	till = '';
 	duration = '';
+	color?: string;
 	issueId?: string;
 
 	constructor(entity?: Activity) {
