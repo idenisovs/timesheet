@@ -77,6 +77,11 @@ export class ActivitiesRepositoryService {
 		return records.map(Activity.fromRecord);
 	}
 
+	async getFirstByIssueId(issueId: string): Promise<Activity | null> {
+		const record = await this.db.activities.where('issueId').equals(issueId).first();
+		return record ? Activity.fromRecord(record) : null;
+	}
+
 	async getFirstActivity(): Promise<Activity | null> {
 		const record = await this.db.activities.orderBy('date').first();
 		return record ? Activity.fromRecord(record) : null;

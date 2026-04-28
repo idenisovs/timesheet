@@ -12,10 +12,10 @@
 	</thead>
 
 	<tbody>
-		@for (issue of issues; track issue) {
+		@for (issue of issues(); track issue) {
 			<tr class="align-middle">
 				<td class="color-bar-cell">
-					<span class="color-bar" [style.background-color]="issue.color"></span>
+					<span class="color-bar" [style.background-color]="issueColorMap.get(issue.id)"></span>
 				</td>
 				<th scope="row">
 					{{ issue.key }}
