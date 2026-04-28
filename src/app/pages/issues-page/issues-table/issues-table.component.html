@@ -1,7 +1,7 @@
 <table class="table mb-0">
 	<thead>
 	<tr>
-		<th scope="col" class="align-middle" colspan="2">Issue</th>
+		<th scope="col" class="align-middle" colspan="3">Issue</th>
 		<th scope="col" class="text-center align-middle">Activities</th>
 		<th scope="col" class="text-center align-middle">Time</th>
 		<th scope="col" class="text-center align-middle">Estimate</th>
@@ -14,7 +14,12 @@
 	<tbody>
 		@for (issue of issues; track issue) {
 			<tr class="align-middle">
-				<th scope="row">{{ issue.key }}</th>
+				<td class="color-bar-cell">
+					<span class="color-bar" [style.background-color]="issue.color"></span>
+				</td>
+				<th scope="row">
+					{{ issue.key }}
+				</th>
 				<td>{{ issue.name }}</td>
 				<td class="text-center">{{ issue.activities }}</td>
 				<td class="text-center">{{ issue.duration }}</td>

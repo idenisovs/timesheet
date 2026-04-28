@@ -10,6 +10,7 @@ export class Issue {
   activities = 0;
   duration = '0m';
   estimate?: string;
+  color?: string;
   createdAt = new Date();
 
   get FullName(): string {

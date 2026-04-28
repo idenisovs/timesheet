@@ -1,7 +1,21 @@
 tbody {
-  tr:last-child {
-    th, td {
-      border-bottom: none;
-    }
-  }
+	tr:last-child {
+		th, td {
+			border-bottom: none;
+		}
+	}
+}
+
+.color-bar-cell {
+	width: 0;
+	position: relative;
+}
+
+.color-bar {
+	position: absolute;
+	top: 15%;
+	bottom: 15%;
+	left: 0;
+	width: 10px;
+	border-radius: 5px;
 }
