@@ -87,6 +87,16 @@ export class ActivitiesRepositoryService {
 		return record ? Activity.fromRecord(record) : null;
 	}
 
+	async getFirstByName(name: string): Promise<Activity | null> {
+		const record = await this.db.activities.where('name').equals(name).first();
+		return record ? Activity.fromRecord(record) : null;
+	}
+
+	async getFirstByNamePrefix(prefix: string): Promise<Activity | null> {
+		const record = await this.db.activities.where('name').startsWith(prefix + ':').first();
+		return record ? Activity.fromRecord(record) : null;
+	}
+
 	async save(activities: Activity[]): Promise<void> {
 		await this.db.activities.bulkPut(activities);
 	}

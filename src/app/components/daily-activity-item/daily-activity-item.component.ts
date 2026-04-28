@@ -84,6 +84,7 @@ export class DailyActivityItemComponent {
 
 		if (activityName) {
 			this.activityFormItem.get('name')?.setValue(activityName);
+			await this.handleNameChanges();
 		}
 	}
 
@@ -104,6 +105,20 @@ export class DailyActivityItemComponent {
 		if (formField) {
 			formField.setValue(previousTillField.value);
 			this.handleFromChanges();
+		}
+	}
+
+	async handleNameChanges() {
+		const name: string = this.activityFormItem.get('name')?.value;
+
+		if (!name) {
+			return;
+		}
+
+		const color = await this.service.findColorForName(name, this.activities);
+
+		if (color) {
+			this.activityFormItem.get('color')?.setValue(color);
 		}
 	}
 }
