@@ -53,6 +53,10 @@ export class DailyActivityItemComponent {
 		return this.activityFormItem.get('id')?.value;
 	}
 
+	get Color() {
+		return this.activityFormItem.get('color')?.value;
+	}
+
 	handleFromChanges() {
 		this.service.handleFromChanges(this.activityFormItem);
 	}

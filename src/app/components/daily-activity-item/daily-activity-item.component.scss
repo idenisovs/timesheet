@@ -2,3 +2,9 @@
 	width: 8px;
 	border-radius: 4px 0 0 4px;
 }
+
+#activity-name:focus {
+	border-color: var(--activity-color) !important;
+	border-radius: var(--bs-border-radius) !important;
+	box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--activity-color) 25%, transparent) !important;
+}
