@@ -22,13 +22,13 @@ export default async function migrateV16(tx: Transaction) {
 
 			if (prefix != null) {
 				if (!prefixColorMap.has(prefix)) {
-					prefixColorMap.set(prefix, colorsService.getNextColor());
+					prefixColorMap.set(prefix, colorsService.getNextColorHsl());
 				}
 
 				record.color = prefixColorMap.get(prefix);
 			} else {
 				if (!nameColorMap.has(record.name)) {
-					nameColorMap.set(record.name, colorsService.getNextColor());
+					nameColorMap.set(record.name, colorsService.getNextColorHsl());
 				}
 
 				record.color = nameColorMap.get(record.name);

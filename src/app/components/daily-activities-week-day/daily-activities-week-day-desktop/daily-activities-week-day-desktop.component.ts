@@ -116,7 +116,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 
 	protected createActivityFormItem(): ActivityFormGroup {
 		const activity = new Activity().at(this.day());
-		activity.color = this.colorsService.getNextColor();
+		activity.color = this.colorsService.getNextColorHsl();
 		return this.service.makeFormItemFromActivity(activity);
 	}
 

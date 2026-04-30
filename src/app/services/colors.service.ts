@@ -18,6 +18,7 @@ export class ColorsService {
     ];
 
     private readonly storageKey = 'colors-service-step';
+    private readonly hslStorageKey = 'colors-service-hsl-step';
 
     private get CurrentStep(): number {
 		const currentStep = localStorage.getItem(this.storageKey) ?? '0';
@@ -28,11 +29,27 @@ export class ColorsService {
         localStorage.setItem(this.storageKey, String(value));
     }
 
+    private get CurrentHslStep(): number {
+        const currentStep = localStorage.getItem(this.hslStorageKey) ?? '0';
+        return parseInt(currentStep, 10);
+    }
+
+    private set CurrentHslStep(value: number) {
+        localStorage.setItem(this.hslStorageKey, String(value));
+    }
+
     public getNextColor(): string {
         const step = this.CurrentStep;
         const index = (step % 10) * 5 + Math.floor(step / 10);
         this.CurrentStep = (step + 1) % 50;
         return this.palette[index];
+    }
+
+    public getNextColorHsl(): string {
+        const step = this.CurrentHslStep;
+        const hue = (step * 137) % 360;
+        this.CurrentHslStep = step + 1;
+        return `hsl(${hue}, 85%, 55%)`;
     }
 }
 
