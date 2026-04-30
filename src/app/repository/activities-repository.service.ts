@@ -87,6 +87,11 @@ export class ActivitiesRepositoryService {
 		return record ? Activity.fromRecord(record) : null;
 	}
 
+	async getByName(name: string): Promise<Activity[]> {
+		const records = await this.db.activities.where('name').equals(name).toArray();
+		return records.map(Activity.fromRecord);
+	}
+
 	async getFirstByName(name: string): Promise<Activity | null> {
 		const record = await this.db.activities.where('name').equals(name).first();
 		return record ? Activity.fromRecord(record) : null;

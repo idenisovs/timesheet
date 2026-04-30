@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output, signal } from '@angular/core';
+import { Component, effect, inject, input, OnInit, output, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 
@@ -15,7 +15,7 @@ import { ColorsService } from '../../services/colors.service';
 		NgClass,
 	],
 })
-export class DailyActivityItemComponent {
+export class DailyActivityItemComponent implements OnInit {
 	private readonly service = inject(DailyActivityItemService);
 	private readonly colorsService = inject(ColorsService);
 
@@ -30,17 +30,19 @@ export class DailyActivityItemComponent {
 	remove = output<string>();
 	save = output<void>();
 
-	private defaultName = signal<string>('');
-	private previousPrefix = signal<string>('');
-	private isColorChangeRequested = signal(false);
+	private originalName = signal('');
+	private originalPrefix = signal('');
+	private isColorChanged = signal(false);
+	private isColorInherited = signal(false);
+	private isColorDefault = signal(true);
+	private isEmptyActivity = signal(false);
 
 	get ActivityId(): string {
 		return this.activityFormItem().get('id')?.value ?? '';
 	}
 
 	get ActivityName() {
-		const result = this.activityFormItem().get('name')?.value ?? '';
-		return result.trim();
+		return this.activityFormItem().get('name')?.value ?? '';
 	}
 
 	set ActivityName(value: string) {
@@ -55,14 +57,21 @@ export class DailyActivityItemComponent {
 		this.activityFormItem().get('color')?.setValue(value);
 	}
 
+	get CurrentPrefix(): string {
+		return this.service.getPrefixFromName(this.ActivityName);
+	}
+
 	constructor() {
 		effect(() => {
-			this.defaultName.set(this.ActivityName);
-			const prefix = this.service.getPrefixFromName(this.ActivityName);
-			this.previousPrefix.set(prefix ?? '');
-			this.isColorChangeRequested.set(this.ActivityName.length === 0);
+			this.originalName.set(this.ActivityName);
+			this.originalPrefix.set(this.CurrentPrefix);
+			this.isEmptyActivity.set(this.ActivityName.length === 0);
+			this.isColorDefault.set(true);
+			this.isColorChanged.set(false);
 		});
 	}
+
+	async ngOnInit() {}
 
 	handleFromChanges() {
 		this.service.handleFromChanges(this.activityFormItem());
@@ -116,54 +125,54 @@ export class DailyActivityItemComponent {
 	}
 
 	async handleNameChanges() {
-		const currentPrefix = this.service.getPrefixFromName(this.ActivityName) ?? '';
+		if (this.CurrentPrefix.length > 0 && this.CurrentPrefix === this.originalPrefix()) return;
 
-		if (currentPrefix.length === 0 && this.previousPrefix().length > 0) {
-			this.previousPrefix.set('');
-		}
+		this.originalPrefix.set(this.CurrentPrefix);
 
-		if (this.ActivityName.length === 0) {
-			this.requestColorChange();
-			return;
-		}
-
-		if (currentPrefix.length > 0) {
-			await this.findColorForPrefixChange(currentPrefix);
-		} else {
-			await this.findColorForNameChange(this.ActivityName);
-		}
+		await this.triggerColorChange();
 	}
 
-	async findColorForPrefixChange(currentPrefix: string) {
-		if (currentPrefix === this.previousPrefix()) return;
-
-		this.previousPrefix.set(currentPrefix);
+	async triggerColorChange() {
+		if (this.isColorDefault()) {
+			console.log('check if unique')
+			const isUnique = await this.service.isActivityUnique(this.originalName());
+			console.log('isUnique', isUnique)
+			this.isColorDefault.set(isUnique);
+			this.isColorInherited.set(!isUnique);
+		}
 
 		const color = await this.service.findColorForName(this.ActivityName);
 
 		if (color) {
+			console.log('inherit color')
 			this.ActivityColor = color;
-			this.isColorChangeRequested.set(false);
+			this.isColorDefault.set(false);
+			this.isColorInherited.set(true);
+			this.isColorChanged.set(false);
 		} else {
+			console.log('chnage color')
 			this.requestColorChange();
-		}
-	}
-
-	async findColorForNameChange(currentName: string) {
-		const color = await this.service.findColorForName(currentName);
-
-		if (color) {
-			this.ActivityColor = color;
-			this.isColorChangeRequested.set(false); // Allow change color for the future name changes
-		} else {
-			this.requestColorChange();
+			this.isColorInherited.set(false);
 		}
 	}
 
 	requestColorChange() {
-		if (this.isColorChangeRequested()) return;
+		if (this.isColorDefault()) {
+			console.log('color is default')
+			return;
+		}
+
+		if (!this.isColorInherited()) {
+			console.log('color is not inherited')
+			return;
+		}
+
+		if (this.isColorChanged()) {
+			console.log('color is already changed')
+			return;
+		}
 
 		this.ActivityColor = this.colorsService.getNextColorHsl();
-		this.isColorChangeRequested.set(true);
+		this.isColorChanged.set(true);
 	}
 }

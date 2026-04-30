@@ -139,20 +139,24 @@ export class DailyActivityItemService {
 	}
 
 	async findColorForName(name: string): Promise<string | null> {
+		if (name.length === 0) return null;
+
+		let existingActivity = null;
+
 		const prefix = this.getPrefixFromName(name);
 
-		let existingActivity = prefix ? await this.activitiesRepository.getFirstByNamePrefix(prefix) : null;
-
-		if (!existingActivity) {
+		if (prefix.length > 0) {
+			existingActivity = await this.activitiesRepository.getFirstByNamePrefix(prefix)
+		} else {
 			existingActivity = await this.activitiesRepository.getFirstByName(name);
 		}
 
 		return existingActivity?.color ?? null;
 	}
 
-	getPrefixFromName(name: string): string | null {
+	getPrefixFromName(name: string): string {
 		const idx = name.indexOf(':');
-		return idx === -1 ? null : name.slice(0, idx);
+		return idx === -1 ? '' : name.slice(0, idx);
 	}
 
 	getRoundedTimestamp(millis: number): number {
@@ -163,5 +167,11 @@ export class DailyActivityItemService {
 		// Round to the nearest 5-minute step
 		const step = parseDuration('5m') as number;
 		return Math.round(millis / step) * step;
+	}
+
+	async isActivityUnique(name: string): Promise<boolean> {
+		const activities = await this.activitiesRepository.getByName(name);
+
+		return activities.length < 2;
 	}
 }
