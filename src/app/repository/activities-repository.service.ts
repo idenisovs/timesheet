@@ -97,6 +97,11 @@ export class ActivitiesRepositoryService {
 		return record ? Activity.fromRecord(record) : null;
 	}
 
+	async getByPrefix(prefix: string): Promise<Activity[]> {
+		const records = await this.db.activities.where('name').startsWith(prefix).toArray();
+		return records.map(Activity.fromRecord);
+	}
+
 	async getFirstByNamePrefix(prefix: string): Promise<Activity | null> {
 		const record = await this.db.activities.where('name').startsWith(prefix + ':').first();
 		return record ? Activity.fromRecord(record) : null;

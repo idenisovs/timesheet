@@ -141,7 +141,7 @@ export class DailyActivityItemService {
 	async findColorForName(name: string): Promise<string | null> {
 		if (name.length === 0) return null;
 
-		let existingActivity = null;
+		let existingActivity;
 
 		const prefix = this.getPrefixFromName(name);
 
@@ -170,7 +170,17 @@ export class DailyActivityItemService {
 	}
 
 	async isActivityUnique(name: string): Promise<boolean> {
-		const activities = await this.activitiesRepository.getByName(name);
+		if (name.length === 0) return false;
+
+		const prefix = this.getPrefixFromName(name);
+
+		let activities;
+
+		if (prefix.length > 0) {
+			activities = await this.activitiesRepository.getByPrefix(prefix);
+		} else {
+			activities = await this.activitiesRepository.getByName(name);
+		}
 
 		return activities.length < 2;
 	}
