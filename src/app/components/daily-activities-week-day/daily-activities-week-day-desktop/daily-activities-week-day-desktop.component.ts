@@ -23,7 +23,6 @@ import {
 } from '../daily-activities-week-day-header/daily-activities-week-day-header.component';
 import { DailyActivityItemComponent } from '../../daily-activity-item/daily-activity-item.component';
 import { getCurrentDate } from '../../../utils/date-v2';
-import { ColorsService } from '../../../services/colors.service';
 
 @Component({
 	selector: 'app-daily-activities-week-day-desktop',
@@ -41,7 +40,6 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 	protected readonly service = inject(DailyActivitiesWeekDayService);
 	protected readonly activitiesService = inject(ActivitiesService);
 	private readonly fb = inject(FormBuilder);
-	private readonly colorsService = inject(ColorsService);
 
 	public day: InputSignal<Day> = input.required<Day>();
 	public activities: InputSignal<Activity[]> = input.required<Activity[]>();
@@ -115,8 +113,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 	}
 
 	protected createActivityFormItem(): ActivityFormGroup {
-		const activity = new Activity().at(this.day());
-		activity.color = this.colorsService.getNextColorHsl();
+		const activity = this.activitiesService.createActivity(this.day());
 		return this.service.makeFormItemFromActivity(activity);
 	}
 

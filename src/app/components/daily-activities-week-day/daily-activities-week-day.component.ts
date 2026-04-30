@@ -19,6 +19,7 @@ import { SaveActivitiesWorkflowService } from '../../workflows/save-activities-w
 import {
 	DailyActivitiesWeekDayMissingComponent,
 } from '../daily-activities-week-day-missing/daily-activities-week-day-missing.component';
+import { ActivitiesService } from '../../services/activities.service';
 
 @Component({
 	selector: 'app-daily-activities-week-day',
@@ -34,6 +35,7 @@ import {
 export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 	private readonly screenService = inject(ScreenService);
 	private readonly activityRepository = inject(ActivitiesRepositoryService);
+	private readonly activitiesService = inject(ActivitiesService);
 	private readonly saveActivitiesWorkflow = inject(SaveActivitiesWorkflowService);
 	private readonly removeActivitiesWorkflow = inject(RemoveActivitiesWorkflowService);
 
@@ -67,7 +69,7 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 	}
 
 	protected async appendMissingDay(day: Day) {
-		const activity = new Activity().at(day);
+		const activity = this.activitiesService.createActivity(day);
 		await this.activityRepository.save([activity]);
 		this.activities.set([activity]);
 	}

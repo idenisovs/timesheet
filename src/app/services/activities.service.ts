@@ -1,13 +1,15 @@
 import { inject, Injectable } from '@angular/core';
 
-import { Activity, ActivitySummary } from '../entities';
+import { Activity, ActivitySummary, Day } from '../entities';
 import { DurationService } from './duration.service';
+import { ColorsService } from './colors.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ActivitiesService {
 	private readonly durationService = inject(DurationService);
+	private readonly colorsService = inject(ColorsService);
 
 	public calculateDurationMs(activities: Activity[]): number {
 		return activities.reduce<number>((result: number, activity: Activity) => {
@@ -40,5 +42,12 @@ export class ActivitiesService {
 
 	public findOverlappingActivities(activities: Activity[], target: Activity): Activity[] {
 		return activities.filter(activity => activity.overlaps(target));
+	}
+
+	public createActivity(day = new Day()): Activity {
+		const activity = new Activity();
+		activity.date = day.date;
+		activity.color = this.colorsService.getNextColorHsl();
+		return activity;
 	}
 }
