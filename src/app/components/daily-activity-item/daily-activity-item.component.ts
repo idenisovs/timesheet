@@ -1,9 +1,10 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, output, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 
 import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
 import { DailyActivityItemService } from './daily-activity-item.service';
+import { ColorsService } from '../../services/colors.service';
 
 @Component({
 	selector: 'app-daily-activity-item',
@@ -15,7 +16,8 @@ import { DailyActivityItemService } from './daily-activity-item.service';
 	],
 })
 export class DailyActivityItemComponent {
-	private service = inject(DailyActivityItemService);
+	private readonly service = inject(DailyActivityItemService);
+	private readonly colorsService = inject(ColorsService);
 
 	activityFormItem = input.required<ActivityFormGroup>();
 	activities = input<ActivityFormGroup[]>([]);
@@ -28,12 +30,38 @@ export class DailyActivityItemComponent {
 	remove = output<string>();
 	save = output<void>();
 
+	private defaultName = signal<string>('');
+	private previousPrefix = signal<string>('');
+	private isColorChangeRequested = signal(false);
+
 	get ActivityId(): string {
 		return this.activityFormItem().get('id')?.value ?? '';
 	}
 
-	get Color() {
-		return this.activityFormItem().get('color')?.value;
+	get ActivityName() {
+		const result = this.activityFormItem().get('name')?.value ?? '';
+		return result.trim();
+	}
+
+	set ActivityName(value: string) {
+		this.activityFormItem().get('name')?.setValue(value);
+	}
+
+	get ActivityColor() {
+		return this.activityFormItem().get('color')?.value ?? '';
+	}
+
+	set ActivityColor(value: string) {
+		this.activityFormItem().get('color')?.setValue(value);
+	}
+
+	constructor() {
+		effect(() => {
+			this.defaultName.set(this.ActivityName);
+			const prefix = this.service.getPrefixFromName(this.ActivityName);
+			this.previousPrefix.set(prefix ?? '');
+			this.isColorChangeRequested.set(this.ActivityName.length === 0);
+		});
 	}
 
 	handleFromChanges() {
@@ -49,24 +77,20 @@ export class DailyActivityItemComponent {
 	}
 
 	async copyActivityName() {
-		const activityName: string | null | undefined = this.activityFormItem().get('name')?.value;
-
-		if (!activityName) {
-			return;
-		}
+		if (!this.ActivityName) return;
 
 		if (navigator.clipboard) {
-			await navigator.clipboard.writeText(activityName);
+			await navigator.clipboard.writeText(this.ActivityName);
 		}
 
-		sessionStorage.setItem('clipboard', activityName);
+		sessionStorage.setItem('clipboard', this.ActivityName);
 	}
 
 	async pasteActivityName() {
 		const activityName = sessionStorage.getItem('clipboard');
 
 		if (activityName) {
-			this.activityFormItem().get('name')?.setValue(activityName);
+			this.ActivityName = activityName;
 			await this.handleNameChanges();
 		}
 	}
@@ -92,16 +116,55 @@ export class DailyActivityItemComponent {
 	}
 
 	async handleNameChanges() {
-		const name = this.activityFormItem().get('name')?.value;
+		const currentPrefix = this.service.getPrefixFromName(this.ActivityName);
+		const isPrefixPresented = currentPrefix != null;
 
-		if (!name) {
+		if (!isPrefixPresented && this.previousPrefix().length > 0) {
+			this.previousPrefix.set('');
+		}
+
+		if (this.ActivityName.length === 0) {
+			this.requestColorChange();
 			return;
 		}
 
-		const color = await this.service.findColorForName(name);
+		if (isPrefixPresented) {
+			await this.findColorForPrefixChange(currentPrefix);
+		} else {
+			await this.findColorForNameChange(this.ActivityName);
+		}
+	}
+
+	async findColorForPrefixChange(currentPrefix: string) {
+		if (currentPrefix === this.previousPrefix()) return;
+
+		this.previousPrefix.set(currentPrefix);
+
+		const color = await this.service.findColorForName(this.ActivityName);
 
 		if (color) {
-			this.activityFormItem().get('color')?.setValue(color);
+			this.ActivityColor = color;
+			this.isColorChangeRequested.set(false);
+		} else {
+			this.requestColorChange();
 		}
+	}
+
+	async findColorForNameChange(currentName: string) {
+		const color = await this.service.findColorForName(currentName);
+
+		if (color) {
+			this.ActivityColor = color;
+			this.isColorChangeRequested.set(false); // Allow change color for the future name changes
+		} else {
+			this.requestColorChange();
+		}
+	}
+
+	requestColorChange() {
+		if (this.isColorChangeRequested()) return;
+
+		this.ActivityColor = this.colorsService.getNextColorHsl();
+		this.isColorChangeRequested.set(true);
 	}
 }

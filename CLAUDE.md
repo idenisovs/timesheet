@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 npm start          # dev server (http)
-npm run start:https # dev server (https, uses local SSL cert)
+npm run https      # dev server (https, uses local SSL cert)
 npm run build      # production build
 npm test           # run tests (Karma/Jasmine)
 npm run watch      # build in watch mode

@@ -1,7 +1,7 @@
 <div class="row mb-2" [formGroup]="activityFormItem()">
 	<div class="form-group col-12 col-md-4 m-0">
 		<div class="d-flex align-items-center gap-1 mb-2 mb-md-0">
-			<span class="color-bar p-0 m-0" [style.background-color]="Color" [ngClass]="'bar-' + barPosition()"></span>
+			<span class="color-bar p-0 m-0" [style.background-color]="ActivityColor" [ngClass]="'bar-' + barPosition()"></span>
 			<div class="input-group">
 				<input
 					id="activity-name"
@@ -68,13 +68,23 @@
 	</div>
 
 	<div class="col-12 col-md-2 m-0 d-flex align-items-center justify-content-end justify-content-md-start">
-		<button type="button" class="btn btn-outline-info p-1 ms-2" [ngClass]="{ 'invisible': !isLast() }"
-				(click)="add.emit()">
+		<button
+			type="button"
+			class="btn btn-outline-info p-1 ms-2"
+			[ngClass]="{ 'invisible': !isLast() }"
+			(click)="add.emit()"
+		>
 			<i class="material-symbols-outlined">add</i>
 		</button>
-		<button type="button" class="btn btn-outline-info p-1 me-0 ms-2" (click)="remove.emit(ActivityId)">
+
+		<button
+			type="button"
+			class="btn btn-outline-info p-1 me-0 ms-2"
+			(click)="remove.emit(ActivityId)"
+		>
 			<i class="material-symbols-outlined">remove</i>
 		</button>
+
 		<button
 			type="button"
 			class="btn btn-outline-primary p-1 ms-2"

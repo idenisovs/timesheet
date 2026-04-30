@@ -139,8 +139,7 @@ export class DailyActivityItemService {
 	}
 
 	async findColorForName(name: string): Promise<string | null> {
-		const idx = name.indexOf(':');
-		const prefix = idx !== -1 ? name.slice(0, idx) : null;
+		const prefix = this.getPrefixFromName(name);
 
 		let existingActivity = prefix ? await this.activitiesRepository.getFirstByNamePrefix(prefix) : null;
 
@@ -149,6 +148,11 @@ export class DailyActivityItemService {
 		}
 
 		return existingActivity?.color ?? null;
+	}
+
+	getPrefixFromName(name: string): string | null {
+		const idx = name.indexOf(':');
+		return idx === -1 ? null : name.slice(0, idx);
 	}
 
 	getRoundedTimestamp(millis: number): number {
