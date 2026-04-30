@@ -1,5 +1,5 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
+import { Component, inject, input, output } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 
 import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
@@ -12,68 +12,44 @@ import { DailyActivityItemService } from './daily-activity-item.service';
 	imports: [
 		ReactiveFormsModule,
 		NgClass,
-	]
+	],
 })
 export class DailyActivityItemComponent {
-	private fb = inject(UntypedFormBuilder);
 	private service = inject(DailyActivityItemService);
 
-	@Input()
-	activityFormItem = this.fb.group({
-		id: [''],
-		name: [''],
-		from: [''],
-		till: [''],
-		duration: [''],
-		color: [null],
-	});
+	activityFormItem = input.required<ActivityFormGroup>();
+	activities = input<ActivityFormGroup[]>([]);
+	idx = input(0);
+	isFirst = input(false);
+	isLast = input(false);
+	barPosition = input<'solo' | 'first' | 'middle' | 'last'>('solo');
 
-	@Input()
-	activities: ActivityFormGroup[] = [];
-
-	@Input()
-	idx = 0;
-
-	@Input()
-	isFirst = false;
-
-	@Input()
-	isLast = false;
-
-	@Input()
-	barPosition: 'solo' | 'first' | 'middle' | 'last' = 'solo';
-
-	@Output()
-	add = new EventEmitter<void>();
-
-	@Output()
-	remove = new EventEmitter<string>();
-
-	@Output()
-	save = new EventEmitter<void>();
+	add = output<void>();
+	remove = output<string>();
+	save = output<void>();
 
 	get ActivityId(): string {
-		return this.activityFormItem.get('id')?.value;
+		return this.activityFormItem().get('id')?.value ?? '';
 	}
 
 	get Color() {
-		return this.activityFormItem.get('color')?.value;
+		return this.activityFormItem().get('color')?.value;
 	}
 
 	handleFromChanges() {
-		this.service.handleFromChanges(this.activityFormItem);
+		this.service.handleFromChanges(this.activityFormItem());
 	}
 
 	handleTillChanges() {
-		this.service.handleTillChanges(this.activityFormItem);
+		this.service.handleTillChanges(this.activityFormItem());
 	}
 
 	handleDurationChanges() {
-		this.service.handleDurationChanges(this.activityFormItem);
+		this.service.handleDurationChanges(this.activityFormItem());
 	}
 
 	async copyActivityName() {
-		const activityName: string | undefined = this.activityFormItem.get('name')?.value;
+		const activityName: string | null | undefined = this.activityFormItem().get('name')?.value;
 
 		if (!activityName) {
 			return;
@@ -90,24 +66,24 @@ export class DailyActivityItemComponent {
 		const activityName = sessionStorage.getItem('clipboard');
 
 		if (activityName) {
-			this.activityFormItem.get('name')?.setValue(activityName);
+			this.activityFormItem().get('name')?.setValue(activityName);
 			await this.handleNameChanges();
 		}
 	}
 
 	setCurrentTime(field: 'from' | 'till') {
-		this.service.setCurrentTime(this.activityFormItem, field);
+		this.service.setCurrentTime(this.activityFormItem(), field);
 	}
 
 	setTimeFromPreviousActivity() {
-		const previousActivity = this.activities[this.idx - 1];
+		const previousActivity = this.activities()[this.idx() - 1];
 		const previousTillField = previousActivity.get('till');
 
 		if (!previousTillField) {
 			return;
 		}
 
-		const formField = this.activityFormItem.get('from');
+		const formField = this.activityFormItem().get('from');
 
 		if (formField) {
 			formField.setValue(previousTillField.value);
@@ -116,7 +92,7 @@ export class DailyActivityItemComponent {
 	}
 
 	async handleNameChanges() {
-		const name: string = this.activityFormItem.get('name')?.value;
+		const name = this.activityFormItem().get('name')?.value;
 
 		if (!name) {
 			return;
@@ -125,7 +101,7 @@ export class DailyActivityItemComponent {
 		const color = await this.service.findColorForName(name);
 
 		if (color) {
-			this.activityFormItem.get('color')?.setValue(color);
+			this.activityFormItem().get('color')?.setValue(color);
 		}
 	}
 }

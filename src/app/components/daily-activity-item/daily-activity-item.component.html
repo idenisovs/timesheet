@@ -1,7 +1,7 @@
-<div class="row mb-2" [formGroup]="activityFormItem">
+<div class="row mb-2" [formGroup]="activityFormItem()">
 	<div class="form-group col-12 col-md-4 m-0">
 		<div class="d-flex align-items-center gap-1 mb-2 mb-md-0">
-			<span class="color-bar p-0 m-0" [style.background-color]="Color" [ngClass]="'bar-' + barPosition"></span>
+			<span class="color-bar p-0 m-0" [style.background-color]="Color" [ngClass]="'bar-' + barPosition()"></span>
 			<div class="input-group">
 				<input
 					id="activity-name"
@@ -33,7 +33,7 @@
 				(input)="handleFromChanges()"
 			>
 
-			@if (!isFirst) {
+			@if (!isFirst()) {
 				<button class="btn btn-sm btn-outline-secondary" type="button" (click)="setTimeFromPreviousActivity()">
 					<i class="material-symbols-outlined">north_east</i>
 				</button>
@@ -68,7 +68,7 @@
 	</div>
 
 	<div class="col-12 col-md-2 m-0 d-flex align-items-center justify-content-end justify-content-md-start">
-		<button type="button" class="btn btn-outline-info p-1 ms-2" [ngClass]="{ 'invisible': !isLast }"
+		<button type="button" class="btn btn-outline-info p-1 ms-2" [ngClass]="{ 'invisible': !isLast() }"
 				(click)="add.emit()">
 			<i class="material-symbols-outlined">add</i>
 		</button>
@@ -78,7 +78,7 @@
 		<button
 			type="button"
 			class="btn btn-outline-primary p-1 ms-2"
-			[hidden]="!isLast"
+			[hidden]="!isLast()"
 			(click)="save.emit()"
 		>
 			<i class="material-symbols-outlined">save</i>
