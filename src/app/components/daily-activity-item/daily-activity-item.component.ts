@@ -116,10 +116,9 @@ export class DailyActivityItemComponent {
 	}
 
 	async handleNameChanges() {
-		const currentPrefix = this.service.getPrefixFromName(this.ActivityName);
-		const isPrefixPresented = currentPrefix != null;
+		const currentPrefix = this.service.getPrefixFromName(this.ActivityName) ?? '';
 
-		if (!isPrefixPresented && this.previousPrefix().length > 0) {
+		if (currentPrefix.length === 0 && this.previousPrefix().length > 0) {
 			this.previousPrefix.set('');
 		}
 
@@ -128,7 +127,7 @@ export class DailyActivityItemComponent {
 			return;
 		}
 
-		if (isPrefixPresented) {
+		if (currentPrefix.length > 0) {
 			await this.findColorForPrefixChange(currentPrefix);
 		} else {
 			await this.findColorForNameChange(this.ActivityName);
