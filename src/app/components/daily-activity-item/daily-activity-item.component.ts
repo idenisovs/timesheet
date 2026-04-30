@@ -115,7 +115,7 @@ export class DailyActivityItemComponent {
 			return;
 		}
 
-		const color = await this.service.findColorForName(name, this.activities);
+		const color = await this.service.findColorForName(name);
 
 		if (color) {
 			this.activityFormItem.get('color')?.setValue(color);

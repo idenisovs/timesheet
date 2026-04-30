@@ -6,7 +6,6 @@ import { DateTime } from 'luxon';
 import { DurationService } from '../../services/duration.service';
 import { SettingsService } from '../../services/settings.service';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
-import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
 
 const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/;
 
@@ -139,26 +138,17 @@ export class DailyActivityItemService {
 		return DateTime.fromMillis(millis).toFormat('HH:mm');
 	}
 
-	async findColorForName(name: string, activities: ActivityFormGroup[]): Promise<string | null> {
-		const prefix = name.indexOf(':') !== -1 ? name.slice(0, name.indexOf(':')) : null;
+	async findColorForName(name: string): Promise<string | null> {
+		const idx = name.indexOf(':');
+		const prefix = idx !== -1 ? name.slice(0, idx) : null;
 
-		const byName = activities.find(a => a.get('name')?.value === name);
-		if (byName?.get('color')?.value) return byName.get('color')!.value;
+		let existingActivity = prefix ? await this.activitiesRepository.getFirstByNamePrefix(prefix) : null;
 
-		if (prefix) {
-			const byPrefix = activities.find(a => a.get('name')?.value?.startsWith(prefix + ':'));
-			if (byPrefix?.get('color')?.value) return byPrefix.get('color')!.value;
+		if (!existingActivity) {
+			existingActivity = await this.activitiesRepository.getFirstByName(name);
 		}
 
-		const fromRepoByName = await this.activitiesRepository.getFirstByName(name);
-		if (fromRepoByName?.color) return fromRepoByName.color;
-
-		if (prefix) {
-			const fromRepoByPrefix = await this.activitiesRepository.getFirstByNamePrefix(prefix);
-			if (fromRepoByPrefix?.color) return fromRepoByPrefix.color;
-		}
-
-		return null;
+		return existingActivity?.color ?? null;
 	}
 
 	getRoundedTimestamp(millis: number): number {
