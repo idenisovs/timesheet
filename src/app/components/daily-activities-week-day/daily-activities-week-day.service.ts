@@ -29,6 +29,28 @@ export class DailyActivitiesWeekDayService {
 		return [activity, activityIdx];
 	}
 
+	public getBarPosition(idx: number, items: ActivityFormGroup[]): 'solo' | 'first' | 'middle' | 'last' {
+		const nameAt = (i: number): string => items[i]?.get('name')?.value ?? '';
+		const groupKey = (name: string): string => {
+			const colonIdx = name.indexOf(':');
+			return colonIdx !== -1 ? name.slice(0, colonIdx) : name;
+		};
+
+		const isSameGroup = (a: string, b: string): boolean => {
+			if (!a || !b) return false;
+			return groupKey(a) === groupKey(b);
+		};
+
+		const current = nameAt(idx);
+		const sameAsPrev = idx > 0 && isSameGroup(current, nameAt(idx - 1));
+		const sameAsNext = idx < items.length - 1 && isSameGroup(current, nameAt(idx + 1));
+
+		if (sameAsPrev && sameAsNext) return 'middle';
+		if (sameAsPrev) return 'last';
+		if (sameAsNext) return 'first';
+		return 'solo';
+	}
+
 	public processActivityFormArray(activityFormArray: FormArray<ActivityFormGroup>, day: Day, activities: Activity[]): Activity[] {
 		return activityFormArray.value.map((formItem) => {
 			const existingActivity = activities.find((activity: Activity) => {

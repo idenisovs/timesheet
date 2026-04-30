@@ -40,6 +40,9 @@ export class DailyActivityItemComponent {
 	@Input()
 	isLast = false;
 
+	@Input()
+	barPosition: 'solo' | 'first' | 'middle' | 'last' = 'solo';
+
 	@Output()
 	add = new EventEmitter<void>();
 

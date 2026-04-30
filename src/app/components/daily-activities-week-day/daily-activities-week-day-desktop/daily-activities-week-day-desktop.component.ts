@@ -121,6 +121,10 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 		return this.activitiesService.sort(this.activities());
 	}
 
+	protected getBarPosition(idx: number): 'solo' | 'first' | 'middle' | 'last' {
+		return this.service.getBarPosition(idx, this.ActivityFormArrayItems);
+	}
+
 	private updateActivitiesForm() {
 		const activityFormItems: ActivityFormGroup[] = this.sorted().map((activity: Activity) => {
 			return this.service.makeFormItemFromActivity(activity);
