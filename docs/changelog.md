@@ -1,5 +1,6 @@
 # Changelog
 
+- `3.8.0` - Activities now have **color bars** that reflect their group (by name or prefix). Colors are automatically assigned and shared across activities with the same name or prefix. The **Settings page** received options to switch the color generation mode and to regenerate all activity colors;
 - `3.7.0` - Added the **Settings page** and also the feature to **round the time** to the nearest **five** minutes;
 	- `3.7.1` - Refactoring for **Daily Activities Week Day** components;
 - `3.6.0` - Revised Accuracy Points calculation ([details](accuracy_points.md));
