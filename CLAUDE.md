@@ -8,7 +8,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm start          # dev server (http)
 npm run https      # dev server (https, uses local SSL cert)
 npm run build      # production build
-npm test           # run tests (Karma/Jasmine)
+npm test           # run tests headless in terminal (Karma/Jasmine)
+npm run test:watch # run tests in watch mode with Chrome window
 npm run watch      # build in watch mode
 ```
 
