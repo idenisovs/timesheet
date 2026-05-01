@@ -8,6 +8,11 @@
 					producing maximally distinct hues. When disabled, colors step by 49° for a more
 					sequential progression.
 				</small>
+				<div class="d-flex flex-wrap gap-1 mt-2">
+					@for (color of previewColors(); track color) {
+						<span style="width: 20px; height: 20px; border-radius: 2px; display: inline-block;" [style.background-color]="color"></span>
+					}
+				</div>
 			</label>
 			<div class="form-check form-switch mb-0 ms-4 flex-shrink-0">
 				<input

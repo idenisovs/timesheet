@@ -55,13 +55,15 @@ export class ColorsService {
     }
 
     public getNextColorHsl(): string {
-        const step = this.CurrentHslStep;
-        const isOpposite = this.settingsService.settings$().isOppositeColorMode;
-        const offset = isOpposite ? 137 : 49;
-        const hue = (step * offset) % 360;
-
-        this.CurrentHslStep = step + 1;
-        return `hsl(${hue}, 85%, 55%)`;
+        const step = this.CurrentHslStep++;
+        return this.getColorHsl(step);
     }
+
+	public getColorHsl(step: number): string {
+		const isOpposite = this.settingsService.settings$().isOppositeColorMode;
+		const offset = isOpposite ? 137 : 49;
+		const hue = (step * offset) % 360;
+		return `hsl(${hue}, 85%, 55%)`;
+	}
 }
 
