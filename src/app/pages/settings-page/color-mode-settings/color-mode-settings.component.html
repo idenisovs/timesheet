@@ -1,0 +1,24 @@
+<section class="card">
+	<div class="card-body">
+		<div [formGroup]="form()" class="d-flex justify-content-between align-items-center">
+			<label for="colorModeSwitch" style="cursor: pointer;">
+				<div class="fw-semibold">Opposite color mode</div>
+				<small class="text-muted">
+					When enabled, new activity colors are distributed using the golden angle (137°),
+					producing maximally distinct hues. When disabled, colors step by 49° for a more
+					sequential progression.
+				</small>
+			</label>
+			<div class="form-check form-switch mb-0 ms-4 flex-shrink-0">
+				<input
+					id="colorModeSwitch"
+					type="checkbox"
+					role="switch"
+					class="form-check-input"
+					style="cursor: pointer;"
+					formControlName="isOppositeColorMode"
+				>
+			</div>
+		</div>
+	</div>
+</section>

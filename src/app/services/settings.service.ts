@@ -3,6 +3,7 @@ import { AppSettings } from '../entities';
 
 const DEFAULT_SETTINGS: AppSettings = {
 	isTimeRoundingEnabled: false,
+	isOppositeColorMode: false,
 };
 
 

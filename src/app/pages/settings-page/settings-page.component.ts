@@ -5,10 +5,11 @@ import { Subscription } from 'rxjs';
 import { SettingsService } from '../../services/settings.service';
 import { AppSettings } from '../../entities';
 import { TimeRoundingSettingsComponent } from './time-rounding-settings/time-rounding-settings.component';
+import { ColorModeSettingsComponent } from './color-mode-settings/color-mode-settings.component';
 
 @Component({
 	selector: 'app-settings-page',
-	imports: [ReactiveFormsModule, TimeRoundingSettingsComponent],
+	imports: [ReactiveFormsModule, TimeRoundingSettingsComponent, ColorModeSettingsComponent],
 	templateUrl: './settings-page.component.html',
 	styleUrl: './settings-page.component.scss',
 })
@@ -19,6 +20,7 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
 
 	form = this.fb.group({
 		isTimeRoundingEnabled: [false],
+		isOppositeColorMode: [false],
 	});
 
 	ngOnInit() {

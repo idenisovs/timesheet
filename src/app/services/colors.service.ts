@@ -1,9 +1,13 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+
+import { SettingsService } from './settings.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ColorsService {
+    private readonly settingsService = inject(SettingsService);
+
     private readonly palette: string[] = [
         '#FF1744', '#FF4081', '#F50057', '#D500F9', '#651FFF',
         '#3D5AFE', '#2979FF', '#00B0FF', '#00E5FF', '#1DE9B6',
@@ -50,9 +54,10 @@ export class ColorsService {
         return this.palette[index];
     }
 
-    public getNextColorHsl(mode: 'opposite' | 'next' = 'opposite'): string {
+    public getNextColorHsl(): string {
         const step = this.CurrentHslStep;
-		const offset = mode === 'opposite' ? 137 : 49;
+        const isOpposite = this.settingsService.settings$().isOppositeColorMode;
+        const offset = isOpposite ? 137 : 49;
         const hue = (step * offset) % 360;
 
         this.CurrentHslStep = step + 1;
