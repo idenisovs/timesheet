@@ -19,6 +19,7 @@ export class ColorsService {
 
     private readonly storageKey = 'colors-service-step';
     private readonly hslStorageKey = 'colors-service-hsl-step';
+	private readonly resetCount = 360 * 10**3;
 
     private get CurrentStep(): number {
 		const currentStep = localStorage.getItem(this.storageKey) ?? '0';
@@ -26,6 +27,10 @@ export class ColorsService {
     }
 
     private set CurrentStep(value: number) {
+		if (value > this.resetCount) {
+			value = 0;
+		}
+
         localStorage.setItem(this.storageKey, String(value));
     }
 
@@ -45,9 +50,11 @@ export class ColorsService {
         return this.palette[index];
     }
 
-    public getNextColorHsl(): string {
+    public getNextColorHsl(mode: 'opposite' | 'next' = 'opposite'): string {
         const step = this.CurrentHslStep;
-        const hue = (step * 137) % 360;
+		const offset = mode === 'opposite' ? 137 : 49;
+        const hue = (step * offset) % 360;
+
         this.CurrentHslStep = step + 1;
         return `hsl(${hue}, 85%, 55%)`;
     }
