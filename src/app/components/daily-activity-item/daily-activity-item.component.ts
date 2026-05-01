@@ -125,7 +125,10 @@ export class DailyActivityItemComponent {
 	}
 
 	async triggerColorChange() {
-		const isPrefixInUse = (this.CurrentPrefix.length + this.originalPrefix().length) > 0;
+		const cpl = this.CurrentPrefix;
+		const opl = this.originalPrefix();
+
+		const isPrefixInUse = opl.length || cpl.length;
 
 		if (isPrefixInUse) {
 			await this.prefixBasedColorChange();
