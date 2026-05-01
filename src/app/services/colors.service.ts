@@ -1,5 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 
+import { Activity } from '../entities';
+import { ActivitiesRepositoryService } from '../repository/activities-repository.service';
 import { SettingsService } from './settings.service';
 
 @Injectable({
@@ -7,6 +9,7 @@ import { SettingsService } from './settings.service';
 })
 export class ColorsService {
     private readonly settingsService = inject(SettingsService);
+    private readonly activitiesRepository = inject(ActivitiesRepositoryService);
 
     private readonly palette: string[] = [
         '#FF1744', '#FF4081', '#F50057', '#D500F9', '#651FFF',
@@ -54,10 +57,35 @@ export class ColorsService {
         return this.palette[index];
     }
 
-    public getNextColorHsl(): string {
-        const step = this.CurrentHslStep++;
-        return this.getColorHsl(step);
-    }
+	public async regenerateActivityColors(): Promise<void> {
+		const activities = await this.activitiesRepository.getAll() as Activity[];
+		const prefixColorMap = new Map<string, string>();
+		const nameColorMap = new Map<string, string>();
+
+		for (const activity of activities) {
+			const colonIdx = activity.name.indexOf(':');
+			const prefix = colonIdx !== -1 ? activity.name.slice(0, colonIdx) : null;
+
+			if (prefix !== null) {
+				if (!prefixColorMap.has(prefix)) {
+					prefixColorMap.set(prefix, this.getNextColorHsl());
+				}
+				activity.color = prefixColorMap.get(prefix)!;
+			} else {
+				if (!nameColorMap.has(activity.name)) {
+					nameColorMap.set(activity.name, this.getNextColorHsl());
+				}
+				activity.color = nameColorMap.get(activity.name)!;
+			}
+		}
+
+		await this.activitiesRepository.save(activities);
+	}
+
+	public getNextColorHsl(): string {
+		const step = this.CurrentHslStep++;
+		return this.getColorHsl(step);
+	}
 
 	public getColorHsl(step: number): string {
 		const isOpposite = this.settingsService.settings$().isOppositeColorMode;
