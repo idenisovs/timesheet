@@ -19,6 +19,7 @@ import { delay } from '../../utils';
 import { getPreviousWeek } from '../../utils/date-v2';
 import { DailyActivitiesWeekComponent } from '../../components/daily-activities-week/daily-activities-week.component';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
+import { ActivitiesService } from '../../services/activities.service';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 	private actionsService = inject(ActionsService);
 	private exportWorkflow = inject(ExportWorkflowService);
 	private activitiesRepo = inject(ActivitiesRepositoryService);
+	private activitiesService = inject(ActivitiesService);
 
 	private actionSubs = this.actionsService.on.subscribe(this.handlePageActions.bind(this));
 	private myOwnLittleInfiniteScroll!: Subscription;
@@ -67,7 +69,9 @@ export class DailyActivitiesPageComponent implements OnInit, AfterViewInit, OnDe
 			return existingActivity;
 		}
 
-		return await this.activitiesRepo.create();
+		const activity = this.activitiesService.createActivity();
+		await this.activitiesRepo.save([activity]);
+		return activity;
 	}
 
 	private attachInfiniteScroll() {
