@@ -1,6 +1,5 @@
 import Dexie, { Transaction } from 'dexie';
 
-import { ColorsService } from '../services/colors.service';
 import { ActivityRecord } from './records';
 import { paginateTable } from './paginate-table';
 
@@ -9,9 +8,15 @@ function extractPrefix(name: string): string | null {
 	return colonIndex !== -1 ? name.slice(0, colonIndex) : null;
 }
 
-export default async function migrateV16(tx: Transaction) {
-	const colorsService = new ColorsService();
+let hslStep = 0;
 
+function getNextColorHsl(): string {
+	const step = hslStep++;
+	const hue = (step * 49) % 360;
+	return `hsl(${hue}, 85%, 55%)`;
+}
+
+export default async function migrateV16(tx: Transaction) {
 	const activityTable = tx.table('activities') as Dexie.Table<ActivityRecord, string>;
 	const prefixColorMap = new Map<string, string>();
 	const nameColorMap = new Map<string, string>();
@@ -22,13 +27,13 @@ export default async function migrateV16(tx: Transaction) {
 
 			if (prefix != null) {
 				if (!prefixColorMap.has(prefix)) {
-					prefixColorMap.set(prefix, colorsService.getNextColorHsl());
+					prefixColorMap.set(prefix, getNextColorHsl());
 				}
 
 				record.color = prefixColorMap.get(prefix);
 			} else {
 				if (!nameColorMap.has(record.name)) {
-					nameColorMap.set(record.name, colorsService.getNextColorHsl());
+					nameColorMap.set(record.name, getNextColorHsl());
 				}
 
 				record.color = nameColorMap.get(record.name);
