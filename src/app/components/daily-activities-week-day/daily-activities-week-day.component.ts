@@ -78,7 +78,8 @@ export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
 		const activities: Activity[] = await this.activityRepository.getByDay(this.day());
 
 		if (activities.length === 0 && this.day().date === getCurrentDate()) {
-			activities.push(new Activity().at(this.day()));
+			const activity = this.activitiesService.createActivity(this.day());
+			activities.push(activity);
 		}
 
 		this.activities.set(activities);
