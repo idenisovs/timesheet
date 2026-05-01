@@ -13,9 +13,9 @@ The most important properties of an activity are:
 
 The name of an activity determines its **type** (or, let's say a **scope**):
 
-1. **Simple** activity with no scope. Can have one or many entries. It relates to itself and records with the exact same name. Imagine a name like _Learning Bayes theorem_.
+1. **Simple** activity with no scope. Can have one or many entries. It has no external grouping or parent entity. Imagine a name like _Learning Bayes theorem_.
 2. **Categorized** activity. Something you are doing recurrently. Relates to some **category** or **group**. Imagine a name like _Housekeeping: Cooking_.
-3. **Work Item** activity. Represents an activity associated with a larger **unit of work**. Imagine names like `ABC-1234: Update FE with recent changes.`, `ABC-1234: Store user settings in a JSONB column` and `ABC-1234: Update userinfo object`. They all relate to the same single **unit of work** - **ABC-1234**.
+3. **Work Item** activity. Represents an activity associated with a larger **unit of work**. Imagine names like `ABC-1234: Update FE with recent changes.`, `ABC-1234: Store user settings in a JSONB column` and `ABC-1234: Update userinfo object`. 
 
 ### Simple Activities
 
@@ -47,11 +47,12 @@ Those activities are scoped to some **category** or **group**, like _Housekeepin
 
 ### Work Item Activities
 
-The [task management systems](https://en.wikipedia.org/wiki/Category:Task_management_software) tend to use a term **ticket** or **issue** to refer to a single **unit of work**. 
+The [task management systems](https://en.wikipedia.org/wiki/Category:Task_management_software) tend to use a term **ticket** or **issue** to refer to a single **unit of work**. The **unit of work** usually has a name, scope, terms, goal and **lifecycle**.
 
-The **unit of work** usually has a scope, terms, goal and **lifecycle**.
+All **activities** under name like **ABC-1234** relate to the same single **unit of work** - **ABC-1234** and basically are steps that you are doing to complete your part of the job under the given task/ticket/issue. 
 
-The **activities** under name like **ABC-1234** are basic steps that you are doing to complete your part of the job under the given task/ticket/issue, while the **ABC-1234** by itself can be defined like `ABC-1234: Apply system settings under the new design.`.
+The **ABC-1234** in its turn can be defined like _ABC-1234: Apply system setting changes to the new design_ and relates to the **Project** that owns the key **ABC**.
+
 
 ```
 2026-05-01
