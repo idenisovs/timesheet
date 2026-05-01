@@ -135,14 +135,9 @@ export class DailyActivityItemComponent {
 	}
 
 	async prefixBasedColorChange() {
-		console.log('Prefix based color change trigger!');
-
 		if (this.CurrentPrefix === this.originalPrefix()) {
-			console.log('same prefix, nothing to do');
 			return;
 		}
-
-		console.log('triggered prefix change!');
 
 		this.originalPrefix.set(this.CurrentPrefix);
 
@@ -152,19 +147,15 @@ export class DailyActivityItemComponent {
 			this.isColorChanged.set(false);
 			this.ActivityColor = color;
 		} else {
-			console.log('Request color change for the new prefix!');
 			this.isOriginalColor.set(false);
 			this.requestColorChange();
 		}
 	}
 
 	async nameBasedColorChange() {
-		console.log('Named based color change trigger!');
-
 		const color = await this.findActivityColor();
 
 		if (color) {
-			console.log('Set the found color!');
 			this.ActivityColor = color;
 			this.originalName.set(this.ActivityName);
 			this.isOriginalColor.set(false);
@@ -181,23 +172,19 @@ export class DailyActivityItemComponent {
 		this.requestColorChange();
 	}
 
-	requestColorChange() {
+	private requestColorChange() {
 		if (this.isOriginalColor()) {
-			console.log('original color set, nothing to do');
 			return;
 		}
 
 		if (this.isOriginalNameEmpty()) {
-			console.log('original name empty, nothing to do');
 			return;
 		}
 
 		if (this.isColorChanged()) {
-			console.log('color already changed, nothing to do');
 			return;
 		}
 
-		console.log('We are good to go and chage the color!');
 		this.ActivityColor = this.colorsService.getNextColorHsl();
 		this.isColorChanged.set(true);
 	}
