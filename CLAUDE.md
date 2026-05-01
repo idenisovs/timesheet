@@ -57,6 +57,7 @@ Navbar action buttons use a named router outlet.
 - Getters and setters are OK
 - Getters and Setters must follow the PascalCase
 - Do not write long one-liners and nested function calls
+- Don't skip the braces in early return if statements
 
 ### Key Conventions
 
