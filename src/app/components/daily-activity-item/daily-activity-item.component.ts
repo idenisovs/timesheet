@@ -125,16 +125,29 @@ export class DailyActivityItemComponent {
 	}
 
 	async triggerColorChange() {
-		const cpl = this.CurrentPrefix;
-		const opl = this.originalPrefix();
+		const siblingColor = this.service.findColorInActivities(this.activities(), this.ActivityName, this.ActivityId);
+		const isSiblingColorPreferred = siblingColor && this.ActivityColor !== siblingColor;
 
-		const isPrefixInUse = opl.length || cpl.length;
+		if (isSiblingColorPreferred) {
+			this.siblingBasedColorChange(siblingColor);
+			return;
+		}
+
+		const isPrefixInUse = this.CurrentPrefix.length || this.originalPrefix().length;
 
 		if (isPrefixInUse) {
 			await this.prefixBasedColorChange();
-		} else {
-			await this.nameBasedColorChange();
+			return;
 		}
+
+		await this.nameBasedColorChange();
+	}
+
+	private siblingBasedColorChange(siblingColor: string) {
+		this.ActivityColor = siblingColor;
+		this.originalName.set(this.ActivityName);
+		this.isOriginalColor.set(false);
+		this.isColorChanged.set(false);
 	}
 
 	async prefixBasedColorChange() {

@@ -1,5 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+
+import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
 import parseDuration from 'parse-duration';
 import { DateTime } from 'luxon';
 
@@ -152,6 +154,13 @@ export class DailyActivityItemService {
 		}
 
 		return existingActivity?.color ?? null;
+	}
+
+	findColorInActivities(activities: ActivityFormGroup[], name: string, excludeId: string): string | null {
+		return activities
+			.filter(a => a.get('id')?.value !== excludeId)
+			.find(a => a.get('name')?.value === name)
+			?.get('color')?.value ?? null;
 	}
 
 	getPrefixFromName(name: string): string {
