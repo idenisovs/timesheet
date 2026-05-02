@@ -13,9 +13,16 @@ The most important properties of an activity are:
 
 The name of an activity determines its **type** (or, let's say a **scope**):
 
-1. **Simple** activity with no scope. Can have one or many entries. It has no external grouping or parent entity. Imagine a name like _Learning Bayes theorem_.
-2. **Categorized** activity. Something you are doing recurrently. Relates to some **category** or **group**. Imagine a name like _Housekeeping: Cooking_.
-3. **Work Item** activity. Represents an activity associated with a larger **unit of work**. Imagine names like `ABC-1234: Update FE with recent changes.`, `ABC-1234: Store user settings in a JSONB column` and `ABC-1234: Update userinfo object`. 
+1. **Simple** activity with no scope. Can have one or many entries. It has no external grouping or parent entity. 
+	- Example - `Learning Bayes theorem`
+2. **Categorized** activity. Something you are doing recurrently. Relates to some **category** or **group**.
+    - Example - `Housekeeping: Cooking`
+3. **Work Item** activity. Represents an activity associated with a larger **unit of work**. 
+    - Example - `ABC-1234: Update FE with recent changes`
+
+The part of name like `Housekeeping:` or `ABC-1234:` is named as **prefix**.
+
+Prefix also indicates that activity belongs to some **group**.
 
 ### Simple Activities
 
@@ -52,7 +59,6 @@ The [task management systems](https://en.wikipedia.org/wiki/Category:Task_manage
 All **activities** under name like **ABC-1234** relate to the same single **unit of work** - **ABC-1234** and basically are steps that you are doing to complete your part of the job under the given task/ticket/issue. 
 
 The **ABC-1234** in its turn can be defined like _ABC-1234: Apply system setting changes to the new design_ and relates to the **Project** that owns the key **ABC**.
-
 
 ```
 2026-05-01
