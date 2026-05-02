@@ -11,9 +11,7 @@ import { ActivitiesRepositoryService } from '../../repository/activities-reposit
 
 const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/;
 
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable()
 export class DailyActivityItemService {
 	private readonly durationService = inject(DurationService);
 	private readonly settingsService = inject(SettingsService);

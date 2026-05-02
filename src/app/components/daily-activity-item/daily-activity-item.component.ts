@@ -17,6 +17,9 @@ import { ColorBarComponent } from './color-bar/color-bar.component';
 		NgClass,
 		ColorBarComponent,
 	],
+	providers: [
+		DailyActivityItemService,
+	],
 })
 export class DailyActivityItemComponent {
 	private readonly service = inject(DailyActivityItemService);
