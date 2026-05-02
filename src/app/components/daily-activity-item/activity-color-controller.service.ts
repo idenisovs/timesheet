@@ -9,7 +9,7 @@ export class ActivityColorControllerService {
 	private readonly service = inject(DailyActivityItemService);
 	private readonly colorsService = inject(ColorsService);
 
-	private activityId = '';
+	private originalId = '';
 	private originalName = ''
 	private originalPrefix = '';
 
@@ -22,15 +22,12 @@ export class ActivityColorControllerService {
 	private isColorChanged = false;
 	private isPrefixChanged = false;
 
-	public set ActivityId(value: string) {
-		this.activityId = value;
-	}
+	public setActivity(id: string, name: string): void {
+		this.originalId = id;
+		this.originalName = name;
+		this.originalPrefix = this.getPrefixFromName(name);
 
-	public set ActivityName(value: string) {
-		this.originalName = value;
-		this.originalPrefix = this.getPrefixFromName(value);
-
-		this.isOriginalNameEmpty = value.length === 0;
+		this.isOriginalNameEmpty = name.length === 0;
 		this.isOriginalColor = true;
 		this.isColorChanged = false;
 	}
@@ -94,7 +91,7 @@ export class ActivityColorControllerService {
 		const siblingColor = this.service.findColorInActivities(
 			activityFormItems,
 			this.currentName,
-			this.activityId,
+			this.originalId,
 		);
 
 		if (siblingColor && this.currentColor !== siblingColor) {
@@ -114,11 +111,7 @@ export class ActivityColorControllerService {
 			return color;
 		}
 
-		const isOriginalUnique = await this.isOriginalNameUnique();
-
-		if (!isOriginalUnique) {
-			this.isOriginalColor = false;
-		}
+		this.isOriginalColor = !(await this.isOriginalNameUnique());
 
 		return this.requestColorChange();
 	}
