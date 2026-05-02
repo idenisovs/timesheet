@@ -1,7 +1,10 @@
 <div class="row mb-2" [formGroup]="activityFormItem()">
 	<div class="form-group col-12 col-md-4 m-0">
 		<div class="d-flex align-items-center gap-1 mb-2 mb-md-0">
-			<span class="color-bar p-0 m-0" [style.background-color]="ActivityColor" [ngClass]="'bar-' + barPosition()"></span>
+			<app-color-bar
+				[color]="ActivityColor"
+				[position]="barPosition()"
+			/>
 			<div class="input-group">
 				<input
 					id="activity-name"

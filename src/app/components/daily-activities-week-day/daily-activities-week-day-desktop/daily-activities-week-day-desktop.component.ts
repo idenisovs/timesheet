@@ -23,6 +23,7 @@ import {
 } from '../daily-activities-week-day-header/daily-activities-week-day-header.component';
 import { DailyActivityItemComponent } from '../../daily-activity-item/daily-activity-item.component';
 import { getCurrentDate } from '../../../utils/date-v2';
+import { BarPosition } from '../../daily-activity-item/color-bar/color-bar.component';
 
 @Component({
 	selector: 'app-daily-activities-week-day-desktop',
@@ -121,7 +122,7 @@ export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy
 		return this.activitiesService.sort(this.activities());
 	}
 
-	protected getBarPosition(idx: number): 'solo' | 'first' | 'middle' | 'last' {
+	protected getBarPosition(idx: number): BarPosition {
 		return this.service.getBarPosition(idx, this.ActivityFormArrayItems);
 	}
 

@@ -1,0 +1,25 @@
+:host {
+	display: contents;
+}
+
+.color-bar {
+	width: 10px;
+	border-radius: 8px;
+	align-self: stretch;
+	position: relative;
+
+	&.bar-first { border-radius: 8px 8px 0 0; }
+	&.bar-middle { border-radius: 0; }
+	&.bar-last { border-radius: 0 0 8px 8px; }
+
+	&.bar-first::after,
+	&.bar-middle::after {
+		content: '';
+		position: absolute;
+		bottom: -0.5rem;
+		left: 0;
+		width: 100%;
+		height: 0.5rem;
+		background-color: inherit;
+	}
+}

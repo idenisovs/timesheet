@@ -5,6 +5,8 @@ import { NgClass } from '@angular/common';
 import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
 import { DailyActivityItemService } from './daily-activity-item.service';
 import { ColorsService } from '../../services/colors.service';
+import { BarPosition } from './color-bar/color-bar.component';
+import { ColorBarComponent } from './color-bar/color-bar.component';
 
 @Component({
 	selector: 'app-daily-activity-item',
@@ -13,6 +15,7 @@ import { ColorsService } from '../../services/colors.service';
 	imports: [
 		ReactiveFormsModule,
 		NgClass,
+		ColorBarComponent,
 	],
 })
 export class DailyActivityItemComponent {
@@ -24,7 +27,7 @@ export class DailyActivityItemComponent {
 	idx = input(0);
 	isFirst = input(false);
 	isLast = input(false);
-	barPosition = input<'solo' | 'first' | 'middle' | 'last'>('solo');
+	barPosition = input<BarPosition>(BarPosition.Solo);
 
 	add = output<void>();
 	remove = output<string>();
@@ -124,7 +127,7 @@ export class DailyActivityItemComponent {
 		await this.triggerColorChange();
 	}
 
-	async triggerColorChange() {
+	private async triggerColorChange() {
 		const siblingColor = this.service.findColorInActivities(this.activities(), this.ActivityName, this.ActivityId);
 		const isSiblingColorPreferred = siblingColor && this.ActivityColor !== siblingColor;
 

@@ -4,6 +4,7 @@ import { FormArray, FormBuilder } from '@angular/forms';
 import { Activity, Day } from '../../entities';
 import { ActivityFormItem } from './ActivityFormItem';
 import { ActivityFormGroup } from './DailyActivitiesForm';
+import { BarPosition } from '../daily-activity-item/color-bar/color-bar.component';
 
 @Injectable({
 	providedIn: 'root',
@@ -29,7 +30,7 @@ export class DailyActivitiesWeekDayService {
 		return [activity, activityIdx];
 	}
 
-	public getBarPosition(idx: number, items: ActivityFormGroup[]): 'solo' | 'first' | 'middle' | 'last' {
+	public getBarPosition(idx: number, items: ActivityFormGroup[]): BarPosition {
 		const nameAt = (i: number): string => items[i]?.get('name')?.value ?? '';
 		const groupKey = (name: string): string => {
 			const colonIdx = name.indexOf(':');
@@ -45,10 +46,10 @@ export class DailyActivitiesWeekDayService {
 		const sameAsPrev = idx > 0 && isSameGroup(current, nameAt(idx - 1));
 		const sameAsNext = idx < items.length - 1 && isSameGroup(current, nameAt(idx + 1));
 
-		if (sameAsPrev && sameAsNext) return 'middle';
-		if (sameAsPrev) return 'last';
-		if (sameAsNext) return 'first';
-		return 'solo';
+		if (sameAsPrev && sameAsNext) return BarPosition.Middle;
+		if (sameAsPrev) return BarPosition.Last;
+		if (sameAsNext) return BarPosition.First;
+		return BarPosition.Solo;
 	}
 
 	public processActivityFormArray(activityFormArray: FormArray<ActivityFormGroup>, day: Day, activities: Activity[]): Activity[] {
