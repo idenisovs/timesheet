@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 export enum BarPosition {
@@ -19,4 +19,6 @@ export enum BarPosition {
 export class ColorBarComponent {
 	color = input.required<string>();
 	position = input<BarPosition>(BarPosition.Solo);
+
+	clicked = output<void>();
 }
