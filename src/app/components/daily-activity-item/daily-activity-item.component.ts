@@ -1,10 +1,9 @@
-import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
+import { Component, effect, inject, input, output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 
 import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
 import { DailyActivityItemService } from './daily-activity-item.service';
-import { ColorsService } from '../../services/colors.service';
 import { BarPosition } from './color-bar/color-bar.component';
 import { ColorBarComponent } from './color-bar/color-bar.component';
 import { ActivityColorControllerService } from './activity-color-controller.service';
@@ -25,7 +24,6 @@ import { ActivityColorControllerService } from './activity-color-controller.serv
 })
 export class DailyActivityItemComponent {
 	private readonly service = inject(DailyActivityItemService);
-	private readonly colorsService = inject(ColorsService);
 	private readonly activityColorController = inject(ActivityColorControllerService);
 
 	public activityFormItem = input.required<ActivityFormGroup>();
@@ -38,12 +36,6 @@ export class DailyActivityItemComponent {
 	public add = output<void>();
 	public remove = output<string>();
 	public save = output<void>();
-
-	private originalName = signal('');
-	private originalPrefix = signal('');
-	private isColorChanged = signal(false);
-	private isOriginalColor = signal(true);
-	private isOriginalNameEmpty = computed(() => this.originalName().length === 0);
 
 	protected get ActivityId(): string {
 		return this.activityFormItem().get('id')?.value ?? '';
@@ -65,20 +57,9 @@ export class DailyActivityItemComponent {
 		this.activityFormItem().get('color')?.setValue(value);
 	}
 
-	private get CurrentPrefix(): string {
-		return this.service.getPrefixFromName(this.ActivityName);
-	}
-
 	constructor() {
 		effect(() => {
 			this.activityColorController.ActivityName = this.ActivityName;
-		});
-
-		effect(() => {
-			this.originalName.set(this.ActivityName);
-			this.originalPrefix.set(this.CurrentPrefix);
-			this.isOriginalColor.set(true);
-			this.isColorChanged.set(false);
 		});
 	}
 
@@ -148,89 +129,5 @@ export class DailyActivityItemComponent {
 		if (color) {
 			this.ActivityColor = color;
 		}
-
-		//
-		// const siblingColor = this.service.findColorInActivities(this.activities(), this.ActivityName, this.ActivityId);
-		// const isSiblingColorPreferred = siblingColor && this.ActivityColor !== siblingColor;
-		//
-		// if (isSiblingColorPreferred) {
-		// 	this.siblingBasedColorChange(siblingColor);
-		// 	return;
-		// }
-		//
-		// const isPrefixInUse = this.CurrentPrefix.length || this.originalPrefix().length;
-		//
-		// if (isPrefixInUse) {
-		// 	await this.prefixBasedColorChange();
-		// 	return;
-		// }
-		//
-		// await this.nameBasedColorChange();
-	}
-
-	private siblingBasedColorChange(siblingColor: string) {
-		this.ActivityColor = siblingColor;
-		this.originalName.set(this.ActivityName);
-		this.isOriginalColor.set(false);
-		this.isColorChanged.set(false);
-	}
-
-	private async prefixBasedColorChange() {
-		if (this.CurrentPrefix === this.originalPrefix()) {
-			return;
-		}
-
-		this.originalPrefix.set(this.CurrentPrefix);
-
-		const color = await this.findActivityColor();
-
-		if (color) {
-			this.isColorChanged.set(false);
-			this.ActivityColor = color;
-		} else {
-			this.isOriginalColor.set(false);
-			this.requestColorChange();
-		}
-	}
-
-	private async nameBasedColorChange() {
-		const color = await this.findActivityColor();
-
-		if (color) {
-			this.ActivityColor = color;
-			this.originalName.set(this.ActivityName);
-			this.isOriginalColor.set(false);
-			this.isColorChanged.set(false);
-			return;
-		}
-
-		const isUniqueName = await this.service.isActivityUnique(this.originalName());
-
-		if (!isUniqueName) {
-			this.isOriginalColor.set(false);
-		}
-
-		this.requestColorChange();
-	}
-
-	private requestColorChange() {
-		if (this.isOriginalColor()) {
-			return;
-		}
-
-		if (this.isOriginalNameEmpty()) {
-			return;
-		}
-
-		if (this.isColorChanged()) {
-			return;
-		}
-
-		this.ActivityColor = this.colorsService.getNextColorHsl();
-		this.isColorChanged.set(true);
-	}
-
-	private findActivityColor() {
-		return this.service.findColorForName(this.ActivityName);
 	}
 }
