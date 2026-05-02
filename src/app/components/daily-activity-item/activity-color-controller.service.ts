@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, signal, untracked } from '@angular/core';
 
 import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
 import { DailyActivityItemService } from './daily-activity-item.service';
@@ -9,36 +9,48 @@ export class ActivityColorControllerService {
 	private readonly service = inject(DailyActivityItemService);
 	private readonly colorsService = inject(ColorsService);
 
-	private originalId = '';
-	private originalName = ''
-	private originalPrefix = '';
+	private activityId = '';
+	private originalName = signal<string>('');
+	private originalPrefix = computed<string>(() => this.getPrefixFromName(this.originalName()));
 
-	private currentName = '';
-	private currentPrefix = '';
+	private currentName = signal<string>('');
+	private currentPrefix = computed<string>(() => this.getPrefixFromName(this.currentName()));
 	private currentColor = '';
 
-	private isOriginalColor = true;
-	private isOriginalNameEmpty = true;
-	private isColorChanged = false;
-	private isPrefixChanged = false;
+	private isPrefixChanged = computed<boolean>(() => this.originalPrefix() !== this.currentPrefix());
+	private isNameInitiallyEmpty = signal<boolean>(true);
+
+	private isActivityUnique = signal<boolean>(true);
+	private isColorChangeDenied = signal<boolean>(false);
+
+	public readonly IsUnique = computed(() => this.isActivityUnique());
+	public readonly IsChangeDenied = computed(() => this.isColorChangeDenied());
+	public readonly HasPrefix = computed(() => this.currentPrefix().length > 0);
+	public readonly IsOriginalNameEmpty = computed(() => this.isNameInitiallyEmpty());
+	public readonly IsPrefixChanged = computed(() => this.isPrefixChanged());
+	public readonly OriginalPrefix = computed(() => this.originalPrefix());
+	public readonly CurrentPrefix = computed(() => this.currentPrefix());
 
 	public setActivity(id: string, name: string): void {
-		this.originalId = id;
-		this.originalName = name;
-		this.originalPrefix = this.getPrefixFromName(name);
+		this.activityId = id;
 
-		this.isOriginalNameEmpty = name.length === 0;
-		this.isOriginalColor = true;
-		this.isColorChanged = false;
+		this.originalName.set(name);
+		this.currentName.set(name);
 
-		this.isOriginalNameUnique().then(isUnique => this.isOriginalColor = isUnique);
+		this.isActivityUnique.set(true);
+		this.isColorChangeDenied.set(false);
+		this.isNameInitiallyEmpty.set(name.length === 0);
+
+		this.isOriginalNameUnique().then(isUnique => {
+			this.isActivityUnique.set(isUnique);
+		});
 	}
 
 	public async getActivityColor(
 		activityFormItems: ActivityFormGroup[],
 		activityFormItem: ActivityFormGroup,
 	): Promise<string | null> {
-		this.currentName = activityFormItem.get('name')?.value ?? '';
+		this.currentName.set(activityFormItem.get('name')?.value ?? '');
 		this.currentColor = activityFormItem.get('color')?.value ?? '';
 
 		const siblingColor = this.findSiblingColorToSet(activityFormItems);
@@ -47,22 +59,22 @@ export class ActivityColorControllerService {
 			return this.siblingBasedColorChange(siblingColor);
 		}
 
-		this.currentPrefix = this.getPrefixFromName(this.currentName);
-		this.isPrefixChanged = this.currentPrefix !== this.originalPrefix;
-		this.originalPrefix = this.currentPrefix;
-
-		if (this.currentPrefix.length > 0) {
-			return await this.prefixBasedColorChange();
+		if (this.currentPrefix().length > 0) {
+			return this.prefixBasedColorChange();
 		}
 
-		return await this.nameBasedColorChange();
+		if (this.isPrefixChanged()) {
+			this.originalName.set(this.currentName());
+		}
+
+		return this.nameBasedColorChange();
 	}
 
 	private findSiblingColorToSet(activityFormItems: ActivityFormGroup[]) {
 		const siblingColor = this.service.findColorInActivities(
 			activityFormItems,
-			this.currentName,
-			this.originalId,
+			this.currentName(),
+			this.activityId,
 		);
 
 		if (siblingColor && this.currentColor !== siblingColor) {
@@ -73,24 +85,20 @@ export class ActivityColorControllerService {
 	}
 
 	private siblingBasedColorChange(color: string): string {
-		this.originalName = this.currentName;
-		this.isOriginalNameEmpty = false;
-		this.isOriginalColor = false;
-		this.isColorChanged = false;
+		console.log('sibling based color change')
+		this.resetState();
 		return color;
 	}
 
 	private async prefixBasedColorChange(): Promise<string | null> {
-		if (!this.isPrefixChanged) {
+		if (!this.isPrefixChanged()) {
 			return null;
 		}
 
-		const color = await this.findActivityColor(this.currentName);
+		const color = await this.findActivityColor(this.currentName());
 
 		if (color) {
-			this.isColorChanged = false;
-			this.isOriginalColor = false;
-			this.originalName = this.currentName;
+			this.resetState();
 			return color;
 		}
 
@@ -103,16 +111,21 @@ export class ActivityColorControllerService {
 	}
 
 	private async nameBasedColorChange(): Promise<string | null> {
-		const color = await this.findActivityColor(this.currentName);
+		const color = await this.findActivityColor(this.currentName());
 
 		if (color) {
-			this.originalName = this.currentName;
-			this.isOriginalColor = false;
-			this.isColorChanged = false;
+			this.resetState();
 			return color;
 		}
 
 		return this.requestColorChange();
+	}
+
+	private resetState(): void {
+		this.isColorChangeDenied.set(false);
+		this.isActivityUnique.set(false);
+		this.originalName.set(this.currentName());
+		this.isNameInitiallyEmpty.set(false);
 	}
 
 	private findActivityColor(name: string): Promise<string | null> {
@@ -120,24 +133,24 @@ export class ActivityColorControllerService {
 	}
 
 	private requestColorChange() {
-		if (this.isOriginalColor) {
+		if (this.isActivityUnique()) {
 			return null;
 		}
 
-		if (this.isOriginalNameEmpty) {
+		if (this.isNameInitiallyEmpty()) {
 			return null;
 		}
 
-		if (this.isColorChanged) {
+		if (this.isColorChangeDenied()) {
 			return null;
 		}
 
 		const color = this.colorsService.getNextColorHsl();
-		this.isColorChanged = true;
+		this.isColorChangeDenied.set(true);
 		return color;
 	}
 
 	private isOriginalNameUnique(): Promise<boolean> {
-		return this.service.isActivityUnique(this.originalName);
+		return this.service.isActivityUnique(untracked(() => this.originalName()));
 	}
 }

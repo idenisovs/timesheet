@@ -1,9 +1,10 @@
-import { Component, effect, inject, input, output } from '@angular/core';
+import { Component, computed, effect, inject, input, output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 
 import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
 import { DailyActivityItemService } from './daily-activity-item.service';
+import { SettingsService } from '../../services/settings.service';
 import { BarPosition } from './color-bar/color-bar.component';
 import { ColorBarComponent } from './color-bar/color-bar.component';
 import { ActivityColorControllerService } from './activity-color-controller.service';
@@ -24,7 +25,10 @@ import { ActivityColorControllerService } from './activity-color-controller.serv
 })
 export class DailyActivityItemComponent {
 	private readonly service = inject(DailyActivityItemService);
-	private readonly activityColorController = inject(ActivityColorControllerService);
+	private readonly settingsService = inject(SettingsService);
+	protected readonly cc = inject(ActivityColorControllerService);
+
+	protected readonly IsDiagnosticPanelVisible = computed(() => this.settingsService.settings$().isDiagnosticPanelVisible);
 
 	public activityFormItem = input.required<ActivityFormGroup>();
 	public activities = input<ActivityFormGroup[]>([]);
@@ -59,12 +63,10 @@ export class DailyActivityItemComponent {
 
 	constructor() {
 		effect(() => {
-			const formItem = this.activityFormItem();
+			const id = this.activityFormItem().get('id')?.value ?? '';
+			const name = this.activityFormItem().get('name')?.value ?? '';
 
-			this.activityColorController.setActivity(
-				formItem.get('id')?.value ?? '',
-				formItem.get('name')?.value ?? '',
-			);
+			this.cc.setActivity(id, name);
 		});
 	}
 
@@ -124,7 +126,9 @@ export class DailyActivityItemComponent {
 	}
 
 	private async triggerColorChange() {
-		const color = await this.activityColorController.getActivityColor(
+		console.log('triggerColorChange');
+
+		const color = await this.cc.getActivityColor(
 			this.activities(),
 			this.activityFormItem(),
 		);
@@ -133,4 +137,6 @@ export class DailyActivityItemComponent {
 			this.ActivityColor = color;
 		}
 	}
+
+	protected readonly BarPosition = BarPosition;
 }

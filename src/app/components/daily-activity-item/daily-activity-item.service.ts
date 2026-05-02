@@ -154,11 +154,15 @@ export class DailyActivityItemService {
 		return existingActivity?.color ?? null;
 	}
 
-	findColorInActivities(activities: ActivityFormGroup[], name: string, excludeId: string): string | null {
+	findSiblingActivity(activities: ActivityFormGroup[], name: string, excludeId: string): ActivityFormGroup | undefined {
 		return activities
 			.filter(a => a.get('id')?.value !== excludeId && a.get('name')?.value?.length)
-			.find(a => a.get('name')?.value === name)
-			?.get('color')?.value ?? null;
+			.find(a => a.get('name')?.value === name);
+	}
+
+	findColorInActivities(activities: ActivityFormGroup[], name: string, excludeId: string): string | null {
+		const siblingActivity = this.findSiblingActivity(activities, name, excludeId);
+		return siblingActivity?.get('color')?.value ?? null;
 	}
 
 	getPrefixFromName(name: string): string {
@@ -177,6 +181,7 @@ export class DailyActivityItemService {
 	}
 
 	async isActivityUnique(name: string): Promise<boolean> {
+		console.log('isActivityUnique:', name);
 		if (name.length === 0) return false;
 
 		const prefix = this.getPrefixFromName(name);
