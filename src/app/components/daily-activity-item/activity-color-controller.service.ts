@@ -30,6 +30,8 @@ export class ActivityColorControllerService {
 		this.isOriginalNameEmpty = name.length === 0;
 		this.isOriginalColor = true;
 		this.isColorChanged = false;
+
+		this.isOriginalNameUnique().then(isUnique => this.isOriginalColor = isUnique);
 	}
 
 	public async getActivityColor(
@@ -38,7 +40,6 @@ export class ActivityColorControllerService {
 	): Promise<string | null> {
 		this.currentName = activityFormItem.get('name')?.value ?? '';
 		this.currentColor = activityFormItem.get('color')?.value ?? '';
-		this.currentPrefix = this.getPrefixFromName(this.currentName);
 
 		const siblingColor = this.findSiblingColorToSet(activityFormItems);
 
@@ -46,45 +47,15 @@ export class ActivityColorControllerService {
 			return this.siblingBasedColorChange(siblingColor);
 		}
 
+		this.currentPrefix = this.getPrefixFromName(this.currentName);
 		this.isPrefixChanged = this.currentPrefix !== this.originalPrefix;
-
-		if (this.isPrefixChanged) {
-			this.isOriginalColor = false;
-			this.originalPrefix = this.currentPrefix;
-		}
+		this.originalPrefix = this.currentPrefix;
 
 		if (this.currentPrefix.length > 0) {
 			return await this.prefixBasedColorChange();
 		}
 
 		return await this.nameBasedColorChange();
-	}
-
-	private siblingBasedColorChange(color: string): string {
-		this.originalName = this.currentName;
-		this.isOriginalColor = false;
-		this.isColorChanged = false;
-		return color;
-	}
-
-	private async prefixBasedColorChange(): Promise<string | null> {
-		if (!this.isPrefixChanged) {
-			return null;
-		}
-
-		const color = await this.findActivityColor(this.currentName);
-
-		if (color) {
-			this.isColorChanged = false;
-			return color;
-		}
-
-		return this.requestColorChange();
-	}
-
-	private getPrefixFromName(name: string) {
-		const idx = name.indexOf(':');
-		return idx === -1 ? '' : name.slice(0, idx);
 	}
 
 	private findSiblingColorToSet(activityFormItems: ActivityFormGroup[]) {
@@ -101,6 +72,36 @@ export class ActivityColorControllerService {
 		return null;
 	}
 
+	private siblingBasedColorChange(color: string): string {
+		this.originalName = this.currentName;
+		this.isOriginalNameEmpty = false;
+		this.isOriginalColor = false;
+		this.isColorChanged = false;
+		return color;
+	}
+
+	private async prefixBasedColorChange(): Promise<string | null> {
+		if (!this.isPrefixChanged) {
+			return null;
+		}
+
+		const color = await this.findActivityColor(this.currentName);
+
+		if (color) {
+			this.isColorChanged = false;
+			this.isOriginalColor = false;
+			this.originalName = this.currentName;
+			return color;
+		}
+
+		return this.requestColorChange();
+	}
+
+	private getPrefixFromName(name: string) {
+		const idx = name.indexOf(':');
+		return idx === -1 ? '' : name.slice(0, idx);
+	}
+
 	private async nameBasedColorChange(): Promise<string | null> {
 		const color = await this.findActivityColor(this.currentName);
 
@@ -110,8 +111,6 @@ export class ActivityColorControllerService {
 			this.isColorChanged = false;
 			return color;
 		}
-
-		this.isOriginalColor = !(await this.isOriginalNameUnique());
 
 		return this.requestColorChange();
 	}
@@ -134,7 +133,6 @@ export class ActivityColorControllerService {
 		}
 
 		const color = this.colorsService.getNextColorHsl();
-		this.isColorChanged = true;
 		this.isColorChanged = true;
 		return color;
 	}

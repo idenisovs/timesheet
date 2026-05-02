@@ -156,7 +156,7 @@ export class DailyActivityItemService {
 
 	findColorInActivities(activities: ActivityFormGroup[], name: string, excludeId: string): string | null {
 		return activities
-			.filter(a => a.get('id')?.value !== excludeId)
+			.filter(a => a.get('id')?.value !== excludeId && a.get('name')?.value?.length)
 			.find(a => a.get('name')?.value === name)
 			?.get('color')?.value ?? null;
 	}

@@ -34,7 +34,7 @@ export class DailyActivitiesWeekDayService {
 		const nameAt = (i: number): string => items[i]?.get('name')?.value ?? '';
 		const groupKey = (name: string): string => {
 			const colonIdx = name.indexOf(':');
-			return colonIdx !== -1 ? name.slice(0, colonIdx) : name;
+			return colonIdx !== -1 ? name.slice(0, colonIdx + 1) : name;
 		};
 
 		const isSameGroup = (a: string, b: string): boolean => {
