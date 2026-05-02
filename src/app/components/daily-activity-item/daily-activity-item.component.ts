@@ -22,16 +22,16 @@ export class DailyActivityItemComponent {
 	private readonly service = inject(DailyActivityItemService);
 	private readonly colorsService = inject(ColorsService);
 
-	activityFormItem = input.required<ActivityFormGroup>();
-	activities = input<ActivityFormGroup[]>([]);
-	idx = input(0);
-	isFirst = input(false);
-	isLast = input(false);
-	barPosition = input<BarPosition>(BarPosition.Solo);
+	public activityFormItem = input.required<ActivityFormGroup>();
+	public activities = input<ActivityFormGroup[]>([]);
+	public idx = input(0);
+	public isFirst = input(false);
+	public isLast = input(false);
+	public barPosition = input<BarPosition>(BarPosition.Solo);
 
-	add = output<void>();
-	remove = output<string>();
-	save = output<void>();
+	public add = output<void>();
+	public remove = output<string>();
+	public save = output<void>();
 
 	private originalName = signal('');
 	private originalPrefix = signal('');
@@ -39,27 +39,27 @@ export class DailyActivityItemComponent {
 	private isOriginalColor = signal(true);
 	private isOriginalNameEmpty = computed(() => this.originalName().length === 0);
 
-	get ActivityId(): string {
+	protected get ActivityId(): string {
 		return this.activityFormItem().get('id')?.value ?? '';
 	}
 
-	get ActivityName() {
+	private get ActivityName() {
 		return this.activityFormItem().get('name')?.value ?? '';
 	}
 
-	set ActivityName(value: string) {
+	private set ActivityName(value: string) {
 		this.activityFormItem().get('name')?.setValue(value);
 	}
 
-	get ActivityColor() {
+	protected get ActivityColor() {
 		return this.activityFormItem().get('color')?.value ?? '';
 	}
 
-	set ActivityColor(value: string) {
+	protected set ActivityColor(value: string) {
 		this.activityFormItem().get('color')?.setValue(value);
 	}
 
-	get CurrentPrefix(): string {
+	private get CurrentPrefix(): string {
 		return this.service.getPrefixFromName(this.ActivityName);
 	}
 
@@ -72,19 +72,19 @@ export class DailyActivityItemComponent {
 		});
 	}
 
-	handleFromChanges() {
+	protected handleFromChanges() {
 		this.service.handleFromChanges(this.activityFormItem());
 	}
 
-	handleTillChanges() {
+	protected handleTillChanges() {
 		this.service.handleTillChanges(this.activityFormItem());
 	}
 
-	handleDurationChanges() {
+	protected handleDurationChanges() {
 		this.service.handleDurationChanges(this.activityFormItem());
 	}
 
-	async copyActivityName() {
+	protected async copyActivityName() {
 		if (!this.ActivityName) return;
 
 		if (navigator.clipboard) {
@@ -94,7 +94,7 @@ export class DailyActivityItemComponent {
 		sessionStorage.setItem('clipboard', this.ActivityName);
 	}
 
-	async pasteActivityName() {
+	protected async pasteActivityName() {
 		const activityName = sessionStorage.getItem('clipboard');
 
 		if (activityName) {
@@ -103,11 +103,11 @@ export class DailyActivityItemComponent {
 		}
 	}
 
-	setCurrentTime(field: 'from' | 'till') {
+	protected setCurrentTime(field: 'from' | 'till') {
 		this.service.setCurrentTime(this.activityFormItem(), field);
 	}
 
-	setTimeFromPreviousActivity() {
+	protected setTimeFromPreviousActivity() {
 		const previousActivity = this.activities()[this.idx() - 1];
 		const previousTillField = previousActivity.get('till');
 
@@ -123,7 +123,7 @@ export class DailyActivityItemComponent {
 		}
 	}
 
-	async handleNameChanges() {
+	protected async handleNameChanges() {
 		await this.triggerColorChange();
 	}
 
@@ -153,7 +153,7 @@ export class DailyActivityItemComponent {
 		this.isColorChanged.set(false);
 	}
 
-	async prefixBasedColorChange() {
+	private async prefixBasedColorChange() {
 		if (this.CurrentPrefix === this.originalPrefix()) {
 			return;
 		}
@@ -171,7 +171,7 @@ export class DailyActivityItemComponent {
 		}
 	}
 
-	async nameBasedColorChange() {
+	private async nameBasedColorChange() {
 		const color = await this.findActivityColor();
 
 		if (color) {
