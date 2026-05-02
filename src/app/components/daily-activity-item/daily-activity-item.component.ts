@@ -59,6 +59,7 @@ export class DailyActivityItemComponent {
 
 	constructor() {
 		effect(() => {
+			this.activityColorController.ActivityId = this.ActivityId;
 			this.activityColorController.ActivityName = this.ActivityName;
 		});
 	}
@@ -121,9 +122,7 @@ export class DailyActivityItemComponent {
 	private async triggerColorChange() {
 		const color = await this.activityColorController.getActivityColor(
 			this.activities(),
-			this.ActivityId,
-			this.ActivityName,
-			this.ActivityColor,
+			this.activityFormItem()
 		);
 
 		if (color) {
