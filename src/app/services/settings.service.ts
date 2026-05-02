@@ -4,8 +4,8 @@ import { AppSettings } from '../entities';
 const DEFAULT_SETTINGS: AppSettings = {
 	isTimeRoundingEnabled: false,
 	isOppositeColorMode: false,
+	isDiagnosticPanelVisible: false,
 };
-
 
 @Injectable({
 	providedIn: 'root',

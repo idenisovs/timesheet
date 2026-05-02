@@ -1,0 +1,22 @@
+<section class="card">
+	<div class="card-body">
+		<div [formGroup]="form()" class="d-flex justify-content-between align-items-center">
+			<label for="diagnosticPanelSwitch" style="cursor: pointer;">
+				<div class="fw-semibold">Show diagnostic panel</div>
+				<small class="text-muted">
+					When enabled, shows a diagnostic panel with activity state indicators on each activity row.
+				</small>
+			</label>
+			<div class="form-check form-switch mb-0 ms-4 flex-shrink-0">
+				<input
+					id="diagnosticPanelSwitch"
+					type="checkbox"
+					role="switch"
+					class="form-check-input"
+					style="cursor: pointer;"
+					formControlName="isDiagnosticPanelVisible"
+				>
+			</div>
+		</div>
+	</div>
+</section>

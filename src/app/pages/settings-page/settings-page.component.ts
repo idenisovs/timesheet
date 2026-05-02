@@ -7,10 +7,11 @@ import { AppSettings } from '../../entities';
 import { TimeRoundingSettingsComponent } from './time-rounding-settings/time-rounding-settings.component';
 import { ColorModeSettingsComponent } from './color-mode-settings/color-mode-settings.component';
 import { ColorRegenerateSettingsComponent } from './color-regenerate-settings/color-regenerate-settings.component';
+import { DiagnosticPanelSettingsComponent } from './diagnostic-panel-settings/diagnostic-panel-settings.component';
 
 @Component({
 	selector: 'app-settings-page',
-	imports: [ReactiveFormsModule, TimeRoundingSettingsComponent, ColorModeSettingsComponent, ColorRegenerateSettingsComponent],
+	imports: [ReactiveFormsModule, TimeRoundingSettingsComponent, ColorModeSettingsComponent, ColorRegenerateSettingsComponent, DiagnosticPanelSettingsComponent],
 	templateUrl: './settings-page.component.html',
 	styleUrl: './settings-page.component.scss',
 })
@@ -22,6 +23,7 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
 	form = this.fb.group({
 		isTimeRoundingEnabled: [false],
 		isOppositeColorMode: [false],
+		isDiagnosticPanelVisible: [false],
 	});
 
 	ngOnInit() {
