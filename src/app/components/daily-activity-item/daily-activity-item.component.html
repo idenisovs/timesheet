@@ -98,33 +98,5 @@
 		</button>
 	</div>
 
-	@if (IsDiagnosticPanelVisible()) {
-		<div class="row mt-2">
-			<div class="col-12 d-flex gap-1">
-				@if (cc.isActivityUnique()) {
-					<span class="indicator" style="background: lightgreen">U</span>
-				}
-
-				@if (cc.isNameInitiallyEmpty()) {
-					<span class="indicator" style="background: lightcoral">E</span>
-				}
-
-				@if (cc.isColorChangeDenied()) {
-					<span class="indicator" style="background: lightskyblue">C</span>
-				}
-
-				@if (cc.currentPrefix().length > 0) {
-					<span class="indicator" style="background: orange">P</span>
-				}
-
-				@if (cc.isPrefixChanged()) {
-					<span class="indicator" style="background: orangered">PC</span>
-				}
-
-				<span class="indicator" style="background: lightgray">O:{{cc.originalPrefix() || 'None'}}</span>
-
-				<span class="indicator" style="background: lightgray">C:{{cc.currentPrefix() || 'None'}}</span>
-			</div>
-		</div>
-	}
+	<app-activity-diagnostic-panel />
 </div>

@@ -1,0 +1,11 @@
+.indicator {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 16px;
+	height: 16px;
+	font-size: 10px;
+	font-weight: bold;
+	border: 1px solid black;
+	padding: 0 2px;
+}

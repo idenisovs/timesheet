@@ -1,13 +1,13 @@
-import { Component, computed, effect, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 
 import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
 import { DailyActivityItemService } from './daily-activity-item.service';
-import { SettingsService } from '../../services/settings.service';
 import { BarPosition } from './color-bar/color-bar.component';
 import { ColorBarComponent } from './color-bar/color-bar.component';
 import { ActivityColorControllerService } from './activity-color-controller.service';
+import { ActivityDiagnosticPanelComponent } from './activity-diagnostic-panel/activity-diagnostic-panel.component';
 
 @Component({
 	selector: 'app-daily-activity-item',
@@ -17,6 +17,7 @@ import { ActivityColorControllerService } from './activity-color-controller.serv
 		ReactiveFormsModule,
 		NgClass,
 		ColorBarComponent,
+		ActivityDiagnosticPanelComponent,
 	],
 	providers: [
 		DailyActivityItemService,
@@ -25,10 +26,7 @@ import { ActivityColorControllerService } from './activity-color-controller.serv
 })
 export class DailyActivityItemComponent {
 	private readonly service = inject(DailyActivityItemService);
-	private readonly settingsService = inject(SettingsService);
 	protected readonly cc = inject(ActivityColorControllerService);
-
-	protected readonly IsDiagnosticPanelVisible = computed(() => this.settingsService.settings$().isDiagnosticPanelVisible);
 
 	public activityFormItem = input.required<ActivityFormGroup>();
 	public activities = input<ActivityFormGroup[]>([]);
