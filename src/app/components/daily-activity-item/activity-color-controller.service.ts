@@ -9,27 +9,19 @@ export class ActivityColorControllerService {
 	private readonly service = inject(DailyActivityItemService);
 	private readonly colorsService = inject(ColorsService);
 
-	private activityId = '';
 	private originalName = signal<string>('');
-	private originalPrefix = computed<string>(() => this.getPrefixFromName(this.originalName()));
+	public readonly originalPrefix = computed<string>(() => this.getPrefixFromName(this.originalName()));
 
 	private currentName = signal<string>('');
-	private currentPrefix = computed<string>(() => this.getPrefixFromName(this.currentName()));
+	public readonly currentPrefix = computed<string>(() => this.getPrefixFromName(this.currentName()));
+
+	public readonly isPrefixChanged = computed<boolean>(() => this.originalPrefix() !== this.currentPrefix());
+	public readonly isNameInitiallyEmpty = signal<boolean>(true);
+	public readonly isActivityUnique = signal<boolean>(true);
+	public readonly isColorChangeDenied = signal<boolean>(false);
+
+	private activityId = '';
 	private currentColor = '';
-
-	private isPrefixChanged = computed<boolean>(() => this.originalPrefix() !== this.currentPrefix());
-	private isNameInitiallyEmpty = signal<boolean>(true);
-
-	private isActivityUnique = signal<boolean>(true);
-	private isColorChangeDenied = signal<boolean>(false);
-
-	public readonly IsUnique = computed(() => this.isActivityUnique());
-	public readonly IsChangeDenied = computed(() => this.isColorChangeDenied());
-	public readonly HasPrefix = computed(() => this.currentPrefix().length > 0);
-	public readonly IsOriginalNameEmpty = computed(() => this.isNameInitiallyEmpty());
-	public readonly IsPrefixChanged = computed(() => this.isPrefixChanged());
-	public readonly OriginalPrefix = computed(() => this.originalPrefix());
-	public readonly CurrentPrefix = computed(() => this.currentPrefix());
 
 	public setActivity(id: string, name: string): void {
 		this.activityId = id;
@@ -111,6 +103,10 @@ export class ActivityColorControllerService {
 	}
 
 	private async nameBasedColorChange(): Promise<string | null> {
+		if (this.currentName() === this.originalName()) {
+			return null;
+		}
+
 		const color = await this.findActivityColor(this.currentName());
 
 		if (color) {

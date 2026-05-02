@@ -101,29 +101,29 @@
 	@if (IsDiagnosticPanelVisible()) {
 		<div class="row mt-2">
 			<div class="col-12 d-flex gap-1">
-				@if (cc.IsUnique()) {
-					<span class="indicator" style="background: lightgreen">Unique</span>
+				@if (cc.isActivityUnique()) {
+					<span class="indicator" style="background: lightgreen">U</span>
 				}
 
-				@if (cc.IsOriginalNameEmpty()) {
-					<span class="indicator" style="background: lightcoral">Empty</span>
+				@if (cc.isNameInitiallyEmpty()) {
+					<span class="indicator" style="background: lightcoral">E</span>
 				}
 
-				@if (cc.IsChangeDenied()) {
-					<span class="indicator" style="background: lightskyblue">Changed</span>
+				@if (cc.isColorChangeDenied()) {
+					<span class="indicator" style="background: lightskyblue">C</span>
 				}
 
-				@if (cc.HasPrefix()) {
-					<span class="indicator" style="background: orange">Prefix</span>
+				@if (cc.currentPrefix().length > 0) {
+					<span class="indicator" style="background: orange">P</span>
 				}
 
-				@if (cc.IsPrefixChanged()) {
-					<span class="indicator" style="background: orangered">Prefix Changed</span>
+				@if (cc.isPrefixChanged()) {
+					<span class="indicator" style="background: orangered">PC</span>
 				}
 
-				<span class="indicator" style="background: lightgray">O:{{cc.OriginalPrefix() || 'None'}}</span>
+				<span class="indicator" style="background: lightgray">O:{{cc.originalPrefix() || 'None'}}</span>
 
-				<span class="indicator" style="background: lightgray">C:{{cc.CurrentPrefix() || 'None'}}</span>
+				<span class="indicator" style="background: lightgray">C:{{cc.currentPrefix() || 'None'}}</span>
 			</div>
 		</div>
 	}
