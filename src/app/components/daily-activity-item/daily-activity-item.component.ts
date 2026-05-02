@@ -7,6 +7,7 @@ import { DailyActivityItemService } from './daily-activity-item.service';
 import { ColorsService } from '../../services/colors.service';
 import { BarPosition } from './color-bar/color-bar.component';
 import { ColorBarComponent } from './color-bar/color-bar.component';
+import { ActivityColorControllerService } from './activity-color-controller.service';
 
 @Component({
 	selector: 'app-daily-activity-item',
@@ -19,11 +20,13 @@ import { ColorBarComponent } from './color-bar/color-bar.component';
 	],
 	providers: [
 		DailyActivityItemService,
+		ActivityColorControllerService,
 	],
 })
 export class DailyActivityItemComponent {
 	private readonly service = inject(DailyActivityItemService);
 	private readonly colorsService = inject(ColorsService);
+	private readonly activityColorController = inject(ActivityColorControllerService);
 
 	public activityFormItem = input.required<ActivityFormGroup>();
 	public activities = input<ActivityFormGroup[]>([]);
@@ -67,6 +70,10 @@ export class DailyActivityItemComponent {
 	}
 
 	constructor() {
+		effect(() => {
+			this.activityColorController.ActivityName = this.ActivityName;
+		});
+
 		effect(() => {
 			this.originalName.set(this.ActivityName);
 			this.originalPrefix.set(this.CurrentPrefix);
@@ -131,22 +138,34 @@ export class DailyActivityItemComponent {
 	}
 
 	private async triggerColorChange() {
-		const siblingColor = this.service.findColorInActivities(this.activities(), this.ActivityName, this.ActivityId);
-		const isSiblingColorPreferred = siblingColor && this.ActivityColor !== siblingColor;
+		const color = await this.activityColorController.getActivityColor(
+			this.activities(),
+			this.ActivityId,
+			this.ActivityName,
+			this.ActivityColor,
+		);
 
-		if (isSiblingColorPreferred) {
-			this.siblingBasedColorChange(siblingColor);
-			return;
+		if (color) {
+			this.ActivityColor = color;
 		}
 
-		const isPrefixInUse = this.CurrentPrefix.length || this.originalPrefix().length;
-
-		if (isPrefixInUse) {
-			await this.prefixBasedColorChange();
-			return;
-		}
-
-		await this.nameBasedColorChange();
+		//
+		// const siblingColor = this.service.findColorInActivities(this.activities(), this.ActivityName, this.ActivityId);
+		// const isSiblingColorPreferred = siblingColor && this.ActivityColor !== siblingColor;
+		//
+		// if (isSiblingColorPreferred) {
+		// 	this.siblingBasedColorChange(siblingColor);
+		// 	return;
+		// }
+		//
+		// const isPrefixInUse = this.CurrentPrefix.length || this.originalPrefix().length;
+		//
+		// if (isPrefixInUse) {
+		// 	await this.prefixBasedColorChange();
+		// 	return;
+		// }
+		//
+		// await this.nameBasedColorChange();
 	}
 
 	private siblingBasedColorChange(siblingColor: string) {

@@ -1,5 +1,5 @@
 <div class="row mb-2" [formGroup]="activityFormItem()">
-	<div class="form-group col-12 col-md-4 m-0">
+	<div class="form-group col-4">
 		<div class="d-flex align-items-center gap-1 mb-2 mb-md-0">
 			<app-color-bar
 				[color]="ActivityColor"
@@ -24,7 +24,7 @@
 		</div>
 	</div>
 
-	<div class="form-group col-12 col-md-2 m-0">
+	<div class="form-group col-2">
 		<div class="input-group mb-2 mb-md-0">
 			<!-- The changes handling is triggered by the Input event! -->
 			<input
@@ -48,7 +48,7 @@
 		</div>
 	</div>
 
-	<div class="form-group col-12 col-md-2 m-0">
+	<div class="form-group col-2">
 		<div class="input-group mb-2 mb-md-0">
 			<input id="activity-till" name="till" formControlName="till" type="text" class="form-control"
 				   (input)="handleTillChanges()">
@@ -58,7 +58,7 @@
 		</div>
 	</div>
 
-	<div class="form-group col-12 col-md-2 m-0">
+	<div class="form-group col-2">
 		<div class="input-group mb-2 mb-md-0">
 			<input
 				id="activity-duration"
@@ -70,7 +70,7 @@
 		</div>
 	</div>
 
-	<div class="col-12 col-md-2 m-0 d-flex align-items-center justify-content-end justify-content-md-start">
+	<div class="col-2 m-0 d-flex align-items-center justify-content-end justify-content-md-start">
 		<button
 			type="button"
 			class="btn btn-outline-info p-1 ms-2"
