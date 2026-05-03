@@ -54,28 +54,16 @@ export class ActivityColorControllerService {
 			this.originalName.set(this.currentName());
 		}
 
-		const colorUpdateFromForm = this.lookForColorInForm(activityFormItems);
+		const colorFromForm = this.lookForColorInForm(activityFormItems);
 
-		if (colorUpdateFromForm) {
-			console.log('There is color update from form!');
-
-			if (colorUpdateFromForm === this.currentColor) {
-				console.log('But form returned the same color as current, nothing to do.')
-				return null;
-			} else {
-				console.log('Return color from form!');
-				return colorUpdateFromForm;
-			}
+		if (colorFromForm) {
+			return colorFromForm !== this.currentColor ? colorFromForm : null;
 		}
 
-		const colorUpdateFromDB = await this.lookForColorInDB();
+		const colorFromDB = await this.lookForColorInDB();
 
-		if (colorUpdateFromDB) {
-			if (colorUpdateFromDB === this.currentColor) {
-				return null;
-			} else {
-				return colorUpdateFromDB;
-			}
+		if (colorFromDB) {
+			return colorFromDB !== this.currentColor ? colorFromDB : null;
 		}
 
 		return this.requestColorChange();
