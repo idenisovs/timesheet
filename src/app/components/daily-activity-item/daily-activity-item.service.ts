@@ -185,12 +185,28 @@ export class DailyActivityItemService {
 			return false;
 		}
 
+		const sibling = await this.getActivitySibling(id, name);
+
+		return sibling === null;
+	}
+
+	async getSiblingColor(id: string, name: string): Promise<string | null> {
+		if (name.length === 0) {
+			return null;
+		}
+
+		const activitySibling = await this.getActivitySibling(id, name);
+
+		return activitySibling?.color ?? null;
+	}
+
+	async getActivitySibling(id: string, name: string) {
 		const prefix = this.getPrefixFromName(name);
 
 		if (prefix.length > 0) {
-			return this.activitiesRepository.isActivityPrefixUnique(id, prefix);
+			return this.activitiesRepository.findSiblingByPrefix(id, prefix);
+		} else {
+			return this.activitiesRepository.findSiblingByName(id, name);
 		}
-
-		return this.activitiesRepository.isActivityNameUnique(id, name);
 	}
 }

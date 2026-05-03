@@ -87,19 +87,9 @@ export class ActivitiesRepositoryService {
 		return record ? Activity.fromRecord(record) : null;
 	}
 
-	async getByName(name: string): Promise<Activity[]> {
-		const records = await this.db.activities.where('name').equals(name).toArray();
-		return records.map(Activity.fromRecord);
-	}
-
 	async getFirstByName(name: string): Promise<Activity | null> {
 		const record = await this.db.activities.where('name').equals(name).first();
 		return record ? Activity.fromRecord(record) : null;
-	}
-
-	async getByPrefix(prefix: string): Promise<Activity[]> {
-		const records = await this.db.activities.where('name').startsWith(prefix).toArray();
-		return records.map(Activity.fromRecord);
 	}
 
 	async getFirstByNamePrefix(prefix: string): Promise<Activity | null> {
@@ -116,13 +106,7 @@ export class ActivitiesRepositoryService {
 		await this.db.activities.bulkDelete(activityIds);
 	}
 
-	async create(): Promise<Activity> {
-		const activity = new Activity();
-		await this.db.activities.add(activity);
-		return activity;
-	}
-
-	async findFirstByPrefix(id: string, prefix: string): Promise<Activity | null> {
+	async findSiblingByPrefix(id: string, prefix: string): Promise<Activity | null> {
 		const record = await this.db.activities
 			.where('name')
 			.startsWith(prefix + ':')
@@ -132,7 +116,7 @@ export class ActivitiesRepositoryService {
 		return record ? Activity.fromRecord(record) : null;
 	}
 
-	async findFirstByName(id: string, name: string): Promise<Activity | null> {
+	async findSiblingByName(id: string, name: string): Promise<Activity | null> {
 		const record = await this.db.activities
 			.where('name')
 			.equals(name)
@@ -140,25 +124,5 @@ export class ActivitiesRepositoryService {
 			.first();
 
 		return record ? Activity.fromRecord(record) : null;
-	}
-
-	async isActivityPrefixUnique(id: string, prefix: string): Promise<boolean> {
-		const count = await this.db.activities
-			.where('name')
-			.startsWith(prefix + ':')
-			.filter(activity => activity.id !== id)
-			.count();
-
-		return count === 0;
-	}
-
-	async isActivityNameUnique(id: string, name: string): Promise<boolean> {
-		const count = await this.db.activities
-			.where('name')
-			.equals(name)
-			.filter(activity => activity.id !== id)
-			.count();
-
-		return count === 0;
 	}
 }
