@@ -64,7 +64,7 @@ export class ActivityColorControllerService {
 	private findSiblingColorInForm(activityFormItems: ActivityFormGroup[]) {
 		console.log('findSiblingColorInForm');
 
-		const siblingColor = this.service.findColorInActivities(
+		const siblingColor = this.service.findSiblingColorInForm(
 			activityFormItems,
 			this.currentName(),
 			this.activityId,

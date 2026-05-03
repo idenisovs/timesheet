@@ -160,7 +160,7 @@ export class DailyActivityItemService {
 			.find(a => a.get('name')?.value === name);
 	}
 
-	findColorInActivities(activities: ActivityFormGroup[], name: string, excludeId: string): string | null {
+	findSiblingColorInForm(activities: ActivityFormGroup[], name: string, excludeId: string): string | null {
 		const siblingActivity = this.findSiblingActivity(activities, name, excludeId);
 		return siblingActivity?.get('color')?.value ?? null;
 	}
