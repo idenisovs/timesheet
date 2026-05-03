@@ -14,6 +14,7 @@ export class ActivityColorControllerService {
 
 	private currentName = signal<string>('');
 	public readonly currentPrefix = computed<string>(() => this.getPrefixFromName(this.currentName()));
+	public readonly hasPrefix = computed<boolean>(() => this.currentPrefix().length > 0);
 
 	public readonly isPrefixChanged = computed<boolean>(() => this.originalPrefix() !== this.currentPrefix());
 	public readonly isNameInitiallyEmpty = signal<boolean>(true);
@@ -29,11 +30,10 @@ export class ActivityColorControllerService {
 		this.originalName.set(name);
 		this.currentName.set(name);
 
-		this.isActivityUnique.set(true);
 		this.isColorChangeAllowed.set(true);
 		this.isNameInitiallyEmpty.set(name.length === 0);
 
-		this.isOriginalNameUnique().then(isUnique => {
+		this.checkIfActivityUnique().then(isUnique => {
 			this.isActivityUnique.set(isUnique);
 		});
 	}
@@ -45,51 +45,38 @@ export class ActivityColorControllerService {
 		this.currentName.set(activityFormItem.get('name')?.value ?? '');
 		this.currentColor = activityFormItem.get('color')?.value ?? '';
 
-		const siblingColor = this.findSiblingColorToSet(activityFormItems);
+		const siblingColor = this.findSiblingColorInForm(activityFormItems);
 
 		if (siblingColor) {
-			return this.siblingBasedColorChange(siblingColor);
-		}
+			console.log('There is sibling color!');
 
-		if (this.currentPrefix().length > 0) {
-			return this.prefixBasedColorChange();
+			if (siblingColor === this.currentColor) {
+				console.log('Sibling has same color as current activity, skipping!')
+				return null;
+			}
+
+			return this.siblingBasedColorChange(siblingColor);
 		}
 
 		return this.nameBasedColorChange();
 	}
 
-	private findSiblingColorToSet(activityFormItems: ActivityFormGroup[]) {
+	private findSiblingColorInForm(activityFormItems: ActivityFormGroup[]) {
+		console.log('findSiblingColorInForm');
+
 		const siblingColor = this.service.findColorInActivities(
 			activityFormItems,
 			this.currentName(),
 			this.activityId,
 		);
 
-		if (siblingColor && this.currentColor !== siblingColor) {
-			return siblingColor;
-		}
-
-		return null;
+		return siblingColor ? siblingColor : null;
 	}
 
 	private siblingBasedColorChange(color: string): string {
-		this.resetState();
+		console.log('siblingBasedColorChange');
+		this.setNotUniqueState();
 		return color;
-	}
-
-	private async prefixBasedColorChange(): Promise<string | null> {
-		if (!this.isPrefixChanged()) {
-			return null;
-		}
-
-		const color = await this.findActivityColor(this.currentName());
-
-		if (color) {
-			this.resetState();
-			return color;
-		}
-
-		return this.requestColorChange();
 	}
 
 	private getPrefixFromName(name: string) {
@@ -98,50 +85,62 @@ export class ActivityColorControllerService {
 	}
 
 	private async nameBasedColorChange(): Promise<string | null> {
-		if (this.currentName() === this.originalName()) {
+		console.log('nameBasedColorChange');
+
+		if (this.hasPrefix() && !this.isPrefixChanged()) {
 			return null;
 		}
 
-		const color = await this.findActivityColor(this.currentName());
+		const color = await this.findSiblingColorInDB();
 
 		if (color) {
-			this.resetState();
+			console.log('Found activity sibling color!');
+			this.setNotUniqueState();
 			return color;
 		}
+
+		console.log('There is no sibling color, requesting color change!');
 
 		return this.requestColorChange();
 	}
 
-	private resetState(): void {
+	private setNotUniqueState(): void {
 		this.isColorChangeAllowed.set(true);
 		this.isActivityUnique.set(false);
-		this.originalName.set(this.currentName());
 		this.isNameInitiallyEmpty.set(false);
 	}
 
-	private findActivityColor(name: string): Promise<string | null> {
-		return this.service.findColorForName(name);
+	private findSiblingColorInDB(): Promise<string | null> {
+		return this.service.getSiblingColor(this.activityId, this.currentName());
 	}
 
 	private requestColorChange() {
+		console.log('requestColorChange');
+
 		if (this.isActivityUnique()) {
+			console.log('isActivityUnique')
 			return null;
 		}
 
 		if (this.isNameInitiallyEmpty()) {
+			console.log('isNameInitiallyEmpty')
 			return null;
 		}
 
 		if (!this.isColorChangeAllowed()) {
+			console.log('isColorChangeAllowed')
 			return null;
 		}
 
-		const color = this.colorsService.getNextColorHsl();
+		console.log('changing color')
+
 		this.isColorChangeAllowed.set(false);
-		return color;
+		this.isActivityUnique.set(true);
+
+		return this.colorsService.getNextColorHsl();
 	}
 
-	private isOriginalNameUnique(): Promise<boolean> {
-		return this.service.isActivityUnique(untracked(() => this.originalName()));
+	private checkIfActivityUnique(): Promise<boolean> {
+		return this.service.isActivityUnique(untracked(() => this.originalName()), this.activityId);
 	}
 }

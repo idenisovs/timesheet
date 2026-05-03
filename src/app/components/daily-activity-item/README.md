@@ -29,6 +29,19 @@ Change activity color when:
     - A fresh color is generated only once per activity
     - Further name edits do not trigger another generation until the activity form item is replaced
 
+### State Changes
+
+States:
+
+1. New empty name
+2. Unique name
+3. Non-unique name
+
+### State transitions
+
+1. New empty name state exists until the matcher is not meet existing name
+	- Once matcher met existing name - 
+
 ## Color Bar Manual Testing
 
 1. New activity, name matches an existing activity (no prefix):
