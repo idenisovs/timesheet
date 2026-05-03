@@ -180,20 +180,17 @@ export class DailyActivityItemService {
 		return Math.round(millis / step) * step;
 	}
 
-	async isActivityUnique(name: string): Promise<boolean> {
-		console.log('isActivityUnique:', name);
-		if (name.length === 0) return false;
+	async isActivityUnique(name: string, id: string): Promise<boolean> {
+		if (name.length === 0) {
+			return false;
+		}
 
 		const prefix = this.getPrefixFromName(name);
 
-		let activities;
-
 		if (prefix.length > 0) {
-			activities = await this.activitiesRepository.getByPrefix(prefix);
-		} else {
-			activities = await this.activitiesRepository.getByName(name);
+			return this.activitiesRepository.isActivityPrefixUnique(id, prefix);
 		}
 
-		return activities.length < 2;
+		return this.activitiesRepository.isActivityNameUnique(id, name);
 	}
 }
