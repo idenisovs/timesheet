@@ -18,7 +18,7 @@ export class ActivityColorControllerService {
 	public readonly isPrefixChanged = computed<boolean>(() => this.originalPrefix() !== this.currentPrefix());
 	public readonly isNameInitiallyEmpty = signal<boolean>(true);
 	public readonly isActivityUnique = signal<boolean>(true);
-	public readonly isColorChangeDenied = signal<boolean>(false);
+	public readonly isColorChangeAllowed = signal<boolean>(true);
 
 	private activityId = '';
 	private currentColor = '';
@@ -30,7 +30,7 @@ export class ActivityColorControllerService {
 		this.currentName.set(name);
 
 		this.isActivityUnique.set(true);
-		this.isColorChangeDenied.set(false);
+		this.isColorChangeAllowed.set(true);
 		this.isNameInitiallyEmpty.set(name.length === 0);
 
 		this.isOriginalNameUnique().then(isUnique => {
@@ -113,7 +113,7 @@ export class ActivityColorControllerService {
 	}
 
 	private resetState(): void {
-		this.isColorChangeDenied.set(false);
+		this.isColorChangeAllowed.set(true);
 		this.isActivityUnique.set(false);
 		this.originalName.set(this.currentName());
 		this.isNameInitiallyEmpty.set(false);
@@ -132,12 +132,12 @@ export class ActivityColorControllerService {
 			return null;
 		}
 
-		if (this.isColorChangeDenied()) {
+		if (!this.isColorChangeAllowed()) {
 			return null;
 		}
 
 		const color = this.colorsService.getNextColorHsl();
-		this.isColorChangeDenied.set(true);
+		this.isColorChangeAllowed.set(false);
 		return color;
 	}
 

@@ -9,7 +9,7 @@
 				<span class="indicator" style="background: lightcoral">E</span>
 			}
 
-			@if (cc.isColorChangeDenied()) {
+			@if (!cc.isColorChangeAllowed()) {
 				<span class="indicator" style="background: lightskyblue">C</span>
 			}
 
