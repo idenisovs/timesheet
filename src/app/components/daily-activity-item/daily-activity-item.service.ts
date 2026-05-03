@@ -155,9 +155,19 @@ export class DailyActivityItemService {
 	}
 
 	findSiblingActivity(activities: ActivityFormGroup[], name: string, excludeId: string): ActivityFormGroup | undefined {
+		const prefix = this.getPrefixFromName(name);
+
 		return activities
 			.filter(a => a.get('id')?.value !== excludeId && a.get('name')?.value?.length)
-			.find(a => a.get('name')?.value === name);
+			.find(a => {
+				const activityName: string = a.get('name')?.value ?? '';
+
+				if (prefix.length > 0) {
+					return this.getPrefixFromName(activityName) === prefix;
+				}
+
+				return activityName === name;
+			});
 	}
 
 	findSiblingColorInForm(activities: ActivityFormGroup[], name: string, excludeId: string): string | null {

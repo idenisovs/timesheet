@@ -45,24 +45,44 @@ export class ActivityColorControllerService {
 		this.currentName.set(activityFormItem.get('name')?.value ?? '');
 		this.currentColor = activityFormItem.get('color')?.value ?? '';
 
-		const siblingColor = this.findSiblingColorInForm(activityFormItems);
-
-		if (siblingColor) {
-			console.log('There is sibling color!');
-
-			if (siblingColor === this.currentColor) {
-				console.log('Sibling has same color as current activity, skipping!')
-				return null;
-			}
-
-			return this.siblingBasedColorChange(siblingColor);
+		if (this.hasPrefix() && !this.isPrefixChanged()) {
+			console.log('Prefix is the same, skipping!');
+			return null;
 		}
 
-		return this.nameBasedColorChange();
+		if (this.isPrefixChanged()) {
+			this.originalName.set(this.currentName());
+		}
+
+		const colorUpdateFromForm = this.lookForColorInForm(activityFormItems);
+
+		if (colorUpdateFromForm) {
+			console.log('There is color update from form!');
+
+			if (colorUpdateFromForm === this.currentColor) {
+				console.log('But form returned the same color as current, nothing to do.')
+				return null;
+			} else {
+				console.log('Return color from form!');
+				return colorUpdateFromForm;
+			}
+		}
+
+		const colorUpdateFromDB = await this.lookForColorInDB();
+
+		if (colorUpdateFromDB) {
+			if (colorUpdateFromDB === this.currentColor) {
+				return null;
+			} else {
+				return colorUpdateFromDB;
+			}
+		}
+
+		return this.requestColorChange();
 	}
 
-	private findSiblingColorInForm(activityFormItems: ActivityFormGroup[]) {
-		console.log('findSiblingColorInForm');
+	private lookForColorInForm(activityFormItems: ActivityFormGroup[]) {
+		console.log('findSiblingColorInForm', this.currentName());
 
 		const siblingColor = this.service.findSiblingColorInForm(
 			activityFormItems,
@@ -70,28 +90,28 @@ export class ActivityColorControllerService {
 			this.activityId,
 		);
 
-		return siblingColor ? siblingColor : null;
+		console.log('siblingColor', siblingColor);
+
+		if (siblingColor) {
+			console.log('siblingBasedColorChange');
+			this.setNotUniqueState();
+			return siblingColor;
+		}
+
+		return null;
 	}
 
-	private siblingBasedColorChange(color: string): string {
-		console.log('siblingBasedColorChange');
-		this.setNotUniqueState();
-		return color;
-	}
-
-	private getPrefixFromName(name: string) {
-		const idx = name.indexOf(':');
-		return idx === -1 ? '' : name.slice(0, idx);
-	}
-
-	private async nameBasedColorChange(): Promise<string | null> {
-		console.log('nameBasedColorChange');
+	private async lookForColorInDB(): Promise<string | null> {
+		console.log('lookForColorInDB');
 
 		if (this.hasPrefix() && !this.isPrefixChanged()) {
 			return null;
 		}
 
-		const color = await this.findSiblingColorInDB();
+		const color = await this.service.getSiblingColor(
+			this.activityId,
+			this.currentName()
+		);
 
 		if (color) {
 			console.log('Found activity sibling color!');
@@ -99,19 +119,14 @@ export class ActivityColorControllerService {
 			return color;
 		}
 
-		console.log('There is no sibling color, requesting color change!');
-
-		return this.requestColorChange();
+		console.log('There is no sibling color in DB!');
+		return null;
 	}
 
 	private setNotUniqueState(): void {
 		this.isColorChangeAllowed.set(true);
 		this.isActivityUnique.set(false);
 		this.isNameInitiallyEmpty.set(false);
-	}
-
-	private findSiblingColorInDB(): Promise<string | null> {
-		return this.service.getSiblingColor(this.activityId, this.currentName());
 	}
 
 	private requestColorChange() {
@@ -138,6 +153,11 @@ export class ActivityColorControllerService {
 		this.isActivityUnique.set(true);
 
 		return this.colorsService.getNextColorHsl();
+	}
+
+	private getPrefixFromName(name: string) {
+		const idx = name.indexOf(':');
+		return idx === -1 ? '' : name.slice(0, idx);
 	}
 
 	private checkIfActivityUnique(): Promise<boolean> {
