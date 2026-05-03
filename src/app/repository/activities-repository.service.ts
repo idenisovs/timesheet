@@ -121,4 +121,44 @@ export class ActivitiesRepositoryService {
 		await this.db.activities.add(activity);
 		return activity;
 	}
+
+	async findFirstByPrefix(id: string, prefix: string): Promise<Activity | null> {
+		const record = await this.db.activities
+			.where('name')
+			.startsWith(prefix + ':')
+			.filter(activity => activity.id !== id)
+			.first();
+
+		return record ? Activity.fromRecord(record) : null;
+	}
+
+	async findFirstByName(id: string, name: string): Promise<Activity | null> {
+		const record = await this.db.activities
+			.where('name')
+			.equals(name)
+			.filter(activity => activity.id !== id)
+			.first();
+
+		return record ? Activity.fromRecord(record) : null;
+	}
+
+	async isActivityPrefixUnique(id: string, prefix: string): Promise<boolean> {
+		const count = await this.db.activities
+			.where('name')
+			.startsWith(prefix + ':')
+			.filter(activity => activity.id !== id)
+			.count();
+
+		return count === 0;
+	}
+
+	async isActivityNameUnique(id: string, name: string): Promise<boolean> {
+		const count = await this.db.activities
+			.where('name')
+			.equals(name)
+			.filter(activity => activity.id !== id)
+			.count();
+
+		return count === 0;
+	}
 }
