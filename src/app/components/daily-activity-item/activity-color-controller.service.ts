@@ -55,10 +55,6 @@ export class ActivityColorControllerService {
 			return this.prefixBasedColorChange();
 		}
 
-		if (this.isPrefixChanged()) {
-			this.originalName.set(this.currentName());
-		}
-
 		return this.nameBasedColorChange();
 	}
 
@@ -77,7 +73,6 @@ export class ActivityColorControllerService {
 	}
 
 	private siblingBasedColorChange(color: string): string {
-		console.log('sibling based color change')
 		this.resetState();
 		return color;
 	}
