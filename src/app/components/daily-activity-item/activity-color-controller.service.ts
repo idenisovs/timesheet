@@ -45,13 +45,21 @@ export class ActivityColorControllerService {
 		this.currentName.set(activityFormItem.get('name')?.value ?? '');
 		this.currentColor = activityFormItem.get('color')?.value ?? '';
 
+		console.log('hasPrefix:', this.hasPrefix(), 'isPrefixChanged:', this.isPrefixChanged());
+
+		const colorUpdate = await this.getColorUpdate(activityFormItems);
+
+		this.originalName.set(this.currentName());
+
+		return colorUpdate;
+	}
+
+	private async getColorUpdate(
+		activityFormItems: ActivityFormGroup[],
+	) {
 		if (this.hasPrefix() && !this.isPrefixChanged()) {
 			console.log('Prefix is the same, skipping!');
 			return null;
-		}
-
-		if (this.isPrefixChanged()) {
-			this.originalName.set(this.currentName());
 		}
 
 		const colorFromForm = this.lookForColorInForm(activityFormItems);
@@ -63,6 +71,7 @@ export class ActivityColorControllerService {
 		const colorFromDB = await this.lookForColorInDB();
 
 		if (colorFromDB) {
+			console.log('Found activity color in DB!');
 			return colorFromDB !== this.currentColor ? colorFromDB : null;
 		}
 
@@ -93,6 +102,7 @@ export class ActivityColorControllerService {
 		console.log('lookForColorInDB');
 
 		if (this.hasPrefix() && !this.isPrefixChanged()) {
+			console.log('Prefix is not changed!');
 			return null;
 		}
 
