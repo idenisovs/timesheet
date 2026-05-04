@@ -1,18 +1,20 @@
-<section class="mb-4">
-	<app-daily-activities-week-header
-		[week]="week()"
-		[days]="days()"
-		[summary]="summary"
-		(missingDaysVisible)="isMissingDaysVisible = $event"
-	/>
+@if (!isHidden()) {
+	<section class="mb-4">
+		<app-daily-activities-week-header
+			[week]="week()"
+			[days]="days()"
+			[summary]="summary"
+			(missingDaysVisible)="isMissingDaysVisible = $event"
+		/>
 
-	@for (day of days(); track day) {
-		<div class="mt-3">
-			<app-daily-activities-week-day
-				[day]="day"
-				[isMissingDaysVisible]="isMissingDaysVisible"
-				(changes)="recalculateActivitySummary()"
-			/>
-		</div>
-	}
-</section>
+		@for (day of days(); track day) {
+			<div class="mt-3">
+				<app-daily-activities-week-day
+					[day]="day"
+					[isMissingDaysVisible]="isMissingDaysVisible"
+					(changes)="recalculateActivitySummary()"
+				/>
+			</div>
+		}
+	</section>
+}

@@ -1,0 +1,22 @@
+<section class="card">
+	<div class="card-body">
+		<div [formGroup]="form()" class="d-flex justify-content-between align-items-center">
+			<label for="displayEmptyWeeksSwitch" style="cursor: pointer;">
+				<div class="fw-semibold">Display empty weeks</div>
+				<small class="text-muted">
+					When enabled, weeks with no logged activities are shown. When disabled, empty weeks are hidden.
+				</small>
+			</label>
+			<div class="form-check form-switch mb-0 ms-4 flex-shrink-0">
+				<input
+					id="displayEmptyWeeksSwitch"
+					type="checkbox"
+					role="switch"
+					class="form-check-input"
+					style="cursor: pointer;"
+					formControlName="isDisplayEmptyWeeksEnabled"
+				>
+			</div>
+		</div>
+	</div>
+</section>
