@@ -49,8 +49,6 @@ export class ActivityColorControllerService {
 		this.currentColor = activityFormItem.get('color')?.value ?? '';
 		this.colorUpdate = null;
 
-		console.log('hasPrefix:', this.hasPrefix(), 'isPrefixChanged:', this.isPrefixChanged());
-
 		if (!this.hasPrefix() || this.isPrefixChanged()) {
 			this.lookForColorInForm();
 
@@ -71,51 +69,38 @@ export class ActivityColorControllerService {
 	}
 
 	private lookForColorInForm() {
-		console.log('findSiblingColorInForm', this.currentName());
-
 		const siblingColor = this.service.findSiblingColorInForm(
 			this.activityFormItems,
 			this.currentName(),
 			this.activityId,
 		);
 
-		console.log('siblingColor', siblingColor);
-
 		if (!siblingColor) {
 			return;
 		}
 
 		this.setNotUniqueState();
 
-		if (siblingColor === this.currentColor) {
-			return;
+		if (siblingColor !== this.currentColor) {
+			this.colorUpdate = siblingColor;
 		}
-
-		console.log('siblingBasedColorChange');
-		this.colorUpdate = siblingColor;
 	}
 
 	private async lookForColorInDB(): Promise<void> {
-		console.log('lookForColorInDB');
-
 		const siblingColor = await this.service.getSiblingColor(
 			this.activityId,
-			this.currentName()
+			this.currentName(),
 		);
 
 		if (!siblingColor) {
-			console.log('There is no sibling color in DB!');
 			return;
 		}
 
-		console.log('Found activity sibling color!');
 		this.setNotUniqueState();
 
-		if (siblingColor === this.currentColor) {
-			return;
+		if (siblingColor !== this.currentColor) {
+			this.colorUpdate = siblingColor;
 		}
-
-		this.colorUpdate = siblingColor;
 	}
 
 	private setNotUniqueState(): void {
@@ -125,24 +110,17 @@ export class ActivityColorControllerService {
 	}
 
 	private requestColorChange() {
-		console.log('requestColorChange');
-
 		if (this.isActivityUnique()) {
-			console.log('isActivityUnique')
 			return;
 		}
 
 		if (this.isNameInitiallyEmpty()) {
-			console.log('isNameInitiallyEmpty')
 			return;
 		}
 
 		if (!this.isColorChangeAllowed()) {
-			console.log('isColorChangeAllowed')
 			return;
 		}
-
-		console.log('changing color')
 
 		this.isColorChangeAllowed.set(false);
 		this.isActivityUnique.set(true);
