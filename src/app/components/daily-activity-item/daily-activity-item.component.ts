@@ -120,13 +120,7 @@ export class DailyActivityItemComponent {
 	}
 
 	protected async handleNameChanges() {
-		await this.triggerColorChange();
-	}
-
-	private async triggerColorChange() {
-		console.log('triggerColorChange');
-
-		await this.cc.getActivityColor(
+		await this.cc.updateActivityColor(
 			this.activities(),
 			this.activityFormItem(),
 		);

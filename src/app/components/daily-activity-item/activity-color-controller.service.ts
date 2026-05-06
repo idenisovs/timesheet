@@ -40,7 +40,7 @@ export class ActivityColorControllerService {
 		});
 	}
 
-	public async getActivityColor(
+	public async updateActivityColor(
 		activityFormItems: ActivityFormGroup[],
 		activityFormItem: ActivityFormGroup,
 	): Promise<void> {
