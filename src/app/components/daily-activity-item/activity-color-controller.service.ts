@@ -51,29 +51,22 @@ export class ActivityColorControllerService {
 
 		console.log('hasPrefix:', this.hasPrefix(), 'isPrefixChanged:', this.isPrefixChanged());
 
-		await this.resolveColorUpdate();
+		if (!this.hasPrefix() || this.isPrefixChanged()) {
+			this.lookForColorInForm();
+
+			if (!this.colorUpdate) {
+				await this.lookForColorInDB();
+			}
+
+			if (!this.colorUpdate) {
+				this.requestColorChange();
+			}
+		}
 
 		this.originalName.set(this.currentName());
 
 		if (this.colorUpdate) {
 			activityFormItem.get('color')?.setValue(this.colorUpdate);
-		}
-	}
-
-	private async resolveColorUpdate(): Promise<void> {
-		if (this.hasPrefix() && !this.isPrefixChanged()) {
-			console.log('Prefix is the same, skipping!');
-			return;
-		}
-
-		this.lookForColorInForm();
-
-		if (!this.colorUpdate) {
-			await this.lookForColorInDB();
-		}
-
-		if (!this.colorUpdate) {
-			this.requestColorChange();
 		}
 	}
 
