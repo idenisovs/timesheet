@@ -41,7 +41,7 @@ export class ActivityColorControllerService {
 	public async getActivityColor(
 		activityFormItems: ActivityFormGroup[],
 		activityFormItem: ActivityFormGroup,
-	): Promise<string | null> {
+	): Promise<void> {
 		this.currentName.set(activityFormItem.get('name')?.value ?? '');
 		this.currentColor = activityFormItem.get('color')?.value ?? '';
 
@@ -51,7 +51,9 @@ export class ActivityColorControllerService {
 
 		this.originalName.set(this.currentName());
 
-		return colorUpdate;
+		if (colorUpdate) {
+			activityFormItem.get('color')?.setValue(colorUpdate);
+		}
 	}
 
 	private async getColorUpdate(

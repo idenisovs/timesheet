@@ -126,14 +126,10 @@ export class DailyActivityItemComponent {
 	private async triggerColorChange() {
 		console.log('triggerColorChange');
 
-		const color = await this.cc.getActivityColor(
+		await this.cc.getActivityColor(
 			this.activities(),
 			this.activityFormItem(),
 		);
-
-		if (color) {
-			this.ActivityColor = color;
-		}
 	}
 
 	protected readonly BarPosition = BarPosition;
