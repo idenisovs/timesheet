@@ -23,6 +23,8 @@ export class ActivityColorControllerService {
 
 	private activityId = '';
 	private currentColor = '';
+	private colorUpdate: string | null = null;
+	private activityFormItems: ActivityFormGroup[] = [];
 
 	public setActivity(id: string, name: string): void {
 		this.activityId = id;
@@ -42,85 +44,85 @@ export class ActivityColorControllerService {
 		activityFormItems: ActivityFormGroup[],
 		activityFormItem: ActivityFormGroup,
 	): Promise<void> {
+		this.activityFormItems = activityFormItems;
 		this.currentName.set(activityFormItem.get('name')?.value ?? '');
 		this.currentColor = activityFormItem.get('color')?.value ?? '';
+		this.colorUpdate = null;
 
 		console.log('hasPrefix:', this.hasPrefix(), 'isPrefixChanged:', this.isPrefixChanged());
 
-		const colorUpdate = await this.getColorUpdate(activityFormItems);
+		await this.resolveColorUpdate();
 
 		this.originalName.set(this.currentName());
 
-		if (colorUpdate) {
-			activityFormItem.get('color')?.setValue(colorUpdate);
+		if (this.colorUpdate) {
+			activityFormItem.get('color')?.setValue(this.colorUpdate);
 		}
 	}
 
-	private async getColorUpdate(
-		activityFormItems: ActivityFormGroup[],
-	) {
+	private async resolveColorUpdate(): Promise<void> {
 		if (this.hasPrefix() && !this.isPrefixChanged()) {
 			console.log('Prefix is the same, skipping!');
-			return null;
+			return;
 		}
 
-		const colorFromForm = this.lookForColorInForm(activityFormItems);
+		this.lookForColorInForm();
 
-		if (colorFromForm) {
-			return colorFromForm !== this.currentColor ? colorFromForm : null;
+		if (!this.colorUpdate) {
+			await this.lookForColorInDB();
 		}
 
-		const colorFromDB = await this.lookForColorInDB();
-
-		if (colorFromDB) {
-			console.log('Found activity color in DB!');
-			return colorFromDB !== this.currentColor ? colorFromDB : null;
+		if (!this.colorUpdate) {
+			this.requestColorChange();
 		}
-
-		return this.requestColorChange();
 	}
 
-	private lookForColorInForm(activityFormItems: ActivityFormGroup[]) {
+	private lookForColorInForm() {
 		console.log('findSiblingColorInForm', this.currentName());
 
 		const siblingColor = this.service.findSiblingColorInForm(
-			activityFormItems,
+			this.activityFormItems,
 			this.currentName(),
 			this.activityId,
 		);
 
 		console.log('siblingColor', siblingColor);
 
-		if (siblingColor) {
-			console.log('siblingBasedColorChange');
-			this.setNotUniqueState();
-			return siblingColor;
+		if (!siblingColor) {
+			return;
 		}
 
-		return null;
+		this.setNotUniqueState();
+
+		if (siblingColor === this.currentColor) {
+			return;
+		}
+
+		console.log('siblingBasedColorChange');
+		this.colorUpdate = siblingColor;
 	}
 
-	private async lookForColorInDB(): Promise<string | null> {
+	private async lookForColorInDB(): Promise<void> {
 		console.log('lookForColorInDB');
 
-		if (this.hasPrefix() && !this.isPrefixChanged()) {
-			console.log('Prefix is not changed!');
-			return null;
-		}
-
-		const color = await this.service.getSiblingColor(
+		const siblingColor = await this.service.getSiblingColor(
 			this.activityId,
 			this.currentName()
 		);
 
-		if (color) {
-			console.log('Found activity sibling color!');
-			this.setNotUniqueState();
-			return color;
+		if (!siblingColor) {
+			console.log('There is no sibling color in DB!');
+			return;
 		}
 
-		console.log('There is no sibling color in DB!');
-		return null;
+		console.log('Found activity sibling color!');
+		this.setNotUniqueState();
+
+		if (siblingColor === this.currentColor) {
+			return;
+		}
+
+		this.colorUpdate = siblingColor;
 	}
 
 	private setNotUniqueState(): void {
@@ -134,17 +136,17 @@ export class ActivityColorControllerService {
 
 		if (this.isActivityUnique()) {
 			console.log('isActivityUnique')
-			return null;
+			return;
 		}
 
 		if (this.isNameInitiallyEmpty()) {
 			console.log('isNameInitiallyEmpty')
-			return null;
+			return;
 		}
 
 		if (!this.isColorChangeAllowed()) {
 			console.log('isColorChangeAllowed')
-			return null;
+			return;
 		}
 
 		console.log('changing color')
@@ -152,7 +154,7 @@ export class ActivityColorControllerService {
 		this.isColorChangeAllowed.set(false);
 		this.isActivityUnique.set(true);
 
-		return this.colorsService.getNextColorHsl();
+		this.colorUpdate = this.colorsService.getNextColorHsl();
 	}
 
 	private getPrefixFromName(name: string) {
