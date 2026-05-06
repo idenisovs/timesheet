@@ -75,15 +75,7 @@ export class ActivityColorControllerService {
 			this.activityId,
 		);
 
-		if (!siblingColor) {
-			return;
-		}
-
-		this.setNotUniqueState();
-
-		if (siblingColor !== this.currentColor) {
-			this.colorUpdate = siblingColor;
-		}
+		this.applySiblingColor(siblingColor);
 	}
 
 	private async lookForColorInDB(): Promise<void> {
@@ -92,6 +84,10 @@ export class ActivityColorControllerService {
 			this.currentName(),
 		);
 
+		this.applySiblingColor(siblingColor);
+	}
+
+	private applySiblingColor(siblingColor: string | null): void {
 		if (!siblingColor) {
 			return;
 		}
