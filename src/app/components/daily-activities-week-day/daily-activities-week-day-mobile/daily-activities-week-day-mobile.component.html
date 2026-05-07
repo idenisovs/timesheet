@@ -1,5 +1,23 @@
-<div class="card d-md-none bg-secondary-subtle">
+<div class="card d-md-none bg-secondary-subtle mb-3">
 	<main class="card-body py-2">
 		<app-daily-activities-week-day-header [day]="day()"/>
 	</main>
 </div>
+
+
+@for (activity of activities(); track activity.id; let isLast = $last) {
+	<div class="d-flex gap-2">
+		<div class="d-flex flex-column text-center py-2 me-1">
+			<div>{{activity.from}}</div>
+			<div>-</div>
+			<div>{{activity.till}}</div>
+		</div>
+		<div class="border border-end border-dark-subtle"></div>
+		<div class="card my-2 flex-grow-1" [style]="{'border-color': activity.color}">
+			<div class="card-body">
+				{{activity.name}}
+			</div>
+		</div>
+	</div>
+
+}
