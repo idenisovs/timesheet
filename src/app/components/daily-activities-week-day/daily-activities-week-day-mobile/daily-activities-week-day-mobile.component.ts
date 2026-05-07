@@ -14,6 +14,7 @@ import {
 } from '../../daily-activity-item-mobile/daily-activity-item-mobile.component';
 import { Activity } from '../../../entities';
 import { ActivityFormGroup } from '../DailyActivitiesForm';
+import { DailyActivityItemService } from '../../daily-activity-item/daily-activity-item.service';
 
 @Component({
 	selector: 'app-daily-activities-week-day-mobile',
@@ -26,6 +27,7 @@ import { ActivityFormGroup } from '../DailyActivitiesForm';
 	],
 	templateUrl: './daily-activities-week-day-mobile.component.html',
 	styleUrl: './daily-activities-week-day-mobile.component.scss',
+	providers: [DailyActivityItemService],
 })
 export class DailyActivitiesWeekDayMobileComponent extends DailyActivitiesWeekDayDesktopComponent {
 	protected add() {
