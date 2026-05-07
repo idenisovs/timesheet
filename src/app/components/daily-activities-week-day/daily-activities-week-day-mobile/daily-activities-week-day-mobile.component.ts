@@ -6,12 +6,6 @@ import {
 import {
 	DailyActivitiesWeekDayHeaderComponent,
 } from '../daily-activities-week-day-header/daily-activities-week-day-header.component';
-import {
-	DailyActivitiesWeekDayStickyBottomComponent,
-} from '../daily-activities-week-day-sticky-bottom/daily-activities-week-day-sticky-bottom.component';
-import {
-	DailyActivityItemMobileComponent,
-} from '../../daily-activity-item-mobile/daily-activity-item-mobile.component';
 import { Activity } from '../../../entities';
 import { ActivityFormGroup } from '../DailyActivitiesForm';
 import { DailyActivityItemService } from '../../daily-activity-item/daily-activity-item.service';
@@ -20,8 +14,6 @@ import { DailyActivityItemService } from '../../daily-activity-item/daily-activi
 	selector: 'app-daily-activities-week-day-mobile',
 	imports: [
 		DailyActivitiesWeekDayHeaderComponent,
-		DailyActivitiesWeekDayStickyBottomComponent,
-		DailyActivityItemMobileComponent,
 		FormsModule,
 		ReactiveFormsModule,
 	],

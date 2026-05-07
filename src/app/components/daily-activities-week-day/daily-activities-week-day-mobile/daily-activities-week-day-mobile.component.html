@@ -3,26 +3,3 @@
 		<app-daily-activities-week-day-header [day]="day()"/>
 	</main>
 </div>
-
-<form [formGroup]="form" class="mb-3">
-	<div formArrayName="activities">
-		@for (activityFormItem of ActivityFormArrayItems; track activityFormItem.controls.id.value; let isFirst = $first) {
-			<div class="mt-3">
-				<app-daily-activity-item-mobile
-					[activityForm]="activityFormItem"
-					[isFirst]="isFirst"
-					(add)="add()"
-					(proceed)="proceed($event)"
-					(remove)="remove($event)"
-				/>
-			</div>
-		}
-	</div>
-</form>
-
-<app-daily-activities-week-day-sticky-bottom
-	[activities]="activities()"
-	[numberOfChanges]="numberOfChanges()"
-	(save)="save()"
-	(reset)="reset()"
-/>
