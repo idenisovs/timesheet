@@ -9,6 +9,7 @@ import {
 import { Activity } from '../../../entities';
 import { ActivityFormGroup } from '../DailyActivitiesForm';
 import { DailyActivityItemService } from '../../daily-activity-item/daily-activity-item.service';
+import { NgClass } from '@angular/common';
 
 @Component({
 	selector: 'app-daily-activities-week-day-mobile',
@@ -16,6 +17,7 @@ import { DailyActivityItemService } from '../../daily-activity-item/daily-activi
 		DailyActivitiesWeekDayHeaderComponent,
 		FormsModule,
 		ReactiveFormsModule,
+		NgClass,
 	],
 	templateUrl: './daily-activities-week-day-mobile.component.html',
 	styleUrl: './daily-activities-week-day-mobile.component.scss',
