@@ -4,15 +4,22 @@
 	</main>
 </div>
 
-
-@for (activity of activities(); track activity.id; let isLast = $last) {
+@for (activity of sorted(); track activity.id) {
 	<div class="d-flex gap-2">
-		<div class="d-flex flex-column text-center py-2 me-1">
-			<div>{{activity.from}}</div>
-			<div>-</div>
-			<div>{{activity.till}}</div>
+		<div class="d-flex flex-column text-center py-2 me-1" style="min-width: 40px">
+			@if (activity.till) {
+				<div>{{activity.till}}</div>
+			}
+
+			@if (activity.from && activity.till) {
+				<div>-</div>
+			}
+
+			@if (activity.from) {
+				<div>{{activity.from}}</div>
+			}
 		</div>
-		<div class="border border-end border-dark-subtle"></div>
+		<div class="border border-end border-dark-subtle" [ngClass]="{'invisible': !activity.from && !activity.till}"></div>
 		<div class="card my-2 flex-grow-1" [style]="{'border-color': activity.color}">
 			<div class="card-body">
 				{{activity.name}}
