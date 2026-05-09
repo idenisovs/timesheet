@@ -20,6 +20,8 @@ import { getPreviousWeek } from '../../utils/date-v2';
 import { WeekComponent } from './week/week.component';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 import { ActivitiesService } from '../../services/activities.service';
+import { DatePipe } from '@angular/common';
+import { WeekHeaderMobileComponent } from './week/week-header-mobile/week-header-mobile.component';
 
 
 @Component({
@@ -27,7 +29,7 @@ import { ActivitiesService } from '../../services/activities.service';
 	templateUrl: './daily-activities-view.component.html',
 	styleUrls: ['./daily-activities-view.component.scss'],
 	standalone: true,
-	imports: [WeekComponent],
+	imports: [WeekComponent, DatePipe, WeekHeaderMobileComponent],
 })
 export class DailyActivitiesViewComponent implements OnInit, AfterViewInit, OnDestroy {
 	private router = inject(Router);

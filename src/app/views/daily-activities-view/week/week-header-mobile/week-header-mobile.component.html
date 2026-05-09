@@ -1,0 +1,14 @@
+<div class="d-md-none card text-bg-primary rounded-0">
+	<div class="card-body">
+		<div class="flex-grow-1">
+			<i class="material-symbols-outlined">today</i>
+			{{ week().start | date : 'MMM d' }}
+			<span class="mx-1">-</span>
+			{{ week().end | date }}
+		</div>
+
+		<button class="btn btn-sm btn-link link-light p-0 me-1" (click)="toggleMissingDays()">
+			{{ MissingDaysButtonLabel }}
+		</button>
+	</div>
+</div>
