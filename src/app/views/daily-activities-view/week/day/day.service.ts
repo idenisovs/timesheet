@@ -4,7 +4,7 @@ import { FormArray, FormBuilder } from '@angular/forms';
 import { Activity, Day } from '../../../../entities';
 import { ActivityFormItem } from './ActivityFormItem';
 import { ActivityFormGroup } from './DailyActivitiesForm';
-import { BarPosition } from '../../../../components/daily-activity-item/color-bar/color-bar.component';
+import { BarPosition } from './daily-activity-item/color-bar/color-bar.component';
 
 @Injectable({
 	providedIn: 'root',
