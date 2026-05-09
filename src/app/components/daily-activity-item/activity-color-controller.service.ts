@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal, untracked } from '@angular/core';
 
-import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
+import { ActivityFormGroup } from '../../views/daily-activities-view/week/day/DailyActivitiesForm';
 import { DailyActivityItemService } from './daily-activity-item.service';
 import { ColorsService } from '../../services/colors.service';
 

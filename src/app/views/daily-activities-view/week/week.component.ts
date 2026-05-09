@@ -8,14 +8,14 @@ import { SettingsService } from '../../../services/settings.service';
 import {
 	WeekHeaderComponent,
 } from './week-header/week-header.component';
-import { DailyActivitiesWeekDayComponent } from '../../../components/daily-activities-week-day/daily-activities-week-day.component';
+import { DayComponent } from './day/day.component';
 import { getCurrentDate, getDaysByWeek, getMonday } from '../../../utils/date-v2';
 
 @Component({
 	selector: 'app-week',
 	templateUrl: './week.component.html',
 	styleUrls: ['./week.component.scss'],
-	imports: [WeekHeaderComponent, DailyActivitiesWeekDayComponent, NgClass],
+	imports: [WeekHeaderComponent, DayComponent, NgClass],
 })
 export class WeekComponent implements OnInit {
 	private activityRepository = inject(ActivitiesRepositoryService);

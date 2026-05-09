@@ -4,7 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { DailyActivityItemComponent } from './daily-activity-item.component';
 import { DailyActivityItemService } from './daily-activity-item.service';
 import { ColorsService } from '../../services/colors.service';
-import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
+import { ActivityFormGroup } from '../../views/daily-activities-view/week/day/DailyActivitiesForm';
 
 function makeForm(overrides: {
 	id?: string;

@@ -1,12 +1,12 @@
 @if (activities().length > 0) {
 	@if (isMobile()) {
-		<app-daily-activities-week-day-mobile
+		<app-day-mobile
 			[day]="day()"
 			[activities]="activities()"
 			(changes)="saveActivities($event)"
 		/>
 	} @else {
-		<app-daily-activities-week-day-desktop
+		<app-day-desktop
 			[day]="day()"
 			[activities]="activities()"
 			(changes)="saveActivities($event)"

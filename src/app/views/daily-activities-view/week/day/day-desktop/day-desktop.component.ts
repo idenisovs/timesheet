@@ -11,34 +11,30 @@ import {
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { DailyActivitiesWeekDayService } from '../daily-activities-week-day.service';
-import { ActivitiesService } from '../../../services/activities.service';
-import { Activity, Day } from '../../../entities';
+import { DayService } from '../day.service';
+import { ActivitiesService } from '../../../../../services/activities.service';
+import { Activity, Day } from '../../../../../entities';
 import { ActivityFormGroup, DailyActivitiesForm } from '../DailyActivitiesForm';
-import {
-	DailyActivitiesWeekDayFooterComponent,
-} from '../daily-activities-week-day-footer/daily-activities-week-day-footer.component';
-import {
-	DailyActivitiesWeekDayHeaderComponent,
-} from '../daily-activities-week-day-header/daily-activities-week-day-header.component';
-import { DailyActivityItemComponent } from '../../daily-activity-item/daily-activity-item.component';
-import { getCurrentDate } from '../../../utils/date-v2';
-import { BarPosition } from '../../daily-activity-item/color-bar/color-bar.component';
+import { DayFooterComponent } from '../day-footer/day-footer.component';
+import { DayHeaderComponent } from '../day-header/day-header.component';
+import { DailyActivityItemComponent } from '../../../../../components/daily-activity-item/daily-activity-item.component';
+import { getCurrentDate } from '../../../../../utils/date-v2';
+import { BarPosition } from '../../../../../components/daily-activity-item/color-bar/color-bar.component';
 
 @Component({
-	selector: 'app-daily-activities-week-day-desktop',
+	selector: 'app-day-desktop',
 	imports: [
-		DailyActivitiesWeekDayFooterComponent,
-		DailyActivitiesWeekDayHeaderComponent,
+		DayFooterComponent,
+		DayHeaderComponent,
 		DailyActivityItemComponent,
 		FormsModule,
 		ReactiveFormsModule,
 	],
-	templateUrl: './daily-activities-week-day-desktop.component.html',
-	styleUrl: './daily-activities-week-day-desktop.component.scss',
+	templateUrl: './day-desktop.component.html',
+	styleUrl: './day-desktop.component.scss',
 })
-export class DailyActivitiesWeekDayDesktopComponent implements OnInit, OnDestroy {
-	protected readonly service = inject(DailyActivitiesWeekDayService);
+export class DayDesktopComponent implements OnInit, OnDestroy {
+	protected readonly service = inject(DayService);
 	protected readonly activitiesService = inject(ActivitiesService);
 	private readonly fb = inject(FormBuilder);
 

@@ -1,15 +1,15 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 
-import { Activity } from '../../../entities';
-import { ActivitiesService } from '../../../services/activities.service';
+import { Activity } from '../../../../../entities';
+import { ActivitiesService } from '../../../../../services/activities.service';
 
 @Component({
-  selector: 'app-daily-activities-week-day-footer',
+  selector: 'app-day-footer',
   imports: [],
-  templateUrl: './daily-activities-week-day-footer.component.html',
-  styleUrl: './daily-activities-week-day-footer.component.scss'
+  templateUrl: './day-footer.component.html',
+  styleUrl: './day-footer.component.scss'
 })
-export class DailyActivitiesWeekDayFooterComponent {
+export class DayFooterComponent {
   activitiesService = inject(ActivitiesService);
 
   @Input()
