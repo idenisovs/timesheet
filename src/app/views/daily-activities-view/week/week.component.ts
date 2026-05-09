@@ -1,22 +1,22 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
 
-import { ActivitySummary, Day, Week } from '../../entities';
-import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
-import { ActivitiesService } from '../../services/activities.service';
-import { SettingsService } from '../../services/settings.service';
+import { ActivitySummary, Day, Week } from '../../../entities';
+import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
+import { ActivitiesService } from '../../../services/activities.service';
+import { SettingsService } from '../../../services/settings.service';
 import {
-	DailyActivitiesWeekHeaderComponent,
-} from './daily-activities-week-header/daily-activities-week-header.component';
-import { DailyActivitiesWeekDayComponent } from '../daily-activities-week-day/daily-activities-week-day.component';
-import { getCurrentDate, getDaysByWeek, getMonday } from '../../utils/date-v2';
+	WeekHeaderComponent,
+} from './week-header/week-header.component';
+import { DailyActivitiesWeekDayComponent } from '../../../components/daily-activities-week-day/daily-activities-week-day.component';
+import { getCurrentDate, getDaysByWeek, getMonday } from '../../../utils/date-v2';
 
 @Component({
-	selector: 'app-daily-activities-week',
-	templateUrl: './daily-activities-week.component.html',
-	styleUrls: ['./daily-activities-week.component.scss'],
-	imports: [DailyActivitiesWeekHeaderComponent, DailyActivitiesWeekDayComponent],
+	selector: 'app-week',
+	templateUrl: './week.component.html',
+	styleUrls: ['./week.component.scss'],
+	imports: [WeekHeaderComponent, DailyActivitiesWeekDayComponent],
 })
-export class DailyActivitiesWeekComponent implements OnInit {
+export class WeekComponent implements OnInit {
 	private activityRepository = inject(ActivitiesRepositoryService);
 	private activitiesService = inject(ActivitiesService);
 	private settingsService = inject(SettingsService);
