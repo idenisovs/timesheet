@@ -1,4 +1,4 @@
-import { Activity } from '../../entities';
+import { Activity } from '../../../../entities';
 
 export class ActivityFormItem {
 	id: string = crypto.randomUUID();

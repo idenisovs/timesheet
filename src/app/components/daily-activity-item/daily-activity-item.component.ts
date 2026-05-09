@@ -2,7 +2,7 @@ import { Component, effect, inject, input, output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 
-import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
+import { ActivityFormGroup } from '../../views/daily-activities-view/week/day/DailyActivitiesForm';
 import { DailyActivityItemService } from './daily-activity-item.service';
 import { BarPosition } from './color-bar/color-bar.component';
 import { ColorBarComponent } from './color-bar/color-bar.component';

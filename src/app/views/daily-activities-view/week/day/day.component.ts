@@ -4,35 +4,31 @@ import {
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { Activity, Day } from '../../entities';
-import { ScreenService } from '../../services/screen.service';
-import {
-	DailyActivitiesWeekDayDesktopComponent,
-} from './daily-activities-week-day-desktop/daily-activities-week-day-desktop.component';
-import {
-	DailyActivitiesWeekDayMobileComponent,
-} from './daily-activities-week-day-mobile/daily-activities-week-day-mobile.component';
-import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
-import { getCurrentDate } from '../../utils/date-v2';
-import { RemoveActivitiesWorkflowService } from '../../workflows/remove-activities-workflow.service';
-import { SaveActivitiesWorkflowService } from '../../workflows/save-activities-workflow.service';
+import { Activity, Day } from '../../../../entities';
+import { ScreenService } from '../../../../services/screen.service';
+import { DayDesktopComponent } from './day-desktop/day-desktop.component';
+import { DayMobileComponent } from './day-mobile/day-mobile.component';
+import { ActivitiesRepositoryService } from '../../../../repository/activities-repository.service';
+import { getCurrentDate } from '../../../../utils/date-v2';
+import { RemoveActivitiesWorkflowService } from '../../../../workflows/remove-activities-workflow.service';
+import { SaveActivitiesWorkflowService } from '../../../../workflows/save-activities-workflow.service';
 import {
 	DailyActivitiesWeekDayMissingComponent,
-} from '../daily-activities-week-day-missing/daily-activities-week-day-missing.component';
-import { ActivitiesService } from '../../services/activities.service';
+} from '../../../../components/daily-activities-week-day-missing/daily-activities-week-day-missing.component';
+import { ActivitiesService } from '../../../../services/activities.service';
 
 @Component({
-	selector: 'app-daily-activities-week-day',
+	selector: 'app-day',
 	imports: [
 		ReactiveFormsModule,
-		DailyActivitiesWeekDayDesktopComponent,
-		DailyActivitiesWeekDayMobileComponent,
+		DayDesktopComponent,
+		DayMobileComponent,
 		DailyActivitiesWeekDayMissingComponent,
 	],
-	templateUrl: './daily-activities-week-day.component.html',
-	styleUrl: './daily-activities-week-day.component.scss',
+	templateUrl: './day.component.html',
+	styleUrl: './day.component.scss',
 })
-export class DailyActivitiesWeekDayComponent implements OnInit, OnDestroy {
+export class DayComponent implements OnInit, OnDestroy {
 	private readonly screenService = inject(ScreenService);
 	private readonly activityRepository = inject(ActivitiesRepositoryService);
 	private readonly activitiesService = inject(ActivitiesService);

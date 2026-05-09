@@ -14,7 +14,7 @@ import { ActivityItemEditModalComponent } from './activity-item-edit-modal/activ
 import { MenuItemComponent } from './menu-item/menu-item.component';
 import { ActivityItemTitleComponent } from './activity-item-title/activity-item-title.component';
 import { DescriptionPipe } from '../../pipes/description.pipe';
-import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
+import { ActivityFormGroup } from '../../views/daily-activities-view/week/day/DailyActivitiesForm';
 
 @Component({
 	selector: 'app-daily-activity-item-mobile',

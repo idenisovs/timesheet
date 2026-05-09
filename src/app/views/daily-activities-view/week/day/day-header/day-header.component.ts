@@ -2,18 +2,18 @@ import { Component, inject, Input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { Day } from '../../../entities';
+import { Day } from '../../../../../entities';
 import { DailyOverviewModalComponent } from '../daily-overview-modal/daily-overview-modal.component';
 
 @Component({
-  selector: 'app-daily-activities-week-day-header',
+  selector: 'app-day-header',
 	imports: [
 		DatePipe,
 	],
-  templateUrl: './daily-activities-week-day-header.component.html',
-  styleUrl: './daily-activities-week-day-header.component.scss'
+  templateUrl: './day-header.component.html',
+  styleUrl: './day-header.component.scss'
 })
-export class DailyActivitiesWeekDayHeaderComponent {
+export class DayHeaderComponent {
   @Input()
   day!: Day;
 

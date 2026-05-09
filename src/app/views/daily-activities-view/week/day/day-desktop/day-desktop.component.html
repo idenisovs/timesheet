@@ -1,6 +1,6 @@
 <section class="card">
 	<header class="card-header">
-		<app-daily-activities-week-day-header [day]="day()"/>
+		<app-day-header [day]="day()"/>
 	</header>
 
 	<main class="card-body">
@@ -56,7 +56,7 @@
 	</main>
 
 	<footer class="card-footer">
-		<app-daily-activities-week-day-footer
+		<app-day-footer
 			[activities]="activities()"
 			[isChanged]="numberOfChanges() > 0"
 			(reset)="reset()"

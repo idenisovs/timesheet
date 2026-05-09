@@ -2,18 +2,18 @@ import { Component, effect, inject, input, OnDestroy, output } from '@angular/co
 import { NgClass } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Activity } from '../../../entities';
-import { ActivitiesService } from '../../../services/activities.service';
+import { Activity } from '../../../../../entities';
+import { ActivitiesService } from '../../../../../services/activities.service';
 
 @Component({
-	selector: 'app-daily-activities-week-day-sticky-bottom',
+	selector: 'app-day-sticky-bottom',
 	imports: [
 		NgClass,
 	],
-	templateUrl: './daily-activities-week-day-sticky-bottom.component.html',
-	styleUrl: './daily-activities-week-day-sticky-bottom.component.scss'
+	templateUrl: './day-sticky-bottom.component.html',
+	styleUrl: './day-sticky-bottom.component.scss'
 })
-export class DailyActivitiesWeekDayStickyBottomComponent implements OnDestroy {
+export class DayStickyBottomComponent implements OnDestroy {
 	private static readonly DEFAULT_COUNTDOWN: number = 5;
 
 	private readonly activitiesService = inject(ActivitiesService);
@@ -24,7 +24,7 @@ export class DailyActivitiesWeekDayStickyBottomComponent implements OnDestroy {
 	save = output<void>();
 	reset = output<void>();
 
-	countdown = DailyActivitiesWeekDayStickyBottomComponent.DEFAULT_COUNTDOWN;
+	countdown = DayStickyBottomComponent.DEFAULT_COUNTDOWN;
 	countdownSub?: Subscription;
 
 	constructor() {
@@ -47,7 +47,7 @@ export class DailyActivitiesWeekDayStickyBottomComponent implements OnDestroy {
 	}
 
 	private startCountdown() {
-		const { DEFAULT_COUNTDOWN } = DailyActivitiesWeekDayStickyBottomComponent
+		const { DEFAULT_COUNTDOWN } = DayStickyBottomComponent
 
 		this.countdown = DEFAULT_COUNTDOWN;
 
@@ -59,7 +59,7 @@ export class DailyActivitiesWeekDayStickyBottomComponent implements OnDestroy {
 	}
 
 	private updateCountdown(elapsed: number): void {
-		const { DEFAULT_COUNTDOWN } = DailyActivitiesWeekDayStickyBottomComponent
+		const { DEFAULT_COUNTDOWN } = DayStickyBottomComponent
 		this.countdown = DEFAULT_COUNTDOWN - (elapsed + 1);
 
 		if (this.countdown <= 0) {

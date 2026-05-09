@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { ActivityFormGroup } from '../daily-activities-week-day/DailyActivitiesForm';
+import { ActivityFormGroup } from '../../views/daily-activities-view/week/day/DailyActivitiesForm';
 import parseDuration from 'parse-duration';
 import { DateTime } from 'luxon';
 
