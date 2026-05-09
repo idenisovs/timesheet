@@ -1,4 +1,5 @@
 import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { NgClass } from '@angular/common';
 
 import { ActivitySummary, Day, Week } from '../../../entities';
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
@@ -14,7 +15,7 @@ import { getCurrentDate, getDaysByWeek, getMonday } from '../../../utils/date-v2
 	selector: 'app-week',
 	templateUrl: './week.component.html',
 	styleUrls: ['./week.component.scss'],
-	imports: [WeekHeaderComponent, DailyActivitiesWeekDayComponent],
+	imports: [WeekHeaderComponent, DailyActivitiesWeekDayComponent, NgClass],
 })
 export class WeekComponent implements OnInit {
 	private activityRepository = inject(ActivitiesRepositoryService);
