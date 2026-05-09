@@ -17,9 +17,9 @@ import { Activity, Day } from '../../../../../entities';
 import { ActivityFormGroup, DailyActivitiesForm } from '../DailyActivitiesForm';
 import { DayFooterComponent } from '../day-footer/day-footer.component';
 import { DayHeaderComponent } from '../day-header/day-header.component';
-import { DailyActivityItemComponent } from '../../../../../components/daily-activity-item/daily-activity-item.component';
+import { DailyActivityItemComponent } from '../daily-activity-item/daily-activity-item.component';
 import { getCurrentDate } from '../../../../../utils/date-v2';
-import { BarPosition } from '../../../../../components/daily-activity-item/color-bar/color-bar.component';
+import { BarPosition } from '../daily-activity-item/color-bar/color-bar.component';
 
 @Component({
 	selector: 'app-day-desktop',

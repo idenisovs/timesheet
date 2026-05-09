@@ -4,7 +4,7 @@ import { DayDesktopComponent } from '../day-desktop/day-desktop.component';
 import { DayHeaderComponent } from '../day-header/day-header.component';
 import { Activity } from '../../../../../entities';
 import { ActivityFormGroup } from '../DailyActivitiesForm';
-import { DailyActivityItemService } from '../../../../../components/daily-activity-item/daily-activity-item.service';
+import { DailyActivityItemService } from '../daily-activity-item/daily-activity-item.service';
 import { NgClass } from '@angular/common';
 import { ActivityTimesComponent } from './activity-times/activity-times.component';
 

@@ -1,13 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { ActivityFormGroup } from '../../views/daily-activities-view/week/day/DailyActivitiesForm';
+import { ActivityFormGroup } from '../DailyActivitiesForm';
 import parseDuration from 'parse-duration';
 import { DateTime } from 'luxon';
 
-import { DurationService } from '../../services/duration.service';
-import { SettingsService } from '../../services/settings.service';
-import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
+import { DurationService } from '../../../../../services/duration.service';
+import { SettingsService } from '../../../../../services/settings.service';
+import { ActivitiesRepositoryService } from '../../../../../repository/activities-repository.service';
 
 const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/;
 
