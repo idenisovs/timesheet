@@ -1,46 +1,29 @@
-@if (isMobile()) {
-<!--	<div class="card text-bg-primary rounded-0 sticky-top">-->
-<!--		<div class="card-body p-2">-->
-<!--			<div class="flex-grow-1">-->
-<!--				<i class="material-symbols-outlined">today</i>-->
-<!--				{{ week().start | date : 'MMM d' }}-->
-<!--				<span class="mx-1">-</span>-->
-<!--				{{ week().end | date }}-->
-<!--			</div>-->
+<div class="d-none d-md-block card text-bg-secondary m-0">
+	<div class="card-body d-flex align-items-center py-2">
+		<div class="flex-grow-1">
+			<i class="material-symbols-outlined">today</i>
+			{{ week().start | date }}
+			<span class="mx-2">-</span>
+			{{ week().end | date }}
+		</div>
 
-<!--			<button class="btn btn-sm btn-link link-light p-0 me-1" (click)="toggleMissingDays()">-->
-<!--				{{ MissingDaysButtonLabel }}-->
-<!--			</button>-->
-<!--		</div>-->
-<!--	</div>-->
-} @else {
-	<div class="card text-bg-secondary m-0">
-		<div class="card-body d-flex align-items-center py-2">
-			<div class="flex-grow-1">
-				<i class="material-symbols-outlined">today</i>
-				{{ week().start | date }}
-				<span class="mx-2">-</span>
-				{{ week().end | date }}
-			</div>
-
-			<div class="me-2">
-				<button class="btn btn-sm btn-link link-light p-0 align-top me-1" (click)="toggleMissingDays()">
-					{{ MissingDaysButtonLabel }}
-				</button>
-			</div>
-
-			<span class="me-2 d-none d-md-inline"><i
-				class="material-symbols-outlined text-white">assignment</i>{{ summary().activities }}</span>
-			<span class="me-2 d-none d-md-inline"><i
-				class="material-symbols-outlined text-white">schedule</i>{{ summary().duration }}</span>
-
-			<button class="btn btn-sm btn-secondary d-none d-md-block" title="Weekly Overview"
-			        (click)="displayWeeklyOverview()">
-				<i class="material-symbols-outlined">
-					donut_large
-				</i>
+		<div class="me-2">
+			<button class="btn btn-sm btn-link link-light p-0 align-top me-1" (click)="toggleMissingDays()">
+				{{ MissingDaysButtonLabel }}
 			</button>
 		</div>
+
+		<span class="me-2 d-none d-md-inline"><i
+			class="material-symbols-outlined text-white">assignment</i>{{ summary().activities }}</span>
+		<span class="me-2 d-none d-md-inline"><i
+			class="material-symbols-outlined text-white">schedule</i>{{ summary().duration }}</span>
+
+		<button class="btn btn-sm btn-secondary d-none d-md-block" title="Weekly Overview"
+				(click)="displayWeeklyOverview()">
+			<i class="material-symbols-outlined">
+				donut_large
+			</i>
+		</button>
 	</div>
-}
+</div>
 
