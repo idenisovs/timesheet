@@ -4,7 +4,7 @@ import { Activity, Issue, Project } from '../entities';
 import { Metadata, MetadataField, MetadataFieldType, MetadataRecord } from './Metadata';
 import { ActivityReaderFactory } from './activities/ActivityReaderFactory';
 import { ActivityRecord } from './activities/ActivityRecord';
-import { ImportedIssue, ImportedProject } from '../pages/import-page/Imports';
+import { ImportedIssue, ImportedProject } from '../views/import-view/Imports';
 
 @Injectable({
 	providedIn: 'root'

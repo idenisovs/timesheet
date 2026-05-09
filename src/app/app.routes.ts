@@ -1,19 +1,19 @@
-import { DailyActivitiesPageComponent } from './pages/daily-activities-page/daily-activities-page.component';
+import { DailyActivitiesViewComponent } from './views/daily-activities-view/daily-activities-view.component';
 import { Routes } from '@angular/router';
 import {
-	DailyActivitiesPageActionsComponent
-} from './pages/daily-activities-page/daily-activities-page-actions/daily-activities-page-actions.component';
-import { IssuesPageComponent } from './pages/issues-page/issues-page.component';
-import { IssuesPageActionsComponent } from './pages/issues-page/issues-page-actions/issues-page-actions.component';
-import { IssuePageComponent } from './pages/issue-page/issue-page.component';
-import { ProjectsPageComponent } from './pages/projects-page/projects-page.component';
+	DailyActivitiesViewActionsComponent
+} from './views/daily-activities-view/daily-activities-view-actions/daily-activities-view-actions.component';
+import { IssuesViewComponent } from './views/issues-view/issues-view.component';
+import { IssuesViewActionsComponent } from './views/issues-view/issues-view-actions/issues-view-actions.component';
+import { IssueViewComponent } from './views/issue-view/issue-view.component';
+import { ProjectsViewComponent } from './views/projects-view/projects-view.component';
 import {
-	ProjectsPageActionsComponent
-} from './pages/projects-page/projects-page-actions/projects-page-actions.component';
-import { ProjectPageComponent } from './pages/project-page/project-page.component';
+	ProjectsViewActionsComponent
+} from './views/projects-view/projects-view-actions/projects-view-actions.component';
+import { ProjectViewComponent } from './views/project-view/project-view.component';
 import { projectResolver } from './resolvers';
-import { ImportPageComponent } from './pages/import-page/import-page.component';
-import { SettingsPageComponent } from './pages/settings-page/settings-page.component';
+import { ImportViewComponent } from './views/import-view/import-view.component';
+import { SettingsViewComponent } from './views/settings-view/settings-view.component';
 
 export const routes: Routes = [
 	{
@@ -21,11 +21,11 @@ export const routes: Routes = [
 		children: [
 			{
 				path: '',
-				component: DailyActivitiesPageComponent
+				component: DailyActivitiesViewComponent
 			},
 			{
 				path: '',
-				component: DailyActivitiesPageActionsComponent,
+				component: DailyActivitiesViewActionsComponent,
 				outlet: 'page-actions'
 			}
 		]
@@ -34,44 +34,44 @@ export const routes: Routes = [
 		path: 'issues',
 		children: [{
 			path: '',
-			component: IssuesPageComponent
+			component: IssuesViewComponent
 		}, {
 			path: '',
-			component: IssuesPageActionsComponent,
+			component: IssuesViewActionsComponent,
 			outlet: 'page-actions'
 		}]
 	},
 	{
 		path: 'issues/:issueKey',
-		component: IssuePageComponent
+		component: IssueViewComponent
 	},
 	{
 		path: 'projects',
 		children: [
 			{
 				path: '',
-				component: ProjectsPageComponent
+				component: ProjectsViewComponent
 			},
 			{
 				path: '',
-				component: ProjectsPageActionsComponent,
+				component: ProjectsViewActionsComponent,
 				outlet: 'page-actions'
 			}
 		]
 	},
 	{
 		path: 'projects/:projectId',
-		component: ProjectPageComponent,
+		component: ProjectViewComponent,
 		resolve: {
 			project: projectResolver
 		}
 	},
 	{
 		path: 'import',
-		component: ImportPageComponent
+		component: ImportViewComponent
 	},
 	{
 		path: 'settings',
-		component: SettingsPageComponent
+		component: SettingsViewComponent
 	}
 ];
