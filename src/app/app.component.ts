@@ -3,17 +3,17 @@ import { RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { AppVersionComponent } from './components/app-version/app-version.component';
 import { ColorModeService } from './services/color-mode.service';
 import { ActionsService } from './services/actions.service';
 import { Actions } from './services/Actions';
+import { AppHeaderComponent } from './components/app-header/app-header.component';
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
 	standalone: true,
-	imports: [RouterOutlet, NavbarComponent, AppVersionComponent],
+	imports: [RouterOutlet, NavbarComponent, AppHeaderComponent],
 })
 export class AppComponent implements OnInit, OnDestroy {
 	private actions = inject(ActionsService);
