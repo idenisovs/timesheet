@@ -1,4 +1,10 @@
-<section #weeksList>
+<div class="d-md-none card text-bg-primary">
+	<div class="card-body">
+		Week header here
+	</div>
+</div>
+
+<section #weeksList class="vh-100 overflow-auto">
 	@for (week of weeks; track week.start) {
 		<app-week [week]="week"/>
 	}
