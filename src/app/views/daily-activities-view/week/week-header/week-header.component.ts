@@ -1,9 +1,12 @@
 import { Component, inject, input, InputSignal, output } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Day, Week, ActivitySummary } from '../../../../entities';
 import { WeeklyOverviewModalComponent } from '../weekly-overview-modal/weekly-overview-modal.component';
+import { ScreenService } from '../../../../services/screen.service';
+
 
 @Component({
 	selector: 'app-week-header',
@@ -14,7 +17,8 @@ import { WeeklyOverviewModalComponent } from '../weekly-overview-modal/weekly-ov
 	],
 })
 export class WeekHeaderComponent {
-	private modal = inject(NgbModal);
+	private readonly modal = inject(NgbModal);
+	private readonly screenService = inject(ScreenService);
 
 	public week: InputSignal<Week> = input<Week>(new Week());
 	public days: InputSignal<Day[]> = input<Day[]>([]);
@@ -22,6 +26,7 @@ export class WeekHeaderComponent {
 
 	public missingDaysVisible = output<boolean>();
 
+	protected isMobile = toSignal<boolean>(this.screenService.isMobile$);
 	private isMissingDaysVisible = false;
 
 	get MissingDaysButtonLabel(): string {
