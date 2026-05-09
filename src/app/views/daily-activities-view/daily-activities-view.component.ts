@@ -17,7 +17,7 @@ import { ActionsService } from '../../services/actions.service';
 import { ExportWorkflowService } from '../../workflows/export-workflow.service';
 import { delay } from '../../utils';
 import { getPreviousWeek } from '../../utils/date-v2';
-import { DailyActivitiesWeekComponent } from '../../components/daily-activities-week/daily-activities-week.component';
+import { WeekComponent } from './week/week.component';
 import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
 import { ActivitiesService } from '../../services/activities.service';
 
@@ -27,7 +27,7 @@ import { ActivitiesService } from '../../services/activities.service';
 	templateUrl: './daily-activities-view.component.html',
 	styleUrls: ['./daily-activities-view.component.scss'],
 	standalone: true,
-	imports: [DailyActivitiesWeekComponent],
+	imports: [WeekComponent],
 })
 export class DailyActivitiesViewComponent implements OnInit, AfterViewInit, OnDestroy {
 	private router = inject(Router);

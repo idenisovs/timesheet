@@ -2,18 +2,18 @@ import { Component, inject, input, InputSignal, output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { Day, Week, ActivitySummary } from '../../../entities';
+import { Day, Week, ActivitySummary } from '../../../../entities';
 import { WeeklyOverviewModalComponent } from '../weekly-overview-modal/weekly-overview-modal.component';
 
 @Component({
-	selector: 'app-daily-activities-week-header',
-	templateUrl: './daily-activities-week-header.component.html',
-	styleUrls: ['./daily-activities-week-header.component.scss'],
+	selector: 'app-week-header',
+	templateUrl: './week-header.component.html',
+	styleUrls: ['./week-header.component.scss'],
 	imports: [
 		DatePipe,
 	],
 })
-export class DailyActivitiesWeekHeaderComponent {
+export class WeekHeaderComponent {
 	private modal = inject(NgbModal);
 
 	public week: InputSignal<Week> = input<Week>(new Week());

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DatePipe, PercentPipe } from '@angular/common';
 import {
     IssueOverviewComponent
-} from '../../daily-activities-week/weekly-overview-modal/issue-overview/issue-overview.component';
+} from '../../../views/daily-activities-view/week/weekly-overview-modal/issue-overview/issue-overview.component';
 import { Day, Overview } from '../../../entities';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { OverviewService } from '../../../services/overview.service';

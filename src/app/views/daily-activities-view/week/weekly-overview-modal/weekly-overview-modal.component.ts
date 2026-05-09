@@ -2,11 +2,11 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { DatePipe, PercentPipe } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { Overview, Week } from '../../../entities';
+import { Overview, Week } from '../../../../entities';
 import { IssueOverviewComponent } from './issue-overview/issue-overview.component';
-import { OverviewService } from '../../../services/overview.service';
-import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
-import { WORK_WEEK } from '../../../constants';
+import { OverviewService } from '../../../../services/overview.service';
+import { ActivitiesRepositoryService } from '../../../../repository/activities-repository.service';
+import { WORK_WEEK } from '../../../../constants';
 
 @Component({
     selector: 'app-weekly-overview-modal',
