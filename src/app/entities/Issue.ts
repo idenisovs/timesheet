@@ -1,5 +1,5 @@
 import { IssueRecord } from '../store/records';
-import { ImportedIssue } from '../pages/import-page/Imports';
+import { ImportedIssue } from '../views/import-view/Imports';
 
 export class Issue {
   public static readonly KEY_PATTERN = /^\w+-\d+/;

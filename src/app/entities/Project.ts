@@ -1,4 +1,4 @@
-import { ImportedProject } from '../pages/import-page/Imports';
+import { ImportedProject } from '../views/import-view/Imports';
 import { ProjectRecord } from '../store/records';
 
 export class Project {

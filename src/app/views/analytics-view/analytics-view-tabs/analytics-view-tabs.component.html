@@ -1,0 +1,25 @@
+<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs my-4">
+  <li [ngbNavItem]="1">
+    <button ngbNavLink>
+      <i class="material-symbols-outlined">table_view</i> Data
+    </button>
+    <ng-template ngbNavContent>
+      <app-activity-tree
+        [analytics]="analytics"
+        [isActivitiesVisible]="isActivitiesVisible"
+        [isIssuesVisible]="isIssuesVisible"
+      />
+    </ng-template>
+  </li>
+
+  <li [ngbNavItem]="2">
+    <button ngbNavLink>
+      <i class="material-symbols-outlined">table_chart_view</i> Charts
+    </button>
+    <ng-template ngbNavContent>
+      <app-analytics-view-charts [analytics]="analytics" />
+    </ng-template>
+  </li>
+</ul>
+
+<div [ngbNavOutlet]="nav"></div>

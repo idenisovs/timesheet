@@ -1,9 +1,0 @@
-<app-analytics-page-filter (changes)="updateAnalytics($event)" />
-
-@if (analytics) {
-  <app-analytics-page-tabs
-    [isActivitiesVisible]="isActivitiesVisible"
-    [isIssuesVisible]="isIssuesVisible"
-    [analytics]="analytics"
-  />
-}

@@ -1,6 +1,6 @@
 import { Issue } from './Issue';
 import { Day } from './Day';
-import { ImportedActivity } from '../pages/import-page/Imports';
+import { ImportedActivity } from '../views/import-view/Imports';
 import { ActivityRecord } from '../store/records';
 import { getCurrentDate } from '../utils/date-v2';
 

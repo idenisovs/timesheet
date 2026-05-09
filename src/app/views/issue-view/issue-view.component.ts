@@ -1,0 +1,49 @@
+import { Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { Activity, Issue } from '../../entities';
+import { ActivitiesListComponent } from './activities-list/activities-list.component';
+import { IssueCardComponent } from './issue-card/issue-card.component';
+import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
+import { IssueRepositoryService } from '../../repository/issue-repository.service';
+
+@Component({
+	selector: 'app-issue-view',
+	imports: [
+		ReactiveFormsModule,
+		ActivitiesListComponent,
+		IssueCardComponent,
+	],
+	templateUrl: './issue-view.component.html',
+	styleUrl: './issue-view.component.scss',
+})
+export class IssueViewComponent implements OnInit {
+	private route = inject(ActivatedRoute);
+	private activityRepository = inject(ActivitiesRepositoryService);
+	private issueRepository = inject(IssueRepositoryService);
+
+	issue?: Issue;
+	activities: Activity[] = [];
+	issueKey!: string;
+	isNotFound: boolean = false;
+
+	ngOnInit() {
+		this.route.params.subscribe(async ({issueKey}) => {
+			this.issueKey = issueKey;
+			await this.loadIssue(issueKey);
+		});
+	}
+
+	async loadIssue(issueKey: string) {
+		const existingIssue = await this.issueRepository.getByKey(issueKey);
+
+		if (existingIssue) {
+			this.issue = existingIssue;
+			this.activities = await this.activityRepository.getByIssueKey(this.issueKey);
+		} else {
+			this.isNotFound = true;
+		}
+	}
+}
