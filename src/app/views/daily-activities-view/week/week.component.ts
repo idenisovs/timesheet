@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, ElementRef, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
+import {
+	AfterViewInit,
+	Component,
+	computed,
+	ElementRef,
+	inject,
+	input,
+	OnDestroy,
+	OnInit,
+	signal,
+} from '@angular/core';
 import { NgClass } from '@angular/common';
 
 import { ActivitySummary, Day, Week } from '../../../entities';
@@ -31,7 +41,7 @@ export class WeekComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	protected days = signal<Day[]>([]);
 	protected summary = new ActivitySummary();
-	protected isMissingDaysVisible = false;
+	protected isMissingDaysVisible = computed(() => this.weekService.isMissingDaysVisible());
 	protected isHidden = signal(false);
 
 	async ngOnInit() {

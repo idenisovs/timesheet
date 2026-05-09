@@ -14,5 +14,9 @@ export class WeekHeaderMobileComponent {
 	private readonly weekService = inject(WeekService);
 
 	protected week = computed(() => this.weekService.focusedWeek());
+	protected isMissingDaysVisible = computed(() => this.weekService.isMissingDaysVisible());
 
+	toggleMissingDays() {
+		this.weekService.toggleMissingDaysVisibility();
+	}
 }
