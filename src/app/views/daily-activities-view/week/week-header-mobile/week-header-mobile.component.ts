@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { WeekHeaderComponent } from '../week-header/week-header.component';
+import { Component, computed, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { WeekService } from '../week.service';
 
 @Component({
   selector: 'app-week-header-mobile',
@@ -10,6 +10,9 @@ import { DatePipe } from '@angular/common';
   templateUrl: './week-header-mobile.component.html',
   styleUrl: './week-header-mobile.component.scss',
 })
-export class WeekHeaderMobileComponent extends WeekHeaderComponent {
+export class WeekHeaderMobileComponent {
+	private readonly weekService = inject(WeekService);
+
+	protected week = computed(() => this.weekService.focusedWeek());
 
 }

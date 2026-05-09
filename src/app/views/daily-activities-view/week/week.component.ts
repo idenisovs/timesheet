@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 import { ActivitySummary, Day, Week } from '../../../entities';
@@ -10,6 +10,7 @@ import {
 } from './week-header/week-header.component';
 import { DayComponent } from './day/day.component';
 import { getCurrentDate, getDaysByWeek, getMonday } from '../../../utils/date-v2';
+import { WeekService } from './week.service';
 
 @Component({
 	selector: 'app-week',
@@ -17,10 +18,14 @@ import { getCurrentDate, getDaysByWeek, getMonday } from '../../../utils/date-v2
 	styleUrls: ['./week.component.scss'],
 	imports: [WeekHeaderComponent, DayComponent, NgClass],
 })
-export class WeekComponent implements OnInit {
+export class WeekComponent implements OnInit, AfterViewInit, OnDestroy {
 	private activityRepository = inject(ActivitiesRepositoryService);
 	private activitiesService = inject(ActivitiesService);
 	private settingsService = inject(SettingsService);
+	private weekService = inject(WeekService);
+	private elementRef = inject(ElementRef);
+
+	private observer: IntersectionObserver | null = null;
 
 	public week = input.required<Week>();
 
@@ -33,6 +38,22 @@ export class WeekComponent implements OnInit {
 		const days: Day[] = getDaysByWeek(this.week(), true);
 		this.days.set(days);
 		await this.recalculateActivitySummary();
+	}
+
+	ngAfterViewInit() {
+		this.observer = new IntersectionObserver(
+			([entry]) => {
+				if (entry.isIntersecting) {
+					this.weekService.setFocusedWeek(this.week());
+				}
+			},
+			{ threshold: 0, rootMargin: '0px 0px -80% 0px' },
+		);
+		this.observer.observe(this.elementRef.nativeElement);
+	}
+
+	ngOnDestroy() {
+		this.observer?.disconnect();
 	}
 
 	async recalculateActivitySummary() {
