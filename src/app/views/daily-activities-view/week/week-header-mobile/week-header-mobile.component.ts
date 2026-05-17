@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { WeekService } from '../week.service';
 
@@ -11,10 +11,7 @@ import { WeekService } from '../week.service';
   styleUrl: './week-header-mobile.component.scss',
 })
 export class WeekHeaderMobileComponent {
-	private readonly weekService = inject(WeekService);
-
-	protected week = computed(() => this.weekService.focusedWeek());
-	protected isMissingDaysVisible = computed(() => this.weekService.isMissingDaysVisible());
+	protected readonly weekService = inject(WeekService);
 
 	toggleMissingDays() {
 		this.weekService.toggleMissingDaysVisibility();

@@ -1,7 +1,6 @@
 import {
 	AfterViewInit,
 	Component,
-	computed,
 	ElementRef,
 	inject,
 	input,
@@ -32,7 +31,7 @@ export class WeekComponent implements OnInit, AfterViewInit, OnDestroy {
 	private activityRepository = inject(ActivitiesRepositoryService);
 	private activitiesService = inject(ActivitiesService);
 	private settingsService = inject(SettingsService);
-	private weekService = inject(WeekService);
+	protected weekService = inject(WeekService);
 	private elementRef = inject(ElementRef);
 
 	private observer: IntersectionObserver | null = null;
@@ -41,7 +40,6 @@ export class WeekComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	protected days = signal<Day[]>([]);
 	protected summary = new ActivitySummary();
-	protected isMissingDaysVisible = computed(() => this.weekService.isMissingDaysVisible());
 	protected isHidden = signal(false);
 
 	async ngOnInit() {

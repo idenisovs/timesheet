@@ -1,11 +1,10 @@
-import { Component, inject, input, InputSignal, output } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, inject, input, InputSignal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Day, Week, ActivitySummary } from '../../../../entities';
 import { WeeklyOverviewModalComponent } from '../weekly-overview-modal/weekly-overview-modal.component';
-import { ScreenService } from '../../../../services/screen.service';
+import { WeekService } from '../week.service';
 
 
 @Component({
@@ -18,19 +17,14 @@ import { ScreenService } from '../../../../services/screen.service';
 })
 export class WeekHeaderComponent {
 	private readonly modal = inject(NgbModal);
-	private readonly screenService = inject(ScreenService);
+	private readonly weekService = inject(WeekService);
 
 	public week: InputSignal<Week> = input<Week>(new Week());
 	public days: InputSignal<Day[]> = input<Day[]>([]);
 	public summary: InputSignal<ActivitySummary> = input<ActivitySummary>(new ActivitySummary());
 
-	public missingDaysVisible = output<boolean>();
-
-	protected isMobile = toSignal<boolean>(this.screenService.isMobile$);
-	private isMissingDaysVisible = false;
-
 	get MissingDaysButtonLabel(): string {
-		if (this.isMissingDaysVisible) {
+		if (this.weekService.isMissingDaysVisible()) {
 			return 'Hide missing days';
 		} else {
 			return 'Show missing days';
@@ -38,8 +32,7 @@ export class WeekHeaderComponent {
 	}
 
 	toggleMissingDays() {
-		this.isMissingDaysVisible = !this.isMissingDaysVisible;
-		this.missingDaysVisible.emit(this.isMissingDaysVisible);
+		this.weekService.toggleMissingDaysVisibility();
 	}
 
 	displayWeeklyOverview() {
