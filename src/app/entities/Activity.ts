@@ -22,6 +22,10 @@ export class Activity {
 		Object.assign(this, entity);
 	}
 
+	hasIssueKey(): boolean {
+		return !!this.name.match(Issue.KEY_PATTERN);
+	}
+
 	getIssueKey(): string | null {
 		const match = this.name.match(Issue.KEY_PATTERN);
 
@@ -44,10 +48,6 @@ export class Activity {
 		const [projectKey] = issueKey.split('-');
 
 		return projectKey;
-	}
-
-	hasIssueKey(): boolean {
-		return !!this.name.match(Issue.KEY_PATTERN);
 	}
 
 	isLinkedToIssue(): boolean {

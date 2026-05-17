@@ -5,15 +5,15 @@
 </div>
 
 @for (activity of sorted(); track activity.id) {
-	<div class="d-flex gap-2">
-		<div class="py-2 me-1" style="width: 40px">
+	<div class="d-flex">
+		<div class="mx-2 py-2" style="width: 40px">
 			<app-activity-times [from]="activity.from" [till]="activity.till"/>
 		</div>
-		<div class="border border-end border-dark-subtle" [ngClass]="{'invisible': !activity.from && !activity.till}"></div>
-		<div class="card my-2 flex-grow-1" [style]="{'border-color': activity.color, 'background-color': subtleColor(activity.color)}">
+		<div class="vr"></div>
+		<div class="card flex-grow-1 m-1" [style]="{'border-color': activity.color, 'background-color': subtleColor(activity.color)}">
 			<div class="card-body py-2 d-flex align-items-center justify-content-between gap-2">
 					<div>
-						@if (activity.getIssueKey()) {
+						@if (activity.hasIssueKey()) {
 							{{activity.getIssueKey()}}
 						}
 						<div>{{activity.getShortName()}}</div>
