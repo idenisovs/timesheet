@@ -5,6 +5,8 @@ import { ActivitiesRepositoryService } from '../../../repository/activities-repo
 import { delay } from '../../../utils';
 import { getPreviousWeek } from '../../../utils/date-v2';
 
+const MOBILE_BREAKPOINT = '(max-width: 767.98px)';
+
 @Component({
 	selector: 'app-bottom-load-indicator',
 	imports: [],
@@ -18,13 +20,28 @@ export class BottomLoadIndicatorComponent implements OnInit, AfterViewInit, OnDe
 
 	public nextWeek = output<Week>();
 
+	protected isLoading = true;
+
 	private firstActivity!: Activity;
 	private currentWeek = new Week();
 	private boundOnScroll = this.onScroll.bind(this);
-	protected isLoading = false;
+	private boundOnMediaChange = this.onMediaChange.bind(this);
+	private mediaQuery = window.matchMedia(MOBILE_BREAKPOINT);
+	private scrollTarget: Window | HTMLElement = window;
+	private isBottomReached = true;
 
-	get WeeksList() {
+	private get WeeksList() {
 		return this.elementRef.nativeElement as HTMLElement;
+	}
+
+	private get ParentElement() {
+		const parentIsScrollContainer = this.mediaQuery.matches;
+
+		if (parentIsScrollContainer) {
+			return this.elementRef.nativeElement.parentElement as HTMLElement;
+		} else {
+			return window;
+		}
 	}
 
 	public async ngOnInit() {
@@ -33,34 +50,36 @@ export class BottomLoadIndicatorComponent implements OnInit, AfterViewInit, OnDe
 	}
 
 	public ngAfterViewInit() {
-		window.addEventListener('scroll', this.boundOnScroll, { passive: true });
+		this.mediaQuery.addEventListener('change', this.boundOnMediaChange);
+		this.updateScrollTarget();
 	}
 
 	public async ngOnDestroy() {
-		window.removeEventListener('scroll', this.boundOnScroll);
+		this.scrollTarget.removeEventListener('scroll', this.boundOnScroll);
+		this.mediaQuery.removeEventListener('change', this.boundOnMediaChange);
+	}
+
+	private onMediaChange() {
+		this.updateScrollTarget();
+	}
+
+	private updateScrollTarget() {
+		this.scrollTarget.removeEventListener('scroll', this.boundOnScroll);
+		this.scrollTarget = this.ParentElement;
+		this.scrollTarget.addEventListener('scroll', this.boundOnScroll, { passive: true });
 	}
 
 	private onScroll() {
-		if (this.isLoading) {
-			return;
-		}
+		this.checkDistanceFromBottom();
 
-		const rect = this.WeeksList.getBoundingClientRect();
-		const distanceFromBottom = rect.top - window.innerHeight;
-
-		if (distanceFromBottom < 1024) {
+		if (!this.isLoading) {
 			void this.preloadWeeks();
 		}
 	}
 
 	private async preloadWeeks() {
-		await delay(50)
-
-		if (this.isLoading) {
-			return;
-		}
-
 		this.isLoading = true;
+
 		const isEOF = this.currentWeek.start <= this.firstActivity.date;
 
 		if (isEOF) {
@@ -68,7 +87,9 @@ export class BottomLoadIndicatorComponent implements OnInit, AfterViewInit, OnDe
 			return;
 		}
 
-		if (!this.isDistanceLimitReached()) {
+		this.checkDistanceFromBottom();
+
+		if (!this.isBottomReached) {
 			this.isLoading = false;
 			return;
 		}
@@ -76,16 +97,20 @@ export class BottomLoadIndicatorComponent implements OnInit, AfterViewInit, OnDe
 		this.currentWeek = getPreviousWeek(this.currentWeek);
 		this.nextWeek.emit(this.currentWeek);
 
-		this.isLoading = false;
+		await delay(50)
+
 		void this.preloadWeeks();
 	}
 
-	private isDistanceLimitReached(): boolean {
+	private checkDistanceFromBottom() {
 		const rect = this.WeeksList.getBoundingClientRect();
 
-		const distanceFromBottom = rect.top - window.innerHeight;
-
-		return distanceFromBottom < 1024;
+		if (this.scrollTarget instanceof HTMLElement) {
+			const parentRect = this.scrollTarget.getBoundingClientRect();
+			this.isBottomReached = rect.top - parentRect.bottom < 1024;
+		} else {
+			this.isBottomReached = rect.top - window.innerHeight < 1024;
+		}
 	}
 
 	private async loadFirstActivity(): Promise<void> {

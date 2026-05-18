@@ -14,6 +14,7 @@ import { ActionsService } from '../../services/actions.service';
 import { ExportWorkflowService } from '../../workflows/export-workflow.service';
 import { WeekComponent } from './week/week.component';
 import { BottomLoadIndicatorComponent } from './bottom-load-indicator/bottom-load-indicator.component';
+import { WeekHeaderMobileComponent } from './week/week-header-mobile/week-header-mobile.component';
 
 
 @Component({
@@ -21,7 +22,7 @@ import { BottomLoadIndicatorComponent } from './bottom-load-indicator/bottom-loa
 	templateUrl: './daily-activities-view.component.html',
 	styleUrls: ['./daily-activities-view.component.scss'],
 	standalone: true,
-	imports: [WeekComponent, BottomLoadIndicatorComponent],
+	imports: [WeekComponent, BottomLoadIndicatorComponent, WeekHeaderMobileComponent],
 })
 export class DailyActivitiesViewComponent {
 	private router = inject(Router);
