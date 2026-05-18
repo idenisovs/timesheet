@@ -5,6 +5,7 @@ import {
 	inject,
 	OnDestroy,
 	OnInit,
+	signal,
 	ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -42,15 +43,15 @@ export class DailyActivitiesViewComponent implements OnInit, AfterViewInit, OnDe
 
 	@ViewChild('weeksList') weekListRef!: ElementRef;
 
-	firstActivity: Activity = new Activity();
-	currentWeek: Week = new Week();
-	weeks: Week[] = [];
-	nextWeekListHeight: number = window.innerHeight;
+	firstActivity = signal<Activity>(new Activity());
+	currentWeek = signal<Week>(new Week());
+	weeks = signal<Week[]>([]);
+	nextWeekListHeight = signal<number>(window.innerHeight);
 
 	async ngOnInit() {
-		this.firstActivity = await this.loadFirstActivity();
-		this.currentWeek = new Week();
-		this.weeks.push(this.currentWeek);
+		this.firstActivity.set(await this.loadFirstActivity());
+		this.currentWeek.set(new Week());
+		this.weeks.set([this.currentWeek()]);
 		this.myOwnLittleInfiniteScroll = this.attachInfiniteScroll();
 	}
 
@@ -82,7 +83,7 @@ export class DailyActivitiesViewComponent implements OnInit, AfterViewInit, OnDe
 			)
 			.subscribe(() => {
 				if (this.getRemainingPx() < 600) {
-					this.nextWeekListHeight = this.getNextWeekListHeight();
+					this.nextWeekListHeight.set(this.getNextWeekListHeight());
 					void this.preloadWeeks();
 				}
 			});
@@ -93,9 +94,9 @@ export class DailyActivitiesViewComponent implements OnInit, AfterViewInit, OnDe
 
 		const weekListHeight = this.getCurrentWeekListHeight();
 
-		if (weekListHeight <= this.nextWeekListHeight && this.currentWeek.start > this.firstActivity.date) {
-			this.currentWeek = getPreviousWeek(this.currentWeek);
-			this.weeks.push(this.currentWeek);
+		if (weekListHeight <= this.nextWeekListHeight() && this.currentWeek().start > this.firstActivity().date) {
+			this.currentWeek.set(getPreviousWeek(this.currentWeek()));
+			this.weeks.update(weeks => [...weeks, this.currentWeek()]);
 			void this.preloadWeeks();
 		}
 	}
