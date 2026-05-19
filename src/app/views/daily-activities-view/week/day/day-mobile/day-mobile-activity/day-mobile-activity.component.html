@@ -1,0 +1,17 @@
+<div class="card h-100" [style]="{'border-color': activity().color, 'background-color': subtleColor(activity().color)}">
+	<div class="card-body">
+		<div class="d-flex align-items-center justify-content-between gap-2 h-100">
+			<div>
+				@if (activity().hasIssueKey()) {
+					{{activity().getIssueKey()}}
+				}
+				<div>{{activity().getShortName()}}</div>
+			</div>
+			@if (activity().duration) {
+				<span class="text-nowrap" [style]="{'color': activity().color}">
+				{{activity().duration}}
+			</span>
+			}
+		</div>
+	</div>
+</div>

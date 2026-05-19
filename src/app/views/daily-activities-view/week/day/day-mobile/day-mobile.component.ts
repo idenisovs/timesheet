@@ -6,11 +6,13 @@ import { ActivityFormGroup } from '../DailyActivitiesForm';
 import { DailyActivityItemService } from '../daily-activity-item/daily-activity-item.service';
 import { ActivityTimesComponent } from './activity-times/activity-times.component';
 import { DayMobileHeaderComponent } from './day-mobile-header/day-mobile-header.component';
+import { DayMobileActivityComponent } from './day-mobile-activity/day-mobile-activity.component';
 
 @Component({
 	selector: 'app-day-mobile',
 	imports: [
 		DayMobileHeaderComponent,
+		DayMobileActivityComponent,
 		FormsModule,
 		ReactiveFormsModule,
 		ActivityTimesComponent,
@@ -34,12 +36,5 @@ export class DayMobileComponent extends DayDesktopComponent {
 
 	protected sorted(): Activity[] {
 		return this.activitiesService.sort(this.activities(), true);
-	}
-
-	protected subtleColor(color: string | undefined): string {
-		if (!color) {
-			return '';
-		}
-		return `color-mix(in srgb, ${color} 3%, transparent)`;
 	}
 }
