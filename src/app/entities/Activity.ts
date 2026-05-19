@@ -22,6 +22,20 @@ export class Activity {
 		Object.assign(this, entity);
 	}
 
+	hasCategory(): boolean {
+		return this.name.includes(':');
+	}
+
+	getCategoryName(): string | null {
+		const index = this.name.indexOf(':');
+
+		if (index === -1) {
+			return null;
+		}
+
+		return this.name.slice(0, index).trim();
+	}
+
 	hasIssueKey(): boolean {
 		return !!this.name.match(Issue.KEY_PATTERN);
 	}
