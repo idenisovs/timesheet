@@ -5,7 +5,6 @@ import { DayHeaderComponent } from '../day-header/day-header.component';
 import { Activity } from '../../../../../entities';
 import { ActivityFormGroup } from '../DailyActivitiesForm';
 import { DailyActivityItemService } from '../daily-activity-item/daily-activity-item.service';
-import { NgClass } from '@angular/common';
 import { ActivityTimesComponent } from './activity-times/activity-times.component';
 
 @Component({
@@ -14,7 +13,6 @@ import { ActivityTimesComponent } from './activity-times/activity-times.componen
 		DayHeaderComponent,
 		FormsModule,
 		ReactiveFormsModule,
-		NgClass,
 		ActivityTimesComponent,
 	],
 	templateUrl: './day-mobile.component.html',
