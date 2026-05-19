@@ -16,4 +16,11 @@ export class DayMobileActivityComponent {
 		}
 		return `color-mix(in srgb, ${color} 3%, transparent)`;
 	}
+
+	protected darkerColor(color: string | undefined): string {
+		if (!color) {
+			return '';
+		}
+		return `color-mix(in srgb, ${color} 70%, black)`;
+	}
 }
