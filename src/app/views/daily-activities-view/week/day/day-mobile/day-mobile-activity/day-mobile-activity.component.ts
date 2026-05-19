@@ -21,6 +21,6 @@ export class DayMobileActivityComponent {
 		if (!color) {
 			return '';
 		}
-		return `color-mix(in srgb, ${color} 70%, black)`;
+		return `color-mix(in srgb, ${color} 85%, black)`;
 	}
 }

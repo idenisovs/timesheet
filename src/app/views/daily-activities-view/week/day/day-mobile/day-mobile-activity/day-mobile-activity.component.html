@@ -3,14 +3,24 @@
 		<div class="d-flex flex-grow-1 justify-content-between align-self-center">
 			<div>
 				@if (activity().hasIssueKey()) {
-					<div class="d-inline fw-bold" [style]="{'color': activity().color}">
-						{{activity().getIssueKey()}}
+					<div
+						class="d-inline-block border border-1 fw-bold rounded-pill px-2 mb-2"
+						[style]="{'border-color': `${darkerColor(activity().color)} !important`}"
+					>
+						<div
+							[style]="{'color': darkerColor(activity().color), 'font-size': '0.9rem'}"
+						>
+							{{activity().getIssueKey()}}
+						</div>
 					</div>
 				}
 				<div>{{activity().getShortName()}}</div>
 			</div>
 			@if (activity().duration) {
-				<div class="text-nowrap fw-bold" [style]="{'color': activity().color}">
+				<div
+					class="text-nowrap fw-bold"
+					[style]="{'color': darkerColor(activity().color), 'font-size': '1rem'}"
+				>
 					{{ activity().duration }}
 				</div>
 			}
