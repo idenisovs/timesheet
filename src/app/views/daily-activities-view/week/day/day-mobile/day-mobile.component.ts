@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DayDesktopComponent } from '../day-desktop/day-desktop.component';
-import { DayHeaderComponent } from '../day-header/day-header.component';
 import { Activity } from '../../../../../entities';
 import { ActivityFormGroup } from '../DailyActivitiesForm';
 import { DailyActivityItemService } from '../daily-activity-item/daily-activity-item.service';
 import { ActivityTimesComponent } from './activity-times/activity-times.component';
+import { DayMobileHeaderComponent } from './day-mobile-header/day-mobile-header.component';
 
 @Component({
 	selector: 'app-day-mobile',
 	imports: [
-		DayHeaderComponent,
+		DayMobileHeaderComponent,
 		FormsModule,
 		ReactiveFormsModule,
 		ActivityTimesComponent,

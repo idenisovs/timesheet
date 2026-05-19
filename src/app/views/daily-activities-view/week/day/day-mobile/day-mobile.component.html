@@ -1,12 +1,4 @@
-<div class="sticky-top bg-light">
-	<div style="height: 5px"></div>
-	<div class="card d-md-none bg-secondary-subtle sticky-top">
-		<main class="card-body py-2">
-			<app-day-header [day]="day()"/>
-		</main>
-	</div>
-	<div style="height: 5px"></div>
-</div>
+<app-day-mobile-header [day]="day()"/>
 
 @for (activity of sorted(); track activity.id) {
 	<div class="d-flex flex-row">
