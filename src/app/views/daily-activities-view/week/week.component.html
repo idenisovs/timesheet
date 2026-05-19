@@ -1,4 +1,4 @@
-<section class="mb-4" [ngClass]="{'visually-hidden': isHidden()}">
+<section class="mt-0 mt-md-4" [ngClass]="{'visually-hidden': isHidden()}">
 	<app-week-header
 		[week]="week()"
 		[days]="days()"
@@ -6,7 +6,7 @@
 	/>
 
 	@for (day of days(); track day) {
-		<div class="mt-3">
+		<div class="mt-0 mt-md-3">
 			<app-day
 				[day]="day"
 				[isMissingDaysVisible]="weekService.isMissingDaysVisible()"

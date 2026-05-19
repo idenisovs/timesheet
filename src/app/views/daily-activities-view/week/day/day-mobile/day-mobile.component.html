@@ -1,32 +1,34 @@
 <div class="sticky-top bg-light">
 	<div style="height: 5px"></div>
-	<div class="card d-md-none bg-secondary-subtle mb-3 sticky-top">
+	<div class="card d-md-none bg-secondary-subtle sticky-top">
 		<main class="card-body py-2">
 			<app-day-header [day]="day()"/>
 		</main>
 	</div>
+	<div style="height: 5px"></div>
 </div>
 
 @for (activity of sorted(); track activity.id) {
-	<div class="d-flex">
+	<div class="d-flex flex-row">
 		<div class="mx-2 py-2" style="width: 40px">
 			<app-activity-times [from]="activity.from" [till]="activity.till"/>
 		</div>
 		<div class="vr"></div>
-		<div class="card flex-grow-1 m-1" [style]="{'border-color': activity.color, 'background-color': subtleColor(activity.color)}">
+		<div class="card flex-grow-1 my-1 mx-2" [style]="{'border-color': activity.color, 'background-color': subtleColor(activity.color)}">
 			<div class="card-body py-2 d-flex align-items-center justify-content-between gap-2">
-					<div>
-						@if (activity.hasIssueKey()) {
-							{{activity.getIssueKey()}}
-						}
-						<div>{{activity.getShortName()}}</div>
-					</div>
-					@if (activity.duration) {
-						<span class="text-nowrap" [style]="{'color': activity.color}">
-							{{activity.duration}}
-						</span>
+				<div>
+					@if (activity.hasIssueKey()) {
+						{{activity.getIssueKey()}}
 					}
+					<div>{{activity.getShortName()}}</div>
+				</div>
+				@if (activity.duration) {
+					<span class="text-nowrap" [style]="{'color': activity.color}">
+						{{activity.duration}}
+					</span>
+				}
 			</div>
 		</div>
 	</div>
 }
+
