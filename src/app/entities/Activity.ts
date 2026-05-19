@@ -69,12 +69,12 @@ export class Activity {
 	}
 
 	getShortName(): string {
-		const issueKey = this.getIssueKey();
+		const categoryName = this.getCategoryName();
 
 		let name = this.name;
 
-		if (issueKey) {
-			name = name.replace(issueKey, '');
+		if (categoryName) {
+			name = name.replace(categoryName, '');
 		}
 
 		if (name.startsWith(':')) {
