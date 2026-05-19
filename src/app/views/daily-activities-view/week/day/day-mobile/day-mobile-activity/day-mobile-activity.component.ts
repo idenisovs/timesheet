@@ -1,9 +1,12 @@
 import { Component, input, InputSignal } from '@angular/core';
 import { Activity } from '../../../../../../entities';
+import { ActivityIssueKeyComponent } from './activity-issue-key/activity-issue-key.component';
 
 @Component({
 	selector: 'app-day-mobile-activity',
-	imports: [],
+	imports: [
+		ActivityIssueKeyComponent,
+	],
 	templateUrl: './day-mobile-activity.component.html',
 	styleUrl: './day-mobile-activity.component.scss',
 })
