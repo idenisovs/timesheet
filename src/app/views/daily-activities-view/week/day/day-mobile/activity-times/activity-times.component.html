@@ -1,27 +1,22 @@
-<div class="text-center">
+<div class="d-flex h-100 flex-column justify-content-around">
 	@if (till()) {
 		<span
 			class="badge border"
 			[style.color]="color()"
-			[style.border-color]="`${color()} !important`"
 			[style.background-color]="color()"
 			appSubtleColor
 			appDarkerColor
 		>{{till()}}</span>
 	}
 
-	@if (from() && till()) {
-		<div>-</div>
-	}
-
 	@if (from()) {
 		<span
 			class="badge border"
 			[style.color]="color()"
-			[style.border-color]="`${color()} !important`"
 			[style.background-color]="color()"
 			appSubtleColor
 			appDarkerColor
 		>{{from()}}</span>
 	}
 </div>
+
