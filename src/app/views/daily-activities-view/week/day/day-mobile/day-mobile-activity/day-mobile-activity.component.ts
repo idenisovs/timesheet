@@ -1,4 +1,4 @@
-import { Component, input, InputSignal } from '@angular/core';
+import { Component, computed, input, InputSignal } from '@angular/core';
 import { Activity } from '../../../../../../entities';
 import { ActivityCategoryComponent } from './activity-category/activity-category.component';
 import { ActivityDurationComponent } from './activity-duration/activity-duration.component';
@@ -16,4 +16,8 @@ import { SubtleColorDirective } from '../../../../../../directives/subtle-color.
 })
 export class DayMobileActivityComponent {
 	public activity: InputSignal<Activity> = input.required<Activity>();
+
+	protected hasData = computed<boolean>(() => {
+		return this.activity().name.length > 0;
+	});
 }

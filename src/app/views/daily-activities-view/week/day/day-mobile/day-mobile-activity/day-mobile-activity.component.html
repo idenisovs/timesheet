@@ -1,15 +1,24 @@
 <div class="card h-100" [style.background-color]="activity().color" [style.border-color]="activity().color" appSubtleColor>
-	<div class="card-body d-flex">
-		<div class="d-flex flex-grow-1 justify-content-between align-self-center">
-			<div>
-				@if (activity().hasCategory()) {
-					<app-activity-category [name]="activity().getCategoryName()!" [color]="activity().color"/>
+	<div class="card-body">
+		@if (hasData()) {
+			<div class="d-flex flex-grow-1 justify-content-between align-self-center">
+				<div>
+					@if (activity().hasCategory()) {
+						<app-activity-category [name]="activity().getCategoryName()!" [color]="activity().color"/>
+					} @else {
+						<div>{{activity().getShortName()}}</div>
+					}
+				</div>
+				@if (activity().duration) {
+					<app-activity-duration [duration]="activity().duration" [color]="activity().color"/>
 				}
-				<div>{{activity().getShortName()}}</div>
 			</div>
-			@if (activity().duration) {
-				<app-activity-duration [duration]="activity().duration" [color]="activity().color"/>
+			@if (activity().hasCategory()) {
+				<div>{{activity().getShortName()}}</div>
 			}
-		</div>
+		} @else {
+			<span class="text-secondary">Tap to edit!</span>
+			<i class="material-symbols-outlined text-secondary float-end">touch_app</i>
+		}
 	</div>
 </div>
