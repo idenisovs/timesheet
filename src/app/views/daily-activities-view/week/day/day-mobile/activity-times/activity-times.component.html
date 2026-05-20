@@ -1,6 +1,13 @@
 <div class="text-center">
 	@if (till()) {
-		<div>{{till()}}</div>
+		<span
+			class="badge border"
+			[style.color]="color()"
+			[style.border-color]="`${color()} !important`"
+			[style.background-color]="color()"
+			appSubtleColor
+			appDarkerColor
+		>{{till()}}</span>
 	}
 
 	@if (from() && till()) {
@@ -8,6 +15,13 @@
 	}
 
 	@if (from()) {
-		<div>{{from()}}</div>
+		<span
+			class="badge border"
+			[style.color]="color()"
+			[style.border-color]="`${color()} !important`"
+			[style.background-color]="color()"
+			appSubtleColor
+			appDarkerColor
+		>{{from()}}</span>
 	}
 </div>
