@@ -9,10 +9,11 @@ import { ColorModeSettingsComponent } from './color-mode-settings/color-mode-set
 import { ColorRegenerateSettingsComponent } from './color-regenerate-settings/color-regenerate-settings.component';
 import { DisplayEmptyWeeksSettingsComponent } from './display-empty-weeks-settings/display-empty-weeks-settings.component';
 import { DiagnosticPanelSettingsComponent } from './diagnostic-panel-settings/diagnostic-panel-settings.component';
+import { DayEmojisSettingsComponent } from './day-emojis-settings/day-emojis-settings.component';
 
 @Component({
 	selector: 'app-settings-view',
-	imports: [ReactiveFormsModule, TimeRoundingSettingsComponent, ColorModeSettingsComponent, ColorRegenerateSettingsComponent, DisplayEmptyWeeksSettingsComponent, DiagnosticPanelSettingsComponent],
+	imports: [ReactiveFormsModule, TimeRoundingSettingsComponent, ColorModeSettingsComponent, ColorRegenerateSettingsComponent, DisplayEmptyWeeksSettingsComponent, DiagnosticPanelSettingsComponent, DayEmojisSettingsComponent],
 	templateUrl: './settings-view.component.html',
 	styleUrl: './settings-view.component.scss',
 })
@@ -26,6 +27,7 @@ export class SettingsViewComponent implements OnInit, OnDestroy {
 		isOppositeColorMode: [false],
 		isDisplayEmptyWeeksEnabled: [false],
 		isDiagnosticPanelVisible: [false],
+		isDayEmojisEnabled: [false],
 	});
 
 	ngOnInit() {

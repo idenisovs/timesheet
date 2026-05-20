@@ -6,6 +6,7 @@ const DEFAULT_SETTINGS: AppSettings = {
 	isOppositeColorMode: false,
 	isDisplayEmptyWeeksEnabled: false,
 	isDiagnosticPanelVisible: false,
+	isDayEmojisEnabled: false,
 };
 
 @Injectable({

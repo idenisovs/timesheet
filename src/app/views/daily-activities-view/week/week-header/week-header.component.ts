@@ -1,6 +1,7 @@
 import { Component, inject, input, InputSignal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DateTime } from 'luxon';
 
 import { Day, Week, ActivitySummary } from '../../../../entities';
 import { WeeklyOverviewModalComponent } from '../weekly-overview-modal/weekly-overview-modal.component';
@@ -22,6 +23,10 @@ export class WeekHeaderComponent {
 	public week: InputSignal<Week> = input<Week>(new Week());
 	public days: InputSignal<Day[]> = input<Day[]>([]);
 	public summary: InputSignal<ActivitySummary> = input<ActivitySummary>(new ActivitySummary());
+
+	getCurrentDayName(): string {
+		return DateTime.now().setLocale('en').toFormat('cccc');
+	}
 
 	get MissingDaysButtonLabel(): string {
 		if (this.weekService.isMissingDaysVisible()) {

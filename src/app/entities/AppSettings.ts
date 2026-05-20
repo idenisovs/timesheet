@@ -3,4 +3,5 @@ export interface AppSettings {
 	isOppositeColorMode: boolean;
 	isDiagnosticPanelVisible: boolean;
 	isDisplayEmptyWeeksEnabled: boolean;
+	isDayEmojisEnabled: boolean;
 }

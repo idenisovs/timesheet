@@ -1,0 +1,22 @@
+<section class="card">
+	<div class="card-body">
+		<div [formGroup]="form()" class="d-flex justify-content-between align-items-center">
+			<label for="dayEmojisSwitch" style="cursor: pointer;">
+				<div class="fw-semibold">Day emojis</div>
+				<small class="text-muted">
+					When enabled, a day-related emoji is shown next to the day name in the day header.
+				</small>
+			</label>
+			<div class="form-check form-switch mb-0 ms-4 flex-shrink-0">
+				<input
+					id="dayEmojisSwitch"
+					type="checkbox"
+					role="switch"
+					class="form-check-input"
+					style="cursor: pointer;"
+					formControlName="isDayEmojisEnabled"
+				>
+			</div>
+		</div>
+	</div>
+</section>
