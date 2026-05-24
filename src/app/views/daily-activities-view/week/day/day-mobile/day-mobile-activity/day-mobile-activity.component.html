@@ -1,7 +1,7 @@
 <div class="card h-100" [style.background-color]="activity().color" [style.border-color]="activity().color" appSubtleColor>
 	<div class="card-body">
 		@if (hasData()) {
-			<div class="d-flex flex-grow-1 justify-content-between align-self-center">
+			<div class="d-flex flex-grow-1 justify-content-between align-self-center mb-1">
 				<div>
 					@if (activity().hasCategory()) {
 						<app-activity-category [name]="activity().getCategoryName()!" [color]="activity().color"/>
