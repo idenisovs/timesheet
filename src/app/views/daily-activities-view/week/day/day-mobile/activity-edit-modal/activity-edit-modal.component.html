@@ -31,7 +31,9 @@
 		<!-- Starting Element -->
 
 		<div class="flex-grow-1">
-			hello
+			<div>Remaining time: {{RemainingTime}} min</div>
+			<div>Activity duration: {{ActivityDuration}} min</div>
+			<div>Activity uses {{(ActivityDuration / RemainingTime)|percent}} of space</div>
 		</div>
 
 		<!-- Ending Element -->
