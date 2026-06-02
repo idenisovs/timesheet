@@ -9,7 +9,7 @@
 		</div>
 		<div class="vr"></div>
 		<div class="flex-grow-1 align-self-stretch my-1 px-2">
-			<app-day-mobile-activity [activity]="activity"/>
+			<app-day-mobile-activity [activity]="activity" (edit)="openEditModal(activity)"/>
 		</div>
 	</div>
 }
