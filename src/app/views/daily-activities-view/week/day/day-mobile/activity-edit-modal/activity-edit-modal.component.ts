@@ -21,6 +21,23 @@ export class ActivityEditModalComponent {
 	private readonly service = inject(DailyActivityItemService);
 	public readonly modal = inject(NgbActiveModal);
 
+	get PreviousTime(): string {
+		if (this.previousActivity) {
+			return this.previousActivity.till;
+		} else {
+			return '00:00';
+		}
+	}
+
+	get NextTime(): string {
+		if (this.nextActivity) {
+			return this.nextActivity.from;
+		} else {
+			return '23:59';
+		}
+	}
+
+
 	@Input()
 	public activity!: Activity;
 

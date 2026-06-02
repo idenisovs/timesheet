@@ -5,48 +5,55 @@
 	<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 </header>
 
-<main class="modal-body p-3">
-	<div class="d-flex gap-2">
-		<div class="d-flex flex-column gap-3">
-			<span class="badge text-bg-primary">12:00</span>
-			<span class="badge text-bg-primary">12:05</span>
-			<span class="badge text-bg-primary">12:10</span>
-			<span class="badge text-bg-primary">12:15</span>
-		</div>
-		<div class="d-flex flex-column flex-grow-1 justify-content-around gap-2 w-100">
-			@if (previousActivity) {
-				<div class="card">
-					<div class="card-body">
-						{{previousActivity.name}}
-					</div>
-				</div>
-			} @else {
-				<div class="card text-bg-primary">
-					<div class="card-body">
-						Start of the Day
-					</div>
-				</div>
-			}
-
-			<div class="card">
-				<div class="card-body">
-					{{activity.name}}
-				</div>
+<main class="modal-body p-1">
+	<div class="d-flex flex-column justify-content-between h-100">
+		<!-- Starting Element -->
+		<div class="d-flex flex-row">
+			<div class="d-flex flex-column justify-content-center px-2" style="width: 70px">
+				<span class="badge text-bg-primary">{{PreviousTime}}</span>
 			</div>
+			<div class="d-flex flex-column flex-grow-1">
+				@if (previousActivity) {
+					<div class="card">
+						<div class="card-body">
+							{{previousActivity.name}}
+						</div>
+					</div>
+				} @else {
+					<div class="card text-bg-primary">
+						<div class="card-body">
+							Start of the Day
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+		<!-- Starting Element -->
 
-			@if (nextActivity) {
-				<div class="card">
-					<div class="card-body">
-						{{nextActivity.name}}
+		<div class="flex-grow-1">
+			hello
+		</div>
+
+		<!-- Ending Element -->
+		<div class="d-flex flex-row">
+			<div class="d-flex flex-column justify-content-center px-2" style="width: 70px">
+				<span class="badge text-bg-primary">{{NextTime}}</span>
+			</div>
+			<div class="d-flex flex-column flex-grow-1">
+				@if (nextActivity) {
+					<div class="card">
+						<div class="card-body">
+							{{nextActivity.name}}
+						</div>
 					</div>
-				</div>
-			} @else {
-				<div class="card text-bg-primary">
-					<div class="card-body">
-						End of the Day
+				} @else {
+					<div class="card text-bg-primary">
+						<div class="card-body">
+							End of the Day
+						</div>
 					</div>
-				</div>
-			}
+				}
+			</div>
 		</div>
 	</div>
 </main>
