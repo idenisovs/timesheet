@@ -30,10 +30,24 @@
 		</div>
 		<!-- Starting Element -->
 
-		<div class="flex-grow-1">
-			<div>Remaining time: {{RemainingTime}} min</div>
-			<div>Activity duration: {{ActivityDuration}} min</div>
-			<div>Activity uses {{(ActivityDuration / RemainingTime)|percent}} of space</div>
+		<div class="flex-grow-1 py-2"> <!-- Whole Activity Card container -->
+			<div class="d-flex flex-row">
+				<div class="d-flex flex-column justify-content-around px-2" style="width: 70px">
+					<span class="badge text-bg-primary">XX:XX</span>
+					<span class="badge text-bg-primary">YY:YY</span>
+				</div>
+
+				<div class="flex-grow-1">
+					<div class="card">
+						<div class="card-body">
+							<div>Remaining time: {{RemainingTime}} min</div>
+							<div>Activity duration: {{ActivityDuration}} min</div>
+							<div>Activity uses {{(ActivityDuration / RemainingTime)|percent}} of space</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
 		</div>
 
 		<!-- Ending Element -->
