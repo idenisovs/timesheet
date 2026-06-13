@@ -8,12 +8,14 @@ import { Activity } from '../../../../../../entities';
 import { ActivityFormGroup } from '../../DailyActivitiesForm';
 import { DailyActivityItemService } from '../../daily-activity-item/daily-activity-item.service';
 import { PercentPipe } from '@angular/common';
+import { AdjacentActivityComponent } from './adjacent-activity/adjacent-activity.component';
 
 @Component({
 	selector: 'app-activity-edit-modal',
 	imports: [
 		ReactiveFormsModule,
 		PercentPipe,
+		AdjacentActivityComponent,
 	],
 	templateUrl: './activity-edit-modal.component.html',
 	styleUrl: './activity-edit-modal.component.scss',

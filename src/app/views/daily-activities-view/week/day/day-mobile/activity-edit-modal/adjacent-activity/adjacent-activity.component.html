@@ -1,0 +1,20 @@
+<div class="d-flex flex-row">
+	<div class="d-flex flex-column justify-content-center px-2" style="width: 70px">
+		<span class="badge text-bg-primary">{{time()}}</span>
+	</div>
+	<div class="d-flex flex-column flex-grow-1">
+		@if (activity(); as activity) {
+			<div class="card">
+				<div class="card-body">
+					{{activity.name}}
+				</div>
+			</div>
+		} @else {
+			<div class="card text-bg-primary">
+				<div class="card-body">
+					{{fallbackLabel()}}
+				</div>
+			</div>
+		}
+	</div>
+</div>
