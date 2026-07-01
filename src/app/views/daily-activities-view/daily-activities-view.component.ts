@@ -44,7 +44,7 @@ export class DailyActivitiesViewComponent {
 
 	public ngOnDestroy() {
 		this.actionSubs.unsubscribe();
-		this.myOwnLittleInfiniteScroll.unsubscribe();
+		this.myOwnLittleInfiniteScroll?.unsubscribe();
 	}
 
 	protected appendWeekList(week: Week) {
