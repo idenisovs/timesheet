@@ -13,27 +13,33 @@
 			fallbackLabel="Start of the Day"
 		/>
 
-		<div class="flex-grow-1 py-2"> <!-- The container of whole Activity Card-->
+		<section class="flex-grow-1 py-2"> <!-- The container of whole Activity Card-->
 			<div class="d-flex flex-row">
 				<!-- The side rail with Time Indicator elements -->
-				<div class="d-flex flex-column justify-content-around px-2" style="width: 70px">
+				<aside class="d-flex flex-column justify-content-around px-2" style="width: 70px">
 					<span class="badge text-bg-primary">{{activity.from}}</span>
 					<span class="badge text-bg-primary">{{activity.till}}</span>
-				</div>
+				</aside>
 
 				<!-- Expand the width of Activity Card container -->
 				<div class="flex-grow-1">
 					<!-- Activity Card -->
-					<div class="card">
+					<article class="card">
+						<header class="card-header">
+							header
+						</header>
 						<div class="card-body">
-							<div>Remaining time: {{RemainingTime}} min</div>
-							<div>Activity duration: {{ActivityDuration}} min</div>
-							<div>Activity uses {{(ActivityDuration / RemainingTime)|percent}} of space</div>
+							<p>Remaining time: {{RemainingTime}} min</p>
+							<p>Activity duration: {{ActivityDuration}} min</p>
+							<p>Activity uses {{(ActivityDuration / RemainingTime)|percent}} of space</p>
 						</div>
-					</div>
+						<footer class="card-footer">
+							footer
+						</footer>
+					</article>
 				</div>
 			</div>
-		</div>
+		</section>
 
 		<app-adjacent-activity
 			[time]="NextTime"
