@@ -1,4 +1,4 @@
-import { Component, computed, input, output, signal } from '@angular/core';
+import { Component, computed, effect, input, output, signal } from '@angular/core';
 
 @Component({
 	selector: 'app-time-belt',
@@ -8,6 +8,7 @@ import { Component, computed, input, output, signal } from '@angular/core';
 })
 export class TimeBeltComponent {
 	public readonly count = input.required<number>();
+	public readonly value = input(0);
 
 	public readonly valuePicked = output<number>();
 
@@ -23,6 +24,12 @@ export class TimeBeltComponent {
 	private readonly isDragging = signal(false);
 	private startY = 0;
 	private startOffset = 0;
+
+	constructor() {
+		effect(() => {
+			this.offset.set(this.offsetForValue(this.value()));
+		});
+	}
 
 	protected get ViewportHeight(): number {
 		return this.itemHeight * this.visibleCount;

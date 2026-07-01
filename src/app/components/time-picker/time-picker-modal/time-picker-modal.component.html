@@ -1,0 +1,25 @@
+<header class="modal-header">
+	<h4 class="modal-title">Select Time</h4>
+	<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+</header>
+
+<main class="modal-body">
+	<div class="time-picker-modal__belts">
+		<app-time-belt
+			[count]="hoursCount"
+			[value]="hour()"
+			(valuePicked)="onHourPicked($event)"
+		/>
+		<span class="time-picker-modal__separator">:</span>
+		<app-time-belt
+			[count]="minutesCount"
+			[value]="minute()"
+			(valuePicked)="onMinutePicked($event)"
+		/>
+	</div>
+</main>
+
+<footer class="modal-footer">
+	<button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+	<button type="button" class="btn btn-primary" (click)="confirm()">OK</button>
+</footer>

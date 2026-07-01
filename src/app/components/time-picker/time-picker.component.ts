@@ -1,38 +1,36 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, inject, model } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { TimeBeltComponent } from './time-belt/time-belt.component';
+import { TimePickerModalComponent } from './time-picker-modal/time-picker-modal.component';
 
 @Component({
 	selector: 'app-time-picker',
-	// imports: [TimeBeltComponent],
-	imports: [
-		TimeBeltComponent
-	],
+	imports: [],
 	templateUrl: './time-picker.component.html',
 	styleUrl: './time-picker.component.scss',
 })
 export class TimePickerComponent {
-	protected readonly hoursCount = 24;
-	protected readonly minutesCount = 60;
+	private readonly modal = inject(NgbModal);
 
-	public readonly timePicked = output<string>();
+	public readonly time = model('00:00');
 
-	private readonly hour = signal(0);
-	private readonly minute = signal(0);
+	protected async openPicker() {
+		const modalRef = this.modal.open(TimePickerModalComponent, {
+			centered: true,
+			size: 'sm',
+		});
 
-	protected onHourPicked(hour: number) {
-		this.hour.set(hour);
-		this.emitTime();
-	}
+		const instance = modalRef.componentInstance as TimePickerModalComponent;
+		instance.time = this.time();
 
-	protected onMinutePicked(minute: number) {
-		this.minute.set(minute);
-		this.emitTime();
-	}
+		try {
+			const result = await modalRef.result;
 
-	private emitTime() {
-		const hours = this.hour().toString().padStart(2, '0');
-		const minutes = this.minute().toString().padStart(2, '0');
-		this.timePicked.emit(`${hours}:${minutes}`);
+			if (result) {
+				this.time.set(result);
+			}
+		} catch {
+			// Modal dismissed — keep the current value.
+		}
 	}
 }

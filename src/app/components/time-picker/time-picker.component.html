@@ -1,5 +1,7 @@
-<div class="time-picker">
-	<app-time-belt [count]="hoursCount" (valuePicked)="onHourPicked($event)" />
-	<span class="time-picker__separator">:</span>
-	<app-time-belt [count]="minutesCount" (valuePicked)="onMinutePicked($event)" />
-</div>
+<input
+	type="text"
+	class="form-control time-picker__field"
+	readonly
+	[value]="time()"
+	(click)="openPicker()"
+/>

@@ -7,15 +7,15 @@ import parseDuration from 'parse-duration';
 import { Activity } from '../../../../../../entities';
 import { ActivityFormGroup } from '../../DailyActivitiesForm';
 import { DailyActivityItemService } from '../../daily-activity-item/daily-activity-item.service';
-import { PercentPipe } from '@angular/common';
 import { AdjacentActivityComponent } from './adjacent-activity/adjacent-activity.component';
+import { TimePickerComponent } from '../../../../../../components/time-picker/time-picker.component';
 
 @Component({
 	selector: 'app-activity-edit-modal',
 	imports: [
 		ReactiveFormsModule,
-		PercentPipe,
 		AdjacentActivityComponent,
+		TimePickerComponent,
 	],
 	templateUrl: './activity-edit-modal.component.html',
 	styleUrl: './activity-edit-modal.component.scss',

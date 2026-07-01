@@ -30,19 +30,7 @@
 							header
 						</header>
 						<div class="card-body">
-							<div>Remaining time: {{RemainingTime}} min</div>
-							<div>Activity duration: {{ActivityDuration}} min</div>
-							<div>Activity uses {{(ActivityDuration / RemainingTime)|percent}} of space</div>
-							<hr/>
-							<div>
-								Card Height: {{Card.offsetHeight}}px
-							</div>
-							<div>
-								Card Container Height: {{Container.offsetHeight}}px
-							</div>
-							<div>
-								Card & Container Bottom: {{CardBottom}}px - {{ContainerBottom}}px
-							</div>
+							<app-time-picker />
 						</div>
 						<footer
 							class="card-footer"
