@@ -1,0 +1,22 @@
+<div
+	class="time-belt"
+	[style.height.px]="ViewportHeight"
+	(pointerdown)="onPointerDown($event)"
+	(pointermove)="onPointerMove($event)"
+	(pointerup)="onPointerUp()"
+	(pointercancel)="onPointerUp()"
+>
+	<div class="time-belt__selection" [style.height.px]="itemHeight"></div>
+
+	<ul class="time-belt__strip" [style.transform]="StripTransform()">
+		@for (value of values(); track value) {
+			<li
+				class="time-belt__value"
+				[style.height.px]="itemHeight"
+				[class.time-belt__value--selected]="value === SelectedValue()"
+			>
+				{{ format(value) }}
+			</li>
+		}
+	</ul>
+</div>

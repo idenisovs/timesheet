@@ -1,0 +1,11 @@
+.time-picker {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.time-picker__separator {
+	font-size: 1.25rem;
+	font-weight: 600;
+}
