@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, ElementRef, inject, Input, signal, viewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateTime } from 'luxon';
@@ -53,6 +53,10 @@ export class ActivityEditModalComponent {
 		return parseDuration(this.activity.duration, 'm') ?? 0;
 	}
 
+	get Card(): HTMLElement {
+		return this.cardBody().nativeElement;
+	}
+
 	@Input()
 	public activity!: Activity;
 
@@ -65,7 +69,29 @@ export class ActivityEditModalComponent {
 	@Input()
 	public nextActivity?: Activity;
 
+	isPicked = signal<boolean>(false);
+	initialHeight = 0;
+	startHeight = 0;
+
+	private readonly cardBody = viewChild.required<ElementRef<HTMLElement>>('cardBody');
+
 	protected setCurrentTime(field: 'from' | 'till') {
 		this.service.setCurrentTime(this.activityFormItem, field);
+	}
+
+	protected onPointerDown(event: PointerEvent) {
+		this.isPicked.set(true);
+		this.initialHeight = event.clientY;
+		this.startHeight = this.Card?.offsetHeight ?? 0;
+	}
+
+	protected onPointerMove(event: PointerEvent) {
+		const diff = event.clientY - this.initialHeight;
+		const updateHeight = this.startHeight + diff;
+		this.Card.style.height = `${updateHeight}px`;
+	}
+
+	protected onPointerUp(event: PointerEvent) {
+		this.isPicked.set(false);
 	}
 }

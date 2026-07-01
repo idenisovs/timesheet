@@ -28,12 +28,17 @@
 						<header class="card-header">
 							header
 						</header>
-						<div class="card-body">
+						<div #cardBody class="card-body">
 							<p>Remaining time: {{RemainingTime}} min</p>
 							<p>Activity duration: {{ActivityDuration}} min</p>
 							<p>Activity uses {{(ActivityDuration / RemainingTime)|percent}} of space</p>
 						</div>
-						<footer class="card-footer">
+						<footer
+							class="card-footer"
+							(pointerdown)="onPointerDown($event)"
+							(pointermove)="onPointerMove($event)"
+							(pointerup)="onPointerUp($event)"
+						>
 							footer
 						</footer>
 					</article>
