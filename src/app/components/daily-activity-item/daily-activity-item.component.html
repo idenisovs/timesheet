@@ -71,10 +71,10 @@
 				</div>
 			</div>
 
-			<div class="col-2 m-0 d-flex align-items-center justify-content-end justify-content-md-start">
+			<div class="col-2 d-flex align-items-center justify-content-end justify-content-md-start gap-1 m-0 p-0">
 				<button
 					type="button"
-					class="btn btn-outline-info p-1 ms-2"
+					class="btn btn-outline-info p-1"
 					[ngClass]="{ 'invisible': !isLast() }"
 					(click)="add.emit()"
 				>
@@ -83,7 +83,7 @@
 
 				<button
 					type="button"
-					class="btn btn-outline-info p-1 me-0 ms-2"
+					class="btn btn-outline-info p-1"
 					(click)="remove.emit(ActivityId)"
 				>
 					<i class="material-symbols-outlined">remove</i>
@@ -91,7 +91,7 @@
 
 				<button
 					type="button"
-					class="btn btn-outline-primary p-1 ms-2"
+					class="btn btn-outline-primary p-1"
 					[hidden]="!isLast()"
 					(click)="save.emit()"
 				>
