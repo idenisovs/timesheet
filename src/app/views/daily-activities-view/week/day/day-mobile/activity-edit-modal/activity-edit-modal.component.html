@@ -13,7 +13,8 @@
 			fallbackLabel="Start of the Day"
 		/>
 
-		<section class="flex-grow-1 py-2"> <!-- The container of whole Activity Card-->
+		<!-- The container of whole Activity Card-->
+		<section #cardContainer class="flex-grow-1 py-2">
 			<div class="d-flex flex-row">
 				<!-- The side rail with Time Indicator elements -->
 				<aside class="d-flex flex-column justify-content-around px-2" style="width: 70px">
@@ -24,14 +25,24 @@
 				<!-- Expand the width of Activity Card container -->
 				<div class="flex-grow-1">
 					<!-- Activity Card -->
-					<article class="card">
+					<article #card class="card">
 						<header class="card-header">
 							header
 						</header>
-						<div #cardBody class="card-body">
-							<p>Remaining time: {{RemainingTime}} min</p>
-							<p>Activity duration: {{ActivityDuration}} min</p>
-							<p>Activity uses {{(ActivityDuration / RemainingTime)|percent}} of space</p>
+						<div class="card-body">
+							<div>Remaining time: {{RemainingTime}} min</div>
+							<div>Activity duration: {{ActivityDuration}} min</div>
+							<div>Activity uses {{(ActivityDuration / RemainingTime)|percent}} of space</div>
+							<hr/>
+							<div>
+								Card Height: {{Card.offsetHeight}}px
+							</div>
+							<div>
+								Card Container Height: {{Container.offsetHeight}}px
+							</div>
+							<div>
+								Card & Container Bottom: {{CardBottom}}px - {{ContainerBottom}}px
+							</div>
 						</div>
 						<footer
 							class="card-footer"

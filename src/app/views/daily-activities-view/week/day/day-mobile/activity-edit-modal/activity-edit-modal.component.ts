@@ -53,8 +53,20 @@ export class ActivityEditModalComponent {
 		return parseDuration(this.activity.duration, 'm') ?? 0;
 	}
 
+	get Container(): HTMLElement {
+		return this.cardContainer().nativeElement;
+	}
+
 	get Card(): HTMLElement {
-		return this.cardBody().nativeElement;
+		return this.card().nativeElement;
+	}
+
+	get ContainerBottom(): number {
+		return Math.round(this.Container.getBoundingClientRect().bottom);
+	}
+
+	get CardBottom(): number {
+		return Math.round(this.Card.getBoundingClientRect().bottom);
 	}
 
 	@Input()
@@ -70,10 +82,12 @@ export class ActivityEditModalComponent {
 	public nextActivity?: Activity;
 
 	isPicked = signal<boolean>(false);
-	initialHeight = 0;
+	startY = 0;
 	startHeight = 0;
+	maxBottom = 0;
 
-	private readonly cardBody = viewChild.required<ElementRef<HTMLElement>>('cardBody');
+	private readonly card = viewChild.required<ElementRef<HTMLElement>>('card');
+	private readonly cardContainer = viewChild.required<ElementRef<HTMLElement>>('cardContainer');
 
 	protected setCurrentTime(field: 'from' | 'till') {
 		this.service.setCurrentTime(this.activityFormItem, field);
@@ -81,14 +95,33 @@ export class ActivityEditModalComponent {
 
 	protected onPointerDown(event: PointerEvent) {
 		this.isPicked.set(true);
-		this.initialHeight = event.clientY;
-		this.startHeight = this.Card?.offsetHeight ?? 0;
+		this.startY = event.clientY;
+		this.startHeight = this.Card.offsetHeight;
+		this.maxBottom = this.ContainerInnerBottom;
 	}
 
 	protected onPointerMove(event: PointerEvent) {
-		const diff = event.clientY - this.initialHeight;
+		const diff = event.clientY - this.startY;
 		const updateHeight = this.startHeight + diff;
 		this.Card.style.height = `${updateHeight}px`;
+
+		const overshoot = this.CardOuterBottom - this.maxBottom;
+
+		if (overshoot > 0) {
+			this.Card.style.height = `${updateHeight - overshoot}px`;
+		}
+	}
+
+	private get CardOuterBottom(): number {
+		const cardStyle = getComputedStyle(this.Card);
+		const marginBottom = parseFloat(cardStyle.marginBottom);
+		return this.Card.getBoundingClientRect().bottom + marginBottom;
+	}
+
+	private get ContainerInnerBottom(): number {
+		const containerStyle = getComputedStyle(this.Container);
+		const paddingBottom = parseFloat(containerStyle.paddingBottom);
+		return this.Container.getBoundingClientRect().bottom - paddingBottom;
 	}
 
 	protected onPointerUp(event: PointerEvent) {
