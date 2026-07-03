@@ -1,19 +1,18 @@
 import { Component, inject, Input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Activity } from '../../../../../../entities';
 import { ActivityFormGroup } from '../../DailyActivitiesForm';
 import { DailyActivityItemService } from '../../daily-activity-item/daily-activity-item.service';
 import { AdjacentActivityComponent } from './adjacent-activity/adjacent-activity.component';
-import { TimePickerComponent } from '../../../../../../components/time-picker/time-picker.component';
+import { TimePickerModalComponent } from '../../../../../../components/time-picker/time-picker-modal/time-picker-modal.component';
 
 @Component({
 	selector: 'app-activity-edit-modal',
 	imports: [
 		ReactiveFormsModule,
 		AdjacentActivityComponent,
-		TimePickerComponent,
 	],
 	templateUrl: './activity-edit-modal.component.html',
 	styleUrl: './activity-edit-modal.component.scss',
@@ -23,6 +22,7 @@ import { TimePickerComponent } from '../../../../../../components/time-picker/ti
 })
 export class ActivityEditModalComponent {
 	private readonly service = inject(DailyActivityItemService);
+	private readonly ngbModal = inject(NgbModal);
 	public readonly modal = inject(NgbActiveModal);
 
 	get PreviousTime(): string {
@@ -55,5 +55,16 @@ export class ActivityEditModalComponent {
 
 	protected setCurrentTime(field: 'from' | 'till') {
 		this.service.setCurrentTime(this.activityFormItem, field);
+	}
+
+	protected async openTimePicker(field: 'from' | 'till') {
+		const ref = this.ngbModal.open(TimePickerModalComponent);
+		const currentValue = this.activityFormItem.controls[field].value ?? '00:00';
+		ref.componentInstance.time = currentValue;
+
+		const result = await ref.result.catch(() => null);
+		if (result) {
+			this.activityFormItem.controls[field].setValue(result);
+		}
 	}
 }
