@@ -1,6 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DateTime } from 'luxon';
 
 import { Activity } from '../../../../../../entities';
 import { ActivityFormGroup } from '../../DailyActivitiesForm';
@@ -59,8 +60,9 @@ export class ActivityEditModalComponent {
 
 	protected async openTimePicker(field: 'from' | 'till') {
 		const ref = this.ngbModal.open(TimePickerModalComponent);
-		const currentValue = this.activityFormItem.controls[field].value ?? '00:00';
-		ref.componentInstance.time = currentValue;
+		const formValue = this.activityFormItem.controls[field].value;
+		const currentTimeValue = DateTime.now().toFormat('HH:mm');
+		ref.componentInstance.time = formValue || currentTimeValue;
 
 		const result = await ref.result.catch(() => null);
 		if (result) {
