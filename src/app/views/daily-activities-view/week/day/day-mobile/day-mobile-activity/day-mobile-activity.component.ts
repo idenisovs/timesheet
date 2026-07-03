@@ -1,5 +1,5 @@
 import { Component, computed, input, InputSignal, output } from '@angular/core';
-import { Activity } from '../../../../../../entities';
+import { Activity } from '@entities';
 import { ActivityCategoryComponent } from './activity-category/activity-category.component';
 import { ActivityDurationComponent } from './activity-duration/activity-duration.component';
 import { SubtleColorDirective } from '../../../../../../directives/subtle-color.directive';

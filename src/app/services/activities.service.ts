@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 
-import { Activity, ActivitySummary, Day } from '../entities';
+import { Activity, ActivitySummary, Day } from '@entities';
 import { DurationService } from './duration.service';
 import { ColorsService } from './colors.service';
 

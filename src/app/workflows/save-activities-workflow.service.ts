@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { IssueRepositoryService } from '../repository/issue-repository.service';
 import { ActivitiesRepositoryService } from '../repository/activities-repository.service';
 import { ActivitiesService } from '../services/activities.service';
-import { Activity, Issue } from '../entities';
+import { Activity, Issue } from '@entities';
 import { ProjectRepositoryService } from '../repository/project-repository.service';
 
 @Injectable({

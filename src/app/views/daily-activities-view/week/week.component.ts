@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { NgClass } from '@angular/common';
 
-import { ActivitySummary, Day, Week } from '../../../entities';
+import { ActivitySummary, Day, Week } from '@entities';
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
 import { ActivitiesService } from '../../../services/activities.service';
 import { SettingsService } from '../../../services/settings.service';

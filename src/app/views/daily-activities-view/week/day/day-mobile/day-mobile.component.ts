@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DayDesktopComponent } from '../day-desktop/day-desktop.component';
-import { Activity } from '../../../../../entities';
+import { Activity } from '@entities';
 import { ActivityFormGroup } from '../DailyActivitiesForm';
 import { DailyActivityItemService } from '../daily-activity-item/daily-activity-item.service';
 import { ActivityTimesComponent } from './activity-times/activity-times.component';

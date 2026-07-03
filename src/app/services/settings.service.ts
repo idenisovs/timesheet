@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { AppSettings } from '../entities';
+import { AppSettings } from '@entities';
 
 const DEFAULT_SETTINGS: AppSettings = {
 	isTimeRoundingEnabled: false,

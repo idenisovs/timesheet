@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, output } from '@angular/core';
-import { Activity, Week } from '../../../entities';
+import { Activity, Week } from '@entities';
 import { ActivitiesService } from '../../../services/activities.service';
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
 import { delay } from '../../../utils';

@@ -2,7 +2,7 @@ import { Component, effect, inject, input, OnDestroy, output } from '@angular/co
 import { NgClass } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Activity } from '../../../../../entities';
+import { Activity } from '@entities';
 import { ActivitiesService } from '../../../../../services/activities.service';
 
 @Component({

@@ -8,7 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { Week } from '../../entities';
+import { Week } from '@entities';
 import { Actions } from '../../services/Actions';
 import { ActionsService } from '../../services/actions.service';
 import { ExportWorkflowService } from '../../workflows/export-workflow.service';

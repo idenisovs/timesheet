@@ -1,5 +1,5 @@
 import { Component, input, InputSignal } from '@angular/core';
-import { Day } from '../../../../../../entities';
+import { Day } from '@entities';
 import { DayHeaderComponent } from '../../day-header/day-header.component';
 
 @Component({

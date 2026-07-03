@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateTime } from 'luxon';
 
-import { Day } from '../../../../../entities';
+import { Day } from '@entities';
 import { DailyOverviewModalComponent } from '../daily-overview-modal/daily-overview-modal.component';
 import { SettingsService } from '../../../../../services/settings.service';
 

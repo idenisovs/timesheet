@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateTime } from 'luxon';
 
-import { Activity } from '../../../../../../entities';
+import { Activity } from '@entities';
 import { ActivityFormGroup } from '../../DailyActivitiesForm';
 import { DailyActivityItemService } from '../../daily-activity-item/daily-activity-item.service';
 import { AdjacentActivityComponent } from './adjacent-activity/adjacent-activity.component';

@@ -1,7 +1,7 @@
 import { Transaction } from 'dexie';
 
 import SheetStore from '../SheetStore';
-import { Issue } from '../../entities';
+import { Issue } from '@entities';
 import { ActivityRecord } from '../records';
 
 

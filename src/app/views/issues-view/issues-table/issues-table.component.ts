@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { IssueRemoveButtonComponent } from '../issue-remove-button/issue-remove-button.component';
-import { Issue } from '../../../entities';
+import { Issue } from '@entities';
 import { IssuesService } from '../../../services/issues.service';
 import { IssueRepositoryService } from '../../../repository/issue-repository.service';
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';

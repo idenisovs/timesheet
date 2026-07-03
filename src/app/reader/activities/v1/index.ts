@@ -2,7 +2,7 @@ import { DateTime } from 'luxon';
 import { Metadata } from '../../Metadata';
 import { ActivityReader } from '../ActivityReader';
 import { ActivityRecordV1 } from './ActivityRecordV1';
-import { Activity } from '../../../entities';
+import { Activity } from '@entities';
 
 export * from './ActivityRecordV1';
 

@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-import { Week } from '../../../entities';
+import { Week } from '@entities';
 
 @Injectable({
 	providedIn: 'root',

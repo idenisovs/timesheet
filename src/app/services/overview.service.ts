@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IssueRepositoryService } from '../repository/issue-repository.service';
 import { ActivitiesService } from './activities.service';
-import { Activity, ActivityOverview, Issue, IssueOverview, Overview, Project, ProjectOverview } from '../entities';
+import { Activity, ActivityOverview, Issue, IssueOverview, Overview, Project, ProjectOverview } from '@entities';
 import parseDuration from 'parse-duration';
 import { calculateTotalDuration } from '../utils';
 import { duration } from 'yet-another-duration';

@@ -1,7 +1,7 @@
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { disabled } from '@angular/forms/signals';
 
-import { Activity } from '../../../entities';
+import { Activity } from '@entities';
 import { ImportActivitiesService } from './import-activities.service';
 import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
 import { DiffStatus } from '../DiffStatus';

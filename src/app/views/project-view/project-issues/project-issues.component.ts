@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 
 import { IssuesTableComponent } from '../../issues-view/issues-table/issues-table.component';
-import { Issue } from '../../../entities';
+import { Issue } from '@entities';
 
 @Component({
     selector: 'app-project-issues',

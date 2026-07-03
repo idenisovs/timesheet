@@ -4,7 +4,7 @@ import {
 } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { Activity, Day } from '../../../../entities';
+import { Activity, Day } from '@entities';
 import { ScreenService } from '../../../../services/screen.service';
 import { DayDesktopComponent } from './day-desktop/day-desktop.component';
 import { DayMobileComponent } from './day-mobile/day-mobile.component';

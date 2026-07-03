@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateTime } from 'luxon';
 
-import { Day, Week, ActivitySummary } from '../../../../entities';
+import { Day, Week, ActivitySummary } from '@entities';
 import { WeeklyOverviewModalComponent } from '../weekly-overview-modal/weekly-overview-modal.component';
 import { WeekService } from '../week.service';
 

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 
 import { ActivitiesTableComponent } from './activities-table/activities-table.component';
-import { Activity } from '../../../entities';
+import { Activity } from '@entities';
 
 @Component({
     selector: 'app-activities-list',

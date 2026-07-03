@@ -3,7 +3,7 @@ import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { SettingsService } from '../../services/settings.service';
-import { AppSettings } from '../../entities';
+import { AppSettings } from '@entities';
 import { TimeRoundingSettingsComponent } from './time-rounding-settings/time-rounding-settings.component';
 import { ColorModeSettingsComponent } from './color-mode-settings/color-mode-settings.component';
 import { ColorRegenerateSettingsComponent } from './color-regenerate-settings/color-regenerate-settings.component';

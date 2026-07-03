@@ -1,6 +1,6 @@
 import { Component, input, InputSignal } from '@angular/core';
 
-import { Activity } from '../../../../../../../entities';
+import { Activity } from '@entities';
 
 @Component({
 	selector: 'app-adjacent-activity',

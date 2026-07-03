@@ -1,6 +1,6 @@
 import { Component, computed, input, InputSignal, Signal } from '@angular/core';
 
-import { Activity } from '../../../../../../entities';
+import { Activity } from '@entities';
 import { DarkerColorDirective } from '../../../../../../directives/darker-color.directive';
 import { SubtleColorDirective } from '../../../../../../directives/subtle-color.directive';
 

@@ -13,7 +13,7 @@ import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } f
 import { Subscription } from 'rxjs';
 import { DayService } from '../day.service';
 import { ActivitiesService } from '../../../../../services/activities.service';
-import { Activity, Day } from '../../../../../entities';
+import { Activity, Day } from '@entities';
 import { ActivityFormGroup, DailyActivitiesForm } from '../DailyActivitiesForm';
 import { DayFooterComponent } from '../day-footer/day-footer.component';
 import { DayHeaderComponent } from '../day-header/day-header.component';

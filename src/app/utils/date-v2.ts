@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 
-import { Day, Week } from '../entities';
+import { Day, Week } from '@entities';
 
 export function getMonday(date: string): string {
 	const result = DateTime.fromISO(date).startOf('week').toISODate();
