@@ -22,7 +22,6 @@ import { TimePickerModalComponent } from '../../../../../../components/time-pick
 	],
 })
 export class ActivityEditModalComponent {
-	private readonly service = inject(DailyActivityItemService);
 	private readonly ngbModal = inject(NgbModal);
 	public readonly modal = inject(NgbActiveModal);
 
@@ -54,10 +53,6 @@ export class ActivityEditModalComponent {
 	@Input()
 	public nextActivity?: Activity;
 
-	protected setCurrentTime(field: 'from' | 'till') {
-		this.service.setCurrentTime(this.activityFormItem, field);
-	}
-
 	protected async openTimePicker(field: 'from' | 'till') {
 		const ref = this.ngbModal.open(TimePickerModalComponent);
 		const formValue = this.activityFormItem.controls[field].value;
@@ -65,6 +60,7 @@ export class ActivityEditModalComponent {
 		ref.componentInstance.time = formValue || currentTimeValue;
 
 		const result = await ref.result.catch(() => null);
+
 		if (result) {
 			this.activityFormItem.controls[field].setValue(result);
 		}
