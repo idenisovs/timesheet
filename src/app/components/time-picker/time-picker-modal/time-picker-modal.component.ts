@@ -1,5 +1,6 @@
 import { Component, inject, Input, signal } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { DateTime } from 'luxon';
 
 import { TimeBeltComponent } from '../time-belt/time-belt.component';
 
@@ -31,6 +32,12 @@ export class TimePickerModalComponent {
 
 	protected onMinutePicked(minute: number) {
 		this.minute.set(minute);
+	}
+
+	protected setNow() {
+		const now = DateTime.now();
+		this.hour.set(now.hour);
+		this.minute.set(now.minute);
 	}
 
 	protected confirm() {
