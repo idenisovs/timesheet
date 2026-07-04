@@ -81,6 +81,6 @@ export class DayService {
 	}
 
 	private updateActivity(formValue: any, activity: Activity): Activity {
-		return Object.assign(activity, formValue);
+		return Object.assign(new Activity(activity), formValue);
 	}
 }

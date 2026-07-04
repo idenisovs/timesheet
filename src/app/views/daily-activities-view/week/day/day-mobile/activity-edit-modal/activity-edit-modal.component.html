@@ -20,8 +20,15 @@
 				<div class="flex-grow-1">
 					<article class="card">
 						<div class="card-body">
+							<!-- Name -->
+							<div class="row">
+								<label for="name" class="col-3 col-form-label">Name</label>
+								<div class="col-9">
+									<textarea id="name" class="form-control" rows="2" [formControl]="activityFormItem.controls.name"></textarea>
+								</div>
+							</div>
 							<!-- Time From -->
-							<div class="row mb-2">
+							<div class="row mt-2">
 								<label for="time-from" class="col-3 col-form-label">From</label>
 								<div class="col-7">
 									<input type="time" id="time-from" class="form-control" [formControl]="activityFormItem.controls.from"/>
@@ -33,7 +40,7 @@
 								</div>
 							</div>
 							<!-- Time Till -->
-							<div class="row mb-2">
+							<div class="row mt-2">
 								<label for="time-from" class="col-3 col-form-label">Till</label>
 								<div class="col-7">
 									<input type="time" id="time-till" class="form-control" [formControl]="activityFormItem.controls.till"/>
@@ -42,13 +49,6 @@
 									<button type="button" class="btn btn-outline-secondary" (click)="openTimePicker('till')">
 										<i class="material-symbols-outlined">schedule</i>
 									</button>
-								</div>
-							</div>
-							<!-- Name -->
-							<div class="row">
-								<label for="name" class="col-3 col-form-label">Name</label>
-								<div class="col-9">
-									<textarea id="name" class="form-control" rows="2" [formControl]="activityFormItem.controls.name"></textarea>
 								</div>
 							</div>
 						</div>
