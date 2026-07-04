@@ -1,7 +1,8 @@
-import { Component, inject, Input } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateTime } from 'luxon';
+import { Subscription } from 'rxjs';
 
 import { Activity } from '@entities';
 import { ActivityFormGroup } from '../../DailyActivitiesForm';
@@ -21,9 +22,12 @@ import { TimePickerModalComponent } from '../../../../../../components/time-pick
 		DailyActivityItemService,
 	],
 })
-export class ActivityEditModalComponent {
+export class ActivityEditModalComponent implements OnInit, OnDestroy {
 	private readonly ngbModal = inject(NgbModal);
+	private readonly dailyActivityItemService = inject(DailyActivityItemService);
 	public readonly modal = inject(NgbActiveModal);
+
+	private formChangesSub!: Subscription;
 
 	get PreviousTime(): string {
 		if (this.previousActivity) {
@@ -52,6 +56,26 @@ export class ActivityEditModalComponent {
 
 	@Input()
 	public nextActivity?: Activity;
+
+	ngOnInit(): void {
+		this.formChangesSub = this.activityFormItem.valueChanges.subscribe((value) => {
+			if (!this.activityFormItem) {
+				return;
+			}
+
+			const durationControl = this.activityFormItem.get('duration') as FormControl;
+
+			if (value.from && value.till) {
+				this.dailyActivityItemService.recalculateDuration(this.activityFormItem, false);
+			} else {
+				durationControl.setValue('', { emitEvent: false });
+			}
+		});
+	}
+
+	ngOnDestroy(): void {
+		this.formChangesSub.unsubscribe();
+	}
 
 	protected async openTimePicker(field: 'from' | 'till') {
 		const ref = this.ngbModal.open(TimePickerModalComponent);

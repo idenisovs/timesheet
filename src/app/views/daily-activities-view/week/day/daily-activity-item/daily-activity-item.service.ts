@@ -104,14 +104,14 @@ export class DailyActivityItemService {
 		activity.get('till')?.patchValue(till);
 	}
 
-	recalculateDuration(activity: FormGroup) {
+	recalculateDuration(activity: FormGroup, emitEvent = true) {
 		const d1 = this.getTimestamp(activity, 'from');
 		const d2 = this.getTimestamp(activity, 'till');
 		const dT = Math.abs(d2 - d1);
 
 		const durationValue = this.durationService.toStr(dT);
 
-		activity.get('duration')?.patchValue(durationValue);
+		activity.get('duration')?.patchValue(durationValue, { emitEvent });
 	}
 
 	setCurrentTime(activity: FormGroup, field: 'from' | 'till') {
