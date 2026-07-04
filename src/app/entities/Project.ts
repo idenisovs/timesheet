@@ -1,5 +1,5 @@
-import { ImportedProject } from '../views/import-view/Imports';
-import { ProjectRecord } from '../store/records';
+import { ImportedProject } from '@views/import-view/Imports';
+import { ProjectRecord } from '@store/records';
 
 export class Project {
 	id = crypto.randomUUID() as string;

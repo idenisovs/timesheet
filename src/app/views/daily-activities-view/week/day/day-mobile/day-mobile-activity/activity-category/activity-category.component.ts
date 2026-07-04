@@ -1,5 +1,5 @@
 import { Component, input, InputSignal } from '@angular/core';
-import { DarkerColorDirective } from '../../../../../../../directives/darker-color.directive';
+import { DarkerColorDirective } from '@directives/darker-color.directive';
 
 @Component({
 	selector: 'app-activity-category',

@@ -1,4 +1,4 @@
-import { getCurrentDate } from '../utils/date-v2';
+import { getCurrentDate } from '@utils/date-v2';
 import { DateTime } from 'luxon';
 
 export class Day {

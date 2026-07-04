@@ -9,9 +9,9 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { Week } from '@entities';
-import { Actions } from '../../services/Actions';
-import { ActionsService } from '../../services/actions.service';
-import { ExportWorkflowService } from '../../workflows/export-workflow.service';
+import { Actions } from '@services/Actions';
+import { ActionsService } from '@services/actions.service';
+import { ExportWorkflowService } from '@workflows/export-workflow.service';
 import { WeekComponent } from './week/week.component';
 import { BottomLoadIndicatorComponent } from './bottom-load-indicator/bottom-load-indicator.component';
 import { WeekHeaderMobileComponent } from './week/week-header-mobile/week-header-mobile.component';

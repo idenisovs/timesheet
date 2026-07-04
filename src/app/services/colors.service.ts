@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 
 import { Activity } from '@entities';
-import { ActivitiesRepositoryService } from '../repository/activities-repository.service';
+import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
 import { SettingsService } from './settings.service';
 
 @Injectable({

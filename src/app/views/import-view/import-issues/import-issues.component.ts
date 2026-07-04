@@ -2,7 +2,7 @@ import { Component, effect, inject, input, InputSignal, signal } from '@angular/
 
 import { Issue } from '@entities';
 import { ImportIssuesService } from './import-issues.service';
-import { IssueRepositoryService } from '../../../repository/issue-repository.service';
+import { IssueRepositoryService } from '@repository/issue-repository.service';
 import { DiffStatus } from '../DiffStatus';
 
 @Component({

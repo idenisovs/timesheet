@@ -2,8 +2,8 @@ import { Component, effect, inject, input, InputSignal, signal, WritableSignal }
 import { RouterLink } from '@angular/router';
 import { DatePipe, PercentPipe } from '@angular/common';
 import { Issue, Project } from '@entities';
-import { IssuesService } from '../../../services/issues.service';
-import { IssueRepositoryService } from '../../../repository/issue-repository.service';
+import { IssuesService } from '@services/issues.service';
+import { IssueRepositoryService } from '@repository/issue-repository.service';
 
 @Component({
 	selector: 'app-project-card',

@@ -3,7 +3,7 @@ import { DatePipe, NgClass } from '@angular/common';
 
 import { Issue } from '@entities';
 import { DiffStatus } from '../../DiffStatus';
-import { IssueRepositoryService } from '../../../../repository/issue-repository.service';
+import { IssueRepositoryService } from '@repository/issue-repository.service';
 import { ImportIssuesService } from '../import-issues.service';
 
 @Component({

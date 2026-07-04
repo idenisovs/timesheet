@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 
-import { SheetStoreService } from '../services/sheet-store.service';
+import { SheetStoreService } from '@services/sheet-store.service';
 import { Project } from '@entities';
 
 @Injectable({

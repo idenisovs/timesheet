@@ -3,7 +3,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Project } from '@entities';
-import { ProjectRepositoryService } from '../../../repository/project-repository.service';
+import { ProjectRepositoryService } from '@repository/project-repository.service';
 
 @Component({
 	selector: 'app-project-edit',

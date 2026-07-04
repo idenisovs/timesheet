@@ -3,12 +3,12 @@ import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { Issue } from '@entities';
-import { ActionsService } from '../../services/actions.service';
-import { Actions } from '../../services/Actions';
+import { ActionsService } from '@services/actions.service';
+import { Actions } from '@services/Actions';
 import { CreateIssueModalComponent } from './create-issue-modal/create-issue-modal.component';
-import { handleModalResult } from '../../utils';
+import { handleModalResult } from '@utils/index';
 import { IssuesListComponent } from './issues-list/issues-list.component';
-import { IssueRepositoryService } from '../../repository/issue-repository.service';
+import { IssueRepositoryService } from '@repository/issue-repository.service';
 
 @Component({
 	selector: 'app-issues-view',

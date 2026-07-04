@@ -5,8 +5,8 @@ import {
 } from '../../weekly-overview-modal/issue-overview/issue-overview.component';
 import { Day, Overview } from '@entities';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { OverviewService } from '../../../../../services/overview.service';
-import { ActivitiesRepositoryService } from '../../../../../repository/activities-repository.service';
+import { OverviewService } from '@services/overview.service';
+import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
 import { WORK_DAY } from '../../../../../constants';
 
 @Component({

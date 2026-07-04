@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { IssueRepositoryService } from '../repository/issue-repository.service';
+import { IssueRepositoryService } from '@repository/issue-repository.service';
 import { ActivitiesService } from './activities.service';
 import { Activity, ActivityOverview, Issue, IssueOverview, Overview, Project, ProjectOverview } from '@entities';
 import parseDuration from 'parse-duration';
-import { calculateTotalDuration } from '../utils';
+import { calculateTotalDuration } from '@utils/index';
 import { duration } from 'yet-another-duration';
-import { ProjectRepositoryService } from '../repository/project-repository.service';
+import { ProjectRepositoryService } from '@repository/project-repository.service';
 
 @Injectable({
   providedIn: 'root'

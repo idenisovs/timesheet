@@ -1,4 +1,4 @@
-import { endOfDay, getMonday, getSunday, startOfDay } from '../../utils';
+import { endOfDay, getMonday, getSunday, startOfDay } from '@utils/date';
 
 export interface Sheet {
   id?: number;

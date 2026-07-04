@@ -4,7 +4,7 @@ import Dexie from 'dexie';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Project } from '@entities';
-import { ProjectRepositoryService } from '../../../repository/project-repository.service';
+import { ProjectRepositoryService } from '@repository/project-repository.service';
 
 @Component({
     selector: 'app-create-project-modal',

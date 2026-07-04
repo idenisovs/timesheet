@@ -1,7 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { ColorsService } from '../../../services/colors.service';
+import { ColorsService } from '@services/colors.service';
 
 @Component({
 	selector: 'app-color-mode-settings',

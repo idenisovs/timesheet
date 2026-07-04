@@ -1,8 +1,8 @@
 import { Issue } from './Issue';
 import { Day } from './Day';
-import { ImportedActivity } from '../views/import-view/Imports';
-import { ActivityRecord } from '../store/records';
-import { getCurrentDate } from '../utils/date-v2';
+import { ImportedActivity } from '@views/import-view/Imports';
+import { ActivityRecord } from '@store/records';
+import { getCurrentDate } from '@utils/date-v2';
 
 export class Activity {
 	id = crypto.randomUUID() as string;

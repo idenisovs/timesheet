@@ -6,8 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Activity, Issue } from '@entities';
 import { ActivitiesListComponent } from './activities-list/activities-list.component';
 import { IssueCardComponent } from './issue-card/issue-card.component';
-import { ActivitiesRepositoryService } from '../../repository/activities-repository.service';
-import { IssueRepositoryService } from '../../repository/issue-repository.service';
+import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { IssueRepositoryService } from '@repository/issue-repository.service';
 
 @Component({
 	selector: 'app-issue-view',

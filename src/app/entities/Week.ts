@@ -1,4 +1,4 @@
-import { getCurrentDate, getMonday, getSunday } from '../utils/date-v2';
+import { getCurrentDate, getMonday, getSunday } from '@utils/date-v2';
 
 export class Week {
 	start: string;

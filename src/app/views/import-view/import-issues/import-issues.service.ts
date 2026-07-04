@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Issue } from '@entities';
-import { IssueRepositoryService } from '../../../repository/issue-repository.service';
+import { IssueRepositoryService } from '@repository/issue-repository.service';
 import { DiffStatus } from '../DiffStatus';
 
 @Injectable({

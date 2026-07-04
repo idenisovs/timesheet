@@ -3,7 +3,7 @@ import { NgClass } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Activity } from '@entities';
-import { ActivitiesService } from '../../../../../services/activities.service';
+import { ActivitiesService } from '@services/activities.service';
 
 @Component({
 	selector: 'app-day-sticky-bottom',

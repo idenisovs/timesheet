@@ -1,8 +1,8 @@
 import { Component, computed, input, InputSignal, Signal } from '@angular/core';
 
 import { Activity } from '@entities';
-import { DarkerColorDirective } from '../../../../../../directives/darker-color.directive';
-import { SubtleColorDirective } from '../../../../../../directives/subtle-color.directive';
+import { DarkerColorDirective } from '@directives/darker-color.directive';
+import { SubtleColorDirective } from '@directives/subtle-color.directive';
 
 @Component({
   selector: 'app-activity-times',

@@ -12,13 +12,13 @@ import {
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { DayService } from '../day.service';
-import { ActivitiesService } from '../../../../../services/activities.service';
+import { ActivitiesService } from '@services/activities.service';
 import { Activity, Day } from '@entities';
 import { ActivityFormGroup, DailyActivitiesForm } from '../DailyActivitiesForm';
 import { DayFooterComponent } from '../day-footer/day-footer.component';
 import { DayHeaderComponent } from '../day-header/day-header.component';
 import { DailyActivityItemComponent } from '../daily-activity-item/daily-activity-item.component';
-import { getCurrentDate } from '../../../../../utils/date-v2';
+import { getCurrentDate } from '@utils/date-v2';
 import { BarPosition } from '../daily-activity-item/color-bar/color-bar.component';
 
 @Component({

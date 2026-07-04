@@ -11,14 +11,14 @@ import {
 import { NgClass } from '@angular/common';
 
 import { ActivitySummary, Day, Week } from '@entities';
-import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
-import { ActivitiesService } from '../../../services/activities.service';
-import { SettingsService } from '../../../services/settings.service';
+import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { ActivitiesService } from '@services/activities.service';
+import { SettingsService } from '@services/settings.service';
 import {
 	WeekHeaderComponent,
 } from './week-header/week-header.component';
 import { DayComponent } from './day/day.component';
-import { getCurrentDate, getDaysByWeek, getMonday } from '../../../utils/date-v2';
+import { getCurrentDate, getDaysByWeek, getMonday } from '@utils/date-v2';
 import { WeekService } from './week.service';
 
 @Component({

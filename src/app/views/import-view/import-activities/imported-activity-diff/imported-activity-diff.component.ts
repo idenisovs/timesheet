@@ -3,9 +3,9 @@ import { DatePipe, NgClass } from '@angular/common';
 
 import { Activity } from '@entities';
 import { DiffStatus } from '../../DiffStatus';
-import { ActivitiesRepositoryService } from '../../../../repository/activities-repository.service';
+import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
 import { ImportActivitiesService } from '../import-activities.service';
-import { ActivitiesService } from '../../../../services/activities.service';
+import { ActivitiesService } from '@services/activities.service';
 
 @Component({
 	selector: 'app-imported-activity-diff',

@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ColorsService } from '../../../services/colors.service';
-import { handleModalResult } from '../../../utils';
+import { ColorsService } from '@services/colors.service';
+import { handleModalResult } from '@utils/index';
 import { ConfirmRegenerateModalComponent } from './confirm-regenerate-modal/confirm-regenerate-modal.component';
 
 @Component({

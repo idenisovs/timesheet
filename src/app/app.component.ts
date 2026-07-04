@@ -2,11 +2,11 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { ColorModeService } from './services/color-mode.service';
-import { ActionsService } from './services/actions.service';
-import { Actions } from './services/Actions';
-import { AppHeaderComponent } from './components/app-header/app-header.component';
+import { NavbarComponent } from '@components/navbar/navbar.component';
+import { ColorModeService } from '@services/color-mode.service';
+import { ActionsService } from '@services/actions.service';
+import { Actions } from '@services/Actions';
+import { AppHeaderComponent } from '@components/app-header/app-header.component';
 
 @Component({
 	selector: 'app-root',

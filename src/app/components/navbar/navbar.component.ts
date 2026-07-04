@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
-import { ColorModeService } from '../../services/color-mode.service';
+import { ColorModeService } from '@services/color-mode.service';
 
 @Component({
     selector: 'app-navbar',

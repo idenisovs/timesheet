@@ -5,17 +5,17 @@ import {
 import { Subscription } from 'rxjs';
 
 import { Activity, Day } from '@entities';
-import { ScreenService } from '../../../../services/screen.service';
+import { ScreenService } from '@services/screen.service';
 import { DayDesktopComponent } from './day-desktop/day-desktop.component';
 import { DayMobileComponent } from './day-mobile/day-mobile.component';
-import { ActivitiesRepositoryService } from '../../../../repository/activities-repository.service';
-import { getCurrentDate } from '../../../../utils/date-v2';
-import { RemoveActivitiesWorkflowService } from '../../../../workflows/remove-activities-workflow.service';
-import { SaveActivitiesWorkflowService } from '../../../../workflows/save-activities-workflow.service';
+import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { getCurrentDate } from '@utils/date-v2';
+import { RemoveActivitiesWorkflowService } from '@workflows/remove-activities-workflow.service';
+import { SaveActivitiesWorkflowService } from '@workflows/save-activities-workflow.service';
 import {
 	DailyActivitiesWeekDayMissingComponent,
-} from '../../../../components/daily-activities-week-day-missing/daily-activities-week-day-missing.component';
-import { ActivitiesService } from '../../../../services/activities.service';
+} from '@components/daily-activities-week-day-missing/daily-activities-week-day-missing.component';
+import { ActivitiesService } from '@services/activities.service';
 
 @Component({
 	selector: 'app-day',

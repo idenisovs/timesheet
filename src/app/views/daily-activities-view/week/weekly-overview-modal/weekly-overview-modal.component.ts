@@ -4,8 +4,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Overview, Week } from '@entities';
 import { IssueOverviewComponent } from './issue-overview/issue-overview.component';
-import { OverviewService } from '../../../../services/overview.service';
-import { ActivitiesRepositoryService } from '../../../../repository/activities-repository.service';
+import { OverviewService } from '@services/overview.service';
+import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
 import { WORK_WEEK } from '../../../../constants';
 
 @Component({

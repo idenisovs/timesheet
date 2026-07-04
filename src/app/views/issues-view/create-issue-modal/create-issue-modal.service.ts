@@ -6,7 +6,7 @@ import parseDuration from 'parse-duration';
 import { duration } from 'yet-another-duration';
 
 import { Issue } from '@entities';
-import { IssueRepositoryService } from '../../../repository/issue-repository.service';
+import { IssueRepositoryService } from '@repository/issue-repository.service';
 
 @Injectable({
   providedIn: 'root'

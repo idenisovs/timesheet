@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 
 import { Day } from '@entities';
 import { DailyOverviewModalComponent } from '../daily-overview-modal/daily-overview-modal.component';
-import { SettingsService } from '../../../../../services/settings.service';
+import { SettingsService } from '@services/settings.service';
 
 const DAY_RELATED_EMOJIS: Record<string, string> = {
 	Monday: '☕',

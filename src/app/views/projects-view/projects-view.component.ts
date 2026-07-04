@@ -5,11 +5,11 @@ import { Subscription } from 'rxjs';
 
 import { Project } from '@entities';
 import { ProjectCardComponent } from './project-card/project-card.component';
-import { ActionsService } from '../../services/actions.service';
-import { Actions } from '../../services/Actions';
+import { ActionsService } from '@services/actions.service';
+import { Actions } from '@services/Actions';
 import { CreateProjectModalComponent } from './create-project-modal/create-project-modal.component';
-import { handleModalResult } from '../../utils';
-import { ProjectRepositoryService } from '../../repository/project-repository.service';
+import { handleModalResult } from '@utils/index';
+import { ProjectRepositoryService } from '@repository/project-repository.service';
 
 @Component({
 	selector: 'app-projects-view',

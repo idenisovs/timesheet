@@ -3,7 +3,7 @@ import { DatePipe, PercentPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { Issue, Project } from '@entities';
-import { IssuesService } from '../../../services/issues.service';
+import { IssuesService } from '@services/issues.service';
 
 @Component({
 	selector: 'app-project-details',

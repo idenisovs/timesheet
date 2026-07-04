@@ -3,7 +3,7 @@ import { disabled } from '@angular/forms/signals';
 
 import { Activity } from '@entities';
 import { ImportActivitiesService } from './import-activities.service';
-import { ActivitiesRepositoryService } from '../../../repository/activities-repository.service';
+import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
 import { DiffStatus } from '../DiffStatus';
 import { ImportProgressBarComponent } from '../import-progress-bar/import-progress-bar.component';
 

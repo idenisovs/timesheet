@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
-import { SettingsService } from '../../services/settings.service';
+import { SettingsService } from '@services/settings.service';
 import { AppSettings } from '@entities';
 import { TimeRoundingSettingsComponent } from './time-rounding-settings/time-rounding-settings.component';
 import { ColorModeSettingsComponent } from './color-mode-settings/color-mode-settings.component';

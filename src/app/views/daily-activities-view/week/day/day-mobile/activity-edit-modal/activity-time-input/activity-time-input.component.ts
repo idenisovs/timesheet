@@ -3,7 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateTime } from 'luxon';
 
-import { TimePickerModalComponent } from '../../../../../../../components/time-picker/time-picker-modal/time-picker-modal.component';
+import { TimePickerModalComponent } from '@components/time-picker/time-picker-modal/time-picker-modal.component';
 
 @Component({
 	selector: 'app-activity-time-input',

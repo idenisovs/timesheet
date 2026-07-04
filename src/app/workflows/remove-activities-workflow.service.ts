@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { ActivitiesRepositoryService } from '../repository/activities-repository.service';
+import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
 import { Activity, Issue } from '@entities';
-import { IssueRepositoryService } from '../repository/issue-repository.service';
-import { DurationService } from '../services/duration.service';
+import { IssueRepositoryService } from '@repository/issue-repository.service';
+import { DurationService } from '@services/duration.service';
 
 @Injectable({
 	providedIn: 'root',

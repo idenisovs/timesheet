@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Actions } from '../../../services/Actions';
-import { PageActionButtonComponent } from '../../../components/page-action-button/page-action-button.component';
+import { Actions } from '@services/Actions';
+import { PageActionButtonComponent } from '@components/page-action-button/page-action-button.component';
 
 @Component({
     selector: 'app-projects-view-actions',

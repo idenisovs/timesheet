@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
 
-import { getDateString } from '../utils';
-import { ActivitiesRepositoryService } from '../repository/activities-repository.service';
+import { getDateString } from '@utils/date';
+import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
 import { Activity, Issue, Project } from '@entities';
-import { IssueRepositoryService } from '../repository/issue-repository.service';
-import { ProjectRepositoryService } from '../repository/project-repository.service';
+import { IssueRepositoryService } from '@repository/issue-repository.service';
+import { ProjectRepositoryService } from '@repository/project-repository.service';
 
 @Injectable({
 	providedIn: 'root',

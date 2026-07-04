@@ -2,7 +2,7 @@ import { Component, inject, input, OnInit, output } from '@angular/core';
 import { DatePipe, NgClass } from '@angular/common';
 
 import { Project } from '@entities';
-import { ProjectRepositoryService } from '../../../../repository/project-repository.service';
+import { ProjectRepositoryService } from '@repository/project-repository.service';
 import { DiffStatus } from '../../DiffStatus';
 
 @Component({

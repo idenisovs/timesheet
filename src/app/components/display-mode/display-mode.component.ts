@@ -1,6 +1,6 @@
 import { Component, HostListener, inject, OnDestroy, OnInit } from '@angular/core';
 
-import { ScreenService } from '../../services/screen.service';
+import { ScreenService } from '@services/screen.service';
 import { Subscription } from 'rxjs';
 
 @Component({

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Issue } from '@entities';
 import { IssueViewService } from '../issue-view.service';
-import { SheetStoreService } from '../../../services/sheet-store.service';
+import { SheetStoreService } from '@services/sheet-store.service';
 import { CreateIssueModalService } from '../../issues-view/create-issue-modal/create-issue-modal.service';
 
 @Component({

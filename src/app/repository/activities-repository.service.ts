@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 
-import { SheetStoreService } from '../services/sheet-store.service';
+import { SheetStoreService } from '@services/sheet-store.service';
 import { Activity, Week, Day } from '@entities';
-import { ActivityRecord } from '../store/records';
+import { ActivityRecord } from '@store/records';
 
 @Injectable({
 	providedIn: 'root',

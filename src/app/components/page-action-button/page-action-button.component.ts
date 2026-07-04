@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { Actions } from '../../services/Actions';
-import { ActionsService } from '../../services/actions.service';
+import { Actions } from '@services/Actions';
+import { ActionsService } from '@services/actions.service';
 
 @Component({
     selector: 'app-page-action-button',
