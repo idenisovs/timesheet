@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { DayDesktopComponent } from '../day-desktop/day-desktop.component';
 import { Activity } from '@entities';
 import { ActivityFormGroup } from '../DailyActivitiesForm';
@@ -57,10 +57,9 @@ export class DayMobileComponent extends DayDesktopComponent {
 			editModal.nextActivity = nextActivity;
 		}
 
-		try {
-			const result = await modalRef.result;
-			console.log(result);
-		} catch {
+		if (await this.isActivityChanged(modalRef)) {
+			await this.save();
+		} else {
 			activityFormItem.reset(initialFormValue);
 		}
 	}
@@ -72,5 +71,14 @@ export class DayMobileComponent extends DayDesktopComponent {
 
 	protected sorted(): Activity[] {
 		return this.activitiesService.sort(this.activities(), true);
+	}
+
+	private async isActivityChanged(modalRef: NgbModalRef): Promise<boolean> {
+		try {
+			await modalRef.result;
+			return true;
+		} catch {
+			return false;
+		}
 	}
 }

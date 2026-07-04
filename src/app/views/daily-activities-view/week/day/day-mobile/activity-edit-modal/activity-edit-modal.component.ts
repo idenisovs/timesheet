@@ -66,6 +66,10 @@ export class ActivityEditModalComponent {
 		}
 	}
 
+	protected save() {
+		this.modal.close();
+	}
+
 	protected cancel() {
 		this.modal.dismiss();
 	}
