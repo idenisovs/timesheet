@@ -2,7 +2,7 @@
 	<h4 class="modal-title text-primary">
 		Activity
 	</h4>
-	<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	<button type="button" class="btn-close" aria-label="Close" (click)="cancel()"></button>
 </header>
 
 <main class="modal-body p-1">
@@ -64,3 +64,13 @@
 		/>
 	</div>
 </main>
+
+<footer class="modal-footer">
+	<button type="button" class="btn btn-outline-primary">
+		<i class="material-symbols-outlined">save</i> Save
+	</button>
+
+	<button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+		<i class="material-symbols-outlined">cancel</i> Cancel
+	</button>
+</footer>

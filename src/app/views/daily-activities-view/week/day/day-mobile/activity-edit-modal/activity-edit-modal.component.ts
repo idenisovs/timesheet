@@ -65,4 +65,8 @@ export class ActivityEditModalComponent {
 			this.activityFormItem.controls[field].setValue(result);
 		}
 	}
+
+	protected cancel() {
+		this.modal.dismiss();
+	}
 }

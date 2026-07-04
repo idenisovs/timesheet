@@ -26,14 +26,15 @@ import { ActivityEditModalComponent } from './activity-edit-modal/activity-edit-
 export class DayMobileComponent extends DayDesktopComponent {
 	private readonly modal = inject(NgbModal);
 
-	protected openEditModal(activity: Activity) {
+	protected async openEditModal(activity: Activity) {
+		// The parent DayDesktopComponent defines the FormGroup since it is displaying
+		// the edit form for the whole day straightly.
+		// In the mobile version the inputs is defined in separate ActivityEditModalComponent
 		const activityFormItem = this.ActivityFormArrayItems.find((item: ActivityFormGroup) => {
 			return item.get('id')?.value === activity.id;
-		});
+		}) as ActivityFormGroup;
 
-		if (!activityFormItem) {
-			return;
-		}
+		const initialFormValue = activityFormItem.getRawValue();
 
 		const sorted = this.activitiesService.sort(this.activities());
 		const activityIdx = sorted.findIndex((item: Activity) => item.id === activity.id);
@@ -55,17 +56,17 @@ export class DayMobileComponent extends DayDesktopComponent {
 		if (nextActivity) {
 			editModal.nextActivity = nextActivity;
 		}
+
+		try {
+			const result = await modalRef.result;
+			console.log(result);
+		} catch {
+			activityFormItem.reset(initialFormValue);
+		}
 	}
 
 	protected add() {
 		const activityFormItem = this.createActivityFormItem();
-		this.ActivityFormArray.insert(0, activityFormItem);
-	}
-
-	protected proceed(activityId: string) {
-		const [existingActivity] = this.service.findById(this.activities(), activityId);
-		const activity: Activity = this.service.continueActivity(existingActivity);
-		const activityFormItem: ActivityFormGroup = this.service.makeFormItemFromActivity(activity);
 		this.ActivityFormArray.insert(0, activityFormItem);
 	}
 
