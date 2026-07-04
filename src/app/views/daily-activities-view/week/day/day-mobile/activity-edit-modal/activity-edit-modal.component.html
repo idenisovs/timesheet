@@ -2,7 +2,12 @@
 	<h4 class="modal-title text-primary">
 		Activity
 	</h4>
-	<button type="button" class="btn-close" aria-label="Close" (click)="cancel()"></button>
+	<button
+		type="button"
+		class="btn-close"
+		aria-label="Close"
+		(click)="cancel()"
+	></button>
 </header>
 
 <main class="modal-body p-1">
@@ -13,7 +18,7 @@
 			fallbackLabel="Start of the Day"
 		/>
 
-		<!-- The container of whole Activity Card-->
+		<!-- The container of whole Activity Card -->
 		<section class="flex-grow-1 py-2">
 			<div class="d-flex flex-row">
 				<!-- Expand the width of Activity Card container -->
@@ -24,29 +29,52 @@
 							<div class="row">
 								<label for="name" class="col-4 col-form-label">Name</label>
 								<div class="col-8">
-									<textarea id="name" class="form-control" rows="2" [formControl]="activityFormItem.controls.name"></textarea>
+									<textarea
+										id="name"
+										class="form-control"
+										rows="2"
+										[formControl]="activityFormItem.controls.name"
+									></textarea>
 								</div>
 							</div>
 							<!-- Time From -->
 							<div class="row mt-2">
-								<label for="time-from" class="col-4">From</label>
+								<label for="time-from" class="col-4 col-form-label">From</label>
 								<div class="col-6">
-									<input type="time" id="time-from" class="form-control" [formControl]="activityFormItem.controls.from"/>
+									<input
+										type="time"
+										id="time-from"
+										class="form-control"
+										[formControl]="activityFormItem.controls.from"
+									/>
 								</div>
 								<div class="col-2 p-0">
-									<button type="button" class="btn btn-outline-secondary" (click)="openTimePicker('from')">
+									<button
+										type="button"
+										class="btn btn-outline-secondary"
+										(click)="openTimePicker('from')"
+									>
 										<i class="material-symbols-outlined">schedule</i>
 									</button>
 								</div>
 							</div>
 							<!-- Time Till -->
 							<div class="row mt-2">
-								<label for="time-from" class="col-4 col-form-label">Till</label>
+								<label for="time-till" class="col-4 col-form-label">Till</label>
 								<div class="col-6">
-									<input type="time" id="time-till" class="form-control" [formControl]="activityFormItem.controls.till"/>
+									<input
+										type="time"
+										id="time-till"
+										class="form-control"
+										[formControl]="activityFormItem.controls.till"
+									/>
 								</div>
 								<div class="col-2 p-0">
-									<button type="button" class="btn btn-outline-secondary" (click)="openTimePicker('till')">
+									<button
+										type="button"
+										class="btn btn-outline-secondary"
+										(click)="openTimePicker('till')"
+									>
 										<i class="material-symbols-outlined">schedule</i>
 									</button>
 								</div>
@@ -55,7 +83,13 @@
 							<div class="row mt-2">
 								<label for="time-duration" class="col-4 col-form-label">Duration</label>
 								<div class="col-8">
-									<input type="text" readonly class="form-control-plaintext" id="time-duration" [formControl]="activityFormItem.controls.duration">
+									<input
+										type="text"
+										readonly
+										class="form-control-plaintext"
+										id="time-duration"
+										[formControl]="activityFormItem.controls.duration"
+									/>
 								</div>
 							</div>
 						</div>
