@@ -1,20 +1,23 @@
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DateTime } from 'luxon';
+import { FormControl } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
 import { Activity } from '@entities';
 import { ActivityFormGroup } from '../../DailyActivitiesForm';
 import { DailyActivityItemService } from '../../daily-activity-item/daily-activity-item.service';
 import { AdjacentActivityComponent } from './adjacent-activity/adjacent-activity.component';
-import { TimePickerModalComponent } from '../../../../../../components/time-picker/time-picker-modal/time-picker-modal.component';
+import { ActivityNameInputComponent } from './activity-name-input/activity-name-input.component';
+import { ActivityTimeInputComponent } from './activity-time-input/activity-time-input.component';
+import { ActivityDurationInputComponent } from './activity-duration-input/activity-duration-input.component';
 
 @Component({
 	selector: 'app-activity-edit-modal',
 	imports: [
-		ReactiveFormsModule,
 		AdjacentActivityComponent,
+		ActivityNameInputComponent,
+		ActivityTimeInputComponent,
+		ActivityDurationInputComponent,
 	],
 	templateUrl: './activity-edit-modal.component.html',
 	styleUrl: './activity-edit-modal.component.scss',
@@ -23,7 +26,6 @@ import { TimePickerModalComponent } from '../../../../../../components/time-pick
 	],
 })
 export class ActivityEditModalComponent implements OnInit, OnDestroy {
-	private readonly ngbModal = inject(NgbModal);
 	private readonly dailyActivityItemService = inject(DailyActivityItemService);
 	public readonly modal = inject(NgbActiveModal);
 
@@ -75,19 +77,6 @@ export class ActivityEditModalComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy(): void {
 		this.formChangesSub.unsubscribe();
-	}
-
-	protected async openTimePicker(field: 'from' | 'till') {
-		const ref = this.ngbModal.open(TimePickerModalComponent);
-		const formValue = this.activityFormItem.controls[field].value;
-		const currentTimeValue = DateTime.now().toFormat('HH:mm');
-		ref.componentInstance.time = formValue || currentTimeValue;
-
-		const result = await ref.result.catch(() => null);
-
-		if (result) {
-			this.activityFormItem.controls[field].setValue(result);
-		}
 	}
 
 	protected save() {

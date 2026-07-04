@@ -25,73 +25,25 @@
 				<div class="flex-grow-1">
 					<article class="card" [style.border-color]="activity.color">
 						<div class="card-body">
-							<!-- Name -->
-							<div class="row">
-								<label for="name" class="col-4 col-form-label">Name</label>
-								<div class="col-8">
-									<textarea
-										id="name"
-										class="form-control"
-										rows="2"
-										[formControl]="activityFormItem.controls.name"
-									></textarea>
-								</div>
-							</div>
-							<!-- Time From -->
-							<div class="row mt-2">
-								<label for="time-from" class="col-4 col-form-label">From</label>
-								<div class="col-6">
-									<input
-										type="time"
-										id="time-from"
-										class="form-control"
-										[formControl]="activityFormItem.controls.from"
-									/>
-								</div>
-								<div class="col-2 p-0">
-									<button
-										type="button"
-										class="btn btn-outline-secondary"
-										(click)="openTimePicker('from')"
-									>
-										<i class="material-symbols-outlined">schedule</i>
-									</button>
-								</div>
-							</div>
-							<!-- Time Till -->
-							<div class="row mt-2">
-								<label for="time-till" class="col-4 col-form-label">Till</label>
-								<div class="col-6">
-									<input
-										type="time"
-										id="time-till"
-										class="form-control"
-										[formControl]="activityFormItem.controls.till"
-									/>
-								</div>
-								<div class="col-2 p-0">
-									<button
-										type="button"
-										class="btn btn-outline-secondary"
-										(click)="openTimePicker('till')"
-									>
-										<i class="material-symbols-outlined">schedule</i>
-									</button>
-								</div>
-							</div>
-							<!-- Duration -->
-							<div class="row mt-2">
-								<label for="time-duration" class="col-4 col-form-label">Duration</label>
-								<div class="col-8">
-									<input
-										type="text"
-										readonly
-										class="form-control-plaintext"
-										id="time-duration"
-										[formControl]="activityFormItem.controls.duration"
-									/>
-								</div>
-							</div>
+							<app-activity-name-input
+								[control]="activityFormItem.controls.name"
+							/>
+
+							<app-activity-time-input
+								label="From"
+								fieldId="time-from"
+								[control]="activityFormItem.controls.from"
+							/>
+
+							<app-activity-time-input
+								label="Till"
+								fieldId="time-till"
+								[control]="activityFormItem.controls.till"
+							/>
+
+							<app-activity-duration-input
+								[control]="activityFormItem.controls.duration"
+							/>
 						</div>
 					</article>
 				</div>
