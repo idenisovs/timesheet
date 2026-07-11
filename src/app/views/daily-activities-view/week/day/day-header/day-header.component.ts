@@ -1,10 +1,18 @@
-import { Component, inject, Input } from '@angular/core';
+import {
+	Component,
+	inject,
+	input,
+	InputSignal,
+	output,
+} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateTime } from 'luxon';
 
 import { Day } from '@entities';
-import { DailyOverviewModalComponent } from '../daily-overview-modal/daily-overview-modal.component';
+import {
+	DailyOverviewModalComponent,
+} from '../daily-overview-modal/daily-overview-modal.component';
 import { SettingsService } from '@services/settings.service';
 
 const DAY_RELATED_EMOJIS: Record<string, string> = {
@@ -18,40 +26,40 @@ const DAY_RELATED_EMOJIS: Record<string, string> = {
 };
 
 @Component({
-  selector: 'app-day-header',
+	selector: 'app-day-header',
 	imports: [
 		DatePipe,
 	],
-  templateUrl: './day-header.component.html',
-  styleUrl: './day-header.component.scss'
+	templateUrl: './day-header.component.html',
+	styleUrl: './day-header.component.scss',
 })
 export class DayHeaderComponent {
-  @Input()
-  day!: Day;
+	protected readonly modal = inject(NgbModal);
+	private readonly settingsService = inject(SettingsService);
 
-  modal = inject(NgbModal);
-  private readonly settingsService = inject(SettingsService);
+	readonly day: InputSignal<Day> = input.required<Day>();
+	readonly add = output<void>();
 
-  get DayEmoji(): string | undefined {
-	  if (this.settingsService.settings$().isDayEmojisEnabled) {
-		  return DAY_RELATED_EMOJIS[this.getDayName()];
-	  } else {
-		  return undefined;
-	  }
-  }
+	get DayEmoji(): string | undefined {
+		if (this.settingsService.settings$().isDayEmojisEnabled) {
+			return DAY_RELATED_EMOJIS[this.getDayName()];
+		} else {
+			return undefined;
+		}
+	}
 
-  getDayName(): string {
-	  return DateTime.fromISO(this.day.date).setLocale('en').toFormat('cccc');
-  }
+	getDayName(): string {
+		return DateTime.fromISO(this.day().date).setLocale('en').toFormat('cccc');
+	}
 
-  showDailyOverview() {
-    const dailyOverviewModal =  this.modal.open(DailyOverviewModalComponent, {
-      centered: true,
-      size: 'lg'
-    });
+	showDailyOverview() {
+		const dailyOverviewModal = this.modal.open(DailyOverviewModalComponent, {
+			centered: true,
+			size: 'lg',
+		});
 
-    const dailySummaryModal = (dailyOverviewModal.componentInstance as DailyOverviewModalComponent)
+		const dailySummaryModal = (dailyOverviewModal.componentInstance as DailyOverviewModalComponent)
 
-    dailySummaryModal.day = this.day;
-  }
+		dailySummaryModal.day = this.day();
+	}
 }

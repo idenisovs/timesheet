@@ -1,7 +1,7 @@
 <h2 class="d-flex flex-column flex-md-row flex-grow-1 flex-md-grow-0 align-items-baseline m-0">
-	<span>{{ day.date | date }}</span>
+	<span>{{ day().date | date }}</span>
 	<small style="font-size: 0.9rem">
-		<span class="d-inline d-md-none">{{DayEmoji}}</span> {{ day.date | date:'EEEE' }}
+		<span class="d-inline d-md-none">{{DayEmoji}}</span> {{ day().date | date:'EEEE' }}
 	</small>
 </h2>
 
@@ -9,6 +9,7 @@
 	type="button"
 	class="btn btn-sm btn-outline-primary border-0 d-md-none"
 	aria-label="Add time"
+	(click)="add.emit()"
 >
 	<i class="material-symbols-outlined">more_time</i>
 </button>
