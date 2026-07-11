@@ -66,5 +66,5 @@ Navbar action buttons use a named router outlet.
 - **Signals**: use `input()` / `input.required()` and `signal()` for reactivity — not `@Input()`.
 - **Global events**: `ActionsService` is an EventEmitter bus for app-wide actions (CreateIssue, AddProject, Export, Import, ToggleMode).
 - **Modals**: ng-bootstrap `NgbModal` for dialogs.
-- **Styling**: SCSS, Bootstrap 5 utility classes. Default component style is SCSS.
+- **Styling**: SCSS, Bootstrap 5 utility classes. Default component style is SCSS. Prefer Bootstrap 5 utility classes over custom CSS — only write custom SCSS when Bootstrap has no equivalent utility.
 - **Strict TypeScript**: `strict: true`, `noImplicitReturns`, `noFallthroughCasesInSwitch` are all on.
