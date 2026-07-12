@@ -88,10 +88,15 @@ export class ActivityEditModalComponent implements OnInit, OnDestroy {
 	}
 
 	protected save() {
-		this.modal.close();
+		this.modal.close('save');
 	}
 
 	protected cancel() {
 		this.modal.dismiss();
+	}
+
+	// ToDo: Process the Save and Remove NgbModalResults
+	protected remove() {
+		this.modal.close('remove');
 	}
 }

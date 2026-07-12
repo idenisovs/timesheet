@@ -69,7 +69,9 @@
 		</button>
 		<div ngbDropdownMenu>
 <!--			<div class="dropdown-divider"></div>-->
-			<button ngbDropdownItem>Remove</button>
+			<button ngbDropdownItem (click)="remove()">
+				<i class="material-symbols-outlined">delete</i> Remove
+			</button>
 		</div>
 	</div>
 
