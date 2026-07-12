@@ -1,4 +1,4 @@
-import { Component, input, InputSignal } from '@angular/core';
+import { Component, input, InputSignal, output } from '@angular/core';
 import { Day } from '@entities';
 import { DayHeaderComponent } from '../../day-header/day-header.component';
 
@@ -12,4 +12,5 @@ import { DayHeaderComponent } from '../../day-header/day-header.component';
 })
 export class DayMobileHeaderComponent {
 	public day: InputSignal<Day> = input.required<Day>();
+	public add = output<void>();
 }

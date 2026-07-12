@@ -64,9 +64,10 @@ export class DayMobileComponent extends DayDesktopComponent {
 		}
 	}
 
-	protected add() {
+	protected async add() {
 		const activityFormItem = this.createActivityFormItem();
 		this.ActivityFormArray.insert(0, activityFormItem);
+		await this.save();
 	}
 
 	protected sorted(): Activity[] {

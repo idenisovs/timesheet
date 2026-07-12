@@ -2,7 +2,7 @@
 	<div style="height: 5px"></div>
 	<div class="card d-md-none border-primary-subtle bg-info-subtle bg-opacity-25 sticky-top">
 		<main class="card-body py-2">
-			<app-day-header [day]="day()"/>
+			<app-day-header [day]="day()" (add)="add.emit()"/>
 		</main>
 	</div>
 	<div style="height: 5px;"></div>

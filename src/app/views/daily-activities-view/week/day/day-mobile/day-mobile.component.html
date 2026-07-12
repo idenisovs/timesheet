@@ -1,15 +1,23 @@
 <div class="sticky-top mx-2">
-	<app-day-mobile-header [day]="day()"/>
+	<app-day-mobile-header
+		[day]="day()"
+		(add)="add()"
+	/>
 </div>
 
 @for (activity of sorted(); track activity.id) {
 	<div class="d-flex flex-row">
 		<div class="mx-2 py-2" style="width: 50px">
-			<app-activity-times [activity]="activity"/>
+			<app-activity-times
+				[activity]="activity"
+			/>
 		</div>
 		<div class="vr"></div>
 		<div class="flex-grow-1 align-self-stretch my-1 px-2">
-			<app-day-mobile-activity [activity]="activity" (edit)="openEditModal(activity)"/>
+			<app-day-mobile-activity
+				[activity]="activity"
+				(edit)="openEditModal(activity)"
+			/>
 		</div>
 	</div>
 }
