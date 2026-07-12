@@ -1,6 +1,10 @@
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {
+	NgbActiveModal,
+	NgbDropdown, NgbDropdownItem,
+	NgbDropdownMenu, NgbDropdownToggle,
+} from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 
 import { Activity } from '@entities';
@@ -18,6 +22,10 @@ import { ActivityDurationInputComponent } from './activity-duration-input/activi
 		ActivityNameInputComponent,
 		ActivityTimeInputComponent,
 		ActivityDurationInputComponent,
+		NgbDropdown,
+		NgbDropdownMenu,
+		NgbDropdownItem,
+		NgbDropdownToggle,
 	],
 	templateUrl: './activity-edit-modal.component.html',
 	styleUrl: './activity-edit-modal.component.scss',

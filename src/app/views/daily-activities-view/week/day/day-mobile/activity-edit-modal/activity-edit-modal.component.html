@@ -59,6 +59,20 @@
 </main>
 
 <footer class="modal-footer">
+	<div ngbDropdown placement="top-start" class="d-inline-block flex-grow-1">
+		<button
+			type="button"
+			class="btn btn-outline-primary"
+			ngbDropdownToggle
+		>
+			Actions
+		</button>
+		<div ngbDropdownMenu>
+<!--			<div class="dropdown-divider"></div>-->
+			<button ngbDropdownItem>Remove</button>
+		</div>
+	</div>
+
 	<button type="button" class="btn btn-outline-primary" (click)="save()">
 		<i class="material-symbols-outlined">save</i> Save
 	</button>
