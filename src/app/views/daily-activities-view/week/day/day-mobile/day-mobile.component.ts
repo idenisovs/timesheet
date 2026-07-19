@@ -4,11 +4,21 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Activity } from '@entities';
 import { DayDesktopComponent } from '../day-desktop/day-desktop.component';
 import { ActivityFormGroup } from '../DailyActivitiesForm';
-import { DailyActivityItemService } from '../daily-activity-item/daily-activity-item.service';
-import { ActivityTimesComponent } from './activity-times/activity-times.component';
-import { DayMobileHeaderComponent } from './day-mobile-header/day-mobile-header.component';
-import { DayMobileActivityComponent } from './day-mobile-activity/day-mobile-activity.component';
-import { ActivityEditModalComponent } from './activity-edit-modal/activity-edit-modal.component';
+import {
+	DailyActivityItemService
+} from '../daily-activity-item/daily-activity-item.service';
+import {
+	ActivityTimesComponent
+} from './activity-times/activity-times.component';
+import {
+	DayMobileHeaderComponent
+} from './day-mobile-header/day-mobile-header.component';
+import {
+	DayMobileActivityComponent
+} from './day-mobile-activity/day-mobile-activity.component';
+import {
+	ActivityEditModalComponent
+} from './activity-edit-modal/activity-edit-modal.component';
 
 @Component({
 	selector: 'app-day-mobile',
@@ -21,7 +31,7 @@ import { ActivityEditModalComponent } from './activity-edit-modal/activity-edit-
 	],
 	templateUrl: './day-mobile.component.html',
 	styleUrl: './day-mobile.component.scss',
-	providers: [DailyActivityItemService],
+	providers: [ DailyActivityItemService ],
 })
 export class DayMobileComponent extends DayDesktopComponent {
 	private readonly modal = inject(NgbModal);
@@ -57,10 +67,18 @@ export class DayMobileComponent extends DayDesktopComponent {
 			editModal.nextActivity = nextActivity;
 		}
 
-		if (await this.isActivityChanged(modalRef)) {
-			await this.save();
-		} else {
-			activityFormItem.reset(initialFormValue);
+		const result = await this.getActivityModalResult(modalRef);
+
+		switch (result) {
+			case 'save':
+				await this.save();
+				break;
+			case 'remove':
+				// do the removal
+				break;
+			case 'cancel':
+				activityFormItem.reset(initialFormValue);
+				break;
 		}
 	}
 
@@ -74,12 +92,11 @@ export class DayMobileComponent extends DayDesktopComponent {
 		return this.activitiesService.sort(this.activities(), true);
 	}
 
-	private async isActivityChanged(modalRef: NgbModalRef): Promise<boolean> {
+	private async getActivityModalResult(modalRef: NgbModalRef): Promise<'save' | 'remove' | 'cancel'> {
 		try {
-			await modalRef.result;
-			return true;
+			return await modalRef.result as 'save' | 'cancel';
 		} catch {
-			return false;
+			return 'cancel';
 		}
 	}
 }

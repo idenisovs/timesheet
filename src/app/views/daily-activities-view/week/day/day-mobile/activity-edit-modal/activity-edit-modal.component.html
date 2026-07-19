@@ -23,7 +23,8 @@
 			<div class="d-flex flex-row">
 				<!-- Expand the width of Activity Card container -->
 				<div class="flex-grow-1">
-					<article class="card" [style.border-color]="activity.color">
+					<article class="card"
+					         [style.border-color]="activity.color">
 						<div class="card-body">
 							<app-activity-name-input
 								[control]="activityFormItem.controls.name"
@@ -59,7 +60,8 @@
 </main>
 
 <footer class="modal-footer">
-	<div ngbDropdown placement="top-start" class="d-inline-block flex-grow-1">
+	<div ngbDropdown placement="top-start"
+	     class="d-inline-block flex-grow-1">
 		<button
 			type="button"
 			class="btn btn-outline-primary"
@@ -68,7 +70,6 @@
 			Actions
 		</button>
 		<div ngbDropdownMenu>
-<!--			<div class="dropdown-divider"></div>-->
 			<button ngbDropdownItem (click)="remove()">
 				<i class="material-symbols-outlined">delete</i> Remove
 			</button>
@@ -79,7 +80,8 @@
 		<i class="material-symbols-outlined">save</i> Save
 	</button>
 
-	<button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+	<button type="button" class="btn btn-outline-secondary"
+	        (click)="cancel()">
 		<i class="material-symbols-outlined">cancel</i> Cancel
 	</button>
 </footer>
