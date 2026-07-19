@@ -74,7 +74,8 @@ export class DayMobileComponent extends DayDesktopComponent {
 				await this.save();
 				break;
 			case 'remove':
-				// do the removal
+				this.remove(activity.id);
+				await this.save();
 				break;
 			case 'cancel':
 				activityFormItem.reset(initialFormValue);
