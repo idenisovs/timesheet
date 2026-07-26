@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { Activity } from '@entities';
 import { ActivityFormGroup } from '../../DailyActivitiesForm';
 import { DailyActivityItemService } from '../../daily-activity-item/daily-activity-item.service';
+import { ActivityColorControllerService } from '../../daily-activity-item/activity-color-controller.service';
 import { AdjacentActivityComponent } from './adjacent-activity/adjacent-activity.component';
 import { ActivityNameInputComponent } from './activity-name-input/activity-name-input.component';
 import { ActivityTimeInputComponent } from './activity-time-input/activity-time-input.component';
@@ -31,13 +32,19 @@ import { ActivityDurationInputComponent } from './activity-duration-input/activi
 	styleUrl: './activity-edit-modal.component.scss',
 	providers: [
 		DailyActivityItemService,
+		ActivityColorControllerService,
 	],
 })
 export class ActivityEditModalComponent implements OnInit, OnDestroy {
 	private readonly dailyActivityItemService = inject(DailyActivityItemService);
+	private readonly colorController = inject(ActivityColorControllerService);
 	public readonly modal = inject(NgbActiveModal);
 
 	private formChangesSub!: Subscription;
+
+	get ActivityColor(): string {
+		return this.activityFormItem.get('color')?.value ?? '';
+	}
 
 	get PreviousTime(): string {
 		if (this.previousActivity) {
@@ -62,12 +69,20 @@ export class ActivityEditModalComponent implements OnInit, OnDestroy {
 	public activityFormItem!: ActivityFormGroup;
 
 	@Input()
+	public activityFormItems: ActivityFormGroup[] = [];
+
+	@Input()
 	public previousActivity?: Activity;
 
 	@Input()
 	public nextActivity?: Activity;
 
 	ngOnInit(): void {
+		const id = this.activityFormItem.get('id')?.value ?? '';
+		const name = this.activityFormItem.get('name')?.value ?? '';
+
+		this.colorController.setActivity(id, name);
+
 		this.formChangesSub = this.activityFormItem.valueChanges.subscribe((value) => {
 			if (!this.activityFormItem) {
 				return;
@@ -81,6 +96,19 @@ export class ActivityEditModalComponent implements OnInit, OnDestroy {
 				durationControl.setValue('', { emitEvent: false });
 			}
 		});
+
+		const nameControl = this.activityFormItem.get('name') as FormControl;
+
+		this.formChangesSub.add(nameControl.valueChanges.subscribe(() => {
+			void this.handleNameChanges();
+		}));
+	}
+
+	private async handleNameChanges(): Promise<void> {
+		await this.colorController.updateActivityColor(
+			this.activityFormItems,
+			this.activityFormItem,
+		);
 	}
 
 	ngOnDestroy(): void {
@@ -95,7 +123,6 @@ export class ActivityEditModalComponent implements OnInit, OnDestroy {
 		this.modal.dismiss();
 	}
 
-	// ToDo: Process the Save and Remove NgbModalResults
 	protected remove() {
 		this.modal.close('remove');
 	}

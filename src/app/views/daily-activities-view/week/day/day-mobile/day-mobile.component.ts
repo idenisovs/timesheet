@@ -58,6 +58,7 @@ export class DayMobileComponent extends DayDesktopComponent {
 		const editModal = modalRef.componentInstance as ActivityEditModalComponent;
 		editModal.activity = activity;
 		editModal.activityFormItem = activityFormItem;
+		editModal.activityFormItems = this.ActivityFormArrayItems;
 
 		if (previousActivity) {
 			editModal.previousActivity = previousActivity;
