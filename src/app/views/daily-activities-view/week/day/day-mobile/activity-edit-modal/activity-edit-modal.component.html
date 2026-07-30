@@ -50,6 +50,19 @@
 					</article>
 				</div>
 			</div>
+
+			@if (!nextActivity) {
+				<div class="d-flex justify-content-center mt-2">
+					<button
+						type="button"
+						class="btn btn-outline-primary rounded-circle d-flex align-items-center justify-content-center mt-2 p-0"
+						style="width: 48px; height: 48px"
+						aria-label="Add activity"
+					>
+						<i class="material-symbols-outlined">add</i>
+					</button>
+				</div>
+			}
 		</section>
 
 		<app-adjacent-activity
