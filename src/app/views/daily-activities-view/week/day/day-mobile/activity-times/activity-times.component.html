@@ -1,14 +1,4 @@
 <div class="d-flex h-100 flex-column justify-content-around">
-	@if (till()) {
-		<span
-			class="badge border"
-			[style.color]="color()"
-			[style.background-color]="color()"
-			appSubtleColor
-			appDarkerColor
-		>{{till()}}</span>
-	}
-
 	@if (from()) {
 		<span
 			class="badge border"
@@ -17,6 +7,16 @@
 			appSubtleColor
 			appDarkerColor
 		>{{from()}}</span>
+	}
+
+	@if (till()) {
+		<span
+			class="badge border"
+			[style.color]="color()"
+			[style.background-color]="color()"
+			appSubtleColor
+			appDarkerColor
+		>{{till()}}</span>
 	}
 </div>
 

@@ -91,7 +91,7 @@ export class DayMobileComponent extends DayDesktopComponent {
 	}
 
 	protected sorted(): Activity[] {
-		return this.activitiesService.sort(this.activities(), true);
+		return this.activitiesService.sort(this.activities());
 	}
 
 	private async getActivityModalResult(modalRef: NgbModalRef): Promise<'save' | 'remove' | 'cancel'> {
