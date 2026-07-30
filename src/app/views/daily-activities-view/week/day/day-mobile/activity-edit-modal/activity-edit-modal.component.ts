@@ -78,6 +78,8 @@ export class ActivityEditModalComponent implements OnInit, OnDestroy {
 	public nextActivity?: Activity;
 
 	ngOnInit(): void {
+		this.activityFormItem.markAsPristine();
+
 		const id = this.activityFormItem.get('id')?.value ?? '';
 		const name = this.activityFormItem.get('name')?.value ?? '';
 

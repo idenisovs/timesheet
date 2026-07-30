@@ -90,7 +90,9 @@
 		</div>
 	</div>
 
-	<button type="button" class="btn btn-outline-primary" (click)="save()">
+	<button type="button" class="btn btn-outline-primary"
+	        [disabled]="activityFormItem.pristine"
+	        (click)="save()">
 		<i class="material-symbols-outlined">save</i> Save
 	</button>
 

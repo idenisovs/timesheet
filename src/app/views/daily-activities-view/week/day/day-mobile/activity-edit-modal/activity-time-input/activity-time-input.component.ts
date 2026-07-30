@@ -27,6 +27,7 @@ export class ActivityTimeInputComponent {
 
 		if (result) {
 			this.control().setValue(result);
+			this.control().markAsDirty();
 		}
 	}
 }
