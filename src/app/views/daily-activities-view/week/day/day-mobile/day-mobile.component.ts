@@ -78,6 +78,9 @@ export class DayMobileComponent extends DayDesktopComponent {
 				this.remove(activity.id);
 				await this.save();
 				break;
+			case 'add':
+				await this.add();
+				break;
 			case 'cancel':
 				activityFormItem.reset(initialFormValue);
 				break;
@@ -94,9 +97,9 @@ export class DayMobileComponent extends DayDesktopComponent {
 		return this.activitiesService.sort(this.activities());
 	}
 
-	private async getActivityModalResult(modalRef: NgbModalRef): Promise<'save' | 'remove' | 'cancel'> {
+	private async getActivityModalResult(modalRef: NgbModalRef): Promise<'save' | 'remove' | 'add' | 'cancel'> {
 		try {
-			return await modalRef.result as 'save' | 'cancel';
+			return await modalRef.result as 'save' | 'remove' | 'add' | 'cancel';
 		} catch {
 			return 'cancel';
 		}

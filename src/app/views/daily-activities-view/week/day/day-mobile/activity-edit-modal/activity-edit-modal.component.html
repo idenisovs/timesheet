@@ -6,7 +6,8 @@
 		type="button"
 		class="btn-close"
 		aria-label="Close"
-		(click)="cancel()"
+		[appConfirmation]="activityFormItem"
+		(confirmed)="close($event)"
 	></button>
 </header>
 
@@ -58,6 +59,8 @@
 						class="btn btn-outline-primary rounded-circle d-flex align-items-center justify-content-center mt-2 p-0"
 						style="width: 48px; height: 48px"
 						aria-label="Add activity"
+						[appConfirmation]="activityFormItem"
+						(confirmed)="add()"
 					>
 						<i class="material-symbols-outlined">add</i>
 					</button>

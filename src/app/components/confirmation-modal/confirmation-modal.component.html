@@ -1,0 +1,16 @@
+<header class="modal-header">
+	<h4 class="modal-title">Unsaved Changes</h4>
+</header>
+
+<main class="modal-body">
+	<p class="mb-0">You have unsaved changes. Do you want to save them before continuing?</p>
+</main>
+
+<footer class="modal-footer">
+	<button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+		<i class="material-symbols-outlined">cancel</i> Cancel
+	</button>
+	<button type="button" class="btn btn-outline-primary" (click)="save()">
+		<i class="material-symbols-outlined">save</i> Save
+	</button>
+</footer>

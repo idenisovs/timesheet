@@ -8,6 +8,7 @@ import {
 import { Subscription } from 'rxjs';
 
 import { Activity } from '@entities';
+import { ConfirmationDirective } from '@components/confirmation-modal/confirmation.directive';
 import { ActivityFormGroup } from '../../DailyActivitiesForm';
 import { DailyActivityItemService } from '../../daily-activity-item/daily-activity-item.service';
 import { ActivityColorControllerService } from '../../daily-activity-item/activity-color-controller.service';
@@ -27,6 +28,7 @@ import { ActivityDurationInputComponent } from './activity-duration-input/activi
 		NgbDropdownMenu,
 		NgbDropdownItem,
 		NgbDropdownToggle,
+		ConfirmationDirective,
 	],
 	templateUrl: './activity-edit-modal.component.html',
 	styleUrl: './activity-edit-modal.component.scss',
@@ -115,6 +117,18 @@ export class ActivityEditModalComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy(): void {
 		this.formChangesSub.unsubscribe();
+	}
+
+	protected add() {
+		this.modal.close('add');
+	}
+
+	protected close(saveRequested: boolean) {
+		if (saveRequested) {
+			this.modal.close('save');
+		} else {
+			this.modal.dismiss();
+		}
 	}
 
 	protected save() {
