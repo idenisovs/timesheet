@@ -1,12 +1,13 @@
 import { Component, computed, input, InputSignal, Signal } from '@angular/core';
 
 import { Activity } from '@entities';
-import { DarkerColorDirective } from '@directives/darker-color.directive';
-import { SubtleColorDirective } from '@directives/subtle-color.directive';
+import {
+	TimeBadgeComponent
+} from '@components/time-badge/time-badge.component';
 
 @Component({
   selector: 'app-activity-times',
-  imports: [DarkerColorDirective, SubtleColorDirective],
+	imports: [TimeBadgeComponent],
   templateUrl: './activity-times.component.html',
   styleUrl: './activity-times.component.scss',
 })
