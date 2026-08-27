@@ -1,5 +1,6 @@
 # Changelog
 
+- `3.9.0` - Reworked the Mobile mode, application got completely new look;
 - `3.8.0` - Activities now have **color bars** that reflect their group (by name or prefix). Colors are automatically assigned and shared across activities with the same name or prefix. The **Settings page** received options to switch the color generation mode and to regenerate all activity colors;
     - `3.8.1` - Added colored indicator (_color bar_) to highlight the related or standalone activities;
 	- `3.8.2` - Added configuration option allowed to show or hide the weeks with no activities in Daily Activities page;
