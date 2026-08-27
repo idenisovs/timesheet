@@ -47,10 +47,7 @@ export class DayMobileComponent extends DayDesktopComponent {
 		const initialFormValue = activityFormItem.getRawValue();
 
 		const sorted = this.service.processActivityFormArray(this.ActivityFormArray, this.day(), this.activities());
-		// const sorted = this.activitiesService.sort(this.activities());
 		const activityIdx = sorted.findIndex((item: Activity) => item.id === activity.id);
-
-		console.log('Activity IDX:', activityIdx);
 
 		const previousActivity = sorted[activityIdx - 1];
 		const nextActivity = sorted[activityIdx + 1];
@@ -94,16 +91,11 @@ export class DayMobileComponent extends DayDesktopComponent {
 	protected async add(continueEditing = false) {
 		const activity = this.activitiesService.createActivity(this.day());
 		const activityFormItem = this.service.makeFormItemFromActivity(activity);
-		// With new idea for order of activities I push the new activity at the end of the list
+
 		this.ActivityFormArray.push(activityFormItem);
 
 		await this.save();
 
-		// TODO: Fix the race condition. The save() call above only starts the round trip,
-		// since DayComponent does not await the changes output. Once it completes, the
-		// activities input changes and the effect of DayDesktopComponent rebuilds the whole
-		// FormArray, so the modal opened here stays bound to a discarded FormGroup and the
-		// changes made in it are lost on save.
 		if (continueEditing) {
 			void this.openEditModal(activity);
 		}
