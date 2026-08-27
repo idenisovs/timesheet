@@ -61,7 +61,6 @@ export class DayDesktopComponent implements OnInit, OnDestroy {
 
 	constructor() {
 		effect(() => {
-			this.updateActivitiesForm();
 			const totalDuration = this.activitiesService.calculateDuration(this.activities());
 			this.totalDuration.set(totalDuration);
 			this.numberOfChanges.set(0);
@@ -69,6 +68,8 @@ export class DayDesktopComponent implements OnInit, OnDestroy {
 	}
 
 	public async ngOnInit() {
+		this.updateActivitiesForm();
+
 		this.valueChangesSub = this.form.valueChanges.subscribe(() => {
 			this.numberOfChanges.update(n => n + 1);
 		});
