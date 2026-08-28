@@ -45,6 +45,7 @@ export class BottomLoadIndicatorComponent implements OnInit, AfterViewInit, OnDe
 	}
 
 	public async ngOnInit() {
+		this.nextWeek.emit(this.currentWeek);
 		await this.loadFirstActivity();
 		await this.preloadWeeks();
 	}

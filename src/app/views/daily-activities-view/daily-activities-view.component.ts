@@ -1,7 +1,7 @@
 import {
 	Component,
 	ElementRef,
-	inject,
+	inject, OnDestroy, OnInit,
 	signal,
 	ViewChild,
 } from '@angular/core';
@@ -24,26 +24,23 @@ import { WeekHeaderMobileComponent } from './week/week-header-mobile/week-header
 	standalone: true,
 	imports: [WeekComponent, BottomLoadIndicatorComponent, WeekHeaderMobileComponent],
 })
-export class DailyActivitiesViewComponent {
+export class DailyActivitiesViewComponent implements OnInit, OnDestroy {
 	private router = inject(Router);
 	private actionsService = inject(ActionsService);
 	private exportWorkflow = inject(ExportWorkflowService);
 
-	private actionSubs = this.actionsService.on.subscribe(this.handlePageActions.bind(this));
-	private myOwnLittleInfiniteScroll!: Subscription;
+	private actionSubs!: Subscription;
 
 	@ViewChild('weeksList') weekListRef!: ElementRef;
 
-	currentWeek = signal<Week>(new Week());
 	weeks = signal<Week[]>([]);
 
 	public ngOnInit() {
-		this.weeks.set([this.currentWeek()]);
+		this.actionSubs = this.actionsService.on.subscribe(this.handlePageActions.bind(this));
 	}
 
 	public ngOnDestroy() {
 		this.actionSubs.unsubscribe();
-		this.myOwnLittleInfiniteScroll?.unsubscribe();
 	}
 
 	protected appendWeekList(week: Week) {
