@@ -8,7 +8,6 @@ import {
 	OnInit,
 	signal,
 } from '@angular/core';
-import { NgClass } from '@angular/common';
 
 import { ActivitySummary, Day, Week } from '@entities';
 import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
@@ -25,7 +24,7 @@ import { WeekService } from './week.service';
 	selector: 'app-week',
 	templateUrl: './week.component.html',
 	styleUrls: ['./week.component.scss'],
-	imports: [WeekHeaderComponent, DayComponent, NgClass],
+	imports: [WeekHeaderComponent, DayComponent],
 })
 export class WeekComponent implements OnInit, AfterViewInit, OnDestroy {
 	private activityRepository = inject(ActivitiesRepositoryService);
@@ -40,7 +39,7 @@ export class WeekComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	protected days = signal<Day[]>([]);
 	protected summary = new ActivitySummary();
-	protected isHidden = signal(false);
+	protected isHidden = signal(true);
 
 	async ngOnInit() {
 		const days: Day[] = getDaysByWeek(this.week(), true);
@@ -71,6 +70,6 @@ export class WeekComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		const isCurrentWeek = this.week().start === getMonday(getCurrentDate());
 		const isDisplayEmptyWeeksEnabled = this.settingsService.settings$().isDisplayEmptyWeeksEnabled;
-		this.isHidden.set(!isDisplayEmptyWeeksEnabled && activities.length === 0 && !isCurrentWeek);
+		this.isHidden.set(!isDisplayEmptyWeeksEnabled && !activities.length && !isCurrentWeek);
 	}
 }

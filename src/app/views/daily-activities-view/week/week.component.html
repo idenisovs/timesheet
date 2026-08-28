@@ -1,17 +1,19 @@
-<section class="mt-0 mt-md-4" [ngClass]="{'visually-hidden': isHidden()}">
-	<app-week-header
-		[week]="week()"
-		[days]="days()"
-		[summary]="summary"
-	/>
+@if (!isHidden()) {
+	<section class="mt-0 mt-md-4">
+		<app-week-header
+			[week]="week()"
+			[days]="days()"
+			[summary]="summary"
+		/>
 
-	@for (day of days(); track day) {
-		<div class="mt-0 mt-md-3">
-			<app-day
-				[day]="day"
-				[isMissingDaysVisible]="weekService.isMissingDaysVisible()"
-				(changes)="recalculateActivitySummary()"
-			/>
-		</div>
-	}
-</section>
+		@for (day of days(); track day) {
+			<div class="mt-0 mt-md-3">
+				<app-day
+					[day]="day"
+					[isMissingDaysVisible]="weekService.isMissingDaysVisible()"
+					(changes)="recalculateActivitySummary()"
+				/>
+			</div>
+		}
+	</section>
+}
