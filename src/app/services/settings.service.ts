@@ -23,13 +23,11 @@ export class SettingsService {
 
 		const raw = localStorage.getItem(this.storageKey);
 
-		if (!raw) {
-			this.loaded.set(true);
-			return;
+		if (raw) {
+			const parsed = JSON.parse(raw) as Partial<AppSettings>;
+			this.settings.update(_ => ({ ...DEFAULT_SETTINGS, ...parsed }));
 		}
 
-		const parsed = JSON.parse(raw) as Partial<AppSettings>;
-		this.settings.update(_ => ({ ...DEFAULT_SETTINGS, ...parsed }));
 		this.loaded.set(true);
 	}
 
