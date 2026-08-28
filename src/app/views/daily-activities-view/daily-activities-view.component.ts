@@ -37,8 +37,7 @@ export class DailyActivitiesViewComponent {
 	currentWeek = signal<Week>(new Week());
 	weeks = signal<Week[]>([]);
 
-	public async ngOnInit() {
-		this.currentWeek.set(new Week());
+	public ngOnInit() {
 		this.weeks.set([this.currentWeek()]);
 	}
 
