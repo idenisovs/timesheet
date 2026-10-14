@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { AppSettings } from '@entities';
 
 const DEFAULT_SETTINGS: AppSettings = {
+	syncServiceUrl: '',
 	isTimeRoundingEnabled: false,
 	isOppositeColorMode: false,
 	isDisplayEmptyWeeksEnabled: false,

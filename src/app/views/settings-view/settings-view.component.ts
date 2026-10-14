@@ -10,10 +10,20 @@ import { ColorRegenerateSettingsComponent } from './color-regenerate-settings/co
 import { DisplayEmptyWeeksSettingsComponent } from './display-empty-weeks-settings/display-empty-weeks-settings.component';
 import { DiagnosticPanelSettingsComponent } from './diagnostic-panel-settings/diagnostic-panel-settings.component';
 import { DayEmojisSettingsComponent } from './day-emojis-settings/day-emojis-settings.component';
+import { SyncServiceSettingsComponent } from './sync-service-settings/sync-service-settings.component';
 
 @Component({
 	selector: 'app-settings-view',
-	imports: [ReactiveFormsModule, TimeRoundingSettingsComponent, ColorModeSettingsComponent, ColorRegenerateSettingsComponent, DisplayEmptyWeeksSettingsComponent, DiagnosticPanelSettingsComponent, DayEmojisSettingsComponent],
+	imports: [
+		ReactiveFormsModule,
+		TimeRoundingSettingsComponent,
+		ColorModeSettingsComponent,
+		ColorRegenerateSettingsComponent,
+		DisplayEmptyWeeksSettingsComponent,
+		DiagnosticPanelSettingsComponent,
+		DayEmojisSettingsComponent,
+		SyncServiceSettingsComponent,
+	],
 	templateUrl: './settings-view.component.html',
 	styleUrl: './settings-view.component.scss',
 })
@@ -23,6 +33,7 @@ export class SettingsViewComponent implements OnInit, OnDestroy {
 	private formSub!: Subscription;
 
 	form = this.fb.group({
+		syncServiceUrl: [''],
 		isTimeRoundingEnabled: [false],
 		isOppositeColorMode: [false],
 		isDisplayEmptyWeeksEnabled: [false],

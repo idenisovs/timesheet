@@ -1,0 +1,15 @@
+<section class="card mb-3">
+	<div class="card-body" [formGroup]="form()">
+		<label for="syncServiceUrl" class="form-label fw-semibold">Sync service URL</label>
+		<input
+			id="syncServiceUrl"
+			type="url"
+			class="form-control"
+			placeholder="https://sync.example.com"
+			formControlName="syncServiceUrl"
+		>
+		<div class="form-text">
+			The address of the remote service used to synchronize timesheet data.
+		</div>
+	</div>
+</section>
