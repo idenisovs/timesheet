@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { Actions } from '@services/Actions';
 import { ActionsService } from '@services/actions.service';
@@ -9,6 +9,7 @@ import { ActionsService } from '@services/actions.service';
     NgClass
 ],
     templateUrl: './page-action-button.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './page-action-button.component.scss'
 })
 export class PageActionButtonComponent {

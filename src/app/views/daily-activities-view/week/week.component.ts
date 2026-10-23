@@ -1,12 +1,13 @@
 import {
-	AfterViewInit,
-	Component,
-	ElementRef,
-	inject,
-	input,
-	OnDestroy,
-	OnInit,
-	signal,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 import { ActivitySummary, Day, Week } from '@entities';
@@ -24,6 +25,7 @@ import { WeekService } from './week.service';
 	selector: 'app-week',
 	templateUrl: './week.component.html',
 	styleUrls: ['./week.component.scss'],
+	changeDetection: ChangeDetectionStrategy.Eager,
 	imports: [WeekHeaderComponent, DayComponent],
 })
 export class WeekComponent implements OnInit, AfterViewInit, OnDestroy {

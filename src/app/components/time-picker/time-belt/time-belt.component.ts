@@ -1,9 +1,10 @@
-import { Component, computed, effect, input, output, signal } from '@angular/core';
+import { Component, computed, effect, input, output, signal, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
 	selector: 'app-time-belt',
 	imports: [],
 	templateUrl: './time-belt.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './time-belt.component.scss',
 })
 export class TimeBeltComponent {

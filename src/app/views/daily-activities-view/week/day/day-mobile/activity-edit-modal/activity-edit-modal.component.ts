@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {
 	NgbActiveModal,
@@ -32,6 +32,7 @@ import { ActivityDurationInputComponent } from './activity-duration-input/activi
 	],
 	templateUrl: './activity-edit-modal.component.html',
 	styleUrl: './activity-edit-modal.component.scss',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	providers: [
 		DailyActivityItemService,
 		ActivityColorControllerService,

@@ -1,4 +1,4 @@
-import { Component, inject, input, InputSignal } from '@angular/core';
+import { Component, inject, input, InputSignal, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateTime } from 'luxon';
@@ -12,6 +12,7 @@ import { WeekService } from '../week.service';
 	selector: 'app-week-header',
 	templateUrl: './week-header.component.html',
 	styleUrls: ['./week-header.component.scss'],
+	changeDetection: ChangeDetectionStrategy.Eager,
 	imports: [
 		DatePipe,
 	],

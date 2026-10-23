@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 
 import { ActivitiesTableComponent } from './activities-table/activities-table.component';
@@ -10,6 +10,7 @@ import { Activity } from '@entities';
     ActivitiesTableComponent
 ],
     templateUrl: './activities-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './activities-list.component.scss'
 })
 export class ActivitiesListComponent implements OnInit {

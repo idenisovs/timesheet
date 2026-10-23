@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -25,6 +25,7 @@ import { SyncServiceSettingsComponent } from './sync-service-settings/sync-servi
 		SyncServiceSettingsComponent,
 	],
 	templateUrl: './settings-view.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './settings-view.component.scss',
 })
 export class SettingsViewComponent implements OnInit, OnDestroy {

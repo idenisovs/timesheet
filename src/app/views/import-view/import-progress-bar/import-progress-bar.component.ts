@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -7,6 +7,7 @@ import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
 		NgbProgressbar,
 	],
 	templateUrl: './import-progress-bar.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './import-progress-bar.component.scss',
 })
 export class ImportProgressBarComponent {

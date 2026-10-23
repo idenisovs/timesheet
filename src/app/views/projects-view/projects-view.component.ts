@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -17,6 +17,7 @@ import { ProjectRepositoryService } from '@repository/project-repository.service
 		ProjectCardComponent,
 	],
 	templateUrl: './projects-view.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './projects-view.component.scss',
 })
 export class ProjectsViewComponent implements OnInit, OnDestroy {

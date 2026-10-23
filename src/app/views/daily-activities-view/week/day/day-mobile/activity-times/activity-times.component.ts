@@ -1,4 +1,4 @@
-import { Component, computed, input, InputSignal, Signal } from '@angular/core';
+import { Component, computed, input, InputSignal, Signal, ChangeDetectionStrategy } from '@angular/core';
 
 import { Activity } from '@entities';
 import {
@@ -9,6 +9,7 @@ import {
   selector: 'app-activity-times',
 	imports: [TimeBadgeComponent],
   templateUrl: './activity-times.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './activity-times.component.scss',
 })
 export class ActivityTimesComponent {

@@ -1,9 +1,10 @@
 import {
-	Component,
-	inject,
-	input,
-	InputSignal,
-	output,
+  Component,
+  inject,
+  input,
+  InputSignal,
+  output,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -31,6 +32,7 @@ const DAY_RELATED_EMOJIS: Record<string, string> = {
 		DatePipe,
 	],
 	templateUrl: './day-header.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './day-header.component.scss',
 })
 export class DayHeaderComponent {

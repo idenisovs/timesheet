@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -13,6 +13,7 @@ import { AppHeaderComponent } from '@components/app-header/app-header.component'
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
 	standalone: true,
+	changeDetection: ChangeDetectionStrategy.Eager,
 	imports: [RouterOutlet, NavbarComponent, AppHeaderComponent],
 })
 export class AppComponent implements OnInit, OnDestroy {

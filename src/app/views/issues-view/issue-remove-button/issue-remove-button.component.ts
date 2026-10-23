@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -8,6 +8,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
     NgbTooltip
 ],
     templateUrl: './issue-remove-button.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './issue-remove-button.component.scss'
 })
 export class IssueRemoveButtonComponent {

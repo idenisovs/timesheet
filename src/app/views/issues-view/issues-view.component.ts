@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -17,6 +17,7 @@ import { IssueRepositoryService } from '@repository/issue-repository.service';
 	],
 	providers: [DatePipe],
 	templateUrl: './issues-view.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './issues-view.component.scss',
 })
 export class IssuesViewComponent implements OnInit, OnDestroy {

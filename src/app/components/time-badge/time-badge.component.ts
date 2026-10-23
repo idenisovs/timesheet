@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
 import { DarkerColorDirective } from '@directives/darker-color.directive';
 import { SubtleColorDirective } from '@directives/subtle-color.directive';
 
@@ -9,6 +9,7 @@ import { SubtleColorDirective } from '@directives/subtle-color.directive';
 		SubtleColorDirective,
 	],
   templateUrl: './time-badge.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './time-badge.component.scss',
 })
 export class TimeBadgeComponent {

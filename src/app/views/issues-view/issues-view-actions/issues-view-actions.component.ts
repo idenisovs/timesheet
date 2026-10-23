@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { PageActionButtonComponent } from '@components/page-action-button/page-action-button.component';
 import { Actions } from '@services/Actions';
 
@@ -8,6 +8,7 @@ import { Actions } from '@services/Actions';
         PageActionButtonComponent
     ],
     templateUrl: './issues-view-actions.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './issues-view-actions.component.scss'
 })
 export class IssuesViewActionsComponent {

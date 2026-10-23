@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -14,6 +14,7 @@ import { CreateIssueModalService } from '../../issues-view/create-issue-modal/cr
         ReactiveFormsModule
     ],
     templateUrl: './issue-card.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './issue-card.component.scss'
 })
 export class IssueCardComponent implements OnInit {

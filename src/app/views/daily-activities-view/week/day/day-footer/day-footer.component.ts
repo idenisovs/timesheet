@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 
 import { Activity } from '@entities';
 import { ActivitiesService } from '@services/activities.service';
@@ -7,6 +7,7 @@ import { ActivitiesService } from '@services/activities.service';
   selector: 'app-day-footer',
   imports: [],
   templateUrl: './day-footer.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './day-footer.component.scss'
 })
 export class DayFooterComponent {

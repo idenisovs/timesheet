@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, output, ChangeDetectionStrategy } from '@angular/core';
 import { Activity, Week } from '@entities';
 import { ActivitiesService } from '@services/activities.service';
 import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
@@ -11,6 +11,7 @@ const MOBILE_BREAKPOINT = '(max-width: 767.98px)';
 	selector: 'app-bottom-load-indicator',
 	imports: [],
 	templateUrl: './bottom-load-indicator.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './bottom-load-indicator.component.scss',
 })
 export class BottomLoadIndicatorComponent implements OnInit, AfterViewInit, OnDestroy {

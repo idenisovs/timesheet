@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +18,7 @@ import { Subscription } from 'rxjs';
     ProjectDetailsComponent
 ],
     templateUrl: './project-view.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './project-view.component.scss'
 })
 export class ProjectViewComponent implements OnInit, OnDestroy {

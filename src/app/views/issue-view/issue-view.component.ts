@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { ReactiveFormsModule } from '@angular/forms';
@@ -17,6 +17,7 @@ import { IssueRepositoryService } from '@repository/issue-repository.service';
 		IssueCardComponent,
 	],
 	templateUrl: './issue-view.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './issue-view.component.scss',
 })
 export class IssueViewComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { PercentPipe } from '@angular/common';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 
@@ -11,6 +11,7 @@ import { IssueOverview } from '@entities';
     NgbCollapse
 ],
     templateUrl: './issue-overview.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './issue-overview.component.scss'
 })
 export class IssueOverviewComponent {

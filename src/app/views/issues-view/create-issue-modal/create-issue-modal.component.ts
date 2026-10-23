@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,6 +10,7 @@ import { CreateIssueModalService } from './create-issue-modal.service';
     ReactiveFormsModule
 ],
     templateUrl: './create-issue-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './create-issue-modal.component.scss'
 })
 export class CreateIssueModalComponent implements OnInit {

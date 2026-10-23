@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import { ActivityColorControllerService } from '../activity-color-controller.service';
 import { SettingsService } from '@services/settings.service';
@@ -6,6 +6,7 @@ import { SettingsService } from '@services/settings.service';
 @Component({
 	selector: 'app-activity-diagnostic-panel',
 	templateUrl: './activity-diagnostic-panel.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './activity-diagnostic-panel.component.scss',
 })
 export class ActivityDiagnosticPanelComponent {

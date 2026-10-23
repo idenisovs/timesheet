@@ -1,10 +1,11 @@
-import { Component, input, InputSignal } from '@angular/core';
+import { Component, input, InputSignal, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
 	selector: 'app-activity-duration-input',
 	imports: [ReactiveFormsModule],
 	templateUrl: './activity-duration-input.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './activity-duration-input.component.scss',
 })
 export class ActivityDurationInputComponent {

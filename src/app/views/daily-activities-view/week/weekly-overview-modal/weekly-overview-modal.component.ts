@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe, PercentPipe } from '@angular/common';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -16,6 +16,7 @@ import { WORK_WEEK } from '../../../../constants';
     IssueOverviewComponent
 ],
     templateUrl: './weekly-overview-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './weekly-overview-modal.component.scss'
 })
 export class WeeklyOverviewModalComponent implements OnInit {

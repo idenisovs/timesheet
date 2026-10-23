@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Activity } from '@entities';
 
@@ -8,6 +8,7 @@ import { Activity } from '@entities';
     DatePipe
 ],
     templateUrl: './activities-table.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './activities-table.component.scss'
 })
 export class ActivitiesTableComponent {

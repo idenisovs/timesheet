@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 
@@ -19,6 +19,7 @@ import { ActivityDiagnosticPanelComponent } from './activity-diagnostic-panel/ac
 		ColorBarComponent,
 		ActivityDiagnosticPanelComponent,
 	],
+	changeDetection: ChangeDetectionStrategy.Eager,
 	providers: [
 		DailyActivityItemService,
 		ActivityColorControllerService,

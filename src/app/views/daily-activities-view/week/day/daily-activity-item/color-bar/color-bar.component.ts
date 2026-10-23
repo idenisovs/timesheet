@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 export enum BarPosition {
@@ -14,6 +14,7 @@ export enum BarPosition {
 		NgClass,
 	],
 	templateUrl: './color-bar.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './color-bar.component.scss',
 })
 export class ColorBarComponent {
