@@ -2,20 +2,19 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "paths": {
-      "@entities": ["src/app/entities/index.ts"],
-      "@components/*": ["src/app/components/*"],
-      "@directives/*": ["src/app/directives/*"],
-      "@pipes/*": ["src/app/pipes/*"],
-      "@reader/*": ["src/app/reader/*"],
-      "@repository/*": ["src/app/repository/*"],
-      "@resolvers/*": ["src/app/resolvers/*"],
-      "@services/*": ["src/app/services/*"],
-      "@store/*": ["src/app/store/*"],
-      "@utils/*": ["src/app/utils/*"],
-      "@views/*": ["src/app/views/*"],
-      "@workflows/*": ["src/app/workflows/*"]
+      "@entities": ["./src/app/entities/index.ts"],
+      "@components/*": ["./src/app/components/*"],
+      "@directives/*": ["./src/app/directives/*"],
+      "@pipes/*": ["./src/app/pipes/*"],
+      "@reader/*": ["./src/app/reader/*"],
+      "@repository/*": ["./src/app/repository/*"],
+      "@resolvers/*": ["./src/app/resolvers/*"],
+      "@services/*": ["./src/app/services/*"],
+      "@store/*": ["./src/app/store/*"],
+      "@utils/*": ["./src/app/utils/*"],
+      "@views/*": ["./src/app/views/*"],
+      "@workflows/*": ["./src/app/workflows/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
