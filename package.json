@@ -28,7 +28,6 @@
     "dexie": "^4.4.2",
     "file-saver": "^2.0.5",
     "luxon": "^3.7.2",
-    "ngx-infinite-scroll": "^21.0.0",
     "parse-duration": "^2.1.5",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
