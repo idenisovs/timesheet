@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe, PercentPipe } from '@angular/common';
 import {
     IssueOverviewComponent
@@ -17,6 +17,7 @@ import { WORK_DAY } from '../../../../../constants';
     PercentPipe
 ],
     templateUrl: './daily-overview-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './daily-overview-modal.component.scss'
 })
 export class DailyOverviewModalComponent implements OnInit {

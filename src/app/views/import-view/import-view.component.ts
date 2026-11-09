@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import * as XLSX from 'xlsx';
 import { WorkBook } from 'xlsx';
@@ -17,6 +17,7 @@ import { ReaderService } from '@reader/reader.service';
 		ImportActivitiesComponent,
 	],
 	templateUrl: './import-view.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './import-view.component.scss',
 })
 export class ImportViewComponent {

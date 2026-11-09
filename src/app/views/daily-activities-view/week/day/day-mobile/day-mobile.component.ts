@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Activity } from '@entities';
@@ -31,6 +31,7 @@ import {
 	],
 	templateUrl: './day-mobile.component.html',
 	styleUrl: './day-mobile.component.scss',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	providers: [ DailyActivityItemService ],
 })
 export class DayMobileComponent extends DayDesktopComponent {

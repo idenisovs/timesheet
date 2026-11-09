@@ -1,4 +1,4 @@
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -16,6 +16,7 @@ import { ActivitiesRepositoryService } from '@repository/activities-repository.s
 		RouterLink
 	],
 	templateUrl: './issues-table.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './issues-table.component.scss'
 })
 export class IssuesTableComponent {

@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -15,6 +15,7 @@ import { DayEmojisSettingsComponent } from './day-emojis-settings/day-emojis-set
 	selector: 'app-settings-view',
 	imports: [ReactiveFormsModule, TimeRoundingSettingsComponent, ColorModeSettingsComponent, ColorRegenerateSettingsComponent, DisplayEmptyWeeksSettingsComponent, DiagnosticPanelSettingsComponent, DayEmojisSettingsComponent],
 	templateUrl: './settings-view.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './settings-view.component.scss',
 })
 export class SettingsViewComponent implements OnInit, OnDestroy {

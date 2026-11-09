@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { WeekService } from '../week.service';
 
@@ -8,6 +8,7 @@ import { WeekService } from '../week.service';
 		DatePipe,
 	],
   templateUrl: './week-header-mobile.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './week-header-mobile.component.scss',
 })
 export class WeekHeaderMobileComponent {

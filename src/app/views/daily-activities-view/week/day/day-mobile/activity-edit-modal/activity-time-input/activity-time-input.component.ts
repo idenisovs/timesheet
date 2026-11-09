@@ -1,4 +1,4 @@
-import { Component, inject, input, InputSignal } from '@angular/core';
+import { Component, inject, input, InputSignal, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateTime } from 'luxon';
@@ -9,6 +9,7 @@ import { TimePickerModalComponent } from '@components/time-picker/time-picker-mo
 	selector: 'app-activity-time-input',
 	imports: [ReactiveFormsModule],
 	templateUrl: './activity-time-input.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './activity-time-input.component.scss',
 })
 export class ActivityTimeInputComponent {

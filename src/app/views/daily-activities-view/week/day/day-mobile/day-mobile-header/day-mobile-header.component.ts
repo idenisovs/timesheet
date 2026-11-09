@@ -1,4 +1,4 @@
-import { Component, input, InputSignal, output } from '@angular/core';
+import { Component, input, InputSignal, output, ChangeDetectionStrategy } from '@angular/core';
 import { Day } from '@entities';
 import { DayHeaderComponent } from '../../day-header/day-header.component';
 
@@ -8,6 +8,7 @@ import { DayHeaderComponent } from '../../day-header/day-header.component';
 		DayHeaderComponent,
 	],
 	templateUrl: './day-mobile-header.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './day-mobile-header.component.scss',
 })
 export class DayMobileHeaderComponent {

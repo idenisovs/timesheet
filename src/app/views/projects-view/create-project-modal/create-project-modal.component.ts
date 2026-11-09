@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Dexie from 'dexie';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -13,6 +13,7 @@ import { ProjectRepositoryService } from '@repository/project-repository.service
         ReactiveFormsModule
     ],
     templateUrl: './create-project-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './create-project-modal.component.scss'
 })
 export class CreateProjectModalComponent {

@@ -1,4 +1,4 @@
-import { Component, computed, input, InputSignal, output } from '@angular/core';
+import { Component, computed, input, InputSignal, output, ChangeDetectionStrategy } from '@angular/core';
 import { Activity } from '@entities';
 import { ActivityCategoryComponent } from './activity-category/activity-category.component';
 import { ActivityDurationComponent } from './activity-duration/activity-duration.component';
@@ -12,6 +12,7 @@ import { SubtleColorDirective } from '@directives/subtle-color.directive';
 		SubtleColorDirective,
 	],
 	templateUrl: './day-mobile-activity.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './day-mobile-activity.component.scss',
 })
 export class DayMobileActivityComponent {

@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, InputSignal, signal, WritableSignal } from '@angular/core';
+import { Component, effect, inject, input, InputSignal, signal, WritableSignal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DatePipe, PercentPipe } from '@angular/common';
 import { Issue, Project } from '@entities';
@@ -13,6 +13,7 @@ import { IssueRepositoryService } from '@repository/issue-repository.service';
 		PercentPipe,
 	],
 	templateUrl: './project-card.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './project-card.component.scss',
 })
 export class ProjectCardComponent {

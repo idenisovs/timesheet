@@ -1,4 +1,4 @@
-import { Component, inject, input, OnDestroy, OnInit, output, signal } from '@angular/core';
+import { Component, inject, input, OnDestroy, OnInit, output, signal, ChangeDetectionStrategy } from '@angular/core';
 import {
 	ReactiveFormsModule,
 } from '@angular/forms';
@@ -26,6 +26,7 @@ import { ActivitiesService } from '@services/activities.service';
 		DailyActivitiesWeekDayMissingComponent,
 	],
 	templateUrl: './day.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './day.component.scss',
 })
 export class DayComponent implements OnInit, OnDestroy {

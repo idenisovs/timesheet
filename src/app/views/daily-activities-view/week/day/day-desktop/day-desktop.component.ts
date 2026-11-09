@@ -1,13 +1,14 @@
 import {
-	Component,
-	effect,
-	inject,
-	input,
-	InputSignal,
-	OnDestroy,
-	OnInit,
-	output,
-	signal,
+  Component,
+  effect,
+  inject,
+  input,
+  InputSignal,
+  OnDestroy,
+  OnInit,
+  output,
+  signal,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -31,6 +32,7 @@ import { BarPosition } from '../daily-activity-item/color-bar/color-bar.componen
 		ReactiveFormsModule,
 	],
 	templateUrl: './day-desktop.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './day-desktop.component.scss',
 })
 export class DayDesktopComponent implements OnInit, OnDestroy {

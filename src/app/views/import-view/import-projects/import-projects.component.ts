@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 
 import { Project } from '@entities';
@@ -10,6 +10,7 @@ import { ImportedProjectDiffComponent } from './imported-project-diff/imported-p
 		ImportedProjectDiffComponent,
 	],
 	templateUrl: './import-projects.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './import-projects.component.scss',
 })
 export class ImportProjectsComponent {

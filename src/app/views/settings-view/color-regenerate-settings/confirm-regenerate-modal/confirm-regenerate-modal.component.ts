@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
 	selector: 'app-confirm-regenerate-modal',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	templateUrl: './confirm-regenerate-modal.component.html',
 })
 export class ConfirmRegenerateModalComponent {

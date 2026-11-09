@@ -1,4 +1,4 @@
-import { Component, input, InputSignal } from '@angular/core';
+import { Component, input, InputSignal, ChangeDetectionStrategy } from '@angular/core';
 
 import { Activity } from '@entities';
 
@@ -6,6 +6,7 @@ import { Activity } from '@entities';
 	selector: 'app-adjacent-activity',
 	imports: [],
 	templateUrl: './adjacent-activity.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './adjacent-activity.component.scss',
 })
 export class AdjacentActivityComponent {

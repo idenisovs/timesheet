@@ -1,4 +1,4 @@
-import { Component, input, InputSignal } from '@angular/core';
+import { Component, input, InputSignal, ChangeDetectionStrategy } from '@angular/core';
 import { DarkerColorDirective } from '@directives/darker-color.directive';
 
 @Component({
@@ -7,6 +7,7 @@ import { DarkerColorDirective } from '@directives/darker-color.directive';
 		DarkerColorDirective,
 	],
 	templateUrl: './activity-category.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './activity-category.component.scss',
 })
 export class ActivityCategoryComponent {

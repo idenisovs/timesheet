@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe, PercentPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -13,6 +13,7 @@ import { IssuesService } from '@services/issues.service';
 		RouterLink
 	],
 	templateUrl: './project-details.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './project-details.component.scss'
 })
 export class ProjectDetailsComponent implements OnInit {

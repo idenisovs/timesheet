@@ -1,9 +1,10 @@
 import {
-	Component,
-	ElementRef,
-	inject, OnDestroy, OnInit,
-	signal,
-	ViewChild,
+  Component,
+  ElementRef,
+  inject, OnDestroy, OnInit,
+  signal,
+  ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -22,6 +23,7 @@ import { WeekHeaderMobileComponent } from './week/week-header-mobile/week-header
 	templateUrl: './daily-activities-view.component.html',
 	styleUrls: ['./daily-activities-view.component.scss'],
 	standalone: true,
+	changeDetection: ChangeDetectionStrategy.Eager,
 	imports: [WeekComponent, BottomLoadIndicatorComponent, WeekHeaderMobileComponent],
 })
 export class DailyActivitiesViewComponent implements OnInit, OnDestroy {

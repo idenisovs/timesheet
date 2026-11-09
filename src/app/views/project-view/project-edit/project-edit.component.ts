@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -11,6 +11,7 @@ import { ProjectRepositoryService } from '@repository/project-repository.service
 		ReactiveFormsModule,
 	],
 	templateUrl: './project-edit.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './project-edit.component.scss',
 })
 export class ProjectEditComponent implements OnInit {

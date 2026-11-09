@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, output } from '@angular/core';
+import { Component, inject, input, OnInit, output, ChangeDetectionStrategy } from '@angular/core';
 import { DatePipe, NgClass } from '@angular/common';
 
 import { Project } from '@entities';
@@ -12,6 +12,7 @@ import { DiffStatus } from '../../DiffStatus';
 		DatePipe,
 	],
 	templateUrl: './imported-project-diff.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './imported-project-diff.component.scss',
 })
 export class ImportedProjectDiffComponent implements OnInit {

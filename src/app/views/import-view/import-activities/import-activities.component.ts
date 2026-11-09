@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, effect, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { disabled } from '@angular/forms/signals';
 
 import { Activity } from '@entities';
@@ -11,6 +11,7 @@ import { ImportProgressBarComponent } from '../import-progress-bar/import-progre
 	selector: 'app-import-activities',
 	imports: [ImportProgressBarComponent],
 	templateUrl: './import-activities.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './import-activities.component.scss',
 })
 export class ImportActivitiesComponent {

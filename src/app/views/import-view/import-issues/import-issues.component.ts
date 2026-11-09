@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, InputSignal, signal } from '@angular/core';
+import { Component, effect, inject, input, InputSignal, signal, ChangeDetectionStrategy } from '@angular/core';
 
 import { Issue } from '@entities';
 import { ImportIssuesService } from './import-issues.service';
@@ -9,6 +9,7 @@ import { DiffStatus } from '../DiffStatus';
 	selector: 'app-import-issues',
 	imports: [],
 	templateUrl: './import-issues.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './import-issues.component.scss',
 })
 export class ImportIssuesComponent {

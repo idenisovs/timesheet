@@ -1,4 +1,4 @@
-import { Component, inject, Input, signal } from '@angular/core';
+import { Component, inject, Input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DateTime } from 'luxon';
 
@@ -8,6 +8,7 @@ import { TimeBeltComponent } from '../time-belt/time-belt.component';
 	selector: 'app-time-picker-modal',
 	imports: [TimeBeltComponent],
 	templateUrl: './time-picker-modal.component.html',
+	changeDetection: ChangeDetectionStrategy.Eager,
 	styleUrl: './time-picker-modal.component.scss',
 })
 export class TimePickerModalComponent {

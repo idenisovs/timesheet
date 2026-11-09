@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ColorsService } from '@services/colors.service';
@@ -8,6 +8,7 @@ import { ConfirmRegenerateModalComponent } from './confirm-regenerate-modal/conf
 @Component({
 	selector: 'app-color-regenerate-settings',
 	imports: [],
+	changeDetection: ChangeDetectionStrategy.Eager,
 	templateUrl: './color-regenerate-settings.component.html',
 })
 export class ColorRegenerateSettingsComponent {
