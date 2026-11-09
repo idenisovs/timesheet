@@ -7,14 +7,18 @@ import { Activity } from '@entities';
 import {
 	SaveActivitiesStepService
 } from '@workflows/save-activities/save-activities-step.service';
+import {
+	UpdateAffectedIssuesStepService
+} from '@workflows/save-activities/update-affected-issues-step.service';
 
 @Service()
 export class SaveActivitiesWorkflowService {
 	private readonly relink = inject(RelinkActivitiesStepService);
 	private readonly saveActivities = inject(SaveActivitiesStepService);
+	private readonly updateIssues = inject(UpdateAffectedIssuesStepService);
 
 	private readonly workflow = new Workflow([
-		this.relink, this.saveActivities
+		this.relink, this.saveActivities, this.updateIssues
 	]);
 
 	public run(activities: Activity[]) {
