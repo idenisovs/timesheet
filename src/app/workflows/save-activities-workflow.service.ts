@@ -46,11 +46,11 @@ export class SaveActivitiesWorkflowService {
 		}
 
 		if (!activity.hasIssueKey() && activity.issueId) {
-			return this.unlinkIssue(activity);
+			return this.unlinkActivityFromIssue(activity);
 		}
 
 		if (activity.hasIssueKey() && !activity.issueId) {
-			return this.linkActivity(activity);
+			return this.linkActivityToIssue(activity);
 		}
 
 		const linkedIssue = await this.issueRepository.getByKey(activity.getIssueKey() as string);
@@ -61,11 +61,11 @@ export class SaveActivitiesWorkflowService {
 	}
 
 	private async relinkIssue(activity: Activity): Promise<void> {
-		await this.unlinkIssue(activity);
-		await this.linkActivity(activity);
+		await this.unlinkActivityFromIssue(activity);
+		await this.linkActivityToIssue(activity);
 	}
 
-	private async unlinkIssue(activity: Activity): Promise<void> {
+	private async unlinkActivityFromIssue(activity: Activity): Promise<void> {
 		if (!activity.issueId) {
 			throw new Error(`Cannot unlink activity ${activity.name}: Missing Issue ID!`);
 		}
@@ -73,7 +73,7 @@ export class SaveActivitiesWorkflowService {
 		delete activity.issueId;
 	}
 
-	private async linkActivity(activity: Activity): Promise<void> {
+	private async linkActivityToIssue(activity: Activity): Promise<void> {
 		const issueKey = activity.getIssueKey();
 
 		if (!issueKey) {

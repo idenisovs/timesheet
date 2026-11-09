@@ -15,7 +15,8 @@ export class SaveActivitiesWorkflowService {
 
 	public run(activities: Activity[]) {
 		return this.workflow.run({
-			activities
+			activities,
+			affectedIssueIds: []
 		});
 	}
 }
