@@ -8,6 +8,7 @@ import {
 	IssueRepositoryService,
 } from '@repository/issue-repository.service';
 
+
 @Service()
 export class RelinkActivitiesStepService implements Step<SaveActivitiesContext> {
 	private readonly issueRepo = inject(IssueRepositoryService);
@@ -18,7 +19,7 @@ export class RelinkActivitiesStepService implements Step<SaveActivitiesContext> 
 		const issueIdsBeforeUpdate = activities.map(activity => activity.issueId);
 
 		for (const activity of activities) {
-			await this.processIssueLink(activity);
+			await this.processActivityIssueLink(activity);
 		}
 
 		const issueIdsAfterUpdate = activities.map(activity => activity.issueId);
@@ -31,7 +32,7 @@ export class RelinkActivitiesStepService implements Step<SaveActivitiesContext> 
 		context.affectedIssueIds = [...new Set(affectedIssueIds)];
 	}
 
-	private async processIssueLink(activity: Activity): Promise<void> {
+	private async processActivityIssueLink(activity: Activity): Promise<void> {
 		if (!activity.isLinkedToIssue()) {
 			return;
 		}
@@ -66,7 +67,11 @@ export class RelinkActivitiesStepService implements Step<SaveActivitiesContext> 
 			throw new Error(`Cannot link activity ${activity.name}: Missing Issue Key!`);
 		}
 
-		const issue = await this.getLinkedIssue(activity);
+		let issue = await this.getLinkedIssue(activity);
+
+		if (!issue) {
+			issue = await this.createMissingIssue(activity);
+		}
 
 		activity.issueId = issue.id;
 	}
@@ -76,20 +81,14 @@ export class RelinkActivitiesStepService implements Step<SaveActivitiesContext> 
 		await this.linkActivityToIssue(activity);
 	}
 
-	private async getLinkedIssue(activity: Activity): Promise<Issue> {
+	private async getLinkedIssue(activity: Activity): Promise<Issue | null> {
 		const issueKey = activity.getIssueKey();
 
 		if (!issueKey) {
 			throw new Error(`Cannot get linked issue, activity ${activity.name} is missing issue key!`);
 		}
 
-		let issue = await this.issueRepo.getByKey(issueKey);
-
-		if (issue) {
-			return issue;
-		}
-
-		return this.createMissingIssue(activity);
+		return await this.issueRepo.getByKey(issueKey);
 	}
 
 	private createMissingIssue(activity: Activity): Promise<Issue> {

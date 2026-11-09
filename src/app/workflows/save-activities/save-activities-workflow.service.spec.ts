@@ -5,19 +5,25 @@ import {
 	RelinkActivitiesStepService
 } from './relink-activities-step.service';
 import {
+	SaveActivitiesStepService
+} from './save-activities-step.service';
+import {
 	SaveActivitiesWorkflowService
 } from './save-activities-workflow.service';
 
 describe('SaveActivitiesWorkflowService', () => {
 	let service: SaveActivitiesWorkflowService;
 	let relink: { execute: ReturnType<typeof vi.fn> };
+	let save: { execute: ReturnType<typeof vi.fn> };
 
 	beforeEach(() => {
 		relink = { execute: vi.fn() };
+		save = { execute: vi.fn().mockResolvedValue(undefined) };
 		TestBed.configureTestingModule({
 			providers: [
 				SaveActivitiesWorkflowService,
-				{ provide: RelinkActivitiesStepService, useValue: relink }
+				{ provide: RelinkActivitiesStepService, useValue: relink },
+				{ provide: SaveActivitiesStepService, useValue: save }
 			]
 		});
 		service = TestBed.inject(SaveActivitiesWorkflowService);
@@ -30,6 +36,7 @@ describe('SaveActivitiesWorkflowService', () => {
 		const result = await service.run(activities);
 
 		expect(relink.execute).toHaveBeenCalledExactlyOnceWith(result);
+		expect(save.execute).toHaveBeenCalledExactlyOnceWith(result);
 		expect(result.activities).toBe(activities);
 	});
 
@@ -38,5 +45,6 @@ describe('SaveActivitiesWorkflowService', () => {
 		relink.execute.mockRejectedValue(error);
 
 		await expect(service.run([])).rejects.toBe(error);
+		expect(save.execute).not.toHaveBeenCalled();
 	});
 });
