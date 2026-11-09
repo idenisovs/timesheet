@@ -2,17 +2,17 @@ import { inject, Service } from '@angular/core';
 import { Workflow } from '@workflows/Workflow';
 import {
 	RelinkActivitiesStepService,
-} from '@workflows/save-activities/relink-activities-step.service';
+} from '@workflows/save-activities/steps/relink-activities-step.service';
 import { Activity } from '@entities';
 import {
 	SaveActivitiesStepService,
-} from '@workflows/save-activities/save-activities-step.service';
+} from '@workflows/save-activities/steps/save-activities-step.service';
 import {
 	UpdateAffectedIssuesStepService,
-} from '@workflows/save-activities/update-affected-issues-step.service';
+} from '@workflows/save-activities/steps/update-affected-issues-step.service';
 import {
 	UpdateAffectedProjectsStepService,
-} from '@workflows/save-activities/update-affected-projects-step.service';
+} from '@workflows/save-activities/steps/update-affected-projects-step.service';
 
 @Service()
 export class SaveActivitiesWorkflowService {

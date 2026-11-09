@@ -3,10 +3,10 @@ import { Activity } from '@entities';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
 	RelinkActivitiesStepService
-} from './relink-activities-step.service';
+} from './steps/relink-activities-step.service';
 import {
 	SaveActivitiesStepService
-} from './save-activities-step.service';
+} from './steps/save-activities-step.service';
 import {
 	SaveActivitiesWorkflowService
 } from './save-activities-workflow.service';
