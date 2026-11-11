@@ -13,13 +13,6 @@ export class RemoveActivitiesStepService implements Step<SaveActivitiesContext> 
 		const { activitiesToRemove } = context;
 		const activityIds = activitiesToRemove.map<string>(a => a.id);
 		const removableActivities = await this.activityRepo.getByIds(activityIds);
-
-		const affectedIssueIds = removableActivities
-			.map(a => a.issueId)
-			.filter((issueId): issueId is string => Boolean(issueId));
-
-		context.affectedIssueIds = [...context.affectedIssueIds, ...affectedIssueIds];
-
 		await this.activityRepo.remove(removableActivities);
 	}
 }

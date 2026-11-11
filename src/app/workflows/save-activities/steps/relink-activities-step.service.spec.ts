@@ -41,7 +41,6 @@ describe('RelinkActivitiesStepService', () => {
 		expect(issue.key).toBe('ABC-123');
 		expect(issue.name).toBe('Work');
 		expect(activity.issueId).toBe(issue.id);
-		expect(context.affectedIssueIds).toEqual([issue.id]);
 	});
 
 	it('keeps an existing matching issue link without creating an issue', async () => {
@@ -54,11 +53,10 @@ describe('RelinkActivitiesStepService', () => {
 		await service.execute(context);
 
 		expect(activity.issueId).toBe('existing');
-		expect(context.affectedIssueIds).toEqual(['existing']);
 		expect(create).not.toHaveBeenCalled();
 	});
 
-	it('records unique issue IDs before and after relinking', async () => {
+	it('relinks and unlinks activities without changing affected issue IDs', async () => {
 		const relinked = new Activity();
 		relinked.name = 'ABC-123: Work';
 		relinked.issueId = 'old-id';
@@ -68,12 +66,12 @@ describe('RelinkActivitiesStepService', () => {
 		getByKey.mockResolvedValue({ id: 'new-id' });
 		const context = {
 			activitiesToSave: [relinked, unlinked, unrelated],
-			activitiesToRemove: [], affectedIssueIds: [] as string[]
+			activitiesToRemove: [], affectedIssueIds: ['existing-issue']
 		};
 
 		await service.execute(context);
 
-		expect(context.affectedIssueIds).toEqual(['old-id', 'new-id']);
+		expect(context.affectedIssueIds).toEqual(['existing-issue']);
 		expect(relinked.issueId).toBe('new-id');
 		expect(unlinked.issueId).toBeUndefined();
 	});

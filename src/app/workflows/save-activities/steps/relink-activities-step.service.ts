@@ -16,40 +16,32 @@ export class RelinkActivitiesStepService implements Step<SaveActivitiesContext> 
 	async execute(context: SaveActivitiesContext): Promise<void> {
 		const { activitiesToSave } = context;
 
-		const issueIdsBeforeUpdate = activitiesToSave.map(activity => activity.issueId);
-
 		for (const activity of activitiesToSave) {
-			await this.processActivityIssueLink(activity);
+			if (!activity.isLinkedToIssue()) {
+				continue;
+			}
+
+			if (!activity.hasIssueKey() && activity.issueId) {
+				await this.unlinkActivityFromIssue(activity);
+				continue;
+			}
+
+			if (activity.hasIssueKey() && !activity.issueId) {
+				await this.linkActivityToIssue(activity);
+				continue;
+			}
+
+			const linkedIssue = await this.issueRepo.getByKey(activity.getIssueKey() as string);
+
+			if (!linkedIssue || linkedIssue.id !== activity.issueId) {
+				await this.relinkIssue(activity);
+			}
 		}
-
-		const issueIdsAfterUpdate = activitiesToSave.map(activity => activity.issueId);
-
-		const affectedIssueIds = [
-			...issueIdsBeforeUpdate,
-			...issueIdsAfterUpdate,
-		].filter((id: string | undefined): id is string => Boolean(id));
-
-		context.affectedIssueIds = [...new Set(affectedIssueIds)];
 	}
 
-	private async processActivityIssueLink(activity: Activity): Promise<void> {
-		if (!activity.isLinkedToIssue()) {
-			return;
-		}
-
-		if (!activity.hasIssueKey() && activity.issueId) {
-			return this.unlinkActivityFromIssue(activity);
-		}
-
-		if (activity.hasIssueKey() && !activity.issueId) {
-			return this.linkActivityToIssue(activity);
-		}
-
-		const linkedIssue = await this.issueRepo.getByKey(activity.getIssueKey() as string);
-
-		if (!linkedIssue || linkedIssue.id !== activity.issueId) {
-			return this.relinkIssue(activity);
-		}
+	private async relinkIssue(activity: Activity): Promise<void> {
+		await this.unlinkActivityFromIssue(activity);
+		await this.linkActivityToIssue(activity);
 	}
 
 	private async unlinkActivityFromIssue(activity: Activity): Promise<void> {
@@ -74,11 +66,6 @@ export class RelinkActivitiesStepService implements Step<SaveActivitiesContext> 
 		}
 
 		activity.issueId = issue.id;
-	}
-
-	private async relinkIssue(activity: Activity): Promise<void> {
-		await this.unlinkActivityFromIssue(activity);
-		await this.linkActivityToIssue(activity);
 	}
 
 	private async getLinkedIssue(activity: Activity): Promise<Issue | null> {

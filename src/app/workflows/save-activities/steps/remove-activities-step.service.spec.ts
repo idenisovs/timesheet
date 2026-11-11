@@ -22,7 +22,7 @@ describe('RemoveActivitiesStepService', () => {
 		removeStep = TestBed.inject(RemoveActivitiesStepService);
 	});
 
-	it('removes stored activities and appends their issue IDs to the context', async () => {
+	it('removes stored activities without changing affected issue IDs', async () => {
 		const requested = new Activity();
 		requested.issueId = 'outdated-issue';
 		const missing = new Activity();
@@ -42,7 +42,7 @@ describe('RemoveActivitiesStepService', () => {
 
 		expect(getByIds).toHaveBeenCalledExactlyOnceWith([requested.id, missing.id, unlinked.id]);
 		expect(remove).toHaveBeenCalledExactlyOnceWith([stored, unlinked]);
-		expect(context.affectedIssueIds).toEqual(['existing-issue', 'stored-issue']);
+		expect(context.affectedIssueIds).toEqual(['existing-issue']);
 	});
 
 	it('propagates a repository lookup failure without removing activities', async () => {
