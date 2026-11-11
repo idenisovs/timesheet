@@ -10,7 +10,6 @@ import { DayDesktopComponent } from './day-desktop/day-desktop.component';
 import { DayMobileComponent } from './day-mobile/day-mobile.component';
 import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
 import { getCurrentDate } from '@utils/date-v2';
-import { RemoveActivitiesWorkflowService } from '@workflows/remove-activities-workflow.service';
 import { SaveActivitiesWorkflowService } from '@workflows/save-activities/save-activities-workflow.service';
 import {
 	DailyActivitiesWeekDayMissingComponent,
@@ -34,7 +33,6 @@ export class DayComponent implements OnInit, OnDestroy {
 	private readonly activityRepository = inject(ActivitiesRepositoryService);
 	private readonly activitiesService = inject(ActivitiesService);
 	private readonly saveActivitiesWorkflow = inject(SaveActivitiesWorkflowService);
-	private readonly removeActivitiesWorkflow = inject(RemoveActivitiesWorkflowService);
 
 	public day = input.required<Day>();
 	public isMissingDaysVisible = input(false);
@@ -58,8 +56,8 @@ export class DayComponent implements OnInit, OnDestroy {
 	}
 
 	protected async saveActivities(updatedActivities: Activity[]) {
-		const removable: Activity[] = this.findRemovableActivities(updatedActivities);
-		await this.saveActivitiesWorkflow.run(updatedActivities, removable);
+		const removableActivities: Activity[] = this.findRemovableActivities(updatedActivities);
+		await this.saveActivitiesWorkflow.run(updatedActivities, removableActivities);
 		this.activities.set(updatedActivities);
 		this.changes.emit();
 	}
