@@ -36,7 +36,19 @@ describe('UpdateAffectedIssuesStepService', () => {
 		getByIssueId.mockResolvedValueOnce([]).mockResolvedValueOnce(activities);
 		calculateDuration.mockReturnValueOnce('0m').mockReturnValueOnce('2h');
 
-		await service.execute({ activitiesToSave: [], activitiesToRemove: [], affectedIssueIds: ['old', 'new'] });
+		const context = {
+			activities: {
+				toSave: [],
+				toRemove: [],
+			},
+			snapshots: {
+				beforeSave: [],
+				beforeRemove: [],
+			},
+			affectedIssueIds: new Set<string>(['old', 'new']),
+		};
+
+		await service.execute(context);
 
 		expect(getByIds).toHaveBeenCalledExactlyOnceWith(['old', 'new']);
 		expect(getByIssueId.mock.calls).toEqual([['old'], ['new']]);

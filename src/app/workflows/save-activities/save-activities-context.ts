@@ -1,7 +1,13 @@
 import { Activity } from '@entities';
 
 export interface SaveActivitiesContext {
-	activitiesToSave: Activity[];
-	activitiesToRemove: Activity[];
-	affectedIssueIds: string[];
+	activities: {
+		toSave: Activity[];
+		toRemove: Activity[];
+	};
+	snapshots: {
+		beforeSave: Activity[];
+		beforeRemove: Activity[];
+	};
+	affectedIssueIds: Set<string>;
 }

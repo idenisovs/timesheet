@@ -12,7 +12,7 @@ export class SaveActivitiesStepService implements Step<SaveActivitiesContext> {
 	private readonly activityRepo = inject(ActivitiesRepositoryService);
 
 	async execute(context: SaveActivitiesContext): Promise<void> {
-		const { activitiesToSave } = context;
+		const { toSave: activitiesToSave } = context.activities;
 		await this.activityRepo.save(activitiesToSave);
 	}
 }

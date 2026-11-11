@@ -33,16 +33,22 @@ describe('RemoveActivitiesStepService', () => {
 		getByIds.mockResolvedValue([stored, unlinked]);
 
 		const context = {
-			activitiesToSave: [],
-			activitiesToRemove: [requested, missing, unlinked],
-			affectedIssueIds: ['existing-issue'],
+			activities: {
+				toSave: [],
+				toRemove: [requested, missing, unlinked],
+			},
+			snapshots: {
+				beforeSave: [],
+				beforeRemove: [],
+			},
+			affectedIssueIds: new Set<string>(['existing-issue']),
 		};
 
 		await removeStep.execute(context);
 
 		expect(getByIds).toHaveBeenCalledExactlyOnceWith([requested.id, missing.id, unlinked.id]);
 		expect(remove).toHaveBeenCalledExactlyOnceWith([stored, unlinked]);
-		expect(context.affectedIssueIds).toEqual(['existing-issue']);
+		expect(context.affectedIssueIds).toEqual(new Set(['existing-issue']));
 	});
 
 	it('propagates a repository lookup failure without removing activities', async () => {
@@ -50,9 +56,15 @@ describe('RemoveActivitiesStepService', () => {
 		getByIds.mockRejectedValue(error);
 
 		const context = {
-			activitiesToSave: [],
-			activitiesToRemove: [new Activity()],
-			affectedIssueIds: []
+			activities: {
+				toSave: [],
+				toRemove: [new Activity()],
+			},
+			snapshots: {
+				beforeSave: [],
+				beforeRemove: [],
+			},
+			affectedIssueIds: new Set<string>()
 		};
 
 		await expect(removeStep.execute(context)).rejects.toBe(error);

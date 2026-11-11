@@ -1,6 +1,9 @@
 import { inject, Service } from '@angular/core';
 import { Workflow } from '@workflows/Workflow';
 import {
+	GetActivitySnapshotsStepService,
+} from '@workflows/save-activities/steps/get-activity-snapshots-step.service';
+import {
 	RelinkActivitiesStepService,
 } from '@workflows/save-activities/steps/relink-activities-step.service';
 import { Activity } from '@entities';
@@ -19,6 +22,7 @@ import {
 
 @Service()
 export class SaveActivitiesWorkflowService {
+	private readonly snapshot = inject(GetActivitySnapshotsStepService);
 	private readonly relink = inject(RelinkActivitiesStepService);
 	private readonly saveActivities = inject(SaveActivitiesStepService);
 	private readonly removeActivities = inject(RemoveActivitiesStepService);
@@ -26,6 +30,7 @@ export class SaveActivitiesWorkflowService {
 	private readonly updateProjects = inject(UpdateAffectedProjectsStepService);
 
 	private readonly workflow = new Workflow([
+		this.snapshot,
 		this.relink,
 		this.saveActivities,
 		this.removeActivities,
@@ -35,9 +40,15 @@ export class SaveActivitiesWorkflowService {
 
 	public run(activitiesToSave: Activity[], activitiesToRemove: Activity[]) {
 		return this.workflow.run({
-			activitiesToSave,
-			activitiesToRemove,
-			affectedIssueIds: [],
+			activities: {
+				toSave: activitiesToSave,
+				toRemove: activitiesToRemove,
+			},
+			snapshots: {
+				beforeSave: [],
+				beforeRemove: [],
+			},
+			affectedIssueIds: new Set<string>(),
 		});
 	}
 }

@@ -18,7 +18,7 @@ export class UpdateAffectedIssuesStepService implements Step<SaveActivitiesConte
 	private activitiesService = inject(ActivitiesService);
 
 	async execute(context: SaveActivitiesContext): Promise<void> {
-		const issues = await this.issueRepo.getByIds(context.affectedIssueIds);
+		const issues = await this.issueRepo.getByIds([...context.affectedIssueIds]);
 
 		for (let issue of issues) {
 			const activities = await this.activityRepo.getByIssueId(issue.id);

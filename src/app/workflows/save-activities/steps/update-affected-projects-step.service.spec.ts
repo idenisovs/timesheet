@@ -41,7 +41,19 @@ describe('UpdateAffectedProjectsStepService', () => {
 		]);
 		getAllByKeys.mockResolvedValue(projects);
 
-		await service.execute({ activitiesToSave: [], activitiesToRemove: [], affectedIssueIds: ['one', 'two', 'three'] });
+		const context = {
+			activities: {
+				toSave: [],
+				toRemove: [],
+			},
+			snapshots: {
+				beforeSave: [],
+				beforeRemove: [],
+			},
+			affectedIssueIds: new Set<string>(['one', 'two', 'three']),
+		};
+
+		await service.execute(context);
 
 		expect(getByIds).toHaveBeenCalledExactlyOnceWith(['one', 'two', 'three']);
 		expect(getAllByKeys).toHaveBeenCalledExactlyOnceWith(['ABC', 'XYZ']);

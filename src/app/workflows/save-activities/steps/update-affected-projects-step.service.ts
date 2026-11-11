@@ -16,7 +16,7 @@ export class UpdateAffectedProjectsStepService implements Step<SaveActivitiesCon
 	private projectRepo = inject(ProjectRepositoryService);
 
 	async execute(context: SaveActivitiesContext): Promise<void> {
-		const issues = await this.issueRepo.getByIds(context.affectedIssueIds);
+		const issues = await this.issueRepo.getByIds([...context.affectedIssueIds]);
 		const projectKeys = new Set(issues.map(i => i.key.split('-')[0]));
 		const projects = await this.projectRepo.getAllByKeys([...projectKeys]);
 

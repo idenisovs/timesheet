@@ -33,7 +33,17 @@ describe('RelinkActivitiesStepService', () => {
 		activity.name = 'ABC-123: Work';
 		getByKey.mockResolvedValue(null);
 		create.mockImplementation(async issue => issue);
-		const context = { activitiesToSave: [activity], activitiesToRemove: [], affectedIssueIds: [] as string[] };
+		const context = {
+			activities: {
+				toSave: [activity],
+				toRemove: [],
+			},
+			snapshots: {
+				beforeSave: [],
+				beforeRemove: [],
+			},
+			affectedIssueIds: new Set<string>(),
+		};
 
 		await service.execute(context);
 
@@ -48,7 +58,17 @@ describe('RelinkActivitiesStepService', () => {
 		activity.name = 'ABC-123: Work';
 		activity.issueId = 'existing';
 		getByKey.mockResolvedValue({ id: 'existing' });
-		const context = { activitiesToSave: [activity], activitiesToRemove: [], affectedIssueIds: [] as string[] };
+		const context = {
+			activities: {
+				toSave: [activity],
+				toRemove: [],
+			},
+			snapshots: {
+				beforeSave: [],
+				beforeRemove: [],
+			},
+			affectedIssueIds: new Set<string>(),
+		};
 
 		await service.execute(context);
 
@@ -65,13 +85,20 @@ describe('RelinkActivitiesStepService', () => {
 		const unrelated = new Activity();
 		getByKey.mockResolvedValue({ id: 'new-id' });
 		const context = {
-			activitiesToSave: [relinked, unlinked, unrelated],
-			activitiesToRemove: [], affectedIssueIds: ['existing-issue']
+			activities: {
+				toSave: [relinked, unlinked, unrelated],
+				toRemove: [],
+			},
+			snapshots: {
+				beforeSave: [],
+				beforeRemove: [],
+			},
+			affectedIssueIds: new Set<string>(['existing-issue']),
 		};
 
 		await service.execute(context);
 
-		expect(context.affectedIssueIds).toEqual(['existing-issue']);
+		expect(context.affectedIssueIds).toEqual(new Set(['existing-issue']));
 		expect(relinked.issueId).toBe('new-id');
 		expect(unlinked.issueId).toBeUndefined();
 	});

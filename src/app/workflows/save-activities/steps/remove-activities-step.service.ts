@@ -10,7 +10,7 @@ export class RemoveActivitiesStepService implements Step<SaveActivitiesContext> 
 	private readonly activityRepo = inject(ActivitiesRepositoryService);
 
 	async execute(context: SaveActivitiesContext): Promise<void> {
-		const { activitiesToRemove } = context;
+		const { toRemove: activitiesToRemove } = context.activities;
 		const activityIds = activitiesToRemove.map<string>(a => a.id);
 		const removableActivities = await this.activityRepo.getByIds(activityIds);
 		await this.activityRepo.remove(removableActivities);
