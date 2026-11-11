@@ -11,7 +11,7 @@ import { DayMobileComponent } from './day-mobile/day-mobile.component';
 import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
 import { getCurrentDate } from '@utils/date-v2';
 import { RemoveActivitiesWorkflowService } from '@workflows/remove-activities-workflow.service';
-import { SaveActivitiesWorkflowService } from '@workflows/save-activities-workflow.service';
+import { SaveActivitiesWorkflowService } from '@workflows/save-activities/save-activities-workflow.service';
 import {
 	DailyActivitiesWeekDayMissingComponent,
 } from '@components/daily-activities-week-day-missing/daily-activities-week-day-missing.component';
@@ -82,6 +82,8 @@ export class DayComponent implements OnInit, OnDestroy {
 		this.activities.set(activities);
 	}
 
+	// Find existing activities missing from the updated list. An existing
+	// activity is considered missing if it is absent from the updated list.
 	private findRemovableActivities(update: Activity[]) {
 		return this.activities().filter((activity: Activity) => {
 			return !update.some((updatedActivity: Activity) => {
