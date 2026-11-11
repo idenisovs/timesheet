@@ -14,7 +14,7 @@ export class RelinkActivitiesStepService implements Step<SaveActivitiesContext> 
 	private readonly issueRepo = inject(IssueRepositoryService);
 
 	async execute(context: SaveActivitiesContext): Promise<void> {
-		const {activitiesToSave} = context;
+		const { activitiesToSave } = context;
 
 		const issueIdsBeforeUpdate = activitiesToSave.map(activity => activity.issueId);
 

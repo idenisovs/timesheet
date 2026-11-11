@@ -60,7 +60,7 @@ export class DayComponent implements OnInit, OnDestroy {
 	protected async saveActivities(updatedActivities: Activity[]) {
 		const removable: Activity[] = this.findRemovableActivities(updatedActivities);
 		await this.removeActivitiesWorkflow.run(removable);
-		await this.saveActivitiesWorkflow.run(updatedActivities);
+		await this.saveActivitiesWorkflow.run(updatedActivities, []);
 		this.activities.set(updatedActivities);
 		this.changes.emit();
 	}

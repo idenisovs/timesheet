@@ -41,7 +41,7 @@ describe('UpdateAffectedProjectsStepService', () => {
 		]);
 		getAllByKeys.mockResolvedValue(projects);
 
-		await service.execute({ activitiesToSave: [], affectedIssueIds: ['one', 'two', 'three'] });
+		await service.execute({ activitiesToSave: [], activitiesToRemove: [], affectedIssueIds: ['one', 'two', 'three'] });
 
 		expect(getByIds).toHaveBeenCalledExactlyOnceWith(['one', 'two', 'three']);
 		expect(getAllByKeys).toHaveBeenCalledExactlyOnceWith(['ABC', 'XYZ']);

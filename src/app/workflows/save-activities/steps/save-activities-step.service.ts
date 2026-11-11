@@ -1,9 +1,9 @@
 import { inject, Service } from '@angular/core';
 import {
-	SaveActivitiesContext
+	SaveActivitiesContext,
 } from '@workflows/save-activities/save-activities-context';
 import {
-	ActivitiesRepositoryService
+	ActivitiesRepositoryService,
 } from '@repository/activities-repository.service';
 import { Step } from '@workflows/Step';
 
@@ -12,7 +12,7 @@ export class SaveActivitiesStepService implements Step<SaveActivitiesContext> {
 	private readonly activityRepo = inject(ActivitiesRepositoryService);
 
 	async execute(context: SaveActivitiesContext): Promise<void> {
-		const {activitiesToSave} = context;
+		const { activitiesToSave } = context;
 		await this.activityRepo.save(activitiesToSave);
 	}
 }

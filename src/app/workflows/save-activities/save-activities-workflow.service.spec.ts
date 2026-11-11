@@ -33,12 +33,14 @@ describe('SaveActivitiesWorkflowService', () => {
 
 	it('runs each step in order with the same context', async () => {
 		const activities = [new Activity()];
-		const result = await service.run(activities);
+		const activitiesToRemove = [new Activity()];
+		const result = await service.run(activities, activitiesToRemove);
 
 		for (const step of [relink, save, updateIssues, updateProjects]) {
 			expect(step.execute).toHaveBeenCalledExactlyOnceWith(result);
 		}
 		expect(result.activitiesToSave).toBe(activities);
+		expect(result.activitiesToRemove).toBe(activitiesToRemove);
 		expect(result.affectedIssueIds).toEqual([]);
 		expect(relink.execute).toHaveBeenCalledBefore(save.execute);
 		expect(save.execute).toHaveBeenCalledBefore(updateIssues.execute);
@@ -49,7 +51,7 @@ describe('SaveActivitiesWorkflowService', () => {
 		const error = new Error('Saving failed');
 		save.execute.mockRejectedValue(error);
 
-		await expect(service.run([])).rejects.toBe(error);
+		await expect(service.run([], [])).rejects.toBe(error);
 		expect(relink.execute).toHaveBeenCalledOnce();
 		expect(updateIssues.execute).not.toHaveBeenCalled();
 		expect(updateProjects.execute).not.toHaveBeenCalled();

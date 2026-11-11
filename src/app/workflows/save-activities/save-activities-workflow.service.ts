@@ -28,9 +28,10 @@ export class SaveActivitiesWorkflowService {
 		this.updateProjects,
 	]);
 
-	public run(activitiesToSave: Activity[]) {
+	public run(activitiesToSave: Activity[], activitiesToRemove: Activity[]) {
 		return this.workflow.run({
 			activitiesToSave,
+			activitiesToRemove,
 			affectedIssueIds: [],
 		});
 	}

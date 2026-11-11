@@ -12,7 +12,7 @@ export class ImportActivitiesService {
 	private activityRemoveWorkflow = inject(RemoveActivitiesWorkflowService);
 
 	async save(activity: Activity): Promise<void> {
-		await this.activitySaveWorkflow.run([activity]);
+		await this.activitySaveWorkflow.run([activity], []);
 	}
 
 	async remove(activities: Activity[]): Promise<void> {
