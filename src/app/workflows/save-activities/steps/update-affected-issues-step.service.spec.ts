@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Activity, Issue } from '@entities';
-import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { ActivityRepositoryService } from '@repository/activity-repository.service';
 import { IssueRepositoryService } from '@repository/issue-repository.service';
 import { ActivitiesService } from '@services/activities.service';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -20,7 +20,7 @@ describe('UpdateAffectedIssuesStepService', () => {
 			providers: [
 				UpdateAffectedIssuesStepService,
 				{ provide: IssueRepositoryService, useValue: { bulkUpdate } },
-				{ provide: ActivitiesRepositoryService, useValue: { getByIssueId } },
+				{ provide: ActivityRepositoryService, useValue: { getByIssueId } },
 				{ provide: ActivitiesService, useValue: { calculateDuration } },
 			],
 		});

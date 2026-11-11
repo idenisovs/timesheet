@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DateTime } from 'luxon';
 import {
-	ActivitiesRepositoryService
-} from '@repository/activities-repository.service';
+	ActivityRepositoryService
+} from '@repository/activity-repository.service';
 
 import {
 	BottomLoadIndicatorComponent
@@ -22,7 +22,7 @@ describe('BottomLoadIndicatorComponent', () => {
 		await TestBed.configureTestingModule({
 			imports: [BottomLoadIndicatorComponent],
 			providers: [{
-				provide: ActivitiesRepositoryService,
+				provide: ActivityRepositoryService,
 				useValue: {
 					getFirstActivity: vi.fn().mockResolvedValue({
 						date: DateTime.now()

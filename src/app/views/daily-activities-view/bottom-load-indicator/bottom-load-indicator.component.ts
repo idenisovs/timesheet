@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, output, ChangeDetectionStrategy } from '@angular/core';
 import { Activity, Week } from '@entities';
 import { ActivitiesService } from '@services/activities.service';
-import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { ActivityRepositoryService } from '@repository/activity-repository.service';
 import { delay } from '@utils/index';
 import { getPreviousWeek } from '@utils/date-v2';
 
@@ -16,7 +16,7 @@ const MOBILE_BREAKPOINT = '(max-width: 767.98px)';
 })
 export class BottomLoadIndicatorComponent implements OnInit, AfterViewInit, OnDestroy {
 	private elementRef = inject(ElementRef);
-	private activitiesRepo = inject(ActivitiesRepositoryService);
+	private activitiesRepo = inject(ActivityRepositoryService);
 	private activitiesService = inject(ActivitiesService);
 
 	public nextWeek = output<Week>();

@@ -1,14 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { Issue } from '@entities';
 import { IssueRepositoryService } from '@repository/issue-repository.service';
-import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { ActivityRepositoryService } from '@repository/activity-repository.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class IssueViewService {
 	private readonly issueRepository = inject(IssueRepositoryService);
-	private readonly activityRepository = inject(ActivitiesRepositoryService);
+	private readonly activityRepository = inject(ActivityRepositoryService);
 
 	async remove(issue: Issue) {
 		await this.removeActivities(issue);

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Activity } from '@entities';
-import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { ActivityRepositoryService } from '@repository/activity-repository.service';
 import { RemoveActivitiesStepService } from './remove-activities-step.service';
 
 describe('RemoveActivitiesStepService', () => {
@@ -15,7 +15,7 @@ describe('RemoveActivitiesStepService', () => {
 		TestBed.configureTestingModule({
 			providers: [
 				RemoveActivitiesStepService,
-				{ provide: ActivitiesRepositoryService, useValue: { getByIds, remove } },
+				{ provide: ActivityRepositoryService, useValue: { getByIds, remove } },
 			],
 		});
 

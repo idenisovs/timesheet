@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Activity, Issue } from '@entities';
 import { ActivitiesListComponent } from './activities-list/activities-list.component';
 import { IssueCardComponent } from './issue-card/issue-card.component';
-import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { ActivityRepositoryService } from '@repository/activity-repository.service';
 import { IssueRepositoryService } from '@repository/issue-repository.service';
 
 @Component({
@@ -22,7 +22,7 @@ import { IssueRepositoryService } from '@repository/issue-repository.service';
 })
 export class IssueViewComponent implements OnInit {
 	private route = inject(ActivatedRoute);
-	private activityRepository = inject(ActivitiesRepositoryService);
+	private activityRepository = inject(ActivityRepositoryService);
 	private issueRepository = inject(IssueRepositoryService);
 
 	issue?: Issue;

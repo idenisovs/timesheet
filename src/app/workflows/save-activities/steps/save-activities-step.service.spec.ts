@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Activity } from '@entities';
 import {
-	ActivitiesRepositoryService
-} from '@repository/activities-repository.service';
+	ActivityRepositoryService
+} from '@repository/activity-repository.service';
 import {
 	SaveActivitiesStepService
 } from './save-activities-step.service';
@@ -18,7 +18,7 @@ describe('SaveActivitiesStepService', () => {
 			providers: [
 				SaveActivitiesStepService,
 				{
-					provide: ActivitiesRepositoryService,
+					provide: ActivityRepositoryService,
 					useValue: { save }
 				}
 			]

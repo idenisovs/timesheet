@@ -2,12 +2,12 @@ import { inject, Service } from '@angular/core';
 import { SaveActivitiesContext } from '@workflows/save-activities/save-activities-context';
 import { Step } from '@workflows/Step';
 import {
-	ActivitiesRepositoryService
-} from '@repository/activities-repository.service';
+	ActivityRepositoryService
+} from '@repository/activity-repository.service';
 
 @Service()
 export class RemoveActivitiesStepService implements Step<SaveActivitiesContext> {
-	private readonly activityRepo = inject(ActivitiesRepositoryService);
+	private readonly activityRepo = inject(ActivityRepositoryService);
 
 	async execute(context: SaveActivitiesContext): Promise<void> {
 		const { toRemove: activitiesToRemove } = context.activities;

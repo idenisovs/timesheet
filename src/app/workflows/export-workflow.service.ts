@@ -3,8 +3,8 @@ import * as XLSX from 'xlsx';
 
 import { getDateString } from '@utils/date';
 import {
-	ActivitiesRepositoryService,
-} from '@repository/activities-repository.service';
+	ActivityRepositoryService,
+} from '@repository/activity-repository.service';
 import { Activity, Issue, Project } from '@entities';
 import {
 	IssueRepositoryService,
@@ -17,7 +17,7 @@ import {
 	providedIn: 'root',
 })
 export class ExportWorkflowService {
-	private activitiesRepository = inject(ActivitiesRepositoryService);
+	private activitiesRepository = inject(ActivityRepositoryService);
 	private issuesRepository = inject(IssueRepositoryService);
 	private projectsRepository = inject(ProjectRepositoryService);
 

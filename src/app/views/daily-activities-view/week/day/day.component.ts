@@ -8,7 +8,7 @@ import { Activity, Day } from '@entities';
 import { ScreenService } from '@services/screen.service';
 import { DayDesktopComponent } from './day-desktop/day-desktop.component';
 import { DayMobileComponent } from './day-mobile/day-mobile.component';
-import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { ActivityRepositoryService } from '@repository/activity-repository.service';
 import { getCurrentDate } from '@utils/date-v2';
 import { SaveActivitiesWorkflowService } from '@workflows/save-activities/save-activities-workflow.service';
 import {
@@ -30,7 +30,7 @@ import { ActivitiesService } from '@services/activities.service';
 })
 export class DayComponent implements OnInit, OnDestroy {
 	private readonly screenService = inject(ScreenService);
-	private readonly activityRepository = inject(ActivitiesRepositoryService);
+	private readonly activityRepository = inject(ActivityRepositoryService);
 	private readonly activitiesService = inject(ActivitiesService);
 	private readonly saveActivitiesWorkflow = inject(SaveActivitiesWorkflowService);
 

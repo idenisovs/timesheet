@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 
 import { Activity } from '@entities';
-import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { ActivityRepositoryService } from '@repository/activity-repository.service';
 import { SettingsService } from './settings.service';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { SettingsService } from './settings.service';
 })
 export class ColorsService {
     private readonly settingsService = inject(SettingsService);
-    private readonly activitiesRepository = inject(ActivitiesRepositoryService);
+    private readonly activitiesRepository = inject(ActivityRepositoryService);
 
     private readonly palette: string[] = [
         '#FF1744', '#FF4081', '#F50057', '#D500F9', '#651FFF',

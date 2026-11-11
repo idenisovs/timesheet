@@ -5,7 +5,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Overview, Week } from '@entities';
 import { IssueOverviewComponent } from './issue-overview/issue-overview.component';
 import { OverviewService } from '@services/overview.service';
-import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { ActivityRepositoryService } from '@repository/activity-repository.service';
 import { WORK_WEEK } from '../../../../constants';
 
 @Component({
@@ -22,7 +22,7 @@ import { WORK_WEEK } from '../../../../constants';
 export class WeeklyOverviewModalComponent implements OnInit {
   protected modal = inject(NgbActiveModal);
   private overviewService = inject(OverviewService);
-  private activityRepository = inject(ActivitiesRepositoryService);
+  private activityRepository = inject(ActivityRepositoryService);
 
   weeklyOverview!: Overview;
 

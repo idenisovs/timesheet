@@ -6,7 +6,7 @@ import { IssueRemoveButtonComponent } from '../issue-remove-button/issue-remove-
 import { Issue } from '@entities';
 import { IssuesService } from '@services/issues.service';
 import { IssueRepositoryService } from '@repository/issue-repository.service';
-import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { ActivityRepositoryService } from '@repository/activity-repository.service';
 
 @Component({
 	selector: 'app-issues-table',
@@ -22,7 +22,7 @@ import { ActivitiesRepositoryService } from '@repository/activities-repository.s
 export class IssuesTableComponent {
 	private readonly issueRepository = inject(IssueRepositoryService);
 	private readonly issuesService = inject(IssuesService);
-	private readonly activitiesRepository = inject(ActivitiesRepositoryService);
+	private readonly activitiesRepository = inject(ActivityRepositoryService);
 
 	public issues = input<Issue[]>([]);
 

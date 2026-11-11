@@ -7,7 +7,7 @@ import { ActivityRecord } from '@store/records';
 @Injectable({
 	providedIn: 'root',
 })
-export class ActivitiesRepositoryService {
+export class ActivityRepositoryService {
 	private store = inject(SheetStoreService);
 
 	private db = this.store.Instance;

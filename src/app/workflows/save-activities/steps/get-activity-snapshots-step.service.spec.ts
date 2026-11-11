@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Activity } from '@entities';
-import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { ActivityRepositoryService } from '@repository/activity-repository.service';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { GetActivitySnapshotsStepService } from './get-activity-snapshots-step.service';
 
@@ -13,7 +13,7 @@ describe('GetActivitySnapshotsStepService', () => {
 		TestBed.configureTestingModule({
 			providers: [
 				GetActivitySnapshotsStepService,
-				{ provide: ActivitiesRepositoryService, useValue: { getByIds } },
+				{ provide: ActivityRepositoryService, useValue: { getByIds } },
 			],
 		});
 		snapshotsStep = TestBed.inject(GetActivitySnapshotsStepService);

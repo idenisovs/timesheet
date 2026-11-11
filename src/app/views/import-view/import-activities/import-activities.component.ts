@@ -3,7 +3,7 @@ import { disabled } from '@angular/forms/signals';
 
 import { Activity } from '@entities';
 import { ImportActivitiesService } from './import-activities.service';
-import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { ActivityRepositoryService } from '@repository/activity-repository.service';
 import { DiffStatus } from '../DiffStatus';
 import { ImportProgressBarComponent } from '../import-progress-bar/import-progress-bar.component';
 
@@ -16,7 +16,7 @@ import { ImportProgressBarComponent } from '../import-progress-bar/import-progre
 })
 export class ImportActivitiesComponent {
 	private importService = inject(ImportActivitiesService);
-	private repo = inject(ActivitiesRepositoryService);
+	private repo = inject(ActivityRepositoryService);
 
 	importedActivities = input<Activity[]>([]);
 

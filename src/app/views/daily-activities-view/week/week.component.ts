@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 
 import { ActivitySummary, Day, Week } from '@entities';
-import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { ActivityRepositoryService } from '@repository/activity-repository.service';
 import { ActivitiesService } from '@services/activities.service';
 import { SettingsService } from '@services/settings.service';
 import {
@@ -29,7 +29,7 @@ import { WeekService } from './week.service';
 	imports: [WeekHeaderComponent, DayComponent],
 })
 export class WeekComponent implements OnInit, AfterViewInit, OnDestroy {
-	private activityRepository = inject(ActivitiesRepositoryService);
+	private activityRepository = inject(ActivityRepositoryService);
 	private activitiesService = inject(ActivitiesService);
 	private settingsService = inject(SettingsService);
 	protected weekService = inject(WeekService);

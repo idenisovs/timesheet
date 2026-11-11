@@ -7,7 +7,7 @@ import { DateTime } from 'luxon';
 
 import { DurationService } from '@services/duration.service';
 import { SettingsService } from '@services/settings.service';
-import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { ActivityRepositoryService } from '@repository/activity-repository.service';
 
 const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/;
 
@@ -15,7 +15,7 @@ const HOURS_PATTERN_24 = /^([0-2]?[0-3]|[0-1]?[0-9]):[0-5][0-9]$/;
 export class DailyActivityItemService {
 	private readonly durationService = inject(DurationService);
 	private readonly settingsService = inject(SettingsService);
-	private readonly activitiesRepository = inject(ActivitiesRepositoryService);
+	private readonly activitiesRepository = inject(ActivityRepositoryService);
 
 	getValue(activity: FormGroup, field: string): string {
 		return activity.get(field)?.value;

@@ -3,7 +3,7 @@ import { DatePipe, NgClass } from '@angular/common';
 
 import { Activity } from '@entities';
 import { DiffStatus } from '../../DiffStatus';
-import { ActivitiesRepositoryService } from '@repository/activities-repository.service';
+import { ActivityRepositoryService } from '@repository/activity-repository.service';
 import { ImportActivitiesService } from '../import-activities.service';
 import { ActivitiesService } from '@services/activities.service';
 
@@ -17,7 +17,7 @@ import { ActivitiesService } from '@services/activities.service';
 	styleUrl: './imported-activity-diff.component.scss',
 })
 export class ImportedActivityDiffComponent implements OnInit {
-	private activityRepository = inject(ActivitiesRepositoryService);
+	private activityRepository = inject(ActivityRepositoryService);
 	private importService = inject(ImportActivitiesService);
 	private activitiesService = inject(ActivitiesService);
 

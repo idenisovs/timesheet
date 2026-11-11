@@ -7,14 +7,14 @@ import {
 	IssueRepositoryService,
 } from '@repository/issue-repository.service';
 import {
-	ActivitiesRepositoryService,
-} from '@repository/activities-repository.service';
+	ActivityRepositoryService,
+} from '@repository/activity-repository.service';
 import { ActivitiesService } from '@services/activities.service';
 
 @Service()
 export class UpdateAffectedIssuesStepService implements Step<SaveActivitiesContext> {
 	private issueRepo = inject(IssueRepositoryService);
-	private activityRepo = inject(ActivitiesRepositoryService);
+	private activityRepo = inject(ActivityRepositoryService);
 	private activitiesService = inject(ActivitiesService);
 
 	async execute(context: SaveActivitiesContext): Promise<void> {
