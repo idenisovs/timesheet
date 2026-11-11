@@ -29,7 +29,7 @@ describe('SaveActivitiesStepService', () => {
 	it('saves the activities from the context', async () => {
 		const activities = [new Activity()];
 
-		await service.execute({ activities, affectedIssueIds: [] });
+		await service.execute({ activitiesToSave: activities, affectedIssueIds: [] });
 
 		expect(save).toHaveBeenCalledExactlyOnceWith(activities);
 	});

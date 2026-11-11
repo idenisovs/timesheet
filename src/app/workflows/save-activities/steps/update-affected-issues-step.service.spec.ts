@@ -36,7 +36,7 @@ describe('UpdateAffectedIssuesStepService', () => {
 		getByIssueId.mockResolvedValueOnce([]).mockResolvedValueOnce(activities);
 		calculateDuration.mockReturnValueOnce('0m').mockReturnValueOnce('2h');
 
-		await service.execute({ activities: [], affectedIssueIds: ['old', 'new'] });
+		await service.execute({ activitiesToSave: [], affectedIssueIds: ['old', 'new'] });
 
 		expect(getByIds).toHaveBeenCalledExactlyOnceWith(['old', 'new']);
 		expect(getByIssueId.mock.calls).toEqual([['old'], ['new']]);

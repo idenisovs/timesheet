@@ -1,6 +1,6 @@
 import { Activity } from '@entities';
 
 export interface SaveActivitiesContext {
-	activities: Activity[];
+	activitiesToSave: Activity[];
 	affectedIssueIds: string[];
 }

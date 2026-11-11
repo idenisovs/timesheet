@@ -14,15 +14,15 @@ export class RelinkActivitiesStepService implements Step<SaveActivitiesContext> 
 	private readonly issueRepo = inject(IssueRepositoryService);
 
 	async execute(context: SaveActivitiesContext): Promise<void> {
-		const {activities} = context;
+		const {activitiesToSave} = context;
 
-		const issueIdsBeforeUpdate = activities.map(activity => activity.issueId);
+		const issueIdsBeforeUpdate = activitiesToSave.map(activity => activity.issueId);
 
-		for (const activity of activities) {
+		for (const activity of activitiesToSave) {
 			await this.processActivityIssueLink(activity);
 		}
 
-		const issueIdsAfterUpdate = activities.map(activity => activity.issueId);
+		const issueIdsAfterUpdate = activitiesToSave.map(activity => activity.issueId);
 
 		const affectedIssueIds = [
 			...issueIdsBeforeUpdate,

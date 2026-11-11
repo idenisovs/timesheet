@@ -38,7 +38,7 @@ describe('SaveActivitiesWorkflowService', () => {
 		for (const step of [relink, save, updateIssues, updateProjects]) {
 			expect(step.execute).toHaveBeenCalledExactlyOnceWith(result);
 		}
-		expect(result.activities).toBe(activities);
+		expect(result.activitiesToSave).toBe(activities);
 		expect(result.affectedIssueIds).toEqual([]);
 		expect(relink.execute).toHaveBeenCalledBefore(save.execute);
 		expect(save.execute).toHaveBeenCalledBefore(updateIssues.execute);

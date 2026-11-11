@@ -28,9 +28,9 @@ export class SaveActivitiesWorkflowService {
 		this.updateProjects,
 	]);
 
-	public run(activities: Activity[]) {
+	public run(activitiesToSave: Activity[]) {
 		return this.workflow.run({
-			activities,
+			activitiesToSave,
 			affectedIssueIds: [],
 		});
 	}

@@ -33,7 +33,7 @@ describe('RelinkActivitiesStepService', () => {
 		activity.name = 'ABC-123: Work';
 		getByKey.mockResolvedValue(null);
 		create.mockImplementation(async issue => issue);
-		const context = { activities: [activity], affectedIssueIds: [] as string[] };
+		const context = { activitiesToSave: [activity], affectedIssueIds: [] as string[] };
 
 		await service.execute(context);
 
@@ -49,7 +49,7 @@ describe('RelinkActivitiesStepService', () => {
 		activity.name = 'ABC-123: Work';
 		activity.issueId = 'existing';
 		getByKey.mockResolvedValue({ id: 'existing' });
-		const context = { activities: [activity], affectedIssueIds: [] as string[] };
+		const context = { activitiesToSave: [activity], affectedIssueIds: [] as string[] };
 
 		await service.execute(context);
 
@@ -67,7 +67,7 @@ describe('RelinkActivitiesStepService', () => {
 		const unrelated = new Activity();
 		getByKey.mockResolvedValue({ id: 'new-id' });
 		const context = {
-			activities: [relinked, unlinked, unrelated],
+			activitiesToSave: [relinked, unlinked, unrelated],
 			affectedIssueIds: [] as string[]
 		};
 
