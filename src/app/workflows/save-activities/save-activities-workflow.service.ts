@@ -19,11 +19,15 @@ import {
 import {
 	UpdateAffectedProjectsStepService,
 } from '@workflows/save-activities/steps/update-affected-projects-step.service';
+import {
+	GetAffectedIssuesStepService
+} from '@workflows/save-activities/steps/get-affected-issues-step.service';
 
 @Service()
 export class SaveActivitiesWorkflowService {
 	private readonly snapshot = inject(GetActivitySnapshotsStepService);
 	private readonly relink = inject(RelinkActivitiesStepService);
+	private readonly getAffectedIssues = inject(GetAffectedIssuesStepService);
 	private readonly saveActivities = inject(SaveActivitiesStepService);
 	private readonly removeActivities = inject(RemoveActivitiesStepService);
 	private readonly updateIssues = inject(UpdateAffectedIssuesStepService);
@@ -32,6 +36,7 @@ export class SaveActivitiesWorkflowService {
 	private readonly workflow = new Workflow([
 		this.snapshot,
 		this.relink,
+		this.getAffectedIssues,
 		this.saveActivities,
 		this.removeActivities,
 		this.updateIssues,
@@ -48,7 +53,7 @@ export class SaveActivitiesWorkflowService {
 				beforeSave: [],
 				beforeRemove: [],
 			},
-			affectedIssueIds: new Set<string>(),
+			affectedIssues: [],
 		});
 	}
 }

@@ -35,7 +35,7 @@ describe('GetActivitySnapshotsStepService', () => {
 				beforeSave: [] as Activity[],
 				beforeRemove: [] as Activity[],
 			},
-			affectedIssueIds: new Set<string>(),
+			affectedIssues: [],
 		};
 
 		await snapshotsStep.execute(context);
@@ -57,7 +57,7 @@ describe('GetActivitySnapshotsStepService', () => {
 				beforeSave: [] as Activity[],
 				beforeRemove: [] as Activity[],
 			},
-			affectedIssueIds: new Set<string>(),
+			affectedIssues: [],
 		};
 
 		await expect(snapshotsStep.execute(context)).rejects.toBe(error);

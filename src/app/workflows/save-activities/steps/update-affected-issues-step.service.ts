@@ -18,14 +18,14 @@ export class UpdateAffectedIssuesStepService implements Step<SaveActivitiesConte
 	private activitiesService = inject(ActivitiesService);
 
 	async execute(context: SaveActivitiesContext): Promise<void> {
-		const issues = await this.issueRepo.getByIds([...context.affectedIssueIds]);
+		const { affectedIssues } = context;
 
-		for (let issue of issues) {
+		for (let issue of affectedIssues) {
 			const activities = await this.activityRepo.getByIssueId(issue.id);
 			issue.activities = activities.length;
 			issue.duration = this.activitiesService.calculateDuration(activities);
 		}
 
-		await this.issueRepo.bulkUpdate(issues);
+		await this.issueRepo.bulkUpdate(affectedIssues);
 	}
 }

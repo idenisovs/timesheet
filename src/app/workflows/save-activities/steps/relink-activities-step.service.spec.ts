@@ -42,7 +42,7 @@ describe('RelinkActivitiesStepService', () => {
 				beforeSave: [],
 				beforeRemove: [],
 			},
-			affectedIssueIds: new Set<string>(),
+			affectedIssues: [],
 		};
 
 		await service.execute(context);
@@ -67,7 +67,7 @@ describe('RelinkActivitiesStepService', () => {
 				beforeSave: [],
 				beforeRemove: [],
 			},
-			affectedIssueIds: new Set<string>(),
+			affectedIssues: [],
 		};
 
 		await service.execute(context);
@@ -93,12 +93,12 @@ describe('RelinkActivitiesStepService', () => {
 				beforeSave: [],
 				beforeRemove: [],
 			},
-			affectedIssueIds: new Set<string>(['existing-issue']),
+			affectedIssues: [],
 		};
 
 		await service.execute(context);
 
-		expect(context.affectedIssueIds).toEqual(new Set(['existing-issue']));
+		expect(context.affectedIssues).toEqual([]);
 		expect(relinked.issueId).toBe('new-id');
 		expect(unlinked.issueId).toBeUndefined();
 	});

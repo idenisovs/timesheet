@@ -56,7 +56,7 @@ describe('SaveActivitiesWorkflowService', () => {
 		expect(result.activities.toRemove).toBe(activitiesToRemove);
 		expect(result.snapshots.beforeSave).toEqual([]);
 		expect(result.snapshots.beforeRemove).toEqual([]);
-		expect(result.affectedIssueIds).toEqual(new Set());
+		expect(result.affectedIssues).toEqual([]);
 		expect(getActivitySnapshots.execute).toHaveBeenCalledBefore(relink.execute);
 		expect(save.execute).toHaveBeenCalledBefore(remove.execute);
 		expect(remove.execute).toHaveBeenCalledBefore(updateIssues.execute);

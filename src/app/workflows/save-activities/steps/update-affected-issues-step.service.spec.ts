@@ -8,20 +8,18 @@ import { UpdateAffectedIssuesStepService } from './update-affected-issues-step.s
 
 describe('UpdateAffectedIssuesStepService', () => {
 	let service: UpdateAffectedIssuesStepService;
-	let getByIds: ReturnType<typeof vi.fn>;
 	let getByIssueId: ReturnType<typeof vi.fn>;
 	let bulkUpdate: ReturnType<typeof vi.fn>;
 	let calculateDuration: ReturnType<typeof vi.fn>;
 
 	beforeEach(() => {
-		getByIds = vi.fn();
 		getByIssueId = vi.fn();
 		bulkUpdate = vi.fn().mockResolvedValue(undefined);
 		calculateDuration = vi.fn();
 		TestBed.configureTestingModule({
 			providers: [
 				UpdateAffectedIssuesStepService,
-				{ provide: IssueRepositoryService, useValue: { getByIds, bulkUpdate } },
+				{ provide: IssueRepositoryService, useValue: { bulkUpdate } },
 				{ provide: ActivitiesRepositoryService, useValue: { getByIssueId } },
 				{ provide: ActivitiesService, useValue: { calculateDuration } },
 			],
@@ -32,7 +30,6 @@ describe('UpdateAffectedIssuesStepService', () => {
 	it('recalculates and saves counts and durations for all affected issues', async () => {
 		const issues = [new Issue({ id: 'old', activities: 3 }), new Issue({ id: 'new' })];
 		const activities = [new Activity(), new Activity()];
-		getByIds.mockResolvedValue(issues);
 		getByIssueId.mockResolvedValueOnce([]).mockResolvedValueOnce(activities);
 		calculateDuration.mockReturnValueOnce('0m').mockReturnValueOnce('2h');
 
@@ -45,12 +42,11 @@ describe('UpdateAffectedIssuesStepService', () => {
 				beforeSave: [],
 				beforeRemove: [],
 			},
-			affectedIssueIds: new Set<string>(['old', 'new']),
+			affectedIssues: issues,
 		};
 
 		await service.execute(context);
 
-		expect(getByIds).toHaveBeenCalledExactlyOnceWith(['old', 'new']);
 		expect(getByIssueId.mock.calls).toEqual([['old'], ['new']]);
 		expect(calculateDuration.mock.calls).toEqual([[[]], [activities]]);
 		expect(issues.map(issue => [issue.activities, issue.duration])).toEqual([[0, '0m'], [2, '2h']]);

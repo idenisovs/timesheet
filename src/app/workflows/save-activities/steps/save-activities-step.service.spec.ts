@@ -38,7 +38,7 @@ describe('SaveActivitiesStepService', () => {
 				beforeSave: [],
 				beforeRemove: [],
 			},
-			affectedIssueIds: new Set<string>(),
+			affectedIssues: [],
 		};
 
 		await service.execute(context);

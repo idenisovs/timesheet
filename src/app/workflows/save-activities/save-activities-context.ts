@@ -1,4 +1,4 @@
-import { Activity } from '@entities';
+import { Activity, Issue } from '@entities';
 
 export interface SaveActivitiesContext {
 	activities: {
@@ -9,5 +9,5 @@ export interface SaveActivitiesContext {
 		beforeSave: Activity[];
 		beforeRemove: Activity[];
 	};
-	affectedIssueIds: Set<string>;
+	affectedIssues: Issue[];
 }
