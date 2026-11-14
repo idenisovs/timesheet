@@ -1,15 +1,9 @@
 import { inject, Service } from '@angular/core';
 import { Workflow } from '@workflows/Workflow';
 import {
-	GetActivitySnapshotsStepService,
-} from '@workflows/save-activities/steps/get-activity-snapshots-step.service';
-import {
 	RelinkActivitiesStepService,
 } from '@workflows/save-activities/steps/relink-activities-step.service';
 import { Activity } from '@entities';
-import {
-	SaveActivityChangesStepService,
-} from '@workflows/save-activities/steps/save-activity-changes-step.service';
 import {
 	RemoveActivitiesStepService,
 } from '@workflows/save-activities/steps/remove-activities-step.service';
@@ -28,22 +22,18 @@ import {
 
 @Service()
 export class SaveActivitiesWorkflowService {
-	private readonly snapshot = inject(GetActivitySnapshotsStepService);
-	private readonly relink = inject(RelinkActivitiesStepService);
+	private readonly relinkActivities = inject(RelinkActivitiesStepService);
 	private readonly getAffectedIssues = inject(GetAffectedIssuesStepService);
 	private readonly saveActivities = inject(SaveActivitiesStepService);
 	private readonly removeActivities = inject(RemoveActivitiesStepService);
-	private readonly saveActivityChanges = inject(SaveActivityChangesStepService);
 	private readonly updateIssues = inject(UpdateAffectedIssuesStepService);
 	private readonly updateProjects = inject(UpdateAffectedProjectsStepService);
 
 	private readonly workflow = new Workflow([
-		this.snapshot,
-		this.relink,
+		this.relinkActivities,
 		this.getAffectedIssues,
 		this.saveActivities,
 		this.removeActivities,
-		this.saveActivityChanges,
 		this.updateIssues,
 		this.updateProjects,
 	]);
