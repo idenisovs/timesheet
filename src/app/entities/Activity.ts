@@ -104,11 +104,6 @@ export class Activity {
 		return this;
 	}
 
-	at(day: Day) {
-		this.date = day.date;
-		return this;
-	}
-
 	static fromImport(activityImport: ImportedActivity): Activity {
 		const activity = new Activity();
 		Object.assign(activity, activityImport);

@@ -2,31 +2,27 @@ import { inject, Service } from '@angular/core';
 import {
 	SaveActivitiesContext,
 } from '@workflows/save-activities/save-activities-context';
-import {
-	ActivityRepositoryService,
-} from '@repository/activity-repository.service';
 import { Step } from '@workflows/Step';
-import { Activity } from '@entities';
+import { Change } from '@entities';
 import {
 	ChangeRepositoryService
 } from '@repository/change-repository.service';
 
 @Service()
 export class SaveChangesStepService implements Step<SaveActivitiesContext> {
-	private readonly activityRepo = inject(ActivityRepositoryService);
 	private readonly changeRepo = inject(ChangeRepositoryService);
 
 	async execute(context: SaveActivitiesContext): Promise<void> {
-		const { changes } = context;
+		const changes: Change[] = [];
 
-		for (const change of changes) {
-			if (change.after) {
-				await this.activityRepo.save([change.after as Activity]);
-			} else {
-				await this.activityRepo.remove([change.before as Activity])
-			}
+		for (const { before, after } of context.snapshots) {
+			const change = new Change({
+				entity: 'activity', before, after
+			});
 
-			await this.changeRepo.save([change]);
+			changes.push(change);
 		}
+
+		await this.changeRepo.save(changes);
 	}
 }

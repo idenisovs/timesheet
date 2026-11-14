@@ -27,7 +27,6 @@ export class SaveIssuesWorkflowService {
 				toRemove: issuesToRemove
 			},
 			changes: [],
-			affectedProjects: [],
-		})
+		});
 	}
 }

@@ -1,45 +1,27 @@
 import { TestBed } from '@angular/core/testing';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Activity } from '@entities';
-import {
-	ActivityRepositoryService
-} from '@repository/activity-repository.service';
-import {
-	SaveChangesStepService
-} from './save-changes-step.service';
+import { ChangeRepositoryService } from '@repository/change-repository.service';
+import { describe, expect, it, vi } from 'vitest';
+import { SaveChangesStepService } from './save-changes-step.service';
 
 describe('SaveChangesStepService', () => {
-	let service: SaveChangesStepService;
-	let save: ReturnType<typeof vi.fn>;
+	it('records each activity snapshot as a change', async () => {
+		const save = vi.fn().mockResolvedValue(undefined);
+		TestBed.configureTestingModule({ providers: [SaveChangesStepService,
+			{ provide: ChangeRepositoryService, useValue: { save } }] });
+		const before = new Activity();
+		const after = new Activity(before);
+		const removed = new Activity();
 
-	beforeEach(() => {
-		save = vi.fn().mockResolvedValue(undefined);
-		TestBed.configureTestingModule({
-			providers: [
-				SaveChangesStepService,
-				{
-					provide: ActivityRepositoryService,
-					useValue: { save }
-				}
-			]
-		});
-		service = TestBed.inject(SaveChangesStepService);
-	});
-
-	it('saves the activities from the context', async () => {
-		const activities = [new Activity()];
-
-		const context = {
-			activities: {
-				toSave: activities,
-				toRemove: [],
-			},
-			changes: [],
+		await TestBed.inject(SaveChangesStepService).execute({
+			activities: { toSave: [], toRemove: [] },
+			snapshots: [{ before, after }, { before: removed, after: null }],
 			affectedIssues: [],
-		};
+		});
 
-		await service.execute(context);
-
-		expect(save).toHaveBeenCalledExactlyOnceWith(activities);
+		expect(save).toHaveBeenCalledExactlyOnceWith([
+			expect.objectContaining({ entity: 'activity', before, after }),
+			expect.objectContaining({ entity: 'activity', before: removed, after: null }),
+		]);
 	});
 });
