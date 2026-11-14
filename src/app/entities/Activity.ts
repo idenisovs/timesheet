@@ -85,19 +85,14 @@ export class Activity {
 	}
 
 	equals(other: Activity): boolean {
-		if (
-			this.id !== other.id
-			|| this.name !== other.name
-			|| this.date !== other.date
-			|| this.from !== other.from
-			|| this.till !== other.till
-			|| this.duration !== other.duration
-			|| this.issueId !== other.issueId
-		) {
-			return false;
-		}
-
-		return this.date === other.date;
+		return this.id === other.id
+			&& this.name === other.name
+			&& this.date === other.date
+			&& this.from === other.from
+			&& this.till === other.till
+			&& this.duration === other.duration
+			&& this.color === other.color
+			&& this.issueId === other.issueId;
 	}
 
 	overlaps(other: Activity): boolean {
