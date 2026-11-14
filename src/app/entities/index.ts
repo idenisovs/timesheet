@@ -9,3 +9,4 @@ export * from './overview/Overview';
 export * from './overview/IssueOverview';
 export * from './overview/ActivityOverview';
 export * from './overview/ProjectOverview';
+export * from './Change';
