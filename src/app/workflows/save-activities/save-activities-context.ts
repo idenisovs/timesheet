@@ -1,15 +1,10 @@
 import { Activity, Issue } from '@entities';
-
-export interface ActivitySnapshots {
-	before: Activity | null;
-	after: Activity | null;
-}
+import { Snapshot } from '@workflows/Snapshot';
 
 export interface SaveActivitiesContext {
 	activities: {
 		toSave: Activity[];
 		toRemove: Activity[];
 	};
-	snapshots: ActivitySnapshots[];
-	affectedIssues: Issue[];
+	snapshots: Snapshot<Activity>[];
 }

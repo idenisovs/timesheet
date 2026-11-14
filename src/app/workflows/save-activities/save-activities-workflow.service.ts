@@ -41,7 +41,6 @@ export class SaveActivitiesWorkflowService {
 				toRemove: activitiesToRemove,
 			},
 			snapshots: [],
-			affectedIssues: [],
 		});
 	}
 }

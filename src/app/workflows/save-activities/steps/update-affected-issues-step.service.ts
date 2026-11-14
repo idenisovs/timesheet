@@ -1,7 +1,6 @@
 import { inject, Service } from '@angular/core';
 import { Step } from '@workflows/Step';
 import {
-	ActivitySnapshots,
 	SaveActivitiesContext,
 } from '@workflows/save-activities/save-activities-context';
 import {
@@ -14,6 +13,8 @@ import {
 import {
 	IssueRepositoryService
 } from '@repository/issue-repository.service';
+import { Snapshot } from '@workflows/Snapshot';
+import { Activity } from '@entities';
 
 @Service()
 export class UpdateAffectedIssuesStepService implements Step<SaveActivitiesContext> {
@@ -35,7 +36,7 @@ export class UpdateAffectedIssuesStepService implements Step<SaveActivitiesConte
 		await this.saveIssues.run(affectedIssues, []);
 	}
 
-	private getAffectedIssueIds(snapshots: ActivitySnapshots[]): Set<string> {
+	private getAffectedIssueIds(snapshots: Snapshot<Activity>[]): Set<string> {
 		const issueIds = new Set<string>();
 
 		for (const { before, after } of snapshots) {
