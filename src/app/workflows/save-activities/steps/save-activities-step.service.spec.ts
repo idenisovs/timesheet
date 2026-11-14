@@ -19,7 +19,6 @@ describe('SaveActivitiesStepService', () => {
 			activities: { toSave: [], toRemove: [] },
 			snapshots: [{ before: null, after: created }, { before: original, after: updated },
 				{ before: removed, after: null }, { before: null, after: null }],
-			affectedIssues: [],
 		});
 
 		expect(save).toHaveBeenCalledTimes(2);

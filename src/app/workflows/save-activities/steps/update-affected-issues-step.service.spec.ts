@@ -27,7 +27,7 @@ describe('UpdateAffectedIssuesStepService', () => {
 
 		await TestBed.inject(UpdateAffectedIssuesStepService).execute({
 			activities: { toSave: [], toRemove: [] },
-			snapshots: [{ before, after }, { before, after: null }], affectedIssues: [],
+			snapshots: [{ before, after }, { before, after: null }],
 		});
 
 		expect(getByIds).toHaveBeenCalledExactlyOnceWith(['old', 'new']);

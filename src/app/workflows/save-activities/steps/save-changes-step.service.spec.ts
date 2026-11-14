@@ -16,7 +16,6 @@ describe('SaveChangesStepService', () => {
 		await TestBed.inject(SaveChangesStepService).execute({
 			activities: { toSave: [], toRemove: [] },
 			snapshots: [{ before, after }, { before: removed, after: null }],
-			affectedIssues: [],
 		});
 
 		expect(save).toHaveBeenCalledExactlyOnceWith([

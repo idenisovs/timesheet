@@ -16,7 +16,7 @@ describe('GetActivitySnapshotsStepService', () => {
 		TestBed.configureTestingModule({ providers: [GetActivitySnapshotsStepService,
 			{ provide: ActivityRepositoryService, useValue: { getById } }] });
 		const context = { activities: { toSave: [changed, unchanged, created], toRemove: [removed] },
-			snapshots: [], affectedIssues: [] };
+			snapshots: [] };
 
 		await TestBed.inject(GetActivitySnapshotsStepService).execute(context);
 

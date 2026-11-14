@@ -20,7 +20,7 @@ describe('RelinkActivitiesStepService', () => {
 
 		await TestBed.inject(RelinkActivitiesStepService).execute({
 			activities: { toSave: [existing, created, unlinked], toRemove: [] },
-			snapshots: [], affectedIssues: [],
+			snapshots: [],
 		});
 
 		expect(existing.issueId).toBe(existingIssue.id);
