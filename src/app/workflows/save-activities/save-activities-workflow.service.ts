@@ -8,6 +8,9 @@ import {
 } from '@workflows/save-activities/steps/relink-activities-step.service';
 import { Activity } from '@entities';
 import {
+	SaveActivityChangesStepService,
+} from '@workflows/save-activities/steps/save-activity-changes-step.service';
+import {
 	RemoveActivitiesStepService,
 } from '@workflows/save-activities/steps/remove-activities-step.service';
 import {
@@ -30,6 +33,7 @@ export class SaveActivitiesWorkflowService {
 	private readonly getAffectedIssues = inject(GetAffectedIssuesStepService);
 	private readonly saveActivities = inject(SaveActivitiesStepService);
 	private readonly removeActivities = inject(RemoveActivitiesStepService);
+	private readonly saveActivityChanges = inject(SaveActivityChangesStepService);
 	private readonly updateIssues = inject(UpdateAffectedIssuesStepService);
 	private readonly updateProjects = inject(UpdateAffectedProjectsStepService);
 
@@ -39,6 +43,7 @@ export class SaveActivitiesWorkflowService {
 		this.getAffectedIssues,
 		this.saveActivities,
 		this.removeActivities,
+		this.saveActivityChanges,
 		this.updateIssues,
 		this.updateProjects,
 	]);

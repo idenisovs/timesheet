@@ -6,6 +6,7 @@ import { GetActivitySnapshotsStepService } from './steps/get-activity-snapshots-
 import { GetAffectedIssuesStepService } from './steps/get-affected-issues-step.service';
 import { SaveActivitiesStepService } from './steps/save-activities-step.service';
 import { RemoveActivitiesStepService } from './steps/remove-activities-step.service';
+import { SaveActivityChangesStepService } from './steps/save-activity-changes-step.service';
 import { UpdateAffectedIssuesStepService } from './steps/update-affected-issues-step.service';
 import { UpdateAffectedProjectsStepService } from './steps/update-affected-projects-step.service';
 import { SaveActivitiesWorkflowService } from './save-activities-workflow.service';
@@ -17,6 +18,7 @@ describe('SaveActivitiesWorkflowService', () => {
 	let getAffectedIssues: { execute: ReturnType<typeof vi.fn> };
 	let save: { execute: ReturnType<typeof vi.fn> };
 	let remove: { execute: ReturnType<typeof vi.fn> };
+	let saveChanges: { execute: ReturnType<typeof vi.fn> };
 	let updateIssues: { execute: ReturnType<typeof vi.fn> };
 	let updateProjects: { execute: ReturnType<typeof vi.fn> };
 
@@ -26,6 +28,7 @@ describe('SaveActivitiesWorkflowService', () => {
 		getAffectedIssues = { execute: vi.fn().mockResolvedValue(undefined) };
 		save = { execute: vi.fn().mockResolvedValue(undefined) };
 		remove = { execute: vi.fn().mockResolvedValue(undefined) };
+		saveChanges = { execute: vi.fn().mockResolvedValue(undefined) };
 		updateIssues = { execute: vi.fn().mockResolvedValue(undefined) };
 		updateProjects = { execute: vi.fn().mockResolvedValue(undefined) };
 		TestBed.configureTestingModule({
@@ -36,6 +39,7 @@ describe('SaveActivitiesWorkflowService', () => {
 				{ provide: GetAffectedIssuesStepService, useValue: getAffectedIssues },
 				{ provide: SaveActivitiesStepService, useValue: save },
 				{ provide: RemoveActivitiesStepService, useValue: remove },
+				{ provide: SaveActivityChangesStepService, useValue: saveChanges },
 				{ provide: UpdateAffectedIssuesStepService, useValue: updateIssues },
 				{ provide: UpdateAffectedProjectsStepService, useValue: updateProjects },
 			],
@@ -48,7 +52,7 @@ describe('SaveActivitiesWorkflowService', () => {
 		const activitiesToRemove = [new Activity()];
 		const result = await service.run(activities, activitiesToRemove);
 
-		for (const step of [getActivitySnapshots, relink, save, remove, updateIssues, updateProjects]) {
+		for (const step of [getActivitySnapshots, relink, getAffectedIssues, save, remove, saveChanges, updateIssues, updateProjects]) {
 			expect(step.execute).toHaveBeenCalledExactlyOnceWith(result);
 		}
 
@@ -59,7 +63,8 @@ describe('SaveActivitiesWorkflowService', () => {
 		expect(result.affectedIssues).toEqual([]);
 		expect(getActivitySnapshots.execute).toHaveBeenCalledBefore(relink.execute);
 		expect(save.execute).toHaveBeenCalledBefore(remove.execute);
-		expect(remove.execute).toHaveBeenCalledBefore(updateIssues.execute);
+		expect(remove.execute).toHaveBeenCalledBefore(saveChanges.execute);
+		expect(saveChanges.execute).toHaveBeenCalledBefore(updateIssues.execute);
 		expect(updateIssues.execute).toHaveBeenCalledBefore(updateProjects.execute);
 	});
 
@@ -80,6 +85,7 @@ describe('SaveActivitiesWorkflowService', () => {
 		await expect(service.run([], [])).rejects.toBe(error);
 		expect(relink.execute).toHaveBeenCalledOnce();
 		expect(remove.execute).not.toHaveBeenCalled();
+		expect(saveChanges.execute).not.toHaveBeenCalled();
 		expect(updateIssues.execute).not.toHaveBeenCalled();
 		expect(updateProjects.execute).not.toHaveBeenCalled();
 	});
