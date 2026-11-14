@@ -1,8 +1,8 @@
 import { inject, Service } from '@angular/core';
 import { ProjectRepositoryService } from '@repository/project-repository.service';
-import { IssueRecord } from '@store/records';
 import { SaveIssuesContext } from '@workflows/save-issues/save-issues-context';
 import { Step } from '@workflows/Step';
+import { Issue } from '@entities';
 
 @Service()
 export class UpdateAffectedProjectsStepService implements Step<SaveIssuesContext> {
@@ -25,15 +25,15 @@ export class UpdateAffectedProjectsStepService implements Step<SaveIssuesContext
 		const projectKeys = new Set<string>();
 
 		for (const change of context.changes) {
-			const before = change.before as IssueRecord | null;
-			const after = change.after as IssueRecord | null;
+			const before = change.before as Issue | null;
+			const after = change.after as Issue | null;
 
 			if (before?.key) {
-				projectKeys.add(before.key.split('-')[0]);
+				projectKeys.add(before.ProjectKey);
 			}
 
 			if (after?.key) {
-				projectKeys.add(after.key.split('-')[0]);
+				projectKeys.add(after.ProjectKey);
 			}
 		}
 

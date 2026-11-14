@@ -13,12 +13,8 @@ export class Issue {
 	color?: string;
 	createdAt = new Date();
 
-	get FullName(): string {
-		if (this.key) {
-			return `${this.key}: ${this.name}`;
-		} else {
-			return this.name;
-		}
+	get ProjectKey(): string {
+		return this.key.split('-')[0];
 	}
 
 	constructor(props?: Partial<Issue>) {
@@ -34,21 +30,11 @@ export class Issue {
 	}
 
 	equals(other: Issue): boolean {
-		if (
-			this.name !== other.name
-			|| this.key !== other.key
-			|| this.duration !== other.duration
-		) {
-			return false;
-		}
-
-		if (!!this.estimate || !!other.estimate) {
-			if (this.estimate !== other.estimate) {
-				return false;
-			}
-		}
-
-		return this.createdAt.getTime() === other.createdAt.getTime();
+		return this.name === other.name
+			&& this.key === other.key
+			&& this.duration === other.duration
+			&& ((!this.estimate && !other.estimate) || this.estimate === other.estimate)
+			&& this.createdAt.getTime() === other.createdAt.getTime();
 	}
 
 	static fromRecord(record: IssueRecord): Issue {
