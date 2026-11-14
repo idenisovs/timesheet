@@ -2,9 +2,11 @@ import { inject, Service } from '@angular/core';
 import { Project } from '@entities';
 import { Workflow } from '@workflows/Workflow';
 import { SaveProjectsContext } from '@workflows/save-projects/save-projects-context';
-import { GetProjectSnapshotsStepService } from '@workflows/save-projects/steps/get-project-snapshots-step.service';
-import { SaveProjectsStepService } from '@workflows/save-projects/steps/save-projects-step.service';
-import { SaveChangesStepService } from '@workflows/save-projects/steps/save-changes-step.service';
+import {
+	GetProjectSnapshotsStepService,
+	SaveProjectsStepService,
+	SaveChangesStepService,
+} from '@workflows/save-projects/steps';
 
 @Service()
 export class SaveProjectsWorkflowService {

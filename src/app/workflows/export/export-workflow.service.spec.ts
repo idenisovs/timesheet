@@ -5,7 +5,9 @@ import { ActivityRepositoryService } from '@repository/activity-repository.servi
 import { IssueRepositoryService } from '@repository/issue-repository.service';
 import { ProjectRepositoryService } from '@repository/project-repository.service';
 import { ExportWorkflowService } from './export-workflow.service';
-import { WriteExportStepService } from './steps/write-export-step.service';
+import {
+	WriteExportStepService,
+} from '@workflows/export/steps';
 
 describe('ExportWorkflowService', () => {
 	const issue = {

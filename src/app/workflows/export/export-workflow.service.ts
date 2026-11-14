@@ -2,11 +2,13 @@ import { inject, Service } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { Workflow } from '@workflows/Workflow';
 import { ExportContext } from '@workflows/export/export-context';
-import { ExportActivitiesStepService } from '@workflows/export/steps/export-activities-step.service';
-import { ExportIssuesStepService } from '@workflows/export/steps/export-issues-step.service';
-import { ExportProjectsStepService } from '@workflows/export/steps/export-projects-step.service';
-import { ExportMetadataStepService } from '@workflows/export/steps/export-metadata-step.service';
-import { WriteExportStepService } from '@workflows/export/steps/write-export-step.service';
+import {
+	ExportActivitiesStepService,
+	ExportIssuesStepService,
+	ExportProjectsStepService,
+	ExportMetadataStepService,
+	WriteExportStepService,
+} from '@workflows/export/steps';
 
 @Service()
 export class ExportWorkflowService {

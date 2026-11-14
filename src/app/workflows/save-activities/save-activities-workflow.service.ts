@@ -1,22 +1,16 @@
 import { inject, Service } from '@angular/core';
 import { Workflow } from '@workflows/Workflow';
-import { GetActivitySnapshotsStepService } from '@workflows/save-activities/steps/get-activity-snapshots-step.service';
 import {
+	GetActivitySnapshotsStepService,
 	RelinkActivitiesStepService,
-} from '@workflows/save-activities/steps/relink-activities-step.service';
-import { Activity } from '@entities';
-import {
 	SaveChangesStepService,
-} from '@workflows/save-activities/steps/save-changes-step.service';
-import {
 	UpdateAffectedIssuesStepService,
-} from '@workflows/save-activities/steps/update-affected-issues-step.service';
+	SaveActivitiesStepService,
+} from '@workflows/save-activities/steps';
+import { Activity } from '@entities';
 import {
 	SaveActivitiesContext
 } from '@workflows/save-activities/save-activities-context';
-import {
-	SaveActivitiesStepService
-} from '@workflows/save-activities/steps/save-activities-step.service';
 
 @Service()
 export class SaveActivitiesWorkflowService {

@@ -2,11 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { Activity } from '@entities';
 import { describe, expect, it, vi } from 'vitest';
 import { SaveActivitiesWorkflowService } from './save-activities-workflow.service';
-import { RelinkActivitiesStepService } from './steps/relink-activities-step.service';
-import { GetActivitySnapshotsStepService } from './steps/get-activity-snapshots-step.service';
-import { SaveActivitiesStepService } from './steps/save-activities-step.service';
-import { SaveChangesStepService } from './steps/save-changes-step.service';
-import { UpdateAffectedIssuesStepService } from './steps/update-affected-issues-step.service';
+import {
+	RelinkActivitiesStepService,
+	GetActivitySnapshotsStepService,
+	SaveActivitiesStepService,
+	SaveChangesStepService,
+	UpdateAffectedIssuesStepService,
+} from '@workflows/save-activities/steps';
 
 describe('SaveActivitiesWorkflowService', () => {
 	it('runs the steps in order with the same context', async () => {
