@@ -3,22 +3,23 @@ import { ProjectRepositoryService } from '@repository/project-repository.service
 import { SaveIssuesContext } from '@workflows/save-issues/save-issues-context';
 import { Step } from '@workflows/Step';
 import { Issue } from '@entities';
+import {
+	SaveProjectsWorkflowService
+} from '@workflows/save-projects/save-projects-workflow.service';
 
 @Service()
 export class UpdateAffectedProjectsStepService implements Step<SaveIssuesContext> {
 	private readonly projectRepo = inject(ProjectRepositoryService);
+	private readonly saveProjectsWorkflow = inject(SaveProjectsWorkflowService);
 
 	async execute(context: SaveIssuesContext): Promise<void> {
 		console.log('Save Issues: Update Affected Projects');
 
 		const projectKeys: Set<string> = this.getAffectedProjectKeys(context);
 
-		context.affectedProjects = await this.projectRepo.getAllByKeys([...projectKeys]);
+		const affectedProjects = await this.projectRepo.getAllByKeys([...projectKeys]);
 
-		for (const project of context.affectedProjects) {
-			project.updatedAt = new Date();
-			await this.projectRepo.update(project);
-		}
+		await this.saveProjectsWorkflow.run(affectedProjects, []);
 	}
 
 	private getAffectedProjectKeys(context: SaveIssuesContext): Set<string> {

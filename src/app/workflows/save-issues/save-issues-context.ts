@@ -6,5 +6,4 @@ export interface SaveIssuesContext {
 		toRemove: Issue[];
 	};
 	changes: Change[];
-	affectedProjects: Project[];
 }
