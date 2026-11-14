@@ -14,9 +14,14 @@ export class SaveChangesStepService implements Step<SaveIssuesContext> {
 		console.log('Save Issues: Save Changes');
 
 		for (const change of context.changes) {
-			if (change.after) {
+			if (!change.before && change.after) {
+				console.log('Create a new issue!');
+				await this.issueRepo.create(change.after as Issue);
+			} else if (change.before && change.after) {
+				console.log('Update existing issue!');
 				await this.issueRepo.update(change.after as Issue);
 			} else {
+				console.log('Remove issue!');
 				await this.issueRepo.remove(change.before as Issue);
 			}
 

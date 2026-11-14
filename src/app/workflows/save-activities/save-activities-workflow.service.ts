@@ -12,9 +12,6 @@ import {
 	UpdateAffectedIssuesStepService,
 } from '@workflows/save-activities/steps/update-affected-issues-step.service';
 import {
-	UpdateAffectedProjectsStepService,
-} from '@workflows/save-activities/steps/update-affected-projects-step.service';
-import {
 	GetAffectedIssuesStepService
 } from '@workflows/save-activities/steps/get-affected-issues-step.service';
 import {
@@ -28,15 +25,13 @@ export class SaveActivitiesWorkflowService {
 	private readonly saveChanges = inject(SaveChangesStepService);
 	private readonly getAffectedIssues = inject(GetAffectedIssuesStepService);
 	private readonly updateIssues = inject(UpdateAffectedIssuesStepService);
-	private readonly updateProjects = inject(UpdateAffectedProjectsStepService);
 
 	private readonly workflow = new Workflow<SaveActivitiesContext>([
 		this.relinkActivities,
 		this.calculateChanges,
 		this.saveChanges,
 		this.getAffectedIssues,
-		this.updateIssues,
-		this.updateProjects,
+		this.updateIssues
 	]);
 
 	public run(activitiesToSave: Activity[], activitiesToRemove: Activity[]) {

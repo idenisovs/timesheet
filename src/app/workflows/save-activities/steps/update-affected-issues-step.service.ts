@@ -4,18 +4,18 @@ import {
 	SaveActivitiesContext,
 } from '@workflows/save-activities/save-activities-context';
 import {
-	IssueRepositoryService,
-} from '@repository/issue-repository.service';
-import {
 	ActivityRepositoryService,
 } from '@repository/activity-repository.service';
 import { ActivitiesService } from '@services/activities.service';
+import {
+	SaveIssuesWorkflowService
+} from '@workflows/save-issues/save-issues-workflow.service';
 
 @Service()
 export class UpdateAffectedIssuesStepService implements Step<SaveActivitiesContext> {
-	private issueRepo = inject(IssueRepositoryService);
-	private activityRepo = inject(ActivityRepositoryService);
-	private activitiesService = inject(ActivitiesService);
+	private readonly activityRepo = inject(ActivityRepositoryService);
+	private readonly activityService = inject(ActivitiesService);
+	private readonly saveIssues = inject(SaveIssuesWorkflowService);
 
 	async execute(context: SaveActivitiesContext): Promise<void> {
 		const { affectedIssues } = context;
@@ -23,9 +23,9 @@ export class UpdateAffectedIssuesStepService implements Step<SaveActivitiesConte
 		for (let issue of affectedIssues) {
 			const activities = await this.activityRepo.getByIssueId(issue.id);
 			issue.activities = activities.length;
-			issue.duration = this.activitiesService.calculateDuration(activities);
+			issue.duration = this.activityService.calculateDuration(activities);
 		}
 
-		await this.issueRepo.bulkUpdate(affectedIssues);
+		await this.saveIssues.run(affectedIssues, []);
 	}
 }
