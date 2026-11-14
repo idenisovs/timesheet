@@ -42,10 +42,7 @@ describe('UpdateAffectedProjectsStepService', () => {
 				toSave: [],
 				toRemove: [],
 			},
-			snapshots: {
-				beforeSave: [],
-				beforeRemove: [],
-			},
+			changes: [],
 			affectedIssues: issues,
 		};
 

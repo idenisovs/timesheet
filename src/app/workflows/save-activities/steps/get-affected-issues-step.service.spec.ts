@@ -19,11 +19,7 @@ describe('GetAffectedIssuesStepService', () => {
 		getAffectedIssuesStep = TestBed.inject(GetAffectedIssuesStepService);
 	});
 
-	it('collects unique issue IDs from activities and snapshots', async () => {
-		const beforeSave = new Activity();
-		beforeSave.issueId = 'old-issue';
-		const beforeRemove = new Activity();
-		beforeRemove.issueId = 'removed-issue';
+	it('collects unique issue IDs from activities', async () => {
 		const toSave = new Activity();
 		toSave.issueId = 'new-issue';
 		const toRemove = new Activity();
@@ -38,17 +34,14 @@ describe('GetAffectedIssuesStepService', () => {
 				toSave: [toSave, duplicate, unlinked],
 				toRemove: [toRemove],
 			},
-			snapshots: {
-				beforeSave: [beforeSave],
-				beforeRemove: [beforeRemove],
-			},
+			changes: [],
 			affectedIssues: [] as Issue[],
 		};
 
 		await getAffectedIssuesStep.execute(context);
 
 		expect(getByIds).toHaveBeenCalledExactlyOnceWith([
-			'old-issue', 'removed-issue', 'new-issue', 'requested-issue',
+			'new-issue', 'old-issue', 'requested-issue',
 		]);
 		expect(context.affectedIssues).toBe(issues);
 	});

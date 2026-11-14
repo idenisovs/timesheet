@@ -4,12 +4,10 @@ import {
 	RelinkActivitiesStepService,
 } from '@workflows/save-activities/steps/relink-activities-step.service';
 import { Activity } from '@entities';
+import { CalculateChangesStepService } from '@workflows/save-activities/steps/calculate-changes-step.service';
 import {
-	RemoveActivitiesStepService,
-} from '@workflows/save-activities/steps/remove-activities-step.service';
-import {
-	SaveActivitiesStepService,
-} from '@workflows/save-activities/steps/save-activities-step.service';
+	SaveChangesStepService,
+} from '@workflows/save-activities/steps/save-changes-step.service';
 import {
 	UpdateAffectedIssuesStepService,
 } from '@workflows/save-activities/steps/update-affected-issues-step.service';
@@ -23,17 +21,17 @@ import {
 @Service()
 export class SaveActivitiesWorkflowService {
 	private readonly relinkActivities = inject(RelinkActivitiesStepService);
+	private readonly calculateChanges = inject(CalculateChangesStepService);
+	private readonly saveChanges = inject(SaveChangesStepService);
 	private readonly getAffectedIssues = inject(GetAffectedIssuesStepService);
-	private readonly saveActivities = inject(SaveActivitiesStepService);
-	private readonly removeActivities = inject(RemoveActivitiesStepService);
 	private readonly updateIssues = inject(UpdateAffectedIssuesStepService);
 	private readonly updateProjects = inject(UpdateAffectedProjectsStepService);
 
 	private readonly workflow = new Workflow([
 		this.relinkActivities,
+		this.calculateChanges,
+		this.saveChanges,
 		this.getAffectedIssues,
-		this.saveActivities,
-		this.removeActivities,
 		this.updateIssues,
 		this.updateProjects,
 	]);
@@ -44,10 +42,7 @@ export class SaveActivitiesWorkflowService {
 				toSave: activitiesToSave,
 				toRemove: activitiesToRemove,
 			},
-			snapshots: {
-				beforeSave: [],
-				beforeRemove: [],
-			},
+			changes: [],
 			affectedIssues: [],
 		});
 	}

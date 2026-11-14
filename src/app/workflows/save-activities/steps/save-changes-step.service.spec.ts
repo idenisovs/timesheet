@@ -5,25 +5,25 @@ import {
 	ActivityRepositoryService
 } from '@repository/activity-repository.service';
 import {
-	SaveActivitiesStepService
-} from './save-activities-step.service';
+	SaveChangesStepService
+} from './save-changes-step.service';
 
-describe('SaveActivitiesStepService', () => {
-	let service: SaveActivitiesStepService;
+describe('SaveChangesStepService', () => {
+	let service: SaveChangesStepService;
 	let save: ReturnType<typeof vi.fn>;
 
 	beforeEach(() => {
 		save = vi.fn().mockResolvedValue(undefined);
 		TestBed.configureTestingModule({
 			providers: [
-				SaveActivitiesStepService,
+				SaveChangesStepService,
 				{
 					provide: ActivityRepositoryService,
 					useValue: { save }
 				}
 			]
 		});
-		service = TestBed.inject(SaveActivitiesStepService);
+		service = TestBed.inject(SaveChangesStepService);
 	});
 
 	it('saves the activities from the context', async () => {
@@ -34,10 +34,7 @@ describe('SaveActivitiesStepService', () => {
 				toSave: activities,
 				toRemove: [],
 			},
-			snapshots: {
-				beforeSave: [],
-				beforeRemove: [],
-			},
+			changes: [],
 			affectedIssues: [],
 		};
 

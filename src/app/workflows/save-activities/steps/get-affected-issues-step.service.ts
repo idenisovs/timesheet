@@ -4,18 +4,14 @@ import { Step } from '@workflows/Step';
 import {
 	IssueRepositoryService
 } from '@repository/issue-repository.service';
+import { Activity, Change } from '@entities';
 
 @Service()
 export class GetAffectedIssuesStepService implements Step<SaveActivitiesContext> {
 	private readonly issueRepo = inject(IssueRepositoryService);
 
 	async execute(context: SaveActivitiesContext): Promise<void> {
-		const activities = [
-			...context.snapshots.beforeSave,
-			...context.snapshots.beforeRemove,
-			...context.activities.toSave,
-			...context.activities.toRemove,
-		];
+		const activities = this.getActivities(context.changes);
 
 		const affectedIssueIds = new Set<string>();
 
@@ -26,5 +22,21 @@ export class GetAffectedIssuesStepService implements Step<SaveActivitiesContext>
 		}
 
 		context.affectedIssues = await this.issueRepo.getByIds([...affectedIssueIds]);
+	}
+
+	private getActivities(changes: Change[]): Activity[] {
+		const activities: Activity[] = [];
+
+		for (const change of changes) {
+			if (change.before) {
+				activities.push(change.before as Activity);
+			}
+
+			if (change.after) {
+				activities.push(change.after as Activity);
+			}
+		}
+
+		return activities;
 	}
 }

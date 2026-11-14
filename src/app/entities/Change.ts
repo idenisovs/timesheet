@@ -13,10 +13,4 @@ export class Change {
 			Object.assign(this, change);
 		}
 	}
-
-	static fromRecord(record: ChangeRecord): Change {
-		const change = new Change();
-		Object.assign(change, record);
-		return change;
-	}
 }

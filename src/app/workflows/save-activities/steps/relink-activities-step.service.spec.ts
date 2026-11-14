@@ -38,10 +38,7 @@ describe('RelinkActivitiesStepService', () => {
 				toSave: [activity],
 				toRemove: [],
 			},
-			snapshots: {
-				beforeSave: [],
-				beforeRemove: [],
-			},
+			changes: [],
 			affectedIssues: [],
 		};
 
@@ -63,10 +60,7 @@ describe('RelinkActivitiesStepService', () => {
 				toSave: [activity],
 				toRemove: [],
 			},
-			snapshots: {
-				beforeSave: [],
-				beforeRemove: [],
-			},
+			changes: [],
 			affectedIssues: [],
 		};
 
@@ -89,10 +83,7 @@ describe('RelinkActivitiesStepService', () => {
 				toSave: [relinked, unlinked, unrelated],
 				toRemove: [],
 			},
-			snapshots: {
-				beforeSave: [],
-				beforeRemove: [],
-			},
+			changes: [],
 			affectedIssues: [],
 		};
 

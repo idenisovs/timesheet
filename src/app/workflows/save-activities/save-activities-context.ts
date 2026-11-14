@@ -1,13 +1,10 @@
-import { Activity, Issue } from '@entities';
+import { Activity, Change, Issue } from '@entities';
 
 export interface SaveActivitiesContext {
 	activities: {
 		toSave: Activity[];
 		toRemove: Activity[];
 	};
-	snapshots: {
-		beforeSave: Activity[];
-		beforeRemove: Activity[];
-	};
+	changes: Change[];
 	affectedIssues: Issue[];
 }

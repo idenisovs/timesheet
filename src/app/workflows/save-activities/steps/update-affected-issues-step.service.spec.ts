@@ -38,10 +38,7 @@ describe('UpdateAffectedIssuesStepService', () => {
 				toSave: [],
 				toRemove: [],
 			},
-			snapshots: {
-				beforeSave: [],
-				beforeRemove: [],
-			},
+			changes: [],
 			affectedIssues: issues,
 		};
 
