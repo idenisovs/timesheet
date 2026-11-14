@@ -9,11 +9,14 @@ import migrateV9 from './migrate-v9';
 import migrateV11 from './migrate-v11';
 import migrateV15 from './migrate-v15';
 import migrateV16 from './migrate-v16';
+import { ChangeRecord } from '@store/records/change-record';
+import migrateV17 from '@store/migrate-v17';
 
 export default class SheetStore extends Dexie {
 	issues: Dexie.Table<IssueRecord, string>;
 	projects: Dexie.Table<ProjectRecord, string>;
 	activities: Dexie.Table<ActivityRecord, string>;
+	changes: Dexie.Table<ChangeRecord, string>;
 
 	constructor() {
 		super('timesheet');
@@ -53,8 +56,13 @@ export default class SheetStore extends Dexie {
 
 		this.version(16).upgrade((tx: Transaction) => migrateV16(tx));
 
+		this.version(17).stores({
+			changes: '&id,entity,addedOn,syncedOn'
+		}).upgrade((tx: Transaction) => migrateV17(tx));
+
 		this.projects = this.table('projects');
 		this.issues = this.table('issues');
 		this.activities = this.table('activities');
+		this.changes = this.table('changes');
 	}
 }
