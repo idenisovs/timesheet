@@ -16,25 +16,12 @@ export class Project {
 	}
 
 	equals(other: Project): boolean {
-		if (this.name !== other.name) {
-			return false;
-		}
-
-		if (this.description && other.description) {
-			if (this.description !== other.description) {
-				return false;
-			}
-		}
-
-		if (this.keys.length !== other.keys.length) {
-			return false;
-		}
-
-		if (this.createdAt.getTime() !== other.createdAt.getTime()) {
-			return false;
-		}
-
-		return this.keys.every((key: string) => other.keys.includes(key));
+		return this.name === other.name
+			&& this.description === other.description
+			&& this.keys.length === other.keys.length
+			&& this.keys.every(key => other.keys.includes(key))
+			&& this.createdAt.getTime() === other.createdAt.getTime()
+			&& this.updatedAt.getTime() === other.updatedAt.getTime();
 	}
 
 	static fromImport(importedProject: ImportedProject): Project {
