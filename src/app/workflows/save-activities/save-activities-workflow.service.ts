@@ -17,6 +17,9 @@ import {
 import {
 	GetAffectedIssuesStepService
 } from '@workflows/save-activities/steps/get-affected-issues-step.service';
+import {
+	SaveActivitiesContext
+} from '@workflows/save-activities/save-activities-context';
 
 @Service()
 export class SaveActivitiesWorkflowService {
@@ -27,7 +30,7 @@ export class SaveActivitiesWorkflowService {
 	private readonly updateIssues = inject(UpdateAffectedIssuesStepService);
 	private readonly updateProjects = inject(UpdateAffectedProjectsStepService);
 
-	private readonly workflow = new Workflow([
+	private readonly workflow = new Workflow<SaveActivitiesContext>([
 		this.relinkActivities,
 		this.calculateChanges,
 		this.saveChanges,
