@@ -8,7 +8,7 @@ import {
 	IssueRepositoryService,
 } from '@repository/issue-repository.service';
 
-
+// ToDo: Migrate from the issue linking, use the Issue Keys only!
 @Service()
 export class RelinkActivitiesStepService implements Step<SaveActivitiesContext> {
 	private readonly issueRepo = inject(IssueRepositoryService);
