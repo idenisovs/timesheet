@@ -13,13 +13,10 @@ export class ProjectRepositoryService {
 
 	async create(project: Project): Promise<Project> {
 		project.id = await this.db.projects.add(project);
-		project.createdAt = new Date();
-		project.updatedAt = new Date();
 		return project;
 	}
 
 	async update(project: Project): Promise<void> {
-		project.updatedAt = new Date();
 		await this.db.projects.put(project);
 	}
 

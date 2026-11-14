@@ -1,11 +1,11 @@
 import { inject, Service } from '@angular/core';
-import { Change } from '@entities';
 import { ProjectRepositoryService } from '@repository/project-repository.service';
 import { SaveProjectsContext } from '@workflows/save-projects/save-projects-context';
 import { Step } from '@workflows/Step';
+import { Project } from '@entities';
 
 @Service()
-export class CalculateChangesStepService implements Step<SaveProjectsContext> {
+export class GetProjectSnapshotsStepService implements Step<SaveProjectsContext> {
 	private readonly projectRepo = inject(ProjectRepositoryService);
 
 	async execute(context: SaveProjectsContext): Promise<void> {
@@ -16,18 +16,21 @@ export class CalculateChangesStepService implements Step<SaveProjectsContext> {
 				continue;
 			}
 
-			context.changes.push(new Change({
-				entity: 'project',
-				before: existingProject,
-				after: project,
-			}));
+			this.updateTimestamps(project, existingProject);
+
+			context.snapshots.push({ before: existingProject, after: project });
 		}
 
 		for (const project of context.projects.toRemove) {
-			context.changes.push(new Change({
-				entity: 'project',
-				before: project,
-			}));
+			context.snapshots.push({ before: project, after: null });
 		}
+	}
+
+	private updateTimestamps(project: Project, existingProject: Project | null) {
+		if (!existingProject) {
+			project.createdAt = new Date();
+		}
+
+		project.updatedAt = new Date();
 	}
 }

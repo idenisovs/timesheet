@@ -2,17 +2,20 @@ import { inject, Service } from '@angular/core';
 import { Project } from '@entities';
 import { Workflow } from '@workflows/Workflow';
 import { SaveProjectsContext } from '@workflows/save-projects/save-projects-context';
-import { CalculateChangesStepService } from '@workflows/save-projects/steps/calculate-changes-step.service';
+import { GetProjectSnapshotsStepService } from '@workflows/save-projects/steps/get-project-snapshots-step.service';
+import { SaveProjectsStepService } from '@workflows/save-projects/steps/save-projects-step.service';
 import { SaveChangesStepService } from '@workflows/save-projects/steps/save-changes-step.service';
 
 @Service()
 export class SaveProjectsWorkflowService {
-	private readonly calculateChanges = inject(CalculateChangesStepService);
-	private readonly saveChanges = inject(SaveChangesStepService);
+	private readonly snapshots = inject(GetProjectSnapshotsStepService);
+	private readonly save = inject(SaveProjectsStepService);
+	private readonly changes = inject(SaveChangesStepService);
 
 	private readonly workflow = new Workflow<SaveProjectsContext>([
-		this.calculateChanges,
-		this.saveChanges,
+		this.snapshots,
+		this.save,
+		this.changes,
 	]);
 
 	public run(projectsToSave: Project[], projectsToRemove: Project[]) {
@@ -21,7 +24,7 @@ export class SaveProjectsWorkflowService {
 				toSave: projectsToSave,
 				toRemove: projectsToRemove,
 			},
-			changes: [],
+			snapshots: [],
 		});
 	}
 }

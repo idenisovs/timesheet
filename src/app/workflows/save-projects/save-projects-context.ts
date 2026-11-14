@@ -1,9 +1,10 @@
-import { Change, Project } from '@entities';
+import { Project } from '@entities';
+import { Snapshot } from '@workflows/Snapshot';
 
 export interface SaveProjectsContext {
 	projects: {
 		toSave: Project[];
 		toRemove: Project[];
 	};
-	changes: Change[];
+	snapshots: Snapshot<Project>[];
 }
