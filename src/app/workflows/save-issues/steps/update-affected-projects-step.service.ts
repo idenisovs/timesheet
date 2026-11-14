@@ -2,7 +2,6 @@ import { inject, Service } from '@angular/core';
 import { ProjectRepositoryService } from '@repository/project-repository.service';
 import { SaveIssuesContext } from '@workflows/save-issues/save-issues-context';
 import { Step } from '@workflows/Step';
-import { Issue } from '@entities';
 import {
 	SaveProjectsWorkflowService
 } from '@workflows/save-projects/save-projects-workflow.service';
@@ -25,10 +24,7 @@ export class UpdateAffectedProjectsStepService implements Step<SaveIssuesContext
 	private getAffectedProjectKeys(context: SaveIssuesContext): Set<string> {
 		const projectKeys = new Set<string>();
 
-		for (const change of context.changes) {
-			const before = change.before as Issue | null;
-			const after = change.after as Issue | null;
-
+		for (const { before, after } of context.snapshots) {
 			if (before?.key) {
 				projectKeys.add(before.ProjectKey);
 			}
