@@ -27,6 +27,11 @@ export default class SheetStore extends Dexie {
 			changes: '&id,entity,createdAt,syncedAt'
 		}).upgrade((tx: Transaction) => migrateV17(tx));
 
+		this.version(18).stores({
+			activities: '&id,name,date,from,till',
+			projects: '&id,&name,*keys,createdAt,updatedAt',
+		});
+
 
 		this.projects = this.table('projects');
 		this.issues = this.table('issues');
