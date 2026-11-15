@@ -6,5 +6,4 @@ export interface ActivityRecord {
 	till: string;
 	duration: string;
 	color?: string;
-	issueId?: string;
 }
