@@ -3,7 +3,6 @@ import { Activity } from '@entities';
 import { describe, expect, it, vi } from 'vitest';
 import { SaveActivitiesWorkflowService } from './save-activities-workflow.service';
 import {
-	RelinkActivitiesStepService,
 	GetActivitySnapshotsStepService,
 	SaveActivitiesStepService,
 	SaveChangesStepService,
@@ -12,8 +11,8 @@ import {
 
 describe('SaveActivitiesWorkflowService', () => {
 	it('runs the steps in order with the same context', async () => {
-		const steps = Array.from({ length: 5 }, () => ({ execute: vi.fn().mockResolvedValue(undefined) }));
-		const types = [RelinkActivitiesStepService, GetActivitySnapshotsStepService, SaveActivitiesStepService,
+		const steps = Array.from({ length: 4 }, () => ({ execute: vi.fn().mockResolvedValue(undefined) }));
+		const types = [GetActivitySnapshotsStepService, SaveActivitiesStepService,
 			SaveChangesStepService, UpdateAffectedIssuesStepService];
 		TestBed.configureTestingModule({
 			providers: [SaveActivitiesWorkflowService, ...types.map((provide, index) => ({ provide, useValue: steps[index] }))],

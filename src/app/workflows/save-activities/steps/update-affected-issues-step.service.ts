@@ -14,7 +14,7 @@ import {
 	IssueRepositoryService
 } from '@repository/issue-repository.service';
 import { Snapshot } from '@workflows/Snapshot';
-import { Activity } from '@entities';
+import { Activity, Issue } from '@entities';
 
 @Service()
 export class UpdateAffectedIssuesStepService implements Step<SaveActivitiesContext> {
@@ -24,31 +24,45 @@ export class UpdateAffectedIssuesStepService implements Step<SaveActivitiesConte
 	private readonly saveIssues = inject(SaveIssuesWorkflowService);
 
 	async execute(context: SaveActivitiesContext): Promise<void> {
-		const affectedIssueIds = this.getAffectedIssueIds(context.snapshots);
-		const affectedIssues = await this.issueRepo.getByIds([...affectedIssueIds]);
+		const affectedIssueKeys = this.getAffectedIssueKeys(context.snapshots);
+		const affectedIssues: Issue[] = [];
 
-		for (let issue of affectedIssues) {
-			const activities = await this.activityRepo.getByIssueId(issue.id);
+		for (const issueKey of affectedIssueKeys) {
+			const activities = await this.activityRepo.getByIssueKey(issueKey);
+
+			let issue = await this.issueRepo.getByKey(issueKey);
+
+			if (!issue) {
+				issue = new Issue();
+				issue.key = issueKey;
+				issue.name = activities[0].name;
+			}
+
 			issue.activities = activities.length;
 			issue.duration = this.activityService.calculateDuration(activities);
+
+			affectedIssues.push(issue);
 		}
 
 		await this.saveIssues.run(affectedIssues, []);
 	}
 
-	private getAffectedIssueIds(snapshots: Snapshot<Activity>[]): Set<string> {
-		const issueIds = new Set<string>();
+	private getAffectedIssueKeys(snapshots: Snapshot<Activity>[]): Set<string> {
+		const issueKeys = new Set<string>();
 
 		for (const { before, after } of snapshots) {
-			if (before?.issueId) {
-				issueIds.add(before.issueId);
+			const beforeKey = before?.getIssueKey();
+			const afterKey = after?.getIssueKey();
+
+			if (beforeKey) {
+				issueKeys.add(beforeKey);
 			}
 
-			if (after?.issueId) {
-				issueIds.add(after.issueId);
+			if (afterKey) {
+				issueKeys.add(afterKey);
 			}
 		}
 
-		return issueIds;
+		return issueKeys;
 	}
 }

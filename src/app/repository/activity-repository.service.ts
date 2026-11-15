@@ -68,7 +68,12 @@ export class ActivityRepositoryService {
 	}
 
 	async getByIssueKey(issueKey: string): Promise<Activity[]> {
-		const records = await this.db.activities.where('name').startsWith(issueKey).reverse().sortBy('date');
+		const records = await this.db.activities
+			.where('name')
+			.startsWith(`${issueKey}:`)
+			.reverse()
+			.sortBy('date');
+
 		return records.map(Activity.fromRecord);
 	}
 

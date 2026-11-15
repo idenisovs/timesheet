@@ -9,28 +9,34 @@ import { UpdateAffectedIssuesStepService } from './update-affected-issues-step.s
 
 describe('UpdateAffectedIssuesStepService', () => {
 	it('recalculates issues from both sides of snapshots and saves them', async () => {
-		const oldIssue = new Issue({ id: 'old' });
-		const newIssue = new Issue({ id: 'new' });
-		const getByIds = vi.fn().mockResolvedValue([oldIssue, newIssue]);
-		const getByIssueId = vi.fn().mockResolvedValueOnce([]).mockResolvedValueOnce([new Activity()]);
+		const oldIssue = new Issue({ key: 'OLD-1' });
+		const newIssue = new Issue({ key: 'NEW-1' });
+		const getByKey = vi.fn().mockResolvedValueOnce(oldIssue).mockResolvedValueOnce(newIssue);
+		const matching = new Activity();
+		matching.name = 'NEW-1: work';
+		const getByIssueKey = vi.fn().mockResolvedValueOnce([]).mockResolvedValueOnce([matching]);
 		const calculateDuration = vi.fn().mockReturnValueOnce('0m').mockReturnValueOnce('1h');
 		const run = vi.fn().mockResolvedValue(undefined);
 		TestBed.configureTestingModule({ providers: [UpdateAffectedIssuesStepService,
-			{ provide: IssueRepositoryService, useValue: { getByIds } },
-			{ provide: ActivityRepositoryService, useValue: { getByIssueId } },
+			{ provide: IssueRepositoryService, useValue: { getByKey } },
+			{ provide: ActivityRepositoryService, useValue: { getByIssueKey } },
 			{ provide: ActivitiesService, useValue: { calculateDuration } },
 			{ provide: SaveIssuesWorkflowService, useValue: { run } }] });
 		const before = new Activity();
-		before.issueId = 'old';
+		before.name = 'OLD-1: work';
 		const after = new Activity(before);
-		after.issueId = 'new';
+		after.name = 'NEW-1: work';
 
 		await TestBed.inject(UpdateAffectedIssuesStepService).execute({
 			activities: { toSave: [], toRemove: [] },
 			snapshots: [{ before, after }, { before, after: null }],
 		});
 
-		expect(getByIds).toHaveBeenCalledExactlyOnceWith(['old', 'new']);
+		expect(getByKey).toHaveBeenCalledWith('OLD-1');
+		expect(getByKey).toHaveBeenCalledWith('NEW-1');
+		expect(getByIssueKey).toHaveBeenCalledWith('OLD-1');
+		expect(getByIssueKey).toHaveBeenCalledWith('NEW-1');
+		expect(calculateDuration).toHaveBeenLastCalledWith([matching]);
 		expect(oldIssue.activities).toBe(0);
 		expect(oldIssue.duration).toBe('0m');
 		expect(newIssue.activities).toBe(1);

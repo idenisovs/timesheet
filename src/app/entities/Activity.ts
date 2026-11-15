@@ -1,5 +1,4 @@
 import { Issue } from './Issue';
-import { Day } from './Day';
 import { ImportedActivity } from '@views/import-view/Imports';
 import { ActivityRecord } from '@store/records';
 import { getCurrentDate } from '@utils/date-v2';
@@ -12,7 +11,6 @@ export class Activity {
 	till = '';
 	duration = '';
 	color?: string;
-	issueId?: string;
 
 	constructor(entity?: Activity) {
 		if (!entity) {
@@ -64,10 +62,6 @@ export class Activity {
 		return projectKey;
 	}
 
-	isLinkedToIssue(): boolean {
-		return !!this.issueId || this.hasIssueKey();
-	}
-
 	getShortName(): string {
 		const categoryName = this.getCategoryName();
 
@@ -91,8 +85,7 @@ export class Activity {
 			&& this.from === other.from
 			&& this.till === other.till
 			&& this.duration === other.duration
-			&& this.color === other.color
-			&& this.issueId === other.issueId;
+			&& this.color === other.color;
 	}
 
 	overlaps(other: Activity): boolean {
