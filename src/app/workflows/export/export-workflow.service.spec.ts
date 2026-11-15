@@ -12,6 +12,10 @@ import {
 describe('ExportWorkflowService', () => {
 	const issue = {
 		id: 'issue-1',
+		key: 'ABC-1',
+		name: 'Work',
+		estimate: '2h',
+		duration: '1h',
 		createdAt: new Date('2025-01-01T00:00:00.000Z'),
 		activities: [{ id: 'activity-1' }],
 	};
@@ -52,7 +56,7 @@ describe('ExportWorkflowService', () => {
 			{ id: 'activity-1', date: '2025-01-01' },
 		]);
 		expect(XLSX.utils.sheet_to_json(workbook.Sheets['Issues'])).toEqual([
-			{ id: 'issue-1', createdAt: '2025-01-01T00:00:00.000Z' },
+			{ id: 'issue-1', key: 'ABC-1', name: 'Work', estimate: '2h', createdAt: '2025-01-01T00:00:00.000Z' },
 		]);
 		expect(issue.activities).toEqual([{ id: 'activity-1' }]);
 		expect(XLSX.utils.sheet_to_json(workbook.Sheets['Projects'])).toEqual([{
