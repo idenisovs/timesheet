@@ -76,4 +76,22 @@ describe('ExportWorkflowService', () => {
 		expect(projectRepository.getAll).not.toHaveBeenCalled();
 		expect(write.execute).not.toHaveBeenCalled();
 	});
+
+	it('exports activity dates in ISO date format', async () => {
+		activityRepository.getAll.mockResolvedValue([
+			{ id: 'activity-1', date: '2026-02-03T23:30:00-05:00' },
+		]);
+
+		const context = await service.run();
+		const activities = XLSX.utils.sheet_to_json(context.workbook.Sheets['Activities']);
+
+		expect(activities).toEqual([{ id: 'activity-1', date: '2026-02-03' }]);
+	});
+
+	it('does not write the workbook if an activity date is invalid', async () => {
+		activityRepository.getAll.mockResolvedValue([{ id: 'activity-1', date: 'invalid' }]);
+
+		await expect(service.run()).rejects.toThrow('Invalid activity date: invalid');
+		expect(write.execute).not.toHaveBeenCalled();
+	});
 });
