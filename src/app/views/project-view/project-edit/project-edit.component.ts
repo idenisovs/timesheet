@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Project } from '@entities';
-import { ProjectRepositoryService } from '@repository/project-repository.service';
+import { SaveProjectsWorkflowService } from '@workflows/save-projects/save-projects-workflow.service';
 
 @Component({
 	selector: 'app-project-edit',
@@ -15,6 +15,10 @@ import { ProjectRepositoryService } from '@repository/project-repository.service
 	styleUrl: './project-edit.component.scss',
 })
 export class ProjectEditComponent implements OnInit {
+	private readonly fb = inject(FormBuilder);
+	private readonly saveProjects = inject(SaveProjectsWorkflowService);
+	private readonly router = inject(Router);
+
 	form = this.fb.group({
 		name: [''],
 		keys: [''],
@@ -30,13 +34,6 @@ export class ProjectEditComponent implements OnInit {
 	@Output()
 	cancel = new EventEmitter<void>();
 
-	constructor(
-		private fb: FormBuilder,
-		private projectsService: ProjectRepositoryService,
-		private router: Router,
-	) {
-	}
-
 	ngOnInit() {
 		this.form.get('name')?.setValue(this.project.name);
 		this.form.get('keys')?.setValue(this.project.keys.join(', '));
@@ -51,7 +48,7 @@ export class ProjectEditComponent implements OnInit {
 		project.description = this.form.get('description')?.value as string;
 		project.keys = (this.form.get('keys')?.value as string).split(',').map(key => key.trim());
 
-		await this.projectsService.update(project);
+		await this.saveProjects.run([project], []);
 
 		this.changes.emit(project);
 	}
@@ -65,7 +62,7 @@ export class ProjectEditComponent implements OnInit {
 			return;
 		}
 
-		await this.projectsService.remove(this.project);
+		await this.saveProjects.run([], [this.project]);
 		await this.router.navigate(['projects']);
 	}
 }

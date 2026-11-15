@@ -8,6 +8,8 @@ export class SaveProjectsStepService implements Step<SaveProjectsContext> {
 	private readonly projectRepo = inject(ProjectRepositoryService);
 
 	async execute(context: SaveProjectsContext): Promise<void> {
+		console.log('Save Projects: Save Projects');
+
 		for (const { before, after } of context.snapshots) {
 			if (!before && after) {
 				await this.projectRepo.create(after);

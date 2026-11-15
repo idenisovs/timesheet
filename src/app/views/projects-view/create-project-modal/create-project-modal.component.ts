@@ -1,10 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import Dexie from 'dexie';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Project } from '@entities';
-import { ProjectRepositoryService } from '@repository/project-repository.service';
+import { SaveProjectsWorkflowService } from '@workflows/save-projects/save-projects-workflow.service';
 
 @Component({
     selector: 'app-create-project-modal',
@@ -17,17 +17,15 @@ import { ProjectRepositoryService } from '@repository/project-repository.service
     styleUrl: './create-project-modal.component.scss'
 })
 export class CreateProjectModalComponent {
+	private readonly modal = inject(NgbActiveModal);
+	private readonly fb = inject(FormBuilder);
+	private readonly saveProjects = inject(SaveProjectsWorkflowService);
+
   form = this.fb.group({
     name: [''],
     description: [''],
     keys: ['']
   });
-
-  constructor(
-    private modal: NgbActiveModal,
-    private fb: FormBuilder,
-    private projectRepository: ProjectRepositoryService,
-  ) {}
 
   async create() {
     const rawValues = this.form.value;
@@ -40,9 +38,9 @@ export class CreateProjectModalComponent {
     project.keys = rawKeys.split(',').map(key => key.trim());
 
     try {
-      const createdProject = await this.projectRepository.create(project);
+      await this.saveProjects.run([project], []);
 
-      this.modal.close(createdProject);
+      this.modal.close(project);
     } catch (e) {
       const error = e as Error;
 

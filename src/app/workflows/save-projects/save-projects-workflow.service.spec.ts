@@ -6,7 +6,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { SaveProjectsWorkflowService } from './save-projects-workflow.service';
 
 describe('SaveProjectsWorkflowService', () => {
-	it('saves project creations, updates and removals while skipping unchanged projects', async () => {
+	it('saves project creations, updates and removals and records snapshots', async () => {
 		const original = new Project();
 		original.name = 'Original';
 		const updated = new Project(original);
@@ -41,15 +41,19 @@ describe('SaveProjectsWorkflowService', () => {
 			.run([updated, unchanged, created], [removed]);
 
 		expect(create).toHaveBeenCalledExactlyOnceWith(created);
-		expect(update).toHaveBeenCalledExactlyOnceWith(updated);
+		expect(update).toHaveBeenCalledTimes(2);
+		expect(update).toHaveBeenNthCalledWith(1, updated);
+		expect(update).toHaveBeenNthCalledWith(2, unchanged);
 		expect(remove).toHaveBeenCalledExactlyOnceWith(removed);
 		expect(result.snapshots).toEqual([
 			expect.objectContaining({ before: original, after: updated }),
+			expect.objectContaining({ before: unchanged, after: unchanged }),
 			expect.objectContaining({ before: null, after: created }),
 			expect.objectContaining({ before: removed, after: null }),
 		]);
 		expect(save).toHaveBeenCalledExactlyOnceWith([
 			expect.objectContaining({ entity: 'project', before: original, after: updated }),
+			expect.objectContaining({ entity: 'project', before: unchanged, after: unchanged }),
 			expect.objectContaining({ entity: 'project', before: null, after: created }),
 			expect.objectContaining({ entity: 'project', before: removed, after: null }),
 		]);

@@ -8,6 +8,8 @@ export class GetIssueSnapshotsStepService implements Step<SaveIssuesContext> {
 	private readonly issueRepo = inject(IssueRepositoryService);
 
 	async execute(context: SaveIssuesContext): Promise<void> {
+		console.log('Save Issues: Get Issue Snapshots');
+
 		for (const issue of context.issues.toSave) {
 			const existingIssue = await this.issueRepo.getById(issue.id);
 

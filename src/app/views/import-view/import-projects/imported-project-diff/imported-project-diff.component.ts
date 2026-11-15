@@ -3,6 +3,7 @@ import { DatePipe, NgClass } from '@angular/common';
 
 import { Project } from '@entities';
 import { ProjectRepositoryService } from '@repository/project-repository.service';
+import { SaveProjectsWorkflowService } from '@workflows/save-projects/save-projects-workflow.service';
 import { DiffStatus } from '../../DiffStatus';
 
 @Component({
@@ -17,6 +18,7 @@ import { DiffStatus } from '../../DiffStatus';
 })
 export class ImportedProjectDiffComponent implements OnInit {
 	private projectsRepository = inject(ProjectRepositoryService);
+	private saveProjects = inject(SaveProjectsWorkflowService);
 
 	importedProject = input.required<Project>();
 	completed = output<Project>();
@@ -56,7 +58,7 @@ export class ImportedProjectDiffComponent implements OnInit {
 	}
 
 	async save() {
-		await this.projectsRepository.create(this.importedProject());
+		await this.saveProjects.run([this.importedProject()], []);
 		this.status = DiffStatus.same;
 		this.completed.emit(this.importedProject());
 	}
@@ -68,7 +70,7 @@ export class ImportedProjectDiffComponent implements OnInit {
 
 		const project = this.importedProject();
 		project.id = this.existingProject.id;
-		await this.projectsRepository.update(project);
+		await this.saveProjects.run([project], []);
 		this.completed.emit(project);
 	}
 
