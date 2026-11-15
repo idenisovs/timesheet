@@ -2,7 +2,7 @@ import { Component, effect, inject, input, InputSignal, signal, ChangeDetectionS
 
 import { Issue } from '@entities';
 import { ImportIssuesService } from './import-issues.service';
-import { IssueRepositoryService } from '@repository/issue-repository.service';
+import { SaveIssuesWorkflowService } from '@workflows/save-issues/save-issues-workflow.service';
 import { DiffStatus } from '../DiffStatus';
 
 @Component({
@@ -14,7 +14,7 @@ import { DiffStatus } from '../DiffStatus';
 })
 export class ImportIssuesComponent {
 	private service = inject(ImportIssuesService);
-	private repo = inject(IssueRepositoryService);
+	private saveIssues = inject(SaveIssuesWorkflowService);
 
 	public importedIssues: InputSignal<Issue[]> = input<Issue[]>([]);
 
@@ -38,17 +38,13 @@ export class ImportIssuesComponent {
 	}
 
 	async saveNew() {
-		for (const issue of this.createdIssues()) {
-			await this.repo.create(issue);
-		}
+		await this.saveIssues.run(this.createdIssues(), []);
 
 		this.createdIssues.set([]);
 	}
 
 	async saveUpdated() {
-		for (const issue of this.updatedIssues()) {
-			await this.repo.update(issue);
-		}
+		await this.saveIssues.run(this.updatedIssues(), []);
 
 		this.updatedIssues.set([]);
 	}
@@ -68,6 +64,9 @@ export class ImportIssuesComponent {
 					this.createdIssues.update(prev => [...prev, importedIssue]);
 					break;
 				case DiffStatus.updated:
+					if (existingIssue) {
+						importedIssue.id = existingIssue.id;
+					}
 					this.updatedIssues.update(prev => [...prev, importedIssue]);
 					break;
 				default:

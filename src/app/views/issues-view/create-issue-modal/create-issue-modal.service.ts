@@ -7,13 +7,15 @@ import { duration } from 'yet-another-duration';
 
 import { Issue } from '@entities';
 import { IssueRepositoryService } from '@repository/issue-repository.service';
+import { SaveIssuesWorkflowService } from '@workflows/save-issues/save-issues-workflow.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CreateIssueModalService {
   constructor(
-    private issueRepository: IssueRepositoryService
+    private issueRepository: IssueRepositoryService,
+    private saveIssues: SaveIssuesWorkflowService
   ) { }
 
   async save(name: string, estimate: string) {
@@ -25,7 +27,8 @@ export class CreateIssueModalService {
       estimate: this.normalizeDuration(estimate)
     })
 
-    return this.issueRepository.create(issue);
+    await this.saveIssues.run([issue], []);
+    return issue;
   }
 
   existingIssueNameValidator(): AsyncValidatorFn {

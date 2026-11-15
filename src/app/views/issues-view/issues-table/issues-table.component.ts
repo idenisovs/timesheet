@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 import { IssueRemoveButtonComponent } from '../issue-remove-button/issue-remove-button.component';
 import { Issue } from '@entities';
 import { IssuesService } from '@services/issues.service';
-import { IssueRepositoryService } from '@repository/issue-repository.service';
+import { SaveIssuesWorkflowService } from '@workflows/save-issues/save-issues-workflow.service';
 import { ActivityRepositoryService } from '@repository/activity-repository.service';
 
 @Component({
@@ -20,7 +20,7 @@ import { ActivityRepositoryService } from '@repository/activity-repository.servi
 	styleUrl: './issues-table.component.scss'
 })
 export class IssuesTableComponent {
-	private readonly issueRepository = inject(IssueRepositoryService);
+	private readonly saveIssues = inject(SaveIssuesWorkflowService);
 	private readonly issuesService = inject(IssuesService);
 	private readonly activitiesRepository = inject(ActivityRepositoryService);
 
@@ -40,7 +40,7 @@ export class IssuesTableComponent {
 
 
 	protected async remove(issue: Issue) {
-		await this.issueRepository.remove(issue);
+		await this.saveIssues.run([], [issue]);
 		const idx = this.issues().indexOf(issue);
 		this.issues().splice(idx, 1);
 	}

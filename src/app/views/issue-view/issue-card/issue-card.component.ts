@@ -1,10 +1,9 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Issue } from '@entities';
 import { IssueViewService } from '../issue-view.service';
-import { SheetStoreService } from '@services/sheet-store.service';
+import { SaveIssuesWorkflowService } from '@workflows/save-issues/save-issues-workflow.service';
 import { CreateIssueModalService } from '../../issues-view/create-issue-modal/create-issue-modal.service';
 
 @Component({
@@ -18,6 +17,11 @@ import { CreateIssueModalService } from '../../issues-view/create-issue-modal/cr
     styleUrl: './issue-card.component.scss'
 })
 export class IssueCardComponent implements OnInit {
+	private readonly fb = inject(FormBuilder);
+	private readonly issuePageService = inject(IssueViewService);
+	private readonly createIssueService = inject(CreateIssueModalService);
+	private readonly location = inject(Location);
+	private readonly saveIssues = inject(SaveIssuesWorkflowService);
 
   form = this.fb.group({
     name: [''],
@@ -26,15 +30,6 @@ export class IssueCardComponent implements OnInit {
 
   @Input()
   issue!: Issue;
-
-  constructor(
-    private fb: FormBuilder,
-    private issuePageService: IssueViewService,
-    private createIssueService: CreateIssueModalService,
-    private router: Router,
-    private location: Location,
-    private sheetStore: SheetStoreService,
-  ) {}
 
   ngOnInit() {
     this.form.get('name')?.setValue(this.issue.name);
@@ -46,15 +41,16 @@ export class IssueCardComponent implements OnInit {
       return;
     }
 
-    const db = this.sheetStore.Instance;
-
     const issueName = this.form.controls['name'].value || '';
     const issueEstimate = this.form.controls['estimate'].value || '';
 
-    await db.issues.update(this.issue, {
+    const updatedIssue = new Issue({
+      ...this.issue,
       name: issueName,
       estimate: this.createIssueService.normalizeDuration(issueEstimate)
-    })
+    });
+
+    await this.saveIssues.run([updatedIssue], []);
 
     await this.back();
   }

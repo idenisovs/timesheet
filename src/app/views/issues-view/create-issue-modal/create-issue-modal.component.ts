@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +14,10 @@ import { CreateIssueModalService } from './create-issue-modal.service';
     styleUrl: './create-issue-modal.component.scss'
 })
 export class CreateIssueModalComponent implements OnInit {
+	private readonly activeModal = inject(NgbActiveModal);
+	private readonly fb = inject(FormBuilder);
+	private readonly createIssueService = inject(CreateIssueModalService);
+
   form = this.fb.group({
     name: ['', [
       Validators.required,
@@ -33,12 +37,6 @@ export class CreateIssueModalComponent implements OnInit {
   get EstimateInput() {
     return this.form.controls.estimate;
   }
-
-  constructor(
-    private activeModal: NgbActiveModal,
-    private fb: FormBuilder,
-    private createIssueService: CreateIssueModalService
-  ) {}
 
   ngOnInit() {}
 

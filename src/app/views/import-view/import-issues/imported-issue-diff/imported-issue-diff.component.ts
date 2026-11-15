@@ -3,7 +3,7 @@ import { DatePipe, NgClass } from '@angular/common';
 
 import { Issue } from '@entities';
 import { DiffStatus } from '../../DiffStatus';
-import { IssueRepositoryService } from '@repository/issue-repository.service';
+import { SaveIssuesWorkflowService } from '@workflows/save-issues/save-issues-workflow.service';
 import { ImportIssuesService } from '../import-issues.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class ImportedIssueDiffComponent implements OnInit {
   completed = new EventEmitter<Issue>();
 
   constructor(
-    private issuesRepository: IssueRepositoryService,
+    private saveIssues: SaveIssuesWorkflowService,
     private importIssuesService: ImportIssuesService
   ) {}
 
@@ -44,7 +44,7 @@ export class ImportedIssueDiffComponent implements OnInit {
   }
 
   async save() {
-    await this.issuesRepository.create(this.importedIssue);
+    await this.saveIssues.run([this.importedIssue], []);
     this.status = DiffStatus.same;
     this.completed.emit(this.importedIssue);
   }
@@ -55,7 +55,7 @@ export class ImportedIssueDiffComponent implements OnInit {
     }
 
     this.importedIssue.id = this.existingIssue.id;
-    await this.issuesRepository.update(this.importedIssue);
+    await this.saveIssues.run([this.importedIssue], []);
     this.completed.emit(this.importedIssue);
   }
 
