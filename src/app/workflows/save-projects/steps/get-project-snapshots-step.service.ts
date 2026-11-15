@@ -9,8 +9,6 @@ export class GetProjectSnapshotsStepService implements Step<SaveProjectsContext>
 	private readonly projectRepo = inject(ProjectRepositoryService);
 
 	async execute(context: SaveProjectsContext): Promise<void> {
-		console.log('Save Projects: Get Project Snapshots');
-
 		for (const project of context.projects.toSave) {
 			const existingProject = await this.projectRepo.getById(project.id);
 

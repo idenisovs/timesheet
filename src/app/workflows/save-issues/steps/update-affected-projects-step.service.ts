@@ -12,8 +12,6 @@ export class UpdateAffectedProjectsStepService implements Step<SaveIssuesContext
 	private readonly saveProjectsWorkflow = inject(SaveProjectsWorkflowService);
 
 	async execute(context: SaveIssuesContext): Promise<void> {
-		console.log('Save Issues: Update Affected Projects');
-
 		const projectKeys: Set<string> = this.getAffectedProjectKeys(context);
 
 		const affectedProjects = await this.projectRepo.getAllByKeys([...projectKeys]);

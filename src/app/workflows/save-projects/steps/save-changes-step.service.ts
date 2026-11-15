@@ -9,8 +9,6 @@ export class SaveChangesStepService implements Step<SaveProjectsContext> {
 	private readonly changeRepo = inject(ChangeRepositoryService);
 
 	async execute(context: SaveProjectsContext): Promise<void> {
-		console.log('Save Projects: Save Changes');
-
 		const changes: Change[] = [];
 
 		for (const { before, after } of context.snapshots) {
