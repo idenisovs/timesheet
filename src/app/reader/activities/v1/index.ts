@@ -1,30 +1,34 @@
 import { DateTime } from 'luxon';
 import { Metadata } from '../../Metadata';
 import { ActivityReader } from '../ActivityReader';
-import { ActivityRecordV1 } from './ActivityRecordV1';
 import { Activity } from '@entities';
+import { ActivityRecord } from '@store/records';
 
-export * from './ActivityRecordV1';
 
-export class ActivityReaderV1 implements ActivityReader<ActivityRecordV1> {
+export class ActivityReaderV1 implements ActivityReader<ActivityRecord> {
 	metadata: Metadata;
 
 	constructor(metadata: Metadata) {
 		this.metadata = metadata;
 	}
 
-	public read(records: ActivityRecordV1[]): Activity[] {
+	public read(records: ActivityRecord[]): Activity[] {
 		return records.map(this.processRecord.bind(this));
 	}
 
-	private processRecord(record: ActivityRecordV1): Activity {
+	private processRecord(record: ActivityRecord): Activity {
 		const activity = new Activity();
-		Object.assign(activity, record);
+		activity.id = record.id;
+		activity.name = record.name;
 		activity.date = this.processRecordDate(record);
+		activity.from = record.from;
+		activity.till = record.till;
+		activity.duration = record.duration;
+		activity.color = record.color;
 		return activity;
 	}
 
-	private processRecordDate(record: ActivityRecordV1): string {
+	private processRecordDate(record: ActivityRecord): string {
 		const date = DateTime.fromISO(record.date).toLocal().toISODate() as string;
 
 		if (!date) {

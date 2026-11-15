@@ -3,15 +3,14 @@ import * as XLSX from 'xlsx';
 import { Activity, Issue, Project } from '@entities';
 import { Metadata, MetadataField, MetadataFieldType, MetadataRecord } from './Metadata';
 import { ActivityReaderFactory } from './activities/ActivityReaderFactory';
-import { ActivityRecord } from './activities/ActivityRecord';
 import { ImportedIssue, ImportedProject } from '@views/import-view/Imports';
+import { ActivityRecord } from '@store/records';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class ReaderService {
-	constructor() {
-	}
+	constructor() {}
 
 	public activities(workbook: XLSX.WorkBook): Activity[] {
 		const metadata = this.readMetadata(workbook);
