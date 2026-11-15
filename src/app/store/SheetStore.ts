@@ -2,14 +2,8 @@ import Dexie, { Transaction } from 'dexie';
 
 import { ProjectRecord, IssueRecord, ActivityRecord } from './records';
 
-import migrateV5 from './migrate-v5';
-import migrateV7 from './migrate-v7';
-import migrateV8 from './migrate-v8';
-import migrateV9 from './migrate-v9';
-import migrateV11 from './migrate-v11';
-import migrateV15 from './migrate-v15';
-import migrateV16 from './migrate-v16';
 import { ChangeRecord } from '@store/records/change-record';
+import migrateV16 from './migrate-v16';
 import migrateV17 from '@store/migrate-v17';
 
 export default class SheetStore extends Dexie {
@@ -21,38 +15,11 @@ export default class SheetStore extends Dexie {
 	constructor() {
 		super('timesheet');
 
-		this.version(4).stores({
-			projects: 'id,&name,description,*keys,createdAt',
-		});
-
-		this.version(5).stores({
-			weeks: 'id,from,till',
-			days: 'id,&date,weekId',
-			activities: 'id,name,date,weekId,dayId',
-			issues: '++id,&key,name,*activities,createdAt',
-		}).upgrade((tx: Transaction) => migrateV5(this, tx));
-
-		this.version(6).upgrade((tx: Transaction) => tx.table('sheet').clear());
-		this.version(7).upgrade((tx: Transaction) => migrateV7(this, tx));
-		this.version(8).stores({
-			activities: '&id,name,date,weekId,dayId,issueId',
-			issues: '++id,&key,name,activities,createdAt',
-		}).upgrade((tx: Transaction) => migrateV8(this, tx));
-		this.version(9).stores({
-			weeks: '&id,&from,&till',
-		}).upgrade((tx: Transaction) => migrateV9(this, tx));
-		this.version(10).stores({
-			activities: '&id,name,date,issueId',
-			sheet: null,
-			weeks: null,
-			days: null,
-		});
-
-		this.version(11).stores({
+		this.version(15).stores({
 			activities: '&id,name,date,from,till,issueId',
-		}).upgrade((tx: Transaction) => migrateV11(this, tx));
-
-		migrateV15(this);
+			issues: '&id,&key,name,activities,createdAt',
+			projects: '&id,&name,*keys,createdAt'
+		});
 
 		this.version(16).upgrade((tx: Transaction) => migrateV16(tx));
 
