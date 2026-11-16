@@ -1,7 +1,8 @@
 import { ChangeRecord } from '@store/records';
+import { getId } from '@utils/get-id';
 
 export class Change {
-	id = crypto.randomUUID() as string;
+	id = getId();
 	entity: ChangeRecord['entity'] = 'activity';
 	entityId = '';
 	before: ChangeRecord['before'] = null;

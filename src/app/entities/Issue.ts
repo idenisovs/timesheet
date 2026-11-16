@@ -1,10 +1,11 @@
 import { IssueRecord } from '@store/records';
 import { ImportedIssue } from '@views/import-view/Imports';
+import { getId } from '@utils/get-id';
 
 export class Issue {
 	public static readonly KEY_PATTERN = /^\w+-\d+/;
 
-	id = crypto.randomUUID() as string;
+	id = getId();
 	key = '';
 	name = '';
 	activities = 0;

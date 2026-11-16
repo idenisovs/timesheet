@@ -1,7 +1,8 @@
 import { Activity } from '@entities';
+import { getId } from '@utils/get-id';
 
 export class ActivityFormItem {
-	id: string = crypto.randomUUID();
+	id: string = getId();
 	name = '';
 	from = '';
 	till = '';

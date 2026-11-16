@@ -2,9 +2,10 @@ import { Issue } from './Issue';
 import { ImportedActivity } from '@views/import-view/Imports';
 import { ActivityRecord } from '@store/records';
 import { getCurrentDate } from '@utils/date-v2';
+import { getId } from '@utils/get-id';
 
 export class Activity {
-	id = crypto.randomUUID() as string;
+	id = getId();
 	name = '';
 	date = getCurrentDate();
 	from = '';
@@ -93,7 +94,7 @@ export class Activity {
 	}
 
 	regenerateId(): Activity {
-		this.id = crypto.randomUUID();
+		this.id = getId();
 		return this;
 	}
 

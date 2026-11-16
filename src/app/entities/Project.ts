@@ -1,8 +1,9 @@
 import { ImportedProject } from '@views/import-view/Imports';
 import { ProjectRecord } from '@store/records';
+import { getId } from '@utils/get-id';
 
 export class Project {
-	id = crypto.randomUUID() as string;
+	id = getId();
 	name = '';
 	description?: string;
 	keys: string[] = [];
