@@ -8,8 +8,9 @@ import {
 
 type EntityType = 'project' | 'issue' | 'activity';
 type ChangedEntityRecord = ProjectRecord | IssueRecord | ActivityRecord;
+type LegacyChangeRecord = Omit<ChangeRecord, 'entityId'>;
 
-function createChangeRecord(entity: EntityType, record: ChangedEntityRecord): ChangeRecord {
+function createChangeRecord(entity: EntityType, record: ChangedEntityRecord): LegacyChangeRecord {
 	return {
 		id: crypto.randomUUID(),
 		entity: entity,
@@ -22,7 +23,7 @@ function createChangeRecord(entity: EntityType, record: ChangedEntityRecord): Ch
 
 export default async function migrateV17(tx: Transaction) {
 	console.info('Running Migration V17: Introducing the Changes table!');
-	const changesTable = tx.table('changes') as Dexie.Table<ChangeRecord, string>;
+	const changesTable = tx.table('changes') as Dexie.Table<LegacyChangeRecord, string>;
 	const projectTable = tx.table('projects') as Dexie.Table<ProjectRecord, string>;
 
 	console.log('Saving the Project changes!');

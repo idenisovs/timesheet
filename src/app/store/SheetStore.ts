@@ -5,6 +5,7 @@ import { ProjectRecord, IssueRecord, ActivityRecord } from './records';
 import { ChangeRecord } from '@store/records/change-record';
 import migrateV16 from './migrate-v16';
 import migrateV17 from '@store/migrate-v17';
+import migrateV19 from '@store/migrate-v19';
 
 export default class SheetStore extends Dexie {
 	issues: Dexie.Table<IssueRecord, string>;
@@ -31,6 +32,10 @@ export default class SheetStore extends Dexie {
 			activities: '&id,name,date,from,till',
 			projects: '&id,&name,*keys,createdAt,updatedAt',
 		});
+
+		this.version(19).stores({
+			changes: '&id,entity,entityId,createdAt,syncedAt'
+		}).upgrade((tx: Transaction) => migrateV19(tx));
 
 
 		this.projects = this.table('projects');

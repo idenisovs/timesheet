@@ -12,7 +12,11 @@ export class SaveChangesStepService implements Step<SaveIssuesContext> {
 		const changes: Change[] = [];
 
 		for (const { before, after } of context.snapshots) {
-			const change = new Change({ entity: 'issue', before, after });
+			const change = new Change({
+				entity: 'issue',
+				before,
+				after,
+			});
 			changes.push(change);
 		}
 

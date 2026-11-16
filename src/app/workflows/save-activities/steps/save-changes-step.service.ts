@@ -17,7 +17,9 @@ export class SaveChangesStepService implements Step<SaveActivitiesContext> {
 
 		for (const { before, after } of context.snapshots) {
 			const change = new Change({
-				entity: 'activity', before, after
+				entity: 'activity',
+				before,
+				after,
 			});
 
 			changes.push(change);

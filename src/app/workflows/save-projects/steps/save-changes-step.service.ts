@@ -12,7 +12,11 @@ export class SaveChangesStepService implements Step<SaveProjectsContext> {
 		const changes: Change[] = [];
 
 		for (const { before, after } of context.snapshots) {
-			changes.push(new Change({ entity: 'project', before, after }));
+			changes.push(new Change({
+				entity: 'project',
+				before,
+				after,
+			}));
 		}
 
 		await this.changeRepo.save(changes);

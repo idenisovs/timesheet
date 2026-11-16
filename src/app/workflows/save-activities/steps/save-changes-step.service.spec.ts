@@ -12,15 +12,17 @@ describe('SaveChangesStepService', () => {
 		const before = new Activity();
 		const after = new Activity(before);
 		const removed = new Activity();
+		const created = new Activity();
 
 		await TestBed.inject(SaveChangesStepService).execute({
 			activities: { toSave: [], toRemove: [] },
-			snapshots: [{ before, after }, { before: removed, after: null }],
+			snapshots: [{ before, after }, { before: removed, after: null }, { before: null, after: created }],
 		});
 
 		expect(save).toHaveBeenCalledExactlyOnceWith([
-			expect.objectContaining({ entity: 'activity', before, after }),
-			expect.objectContaining({ entity: 'activity', before: removed, after: null }),
+			expect.objectContaining({ entity: 'activity', entityId: after.id, before, after }),
+			expect.objectContaining({ entity: 'activity', entityId: removed.id, before: removed, after: null }),
+			expect.objectContaining({ entity: 'activity', entityId: created.id, before: null, after: created }),
 		]);
 	});
 });

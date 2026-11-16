@@ -7,6 +7,7 @@ type ChangesEntity = ProjectRecord | IssueRecord | ActivityRecord;
 export interface ChangeRecord {
 	id: string;
 	entity: 'project' | 'issue' | 'activity';
+	entityId: string;
 	before: ChangesEntity | null;
 	after: ChangesEntity | null;
 	createdAt: Date;
