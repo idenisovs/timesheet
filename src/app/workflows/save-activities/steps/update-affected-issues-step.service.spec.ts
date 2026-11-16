@@ -8,6 +8,26 @@ import { describe, expect, it, vi } from 'vitest';
 import { UpdateAffectedIssuesStepService } from './update-affected-issues-step.service';
 
 describe('UpdateAffectedIssuesStepService', () => {
+	it('creates an issue with the activity name without its key', async () => {
+		const activity = new Activity();
+		activity.name = 'TST-123: Hello World!';
+		const run = vi.fn().mockResolvedValue(undefined);
+		TestBed.configureTestingModule({ providers: [UpdateAffectedIssuesStepService,
+			{ provide: IssueRepositoryService, useValue: { getByKey: vi.fn().mockResolvedValue(null) } },
+			{ provide: ActivityRepositoryService, useValue: { getByIssueKey: vi.fn().mockResolvedValue([activity]) } },
+			{ provide: ActivitiesService, useValue: { calculateDuration: vi.fn().mockReturnValue('1h') } },
+			{ provide: SaveIssuesWorkflowService, useValue: { run } }] });
+
+		await TestBed.inject(UpdateAffectedIssuesStepService).execute({
+			activities: { toSave: [], toRemove: [] },
+			snapshots: [{ before: null, after: activity }],
+		});
+
+		expect(run).toHaveBeenCalledExactlyOnceWith([
+			expect.objectContaining({ key: 'TST-123', name: 'Hello World!' }),
+		], []);
+	});
+
 	it('recalculates issues from both sides of snapshots and saves them', async () => {
 		const oldIssue = new Issue({ key: 'OLD-1' });
 		const newIssue = new Issue({ key: 'NEW-1' });

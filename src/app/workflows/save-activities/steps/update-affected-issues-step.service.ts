@@ -35,7 +35,7 @@ export class UpdateAffectedIssuesStepService implements Step<SaveActivitiesConte
 			if (!issue) {
 				issue = new Issue();
 				issue.key = issueKey;
-				issue.name = activities[0].name;
+				issue.name = activities[0].getShortName();
 			}
 
 			issue.activities = activities.length;
