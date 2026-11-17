@@ -1,19 +1,29 @@
 import { Injectable, signal } from '@angular/core';
 
-export interface ErrorToast {
+export interface ToastMessage {
 	message: string;
+	type: 'danger' | 'success';
 }
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
-	private readonly messages = signal<ErrorToast[]>([]);
-	readonly toasts = this.messages.asReadonly();
+	private readonly toastMessages = signal<ToastMessage[]>([]);
+
+	readonly toasts = this.toastMessages.asReadonly();
 
 	showError(message: string) {
-		this.messages.update(toasts => [...toasts, { message }]);
+		this.add({ message, type: 'danger' });
 	}
 
-	remove(toast: ErrorToast) {
-		this.messages.update(toasts => toasts.filter(item => item !== toast));
+	showSuccess(message: string) {
+		this.add({ message, type: 'success' });
+	}
+
+	remove(toast: ToastMessage) {
+		this.toastMessages.update(toasts => toasts.filter(item => item !== toast));
+	}
+
+	private add(toast: ToastMessage) {
+		this.toastMessages.update(toasts => [...toasts, toast]);
 	}
 }

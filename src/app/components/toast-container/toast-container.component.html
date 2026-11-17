@@ -1,12 +1,21 @@
 <div class="toast-container position-fixed top-0 end-0 p-3 z-3">
 	@for (toast of toastService.toasts(); track toast) {
 		<ngb-toast
-			class="text-bg-danger"
+			[class.text-bg-danger]="toast.type === 'danger'"
+			[class.text-bg-success]="toast.type === 'success'"
 			role="alert"
 			[delay]="3000"
 			(hidden)="toastService.remove(toast)"
 		>
-			{{ toast.message }}
+			<div class="d-flex align-items-start gap-3">
+				<span class="flex-grow-1">{{ toast.message }}</span>
+				<button
+					type="button"
+					class="btn-close btn-close-white"
+					aria-label="Close"
+					(click)="toastService.remove(toast)"
+				></button>
+			</div>
 		</ngb-toast>
 	}
 </div>

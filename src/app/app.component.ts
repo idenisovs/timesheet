@@ -8,6 +8,7 @@ import { ActionsService } from '@services/actions.service';
 import { Actions } from '@services/Actions';
 import { AppHeaderComponent } from '@components/app-header/app-header.component';
 import { ToastContainerComponent } from '@components/toast-container/toast-container.component';
+import { SyncLiveService } from './sync/sync-live.service';
 
 @Component({
 	selector: 'app-root',
@@ -23,6 +24,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
 	title = 'timesheet';
 	actionsSubs!: Subscription;
+
+	constructor() {
+		inject(SyncLiveService);
+	}
 
 	ngOnInit() {
 		this.actionsSubs = this.actions.on.subscribe(this.handlePageActions.bind(this));

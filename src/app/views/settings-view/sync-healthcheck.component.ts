@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@ang
 import { catchError, EMPTY, tap } from 'rxjs';
 
 import { SyncService } from '../../sync/sync-api';
-import { ToastService } from '@services/toast.service';
 
 @Component({
 	selector: 'app-sync-healthcheck',
@@ -12,7 +11,6 @@ import { ToastService } from '@services/toast.service';
 })
 export class SyncHealthcheckComponent {
 	private readonly syncService = inject(SyncService);
-	private readonly toastService = inject(ToastService);
 
 	protected readonly status = signal('Checking sync service…');
 	protected readonly response = signal('');
@@ -30,12 +28,10 @@ export class SyncHealthcheckComponent {
 				catchError((error: HttpErrorResponse) => {
 					if (error.status === 0) {
 						this.status.set('Could not contact the sync service.');
-						this.toastService.showError('Could not contact the sync service.');
 						return EMPTY;
 					}
 
 					this.status.set(`HTTP ${error.status}`);
-					this.toastService.showError(`Sync service healthcheck failed (HTTP ${error.status}).`);
 					this.response.set(typeof error.error === 'string' ? error.error : '');
 					return EMPTY;
 				}),
