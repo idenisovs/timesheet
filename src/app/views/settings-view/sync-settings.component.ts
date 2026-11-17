@@ -1,25 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { SettingsService } from '@services/settings.service';
-
-const syncUrlValidator: ValidatorFn = control => {
-	if (!control.value) {
-		return null;
-	}
-
-	try {
-		const url = new URL(control.value);
-
-		if (url.protocol === 'http:' || url.protocol === 'https:') {
-			return null;
-		}
-	} catch {
-		return { syncUrl: true };
-	}
-
-	return { syncUrl: true };
-};
+import { syncUrlValidator } from './sync-url.validator';
 
 @Component({
 	selector: 'app-sync-settings',
