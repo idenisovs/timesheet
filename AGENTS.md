@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
+This file provides guidance to AI agents working with code in this repository.
 
 ## Commands
 
@@ -28,11 +28,8 @@ A serverless browser-based time tracker. All data lives in IndexedDB (via Dexie.
 3. **Repository services** (`src/app/services/`) — `ActivitiesRepositoryService`, `IssueRepositoryService`, `ProjectRepositoryService` query Dexie and map records → entities.
 
 4. **Business logic services** — `ActivitiesService` (calculations), `DurationService` (time math), `WeekService`, `OverviewService`, `IssuesService`.
-
 5. **Workflow services** — `SaveActivitiesWorkflowService`, `ExportWorkflowService`, `RemoveActivitiesWorkflowService` orchestrate multi-step operations across repositories.
-
 6. **Pages** (`src/app/pages/`) — Route-based: daily-activities (main view), issues, projects, analytics, import, settings.
-
 7. **Components** (`src/app/components/`) — Shared UI components used across pages.
 
 ### Routing
@@ -52,6 +49,7 @@ Navbar action buttons use a named router outlet.
 ## Code Style
 
 - Prioritize readability for humans when writing and organizing code and templates.
+- Keep implementations simple and focused on the requested behavior. Avoid adding speculative handling or unnecessary complexity.
 - Tabs for indentation, size 4
 - Single quotes in TypeScript files
 - Final newline at end of every file, no trailing whitespace
