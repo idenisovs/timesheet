@@ -7,6 +7,7 @@ import { ColorModeService } from '@services/color-mode.service';
 import { ActionsService } from '@services/actions.service';
 import { Actions } from '@services/Actions';
 import { AppHeaderComponent } from '@components/app-header/app-header.component';
+import { ToastContainerComponent } from '@components/toast-container/toast-container.component';
 
 @Component({
 	selector: 'app-root',
@@ -14,7 +15,7 @@ import { AppHeaderComponent } from '@components/app-header/app-header.component'
 	styleUrls: ['./app.component.scss'],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.Eager,
-	imports: [RouterOutlet, NavbarComponent, AppHeaderComponent],
+	imports: [RouterOutlet, NavbarComponent, AppHeaderComponent, ToastContainerComponent],
 })
 export class AppComponent implements OnInit, OnDestroy {
 	private actions = inject(ActionsService);
