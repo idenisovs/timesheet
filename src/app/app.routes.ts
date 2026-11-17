@@ -14,6 +14,9 @@ import { ProjectViewComponent } from '@views/project-view/project-view.component
 import { projectResolver } from '@resolvers/index';
 import { ImportViewComponent } from '@views/import-view/import-view.component';
 import { SettingsViewComponent } from '@views/settings-view/settings-view.component';
+import { GeneralSettingsComponent } from '@views/settings-view/general-settings.component';
+import { DiagnosticsSettingsComponent } from '@views/settings-view/diagnostics-settings.component';
+import { restoreSettingsRoute, saveSettingsRoute } from '@views/settings-view/settings-route';
 
 export const routes: Routes = [
 	{
@@ -72,6 +75,11 @@ export const routes: Routes = [
 	},
 	{
 		path: 'settings',
-		component: SettingsViewComponent
+		component: SettingsViewComponent,
+		children: [
+			{ path: '', redirectTo: restoreSettingsRoute, pathMatch: 'full' },
+			{ path: 'general', component: GeneralSettingsComponent, canActivate: [saveSettingsRoute] },
+			{ path: 'diagnostics', component: DiagnosticsSettingsComponent, canActivate: [saveSettingsRoute] },
+		]
 	}
 ];
