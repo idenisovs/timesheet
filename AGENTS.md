@@ -51,6 +51,7 @@ Navbar action buttons use a named router outlet.
 
 ## Code Style
 
+- Prioritize readability for humans when writing and organizing code and templates.
 - Tabs for indentation, size 4
 - Single quotes in TypeScript files
 - Final newline at end of every file, no trailing whitespace
