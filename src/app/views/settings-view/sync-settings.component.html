@@ -27,3 +27,7 @@
 		</form>
 	</div>
 </section>
+
+@if (settings().syncServiceUrl) {
+	<app-sync-healthcheck />
+}

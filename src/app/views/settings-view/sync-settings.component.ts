@@ -3,16 +3,18 @@ import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { SettingsService } from '@services/settings.service';
 import { syncUrlValidator } from './sync-url.validator';
+import { SyncHealthcheckComponent } from './sync-healthcheck.component';
 
 @Component({
 	selector: 'app-sync-settings',
-	imports: [ReactiveFormsModule],
+	imports: [ReactiveFormsModule, SyncHealthcheckComponent],
 	templateUrl: './sync-settings.component.html',
 	changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class SyncSettingsComponent {
 	private readonly settingsService = inject(SettingsService);
 	private readonly fb = inject(NonNullableFormBuilder);
+	protected readonly settings = this.settingsService.settings$;
 
 	protected readonly form = this.fb.group({
 		syncServiceUrl: [{
