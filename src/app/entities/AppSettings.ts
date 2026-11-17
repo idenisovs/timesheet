@@ -4,4 +4,5 @@ export interface AppSettings {
 	isDiagnosticPanelVisible: boolean;
 	isDisplayEmptyWeeksEnabled: boolean;
 	isDayEmojisEnabled: boolean;
+	syncServiceUrl: string;
 }

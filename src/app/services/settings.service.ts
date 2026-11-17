@@ -7,6 +7,7 @@ const DEFAULT_SETTINGS: AppSettings = {
 	isDisplayEmptyWeeksEnabled: false,
 	isDiagnosticPanelVisible: false,
 	isDayEmojisEnabled: false,
+	syncServiceUrl: '',
 };
 
 @Injectable({
