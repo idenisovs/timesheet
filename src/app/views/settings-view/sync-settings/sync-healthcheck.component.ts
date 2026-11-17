@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { catchError, EMPTY, tap } from 'rxjs';
 
-import { SyncService } from '../../sync/sync-api';
+import { SyncService } from '../../../sync/sync-api';
 
 @Component({
 	selector: 'app-sync-healthcheck',
