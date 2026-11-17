@@ -1,9 +1,15 @@
 <section class="card mt-3">
 	<div class="card-body">
 		<div class="fw-semibold">Sync service healthcheck</div>
-		<div class="mt-2" role="status">{{ status() }}</div>
-		@if (response()) {
-			<pre class="mt-2 mb-0 text-wrap text-break">{{ response() }}</pre>
-		}
+		<div class="mt-2" role="status">
+			@switch (syncLiveService.status()) {
+				@case ('checking') { Checking sync service… }
+				@case ('alive') { Sync service is alive. }
+				@case ('failed') { Could not contact the sync service. }
+			}
+		</div>
+		<div class="mt-2">
+			<pre class="m-0">{{syncLiveService.lastResponse()}}</pre>
+		</div>
 	</div>
 </section>
