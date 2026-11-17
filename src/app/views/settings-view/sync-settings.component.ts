@@ -1,7 +1,25 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
 
 import { SettingsService } from '@services/settings.service';
+
+const syncUrlValidator: ValidatorFn = control => {
+	if (!control.value) {
+		return null;
+	}
+
+	try {
+		const url = new URL(control.value);
+
+		if (url.protocol === 'http:' || url.protocol === 'https:') {
+			return null;
+		}
+	} catch {
+		return { syncUrl: true };
+	}
+
+	return { syncUrl: true };
+};
 
 @Component({
 	selector: 'app-sync-settings',
@@ -14,16 +32,37 @@ export class SyncSettingsComponent {
 	private readonly fb = inject(NonNullableFormBuilder);
 
 	protected readonly form = this.fb.group({
-		syncServiceUrl: [this.settingsService.settings$().syncServiceUrl],
+		syncServiceUrl: [{
+			value: this.settingsService.settings$().syncServiceUrl,
+			disabled: true
+		}, syncUrlValidator],
 	});
 	protected isEditing = false;
 
 	protected edit() {
+		this.form.controls.syncServiceUrl.enable();
 		this.isEditing = true;
 	}
 
 	protected save() {
+		if (this.form.invalid) {
+			this.form.markAllAsTouched();
+			return;
+		}
+
 		this.settingsService.update(this.form.getRawValue());
+		this.form.controls.syncServiceUrl.disable();
 		this.isEditing = false;
+	}
+
+	protected cancel() {
+		this.form.reset({ syncServiceUrl: this.settingsService.settings$().syncServiceUrl });
+		this.form.controls.syncServiceUrl.disable();
+		this.isEditing = false;
+	}
+
+	protected remove() {
+		this.form.controls.syncServiceUrl.setValue('');
+		this.save();
 	}
 }
