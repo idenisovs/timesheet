@@ -1,33 +1,26 @@
 <section class="card">
 	<div class="card-body">
-		<form [formGroup]="form" (ngSubmit)="save()">
-			<label for="syncServiceUrl" class="form-label fw-semibold">Sync service URL</label>
-			<input
-				id="syncServiceUrl"
-				type="url"
-				class="form-control"
-				formControlName="syncServiceUrl"
-				[class.is-invalid]="form.controls.syncServiceUrl.invalid && form.controls.syncServiceUrl.touched"
-				aria-describedby="syncServiceUrlError"
-			>
-			<div id="syncServiceUrlError" class="invalid-feedback">
-				Enter a valid URL starting with http:// or https://.
-			</div>
-			@if (isEditing) {
-				<button type="submit" class="btn btn-primary mt-3">Save</button>
-				<button type="button" class="btn btn-outline-secondary mt-3 ms-2" (click)="cancel()">
-					Cancel
-				</button>
-				<button type="button" class="btn btn-outline-danger mt-3 ms-2" (click)="remove()">
-					Remove
-				</button>
-			} @else {
-				<button type="button" class="btn btn-primary mt-3" (click)="edit()">Edit</button>
-			}
-		</form>
+		<div class="fw-semibold">Timesheet Sync Service</div>
+		<p class="text-muted mt-2 mb-0">
+			Timesheet is designed to keep your data in your browser. Enable this feature to
+			synchronize your timesheet data with a remote service.
+		</p>
+		@if (settings().isSyncServiceEnabled) {
+			<button type="button" class="btn btn-outline-secondary mt-3" (click)="toggleSyncService()">
+				Disable
+			</button>
+		} @else {
+			<button type="button" class="btn btn-primary mt-3" (click)="toggleSyncService()">
+				Enable
+			</button>
+		}
 	</div>
 </section>
 
-@if (settings().syncServiceUrl) {
+@if (settings().isSyncServiceEnabled) {
+	<app-sync-service-url />
+}
+
+@if (settings().isSyncServiceEnabled && settings().syncServiceUrl) {
 	<app-sync-healthcheck />
 }

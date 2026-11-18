@@ -7,6 +7,7 @@ const DEFAULT_SETTINGS: AppSettings = {
 	isDisplayEmptyWeeksEnabled: false,
 	isDiagnosticPanelVisible: false,
 	isDayEmojisEnabled: false,
+	isSyncServiceEnabled: false,
 	syncServiceUrl: '',
 };
 
@@ -26,7 +27,11 @@ export class SettingsService {
 
 		if (raw) {
 			const parsed = JSON.parse(raw) as Partial<AppSettings>;
-			this.settings.update(_ => ({ ...DEFAULT_SETTINGS, ...parsed }));
+			this.settings.update(_ => ({
+				...DEFAULT_SETTINGS,
+				...parsed,
+				isSyncServiceEnabled: parsed.isSyncServiceEnabled ?? Boolean(parsed.syncServiceUrl),
+			}));
 		}
 
 		this.loaded.set(true);

@@ -29,7 +29,7 @@ export class SyncLiveService {
 
 	constructor() {
 		toObservable(this.settingsService.settings$).pipe(
-			map(settings => settings.syncServiceUrl),
+			map(settings => settings.isSyncServiceEnabled ? settings.syncServiceUrl : ''),
 			distinctUntilChanged(),
 			switchMap(url => {
 				this.failed.set(false);

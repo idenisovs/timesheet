@@ -1,0 +1,29 @@
+<section class="card mt-3">
+	<div class="card-body">
+		<form [formGroup]="form" (ngSubmit)="save()">
+			<label for="syncServiceUrl" class="form-label fw-semibold">Sync service URL</label>
+			<input
+				id="syncServiceUrl"
+				type="url"
+				class="form-control"
+				formControlName="syncServiceUrl"
+				[class.is-invalid]="form.controls.syncServiceUrl.invalid && form.controls.syncServiceUrl.touched"
+				aria-describedby="syncServiceUrlError"
+			>
+			<div id="syncServiceUrlError" class="invalid-feedback">
+				Enter a valid URL starting with http:// or https://.
+			</div>
+			@if (isEditing) {
+				<button type="submit" class="btn btn-primary mt-3">Save</button>
+				<button type="button" class="btn btn-outline-secondary mt-3 ms-2" (click)="cancel()">
+					Cancel
+				</button>
+				<button type="button" class="btn btn-outline-danger mt-3 ms-2" (click)="remove()">
+					Remove
+				</button>
+			} @else {
+				<button type="button" class="btn btn-primary mt-3" (click)="edit()">Edit</button>
+			}
+		</form>
+	</div>
+</section>

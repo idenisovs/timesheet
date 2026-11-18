@@ -10,14 +10,14 @@ import { SyncService } from './sync-api';
 import { SyncLiveService } from './sync-live.service';
 
 describe('SyncLiveService', () => {
-	const settings = signal({ syncServiceUrl: '' });
+	const settings = signal({ isSyncServiceEnabled: false, syncServiceUrl: '' });
 	const sync = { getHealthcheck: vi.fn() };
 	const toast = { showError: vi.fn(), showSuccess: vi.fn() };
 
 	beforeEach(() => {
 		vi.useFakeTimers();
 		vi.clearAllMocks();
-		settings.set({ syncServiceUrl: '' });
+		settings.set({ isSyncServiceEnabled: false, syncServiceUrl: '' });
 		TestBed.configureTestingModule({
 			providers: [
 				{ provide: SettingsService, useValue: { settings$: settings.asReadonly() } },
@@ -41,7 +41,7 @@ describe('SyncLiveService', () => {
 		vi.advanceTimersByTime(60_000);
 		expect(sync.getHealthcheck).not.toHaveBeenCalled();
 
-		settings.set({ syncServiceUrl: 'https://example.com' });
+		settings.set({ isSyncServiceEnabled: true, syncServiceUrl: 'https://example.com' });
 		TestBed.tick();
 		vi.advanceTimersByTime(60_000);
 		expect(sync.getHealthcheck).toHaveBeenCalledTimes(2);
@@ -58,7 +58,7 @@ describe('SyncLiveService', () => {
 		expect(service.lastResponse()).toBe('OK');
 		expect(toast.showSuccess).toHaveBeenCalledTimes(1);
 
-		settings.set({ syncServiceUrl: '' });
+		settings.set({ isSyncServiceEnabled: false, syncServiceUrl: 'https://example.com' });
 		TestBed.tick();
 		expect(service.status()).toBe('checking');
 		expect(service.lastResponse()).toBeNull();
