@@ -48,4 +48,11 @@ export class ChangeRepositoryService {
 
 		await this.db.changes.bulkUpdate(updates);
 	}
+
+	async resetSync(): Promise<void> {
+		await this.db.changes.toCollection().modify({
+			status: 'pending',
+			syncedAt: null,
+		});
+	}
 }

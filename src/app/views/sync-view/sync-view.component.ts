@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
+import { ChangeRepositoryService } from '@repository/change-repository.service';
 import { SyncHealthcheckComponent } from './sync-healthcheck.component';
 
 @Component({
@@ -8,4 +9,10 @@ import { SyncHealthcheckComponent } from './sync-healthcheck.component';
 	templateUrl: './sync-view.component.html',
 	changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class SyncViewComponent {}
+export class SyncViewComponent {
+	private readonly changeRepo = inject(ChangeRepositoryService);
+
+	protected async resetSync(): Promise<void> {
+		await this.changeRepo.resetSync();
+	}
+}
