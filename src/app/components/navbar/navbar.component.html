@@ -26,6 +26,24 @@
 						Settings
 					</a>
 				</li>
+				<li class="nav-item">
+					@if (settings().isSyncServiceEnabled) {
+						<a class="nav-link" [routerLink]="['/sync']" routerLinkActive="active">
+							Sync
+						</a>
+					} @else {
+						<button
+							type="button"
+							class="nav-link text-body-tertiary"
+							aria-disabled="true"
+							ngbPopover="Turn on Sync in Settings to use this feature."
+							triggers="hover focus"
+							placement="bottom"
+						>
+							Sync
+						</button>
+					}
+				</li>
 			</ul>
 			<ul class="navbar-nav">
 

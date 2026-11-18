@@ -2,11 +2,10 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { SettingsService } from '@services/settings.service';
 import { SyncServiceUrlComponent } from './sync-service-url.component';
-import { SyncHealthcheckComponent } from './sync-healthcheck.component';
 
 @Component({
 	selector: 'app-sync-settings',
-	imports: [SyncServiceUrlComponent, SyncHealthcheckComponent],
+	imports: [SyncServiceUrlComponent],
 	templateUrl: './sync-settings.component.html',
 	changeDetection: ChangeDetectionStrategy.Eager,
 })

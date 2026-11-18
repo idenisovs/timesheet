@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
-import { SyncLiveService } from '../../../sync/sync-live.service';
+import { SyncLiveService } from '../../sync/sync-live.service';
 
 @Component({
 	selector: 'app-sync-healthcheck',
