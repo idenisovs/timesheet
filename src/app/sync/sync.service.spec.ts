@@ -10,7 +10,35 @@ import { SyncLiveService } from './sync-live.service';
 import { SyncService } from './sync.service';
 
 describe('SyncService', () => {
-	afterEach(() => TestBed.resetTestingModule());
+	afterEach(() => {
+		TestBed.resetTestingModule();
+		vi.useRealTimers();
+	});
+
+	it('waits for closely spaced changes before starting sync', async () => {
+		vi.useFakeTimers();
+		const status = signal<'alive' | 'failed'>('alive');
+		const pending = new Subject<boolean>();
+		const getPendingBatch = vi.fn().mockResolvedValue([]);
+
+		TestBed.configureTestingModule({
+			providers: [
+				{ provide: ChangeRepositoryService, useValue: { hasPendingChanges$: pending, getPendingBatch } },
+				{ provide: SyncLiveService, useValue: { status: status.asReadonly() } },
+				{ provide: SyncApiService, useValue: {} },
+			],
+		});
+		TestBed.inject(SyncService);
+		TestBed.tick();
+
+		pending.next(true);
+		await vi.advanceTimersByTimeAsync(400);
+		pending.next(true);
+		await vi.advanceTimersByTimeAsync(400);
+		expect(getPendingBatch).not.toHaveBeenCalled();
+		await vi.advanceTimersByTimeAsync(100);
+		expect(getPendingBatch).toHaveBeenCalledTimes(1);
+	});
 
 	it('passes a batch of pending changes to the sync API', async () => {
 		const status = signal<'alive' | 'failed'>('alive');

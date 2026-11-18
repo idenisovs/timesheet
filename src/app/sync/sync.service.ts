@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { EMPTY, filter, firstValueFrom, from, Observable, switchMap } from 'rxjs';
+import { debounceTime, EMPTY, filter, firstValueFrom, from, Observable, switchMap } from 'rxjs';
 import { ChangeRepositoryService } from '@repository/change-repository.service';
 import { SyncApiService } from './sync-api';
 import { SyncLiveService } from './sync-live.service';
 import { Change } from '@entities';
+import ms from 'ms';
 
 @Injectable({ providedIn: 'root' })
 export class SyncService {
@@ -30,6 +31,8 @@ export class SyncService {
 
 	private watchPendingChanges(): Observable<boolean> {
 		return from(this.changeRepo.hasPendingChanges$).pipe(
+			// Wait for related changes to be saved.
+			debounceTime(ms('1s')),
 			// Continue only when there are pending changes.
 			filter(hasPendingChanges => hasPendingChanges),
 		);
