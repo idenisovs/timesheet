@@ -7,8 +7,9 @@ export class Change {
 	entityId = '';
 	before: ChangeRecord['before'] = null;
 	after: ChangeRecord['after'] = null;
-	createdAt = new Date();
+	status: ChangeRecord['status'] = 'pending';
 	syncedAt: Date | null = null;
+	createdAt = new Date();
 
 	constructor(change?: Partial<Change>) {
 		if (change) {

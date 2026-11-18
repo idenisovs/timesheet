@@ -8,7 +8,7 @@ import {
 
 type EntityType = 'project' | 'issue' | 'activity';
 type ChangedEntityRecord = ProjectRecord | IssueRecord | ActivityRecord;
-type LegacyChangeRecord = Omit<ChangeRecord, 'entityId'>;
+type LegacyChangeRecord = Omit<ChangeRecord, 'entityId' | 'status'>;
 
 function createChangeRecord(entity: EntityType, record: ChangedEntityRecord): LegacyChangeRecord {
 	return {

@@ -10,6 +10,7 @@ export interface ChangeRecord {
 	entityId: string;
 	before: ChangesEntity | null;
 	after: ChangesEntity | null;
-	createdAt: Date;
+	status: 'pending' | 'synced';
 	syncedAt: Date | null;
+	createdAt: Date;
 }
