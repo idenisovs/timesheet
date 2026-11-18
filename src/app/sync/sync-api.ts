@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 
 import { SettingsService } from '@services/settings.service';
-import { SyncServiceGuard } from './sync-service-guard';
 
 @Injectable({ providedIn: 'root' })
 export class SyncService {
@@ -20,4 +19,24 @@ export class SyncService {
 			responseType: 'text',
 		});
 	}
+}
+
+interface SyncServiceGuardContext {
+	readonly settingsService: SettingsService;
+}
+
+export function SyncServiceGuard<Args extends unknown[], Return>(
+	_target: object,
+	_propertyKey: string | symbol,
+	descriptor: TypedPropertyDescriptor<(this: SyncServiceGuardContext, ...args: Args) => Return>,
+) {
+	const method = descriptor.value!;
+
+	descriptor.value = function (this: SyncServiceGuardContext, ...args: Args): Return {
+		if (!this.settingsService.settings$().isSyncServiceEnabled) {
+			throw new Error('Timesheet Sync Service is disabled.');
+		}
+
+		return method.apply(this, args);
+	};
 }
