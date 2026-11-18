@@ -43,6 +43,7 @@
     "@types/file-saver": "^2.0.7",
     "@types/jasmine": "^5.1.4",
     "@types/luxon": "^3.4.2",
+    "@types/ms": "^2.1.0",
     "@types/node": "^26.6.6",
     "istanbul-lib-instrument": "^6.0.3",
     "jasmine-core": "~3.8.0",

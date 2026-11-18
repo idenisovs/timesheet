@@ -1,14 +1,20 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { catchError, distinctUntilChanged, EMPTY, map, of, switchMap, tap, timer } from 'rxjs';
+import {
+	catchError, distinctUntilChanged, EMPTY, map,
+	Observable, of, switchMap, tap, timer,
+} from 'rxjs';
 
 import { SettingsService } from '@services/settings.service';
 import { ToastService } from '@services/toast.service';
 import { SyncService } from './sync-api';
+import ms from 'ms';
 
 @Injectable({ providedIn: 'root' })
 export class SyncLiveService {
+	private readonly CHECK_INTERVAL = ms('1min');
+
 	private readonly settingsService = inject(SettingsService);
 	private readonly syncService = inject(SyncService);
 	private readonly toastService = inject(ToastService);
@@ -34,21 +40,25 @@ export class SyncLiveService {
 					return EMPTY;
 				}
 
-				return timer(0, 60_000).pipe(
-					switchMap(() => this.syncService.getHealthcheck().pipe(
-						tap(response => this.healthcheckResponse.set(response.body)),
-						map(() => true),
-						catchError((error: HttpErrorResponse) => {
-							const body = typeof error.error === 'string' ? error.error : null;
-							this.healthcheckResponse.set(body);
-							return of(false);
-						}),
-					)),
-					tap(alive => this.updateStatus(alive)),
+				return timer(0, this.CHECK_INTERVAL).pipe(
+					switchMap(() => this.checkHealth()),
 				);
 			}),
 			takeUntilDestroyed(),
 		).subscribe();
+	}
+
+	private checkHealth(): Observable<Boolean> {
+		return this.syncService.getHealthcheck().pipe(
+			tap(response => this.healthcheckResponse.set(response.body)),
+			map(() => true),
+			catchError((error: HttpErrorResponse) => {
+				const body = typeof error.error === 'string' ? error.error : null;
+				this.healthcheckResponse.set(body);
+				return of(false);
+			}),
+			tap(alive => this.updateStatus(alive)),
+		);
 	}
 
 	private updateStatus(alive: boolean) {
