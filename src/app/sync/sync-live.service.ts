@@ -29,20 +29,22 @@ export class SyncLiveService {
 		toObservable(this.settingsService.settings$).pipe(
 			map(settings => settings.isSyncServiceEnabled ? settings.syncServiceUrl : ''),
 			distinctUntilChanged(),
-			switchMap(url => {
-				this.healthcheckStatus.set('checking');
-				this.healthcheckResponse.set(null);
-
-				if (!url) {
-					return EMPTY;
-				}
-
-				return timer(0, this.CHECK_INTERVAL).pipe(
-					switchMap(() => this.checkHealth()),
-				);
-			}),
+			switchMap(url => this.startPooling(url)),
 			takeUntilDestroyed(),
 		).subscribe();
+	}
+
+	private startPooling(url: string) {
+		if (!url) {
+			return EMPTY;
+		}
+
+		this.healthcheckStatus.set('checking');
+		this.healthcheckResponse.set(null);
+
+		return timer(0, this.CHECK_INTERVAL).pipe(
+			switchMap(() => this.checkHealth()),
+		);
 	}
 
 	private checkHealth(): Observable<Boolean> {
