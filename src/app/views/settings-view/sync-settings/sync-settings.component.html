@@ -2,16 +2,16 @@
 	<div class="card-body">
 		<div class="fw-semibold">Timesheet Sync Service</div>
 		<p class="text-muted mt-2 mb-0">
-			Timesheet is designed to keep your data in your browser. Enable this feature to
-			synchronize your timesheet data with a remote service.
+			Timesheet is designed to keep your data in your browser. Turn on sync to
+			keep your timesheet data up to date with a remote (cloud) service.
 		</p>
 		@if (settings().isSyncServiceEnabled) {
 			<button type="button" class="btn btn-outline-secondary mt-3" (click)="toggleSyncService()">
-				Disable
+				Turn off sync
 			</button>
 		} @else {
 			<button type="button" class="btn btn-primary mt-3" (click)="toggleSyncService()">
-				Enable
+				Turn on sync
 			</button>
 		}
 	</div>
