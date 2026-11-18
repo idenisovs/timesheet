@@ -6,7 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SettingsService } from '@services/settings.service';
 import { ToastService } from '@services/toast.service';
-import { SyncService } from './sync-api';
+import { SyncApiService } from './sync-api';
 import { SyncLiveService } from './sync-live.service';
 
 describe('SyncLiveService', () => {
@@ -21,7 +21,7 @@ describe('SyncLiveService', () => {
 		TestBed.configureTestingModule({
 			providers: [
 				{ provide: SettingsService, useValue: { settings$: settings.asReadonly() } },
-				{ provide: SyncService, useValue: sync },
+				{ provide: SyncApiService, useValue: sync },
 				{ provide: ToastService, useValue: toast },
 			],
 		});

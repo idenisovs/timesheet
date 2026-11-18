@@ -8,7 +8,7 @@ import {
 
 import { SettingsService } from '@services/settings.service';
 import { ToastService } from '@services/toast.service';
-import { SyncService } from './sync-api';
+import { SyncApiService } from './sync-api';
 import ms from 'ms';
 
 @Injectable({ providedIn: 'root' })
@@ -16,7 +16,7 @@ export class SyncLiveService {
 	private readonly CHECK_INTERVAL = ms('1min');
 
 	private readonly settingsService = inject(SettingsService);
-	private readonly syncService = inject(SyncService);
+	private readonly syncService = inject(SyncApiService);
 	private readonly toastService = inject(ToastService);
 
 	private readonly failed = signal(false);

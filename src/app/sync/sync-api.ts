@@ -4,7 +4,7 @@ import { inject, Injectable } from '@angular/core';
 import { SettingsService } from '@services/settings.service';
 
 @Injectable({ providedIn: 'root' })
-export class SyncService {
+export class SyncApiService {
 	private readonly http = inject(HttpClient);
 	readonly settingsService = inject(SettingsService);
 

@@ -5,9 +5,9 @@ import { of } from 'rxjs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SettingsService } from '@services/settings.service';
-import { SyncService } from './sync-api';
+import { SyncApiService } from './sync-api';
 
-describe('SyncService', () => {
+describe('SyncApiService', () => {
 	const settings = signal({ isSyncServiceEnabled: false, syncServiceUrl: 'https://example.com' });
 	const http = { get: vi.fn() };
 
@@ -23,7 +23,7 @@ describe('SyncService', () => {
 	});
 
 	it('rejects calls when sync is disabled and allows them after it is enabled', () => {
-		const service = TestBed.inject(SyncService);
+		const service = TestBed.inject(SyncApiService);
 		const response = new HttpResponse({ body: 'OK' });
 		http.get.mockReturnValue(of(response));
 
