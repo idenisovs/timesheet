@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { delay, Observable, of } from 'rxjs';
 
 import { SettingsService } from '@services/settings.service';
+import { Change } from '@entities';
 
 @Injectable({ providedIn: 'root' })
 export class SyncApiService {
@@ -18,6 +20,14 @@ export class SyncApiService {
 			observe: 'response',
 			responseType: 'text',
 		});
+	}
+
+	@SyncServiceGuard
+	sync(changes: Change[]): Observable<void> {
+		console.log('Pending changes:');
+		console.log(changes);
+
+		return of(undefined).pipe(delay(1000));
 	}
 }
 

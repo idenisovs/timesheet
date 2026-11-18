@@ -9,6 +9,7 @@ import { Actions } from '@services/Actions';
 import { AppHeaderComponent } from '@components/app-header/app-header.component';
 import { ToastContainerComponent } from '@components/toast-container/toast-container.component';
 import { SyncLiveService } from './sync/sync-live.service';
+import { SyncService } from './sync/sync.service';
 
 @Component({
 	selector: 'app-root',
@@ -27,6 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
 	constructor() {
 		inject(SyncLiveService);
+		inject(SyncService);
 	}
 
 	ngOnInit() {
