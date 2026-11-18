@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { debounceTime, EMPTY, filter, firstValueFrom, from, Observable, switchMap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { debounceTime, filter, firstValueFrom, from } from 'rxjs';
 import { ChangeRepositoryService } from '@repository/change-repository.service';
 import { SyncApiService } from './sync-api';
-import { SyncLiveService } from './sync-live.service';
 import { Change } from '@entities';
 import ms from 'ms';
+import { SyncLiveService } from './sync-live.service';
 
 @Injectable({ providedIn: 'root' })
 export class SyncService {
@@ -15,54 +15,38 @@ export class SyncService {
 	private syncing = false;
 
 	constructor() {
-		toObservable(this.syncLive.status).pipe(
-			// Watch for pending changes only while the sync service is alive.
-			switchMap(status => {
-				if (status !== 'alive') {
-					return EMPTY;
-				}
-
-				return this.watchPendingChanges();
-			}),
-			// Unsubscribe when the service is destroyed.
-			takeUntilDestroyed(),
-		).subscribe(() => this.launchSyncProcess());
-	}
-
-	private watchPendingChanges(): Observable<boolean> {
-		return from(this.changeRepo.hasPendingChanges$).pipe(
-			// Wait for related changes to be saved.
+		from(this.changeRepo.hasPendingChanges$).pipe(
 			debounceTime(ms('1s')),
-			// Continue only when there are pending changes.
 			filter(hasPendingChanges => hasPendingChanges),
-		);
+			takeUntilDestroyed(),
+		).subscribe(() => void this.sync());
 	}
 
-	private async launchSyncProcess(): Promise<void> {
+	private async sync(): Promise<void> {
+		if (this.syncLive.status() !== 'alive') {
+			return;
+		}
+
 		if (this.syncing) {
 			return;
 		}
 
 		this.syncing = true;
 
-		void this.sync();
-	}
+		while (true) {
+			const changes = await this.changeRepo.getPendingBatch();
 
-	private async sync(): Promise<void> {
-		const changes = await this.changeRepo.getPendingBatch();
+			if (changes.length === 0) {
+				this.syncing = false;
+				return;
+			}
 
-		if (changes.length === 0) {
-			this.syncing = false;
-			return;
+			// ToDo: Error Handling
+			await firstValueFrom(this.syncApi.sync(changes));
+			// ToDo: Process Sync Service Response
+			this.markSynced(changes);
+			await this.changeRepo.update(changes);
 		}
-
-		// ToDo: Error Handling
-		await firstValueFrom(this.syncApi.sync(changes));
-		// ToDo: Process Sync Service Response
-		this.markSynced(changes);
-		await this.changeRepo.update(changes);
-
-		await this.sync();
 	}
 
 	private markSynced(changes: Change[]) {
