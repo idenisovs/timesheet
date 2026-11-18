@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { delay, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { SettingsService } from '@services/settings.service';
 import { Change } from '@entities';
+import { SyncServiceResponse } from './SyncServiceResponse';
 
 @Injectable({ providedIn: 'root' })
 export class SyncApiService {
@@ -23,11 +24,12 @@ export class SyncApiService {
 	}
 
 	@SyncServiceGuard
-	sync(changes: Change[]): Observable<void> {
-		console.log('Pending changes:');
-		console.log(changes);
+	sync(changes: Change[]): Observable<SyncServiceResponse> {
+		const serviceUrl = this.settingsService.settings$().syncServiceUrl;
 
-		return of(undefined).pipe(delay(1000));
+		const url = new URL('/sync', serviceUrl);
+
+		return this.http.post<SyncServiceResponse>(url.toString(), changes);
 	}
 }
 

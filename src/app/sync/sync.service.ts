@@ -55,6 +55,7 @@ export class SyncService {
 
 		// ToDo: Error Handling
 		await firstValueFrom(this.syncApi.sync(changes));
+		// ToDo: Process Sync Service Response
 		this.markSynced(changes);
 		await this.changeRepo.update(changes);
 
