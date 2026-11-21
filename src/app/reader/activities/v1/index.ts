@@ -25,6 +25,8 @@ export class ActivityReaderV1 implements ActivityReader<ActivityRecord> {
 		activity.till = record.till;
 		activity.duration = record.duration;
 		activity.color = record.color;
+		activity.createdAt = record.createdAt ? new Date(record.createdAt) : new Date();
+		activity.updatedAt = record.updatedAt ? new Date(record.updatedAt) : activity.createdAt;
 		return activity;
 	}
 

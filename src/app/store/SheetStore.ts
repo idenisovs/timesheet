@@ -7,6 +7,7 @@ import migrateV16 from './migrate-v16';
 import migrateV17 from '@store/migrate-v17';
 import migrateV19 from '@store/migrate-v19';
 import migrateV20 from '@store/migrate-v20';
+import migrateV21 from '@store/migrate-v21';
 
 export default class SheetStore extends Dexie {
 	issues: Dexie.Table<IssueRecord, string>;
@@ -41,6 +42,8 @@ export default class SheetStore extends Dexie {
 		this.version(20).stores({
 			changes: '&id,entity,entityId,status,syncedAt,createdAt'
 		}).upgrade((tx: Transaction) => migrateV20(tx));
+
+		this.version(21).upgrade((tx: Transaction) => migrateV21(tx));
 
 		this.projects = this.table('projects');
 		this.issues = this.table('issues');

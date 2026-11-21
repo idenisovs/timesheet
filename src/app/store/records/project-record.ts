@@ -1,9 +1,10 @@
 export interface ProjectRecord {
-  id: string;
-  name: string;
-  description?: string;
-  keys: string[];
-  createdAt: Date;
+	id: string;
+	name: string;
+	description?: string;
+	keys: string[];
+	createdAt: Date;
+	updatedAt: Date;
 }
 
 

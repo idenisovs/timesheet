@@ -20,9 +20,7 @@ export class Project {
 		return this.name === other.name
 			&& this.description === other.description
 			&& this.keys.length === other.keys.length
-			&& this.keys.every(key => other.keys.includes(key))
-			&& this.createdAt.getTime() === other.createdAt.getTime()
-			&& this.updatedAt.getTime() === other.updatedAt.getTime();
+			&& this.keys.every(key => other.keys.includes(key));
 	}
 
 	static fromImport(importedProject: ImportedProject): Project {
@@ -32,7 +30,7 @@ export class Project {
 
 		project.keys = importedProject.keys.split(';').map((key: string) => key.trim());
 		project.createdAt = new Date(importedProject.createdAt);
-		project.updatedAt = new Date(importedProject.updatedAt);
+		project.updatedAt = importedProject.updatedAt ? new Date(importedProject.updatedAt) : project.createdAt;
 
 		return project;
 	}

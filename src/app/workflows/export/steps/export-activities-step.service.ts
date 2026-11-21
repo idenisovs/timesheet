@@ -23,6 +23,8 @@ export class ExportActivitiesStepService implements Step<ExportContext> {
 			till: activity.till,
 			duration: activity.duration,
 			color: activity.color,
+			createdAt: activity.createdAt?.toISOString(),
+			updatedAt: activity.updatedAt?.toISOString(),
 		}));
 
 		const sheet = XLSX.utils.json_to_sheet(activitiesJson);

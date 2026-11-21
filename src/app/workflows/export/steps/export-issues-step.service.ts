@@ -17,6 +17,7 @@ export class ExportIssuesStepService implements Step<ExportContext> {
 			name: issue.name,
 			estimate: issue.estimate,
 			createdAt: issue.createdAt?.toISOString(),
+			updatedAt: issue.updatedAt?.toISOString(),
 		}));
 
 		const sheet = XLSX.utils.json_to_sheet(issuesJson);

@@ -7,6 +7,8 @@ import { GetActivitySnapshotsStepService } from './get-activity-snapshots-step.s
 describe('GetActivitySnapshotsStepService', () => {
 	it('captures new, changed and removed activities, skipping unchanged ones', async () => {
 		const old = new Activity();
+		old.createdAt = new Date('2020-01-01');
+		old.updatedAt = new Date('2020-01-02');
 		const changed = new Activity(old);
 		changed.name = 'Changed';
 		const unchanged = new Activity();
@@ -20,6 +22,8 @@ describe('GetActivitySnapshotsStepService', () => {
 
 		await TestBed.inject(GetActivitySnapshotsStepService).execute(context);
 
+		expect(changed.createdAt).toEqual(old.createdAt);
+		expect(changed.updatedAt.getTime()).toBeGreaterThan(old.updatedAt.getTime());
 		expect(context.snapshots).toEqual([
 			{ before: old, after: changed }, { before: null, after: created }, { before: removed, after: null },
 		]);

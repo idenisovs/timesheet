@@ -6,4 +6,6 @@ export interface ActivityRecord {
 	till: string;
 	duration: string;
 	color?: string;
+	createdAt: Date;
+	updatedAt: Date;
 }

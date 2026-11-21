@@ -7,6 +7,8 @@ import { GetIssueSnapshotsStepService } from './get-issue-snapshots-step.service
 describe('GetIssueSnapshotsStepService', () => {
 	it('captures new, changed and removed issues, skipping unchanged ones', async () => {
 		const original = new Issue({ name: 'Original' });
+		original.createdAt = new Date('2020-01-01');
+		original.updatedAt = new Date('2020-01-02');
 		const updated = new Issue({ ...original, name: 'Updated' });
 		const unchanged = new Issue();
 		const created = new Issue();
@@ -23,6 +25,8 @@ describe('GetIssueSnapshotsStepService', () => {
 
 		await TestBed.inject(GetIssueSnapshotsStepService).execute(context);
 
+		expect(updated.createdAt).toEqual(original.createdAt);
+		expect(updated.updatedAt.getTime()).toBeGreaterThan(original.updatedAt.getTime());
 		expect(context.snapshots).toEqual([
 			{ before: original, after: updated },
 			{ before: null, after: created },

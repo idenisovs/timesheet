@@ -4,7 +4,7 @@ export interface ImportedProject {
 	keys: string;
 	description: string;
 	createdAt: string;
-	updatedAt: string;
+	updatedAt?: string;
 }
 
 export interface ImportedIssue {
@@ -14,6 +14,7 @@ export interface ImportedIssue {
 	duration: string;
 	estimate: string;
 	createdAt: string;
+	updatedAt?: string;
 }
 
 export interface ImportedActivity {
@@ -23,4 +24,6 @@ export interface ImportedActivity {
 	from: string;
 	till: string;
 	duration: string;
+	createdAt?: string;
+	updatedAt?: string;
 }

@@ -41,19 +41,15 @@ describe('SaveProjectsWorkflowService', () => {
 			.run([updated, unchanged, created], [removed]);
 
 		expect(create).toHaveBeenCalledExactlyOnceWith(created);
-		expect(update).toHaveBeenCalledTimes(2);
-		expect(update).toHaveBeenNthCalledWith(1, updated);
-		expect(update).toHaveBeenNthCalledWith(2, unchanged);
+		expect(update).toHaveBeenCalledExactlyOnceWith(updated);
 		expect(remove).toHaveBeenCalledExactlyOnceWith(removed);
 		expect(result.snapshots).toEqual([
 			expect.objectContaining({ before: original, after: updated }),
-			expect.objectContaining({ before: unchanged, after: unchanged }),
 			expect.objectContaining({ before: null, after: created }),
 			expect.objectContaining({ before: removed, after: null }),
 		]);
 		expect(save).toHaveBeenCalledExactlyOnceWith([
 			expect.objectContaining({ entity: 'project', before: original, after: updated }),
-			expect.objectContaining({ entity: 'project', before: unchanged, after: unchanged }),
 			expect.objectContaining({ entity: 'project', before: null, after: created }),
 			expect.objectContaining({ entity: 'project', before: removed, after: null }),
 		]);

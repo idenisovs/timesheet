@@ -2,7 +2,6 @@ import { inject, Service } from '@angular/core';
 import { ProjectRepositoryService } from '@repository/project-repository.service';
 import { SaveProjectsContext } from '@workflows/save-projects/save-projects-context';
 import { Step } from '@workflows/Step';
-import { Project } from '@entities';
 
 @Service()
 export class GetProjectSnapshotsStepService implements Step<SaveProjectsContext> {
@@ -12,7 +11,9 @@ export class GetProjectSnapshotsStepService implements Step<SaveProjectsContext>
 		for (const project of context.projects.toSave) {
 			const existingProject = await this.projectRepo.getById(project.id);
 
-			this.updateTimestamps(project, existingProject);
+			if (existingProject && existingProject.equals(project)) {
+				continue;
+			}
 
 			context.snapshots.push({ before: existingProject, after: project });
 		}
@@ -22,11 +23,4 @@ export class GetProjectSnapshotsStepService implements Step<SaveProjectsContext>
 		}
 	}
 
-	private updateTimestamps(project: Project, existingProject: Project | null) {
-		if (!existingProject) {
-			project.createdAt = new Date();
-		}
-
-		project.updatedAt = new Date();
-	}
 }

@@ -13,6 +13,7 @@ export class Issue {
 	estimate?: string;
 	color?: string;
 	createdAt = new Date();
+	updatedAt = new Date();
 
 	get ProjectKey(): string {
 		return this.key.split('-')[0];
@@ -27,6 +28,10 @@ export class Issue {
 
 		if (props.createdAt) {
 			this.createdAt = new Date(props.createdAt);
+		}
+
+		if (props.updatedAt) {
+			this.updatedAt = new Date(props.updatedAt);
 		}
 	}
 
@@ -44,6 +49,7 @@ export class Issue {
 		Object.assign(issue, record);
 
 		issue.createdAt = new Date(record.createdAt);
+		issue.updatedAt = new Date(record.updatedAt);
 
 		return issue;
 	}
@@ -53,7 +59,8 @@ export class Issue {
 
 		Object.assign(issue, importedIssue);
 
-		issue.createdAt = new Date(importedIssue.createdAt);
+		issue.createdAt = importedIssue.createdAt ? new Date(importedIssue.createdAt) : new Date();
+		issue.updatedAt = importedIssue.updatedAt ? new Date(importedIssue.updatedAt) : issue.createdAt;
 
 		return issue;
 	}

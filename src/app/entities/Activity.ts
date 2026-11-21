@@ -12,6 +12,8 @@ export class Activity {
 	till = '';
 	duration = '';
 	color?: string;
+	createdAt = new Date();
+	updatedAt = new Date();
 
 	constructor(entity?: Activity) {
 		if (!entity) {
@@ -95,12 +97,16 @@ export class Activity {
 
 	regenerateId(): Activity {
 		this.id = getId();
+		this.createdAt = new Date();
+		this.updatedAt = this.createdAt;
 		return this;
 	}
 
 	static fromImport(activityImport: ImportedActivity): Activity {
 		const activity = new Activity();
 		Object.assign(activity, activityImport);
+		activity.createdAt = activityImport.createdAt ? new Date(activityImport.createdAt) : new Date();
+		activity.updatedAt = activityImport.updatedAt ? new Date(activityImport.updatedAt) : activity.createdAt;
 		return activity;
 	}
 
