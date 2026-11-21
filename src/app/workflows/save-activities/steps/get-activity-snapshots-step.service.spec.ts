@@ -22,8 +22,6 @@ describe('GetActivitySnapshotsStepService', () => {
 
 		await TestBed.inject(GetActivitySnapshotsStepService).execute(context);
 
-		expect(changed.createdAt).toEqual(old.createdAt);
-		expect(changed.updatedAt.getTime()).toBeGreaterThan(old.updatedAt.getTime());
 		expect(context.snapshots).toEqual([
 			{ before: old, after: changed }, { before: null, after: created }, { before: removed, after: null },
 		]);

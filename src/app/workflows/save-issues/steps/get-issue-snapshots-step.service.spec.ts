@@ -25,8 +25,6 @@ describe('GetIssueSnapshotsStepService', () => {
 
 		await TestBed.inject(GetIssueSnapshotsStepService).execute(context);
 
-		expect(updated.createdAt).toEqual(original.createdAt);
-		expect(updated.updatedAt.getTime()).toBeGreaterThan(original.updatedAt.getTime());
 		expect(context.snapshots).toEqual([
 			{ before: original, after: updated },
 			{ before: null, after: created },

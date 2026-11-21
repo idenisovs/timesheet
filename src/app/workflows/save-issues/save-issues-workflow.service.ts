@@ -2,6 +2,7 @@ import { inject, Service } from '@angular/core';
 import { Workflow } from '@workflows/Workflow';
 import { Issue } from '@entities';
 import {
+	TimestampsStepService,
 	GetIssueSnapshotsStepService,
 	SaveChangesStepService,
 	UpdateAffectedProjectsStepService,
@@ -13,12 +14,14 @@ import {
 
 @Service()
 export class SaveIssuesWorkflowService {
+	private readonly timestamps = inject(TimestampsStepService);
 	private readonly snapshots = inject(GetIssueSnapshotsStepService);
 	private readonly save = inject(SaveIssuesStepService);
 	private readonly changes = inject(SaveChangesStepService);
 	private readonly projects = inject(UpdateAffectedProjectsStepService);
 
 	private readonly workflow = new Workflow<SaveIssuesContext>([
+		this.timestamps,
 		this.snapshots,
 		this.save,
 		this.changes,

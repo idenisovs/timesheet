@@ -3,6 +3,7 @@ import { Project } from '@entities';
 import { Workflow } from '@workflows/Workflow';
 import { SaveProjectsContext } from '@workflows/save-projects/save-projects-context';
 import {
+	TimestampsStepService,
 	GetProjectSnapshotsStepService,
 	SaveProjectsStepService,
 	SaveChangesStepService,
@@ -10,11 +11,13 @@ import {
 
 @Service()
 export class SaveProjectsWorkflowService {
+	private readonly timestamps = inject(TimestampsStepService);
 	private readonly snapshots = inject(GetProjectSnapshotsStepService);
 	private readonly save = inject(SaveProjectsStepService);
 	private readonly changes = inject(SaveChangesStepService);
 
 	private readonly workflow = new Workflow<SaveProjectsContext>([
+		this.timestamps,
 		this.snapshots,
 		this.save,
 		this.changes,
