@@ -28,7 +28,7 @@ export class ChangeRepositoryService {
 		await this.db.changes.bulkAdd(changes);
 	}
 
-	async getPendingBatch(limit = 500): Promise<Change[]> {
+	async getPendingBatch(limit = 150): Promise<Change[]> {
 		const records = await this.db.transaction('r', this.db.changes, () => {
 			return this.db.changes
 				.where('status')
