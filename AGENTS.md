@@ -5,51 +5,22 @@ This file provides guidance to AI agents working with code in this repository.
 ## Commands
 
 ```bash
-npm start          # dev server (http)
-npm run https      # dev server (https, uses local SSL cert)
-npm run build      # production build
-npm test           # run tests headless in terminal (Karma/Jasmine)
-npm run test:watch # run tests in watch mode with Chrome window
-npm run watch      # build in watch mode
+npm start      # HTTP dev server
+npm run build  # production build
+npm test       # run Vitest once
 ```
-
-## What This App Is
-
-A serverless browser-based time tracker. All data lives in IndexedDB (via Dexie.js) — no backend, no auth. Angular 21, Bootstrap 5, Luxon for dates, ng-bootstrap for modals.
 
 ## Architecture
 
-### Layers
+Timesheet is a browser-based time tracker. It stores data locally in IndexedDB through Dexie, with optional sync.
 
-1. **Store** (`src/app/store/`) — Dexie wrapper (`SheetStoreService`) + raw IndexedDB record interfaces in `records/`. Schema has 10 versions with a migration chain (`migrate-v2` → `migrate-v9`). Tables: `activities`, `issues`, `projects`.
-
-2. **Entities** (`src/app/entities/`) — Rich domain classes (`Activity`, `Issue`, `Project`, `Week`, `Day`) with business logic. Each has static factory methods: `Entity.fromRecord()` and `Entity.fromImport()`. These are distinct from the thin store records.
-
-3. **Repository services** (`src/app/services/`) — `ActivitiesRepositoryService`, `IssueRepositoryService`, `ProjectRepositoryService` query Dexie and map records → entities.
-
-4. **Business logic services** — `ActivitiesService` (calculations), `DurationService` (time math), `WeekService`, `OverviewService`, `IssuesService`.
-5. **Workflow services** — `SaveActivitiesWorkflowService`, `ExportWorkflowService`, `RemoveActivitiesWorkflowService` orchestrate multi-step operations across repositories.
-6. **Pages** (`src/app/pages/`) — Route-based: daily-activities (main view), issues, projects, analytics, import, settings.
-7. **Components** (`src/app/components/`) — Shared UI components used across pages.
-
-### Routing
-
-```
-/                   daily-activities (default)
-/issues             issues list
-/issues/:issueKey   issue detail
-/projects           projects list
-/projects/:projectId project detail (has resolver)
-/import             data import
-/settings           settings
-```
-
-Navbar action buttons use a named router outlet.
+Repository services query the store and map raw records to domain entities. Workflow services coordinate multi-step operations across repositories.
 
 ## Code Style
 
+- Start with the simplest implementation that meets the requirements. Prefer direct code and add complexity only when it solves a concrete problem or improves readability.
 - Prioritize readability for humans when writing and organizing code and templates.
-- Keep implementations simple and focused on the requested behavior. Avoid adding speculative handling or unnecessary complexity.
+- Separate independent code blocks with one blank line, including sibling control-flow blocks in templates.
 - Tabs for indentation, size 4
 - Single quotes in TypeScript files
 - Final newline at end of every file, no trailing whitespace
@@ -64,6 +35,7 @@ Navbar action buttons use a named router outlet.
 - **Desktop/mobile splits**: some components have a `-mobile` variant (e.g., `daily-activity-item` vs `daily-activity-item-mobile`). `ScreenService` drives which renders.
 - **Signals**: use `input()` / `input.required()` and `signal()` for reactivity — not `@Input()`.
 - **Global events**: `ActionsService` is an EventEmitter bus for app-wide actions (CreateIssue, AddProject, Export, Import, ToggleMode).
+- Use the named `page-actions` router outlet for page-specific header actions such as Add Project.
 - **Modals**: ng-bootstrap `NgbModal` for dialogs.
 - **Styling**: SCSS, Bootstrap 5 utility classes. Default component style is SCSS. Prefer Bootstrap 5 utility classes over custom CSS — only write custom SCSS when Bootstrap has no equivalent utility.
 - **Strict TypeScript**: `strict: true`, `noImplicitReturns`, `noFallthroughCasesInSwitch` are all on.
