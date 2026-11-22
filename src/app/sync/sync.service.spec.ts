@@ -1,13 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { Subject } from 'rxjs';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Change } from '@entities';
 import { ChangeRepositoryService } from '@repository/change-repository.service';
 import { SyncApiService } from './sync-api';
+import { SyncLiveService } from './sync-live.service';
 import { SyncService } from './sync.service';
 
 describe('SyncService', () => {
+	beforeEach(() => {
+		TestBed.configureTestingModule({
+			providers: [{ provide: SyncLiveService, useValue: { status: () => 'alive' } }],
+		});
+	});
+
 	afterEach(() => {
 		TestBed.resetTestingModule();
 		vi.useRealTimers();

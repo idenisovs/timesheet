@@ -8,7 +8,6 @@ import { ActionsService } from '@services/actions.service';
 import { Actions } from '@services/Actions';
 import { AppHeaderComponent } from '@components/app-header/app-header.component';
 import { ToastContainerComponent } from '@components/toast-container/toast-container.component';
-import { SyncLiveService } from './sync/sync-live.service';
 import { SyncService } from './sync/sync.service';
 
 @Component({
@@ -27,7 +26,6 @@ export class AppComponent implements OnInit, OnDestroy {
 	actionsSubs!: Subscription;
 
 	constructor() {
-		inject(SyncLiveService);
 		inject(SyncService);
 	}
 
