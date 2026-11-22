@@ -1,7 +1,17 @@
 <div class="container">
 	<app-header />
 
-	<app-navbar></app-navbar>
+	<div class="mb-3">
+		<app-navbar></app-navbar>
+	</div>
+
+	@if (isSyncServiceEnabled()) {
+		<div class="mb-3">
+			<div class="text-end">
+				<span class="badge text-bg-success">Synced at</span>
+			</div>
+		</div>
+	}
 
 	<router-outlet></router-outlet>
 </div>

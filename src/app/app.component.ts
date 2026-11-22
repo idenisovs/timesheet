@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -9,6 +9,7 @@ import { Actions } from '@services/Actions';
 import { AppHeaderComponent } from '@components/app-header/app-header.component';
 import { ToastContainerComponent } from '@components/toast-container/toast-container.component';
 import { SyncService } from './sync/sync.service';
+import { SettingsService } from '@services/settings.service';
 
 @Component({
 	selector: 'app-root',
@@ -19,8 +20,13 @@ import { SyncService } from './sync/sync.service';
 	imports: [RouterOutlet, NavbarComponent, AppHeaderComponent, ToastContainerComponent],
 })
 export class AppComponent implements OnInit, OnDestroy {
-	private actions = inject(ActionsService);
-	private colorMode = inject(ColorModeService);
+	private readonly actions = inject(ActionsService);
+	private readonly colorMode = inject(ColorModeService);
+	private readonly settings = inject(SettingsService);
+
+	protected readonly isSyncServiceEnabled = computed(() => {
+		return this.settings.settings$().isSyncServiceEnabled;
+	});
 
 	title = 'timesheet';
 	actionsSubs!: Subscription;
