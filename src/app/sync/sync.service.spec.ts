@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Subject } from 'rxjs';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -9,9 +10,12 @@ import { SyncLiveService } from './sync-live.service';
 import { SyncService } from './sync.service';
 
 describe('SyncService', () => {
+	const status = signal<ReturnType<SyncLiveService['status']>>('alive');
+
 	beforeEach(() => {
+		status.set('alive');
 		TestBed.configureTestingModule({
-			providers: [{ provide: SyncLiveService, useValue: { status: () => 'alive' } }],
+			providers: [{ provide: SyncLiveService, useValue: { status: status.asReadonly() } }],
 		});
 	});
 
@@ -40,6 +44,31 @@ describe('SyncService', () => {
 		await vi.advanceTimersByTimeAsync(900);
 		expect(getPendingBatch).not.toHaveBeenCalled();
 		await vi.advanceTimersByTimeAsync(100);
+		expect(getPendingBatch).toHaveBeenCalledTimes(1);
+	});
+
+	it('starts syncing queued changes when the service becomes alive', async () => {
+		vi.useFakeTimers();
+		status.set('failed');
+		const pending = new Subject<boolean>();
+		const getPendingBatch = vi.fn().mockResolvedValue([]);
+
+		TestBed.configureTestingModule({
+			providers: [
+				{ provide: ChangeRepositoryService, useValue: { hasPendingChanges$: pending, getPendingBatch } },
+				{ provide: SyncApiService, useValue: {} },
+			],
+		});
+		TestBed.inject(SyncService);
+		TestBed.tick();
+
+		pending.next(true);
+		await vi.advanceTimersByTimeAsync(1000);
+		expect(getPendingBatch).not.toHaveBeenCalled();
+
+		status.set('alive');
+		TestBed.tick();
+		await vi.advanceTimersByTimeAsync(1000);
 		expect(getPendingBatch).toHaveBeenCalledTimes(1);
 	});
 

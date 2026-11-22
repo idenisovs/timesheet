@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, filter, firstValueFrom, from } from 'rxjs';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { combineLatest, debounceTime, filter, firstValueFrom, from } from 'rxjs';
 import { ChangeRepositoryService } from '@repository/change-repository.service';
 import { SyncApiService } from './sync-api';
 import { Change } from '@entities';
@@ -15,18 +15,17 @@ export class SyncService {
 	private syncing = false;
 
 	constructor() {
-		from(this.changeRepo.hasPendingChanges$).pipe(
+		const pendingChanges$ = from(this.changeRepo.hasPendingChanges$);
+		const syncStatus$ = toObservable(this.syncLive.status);
+
+		combineLatest([pendingChanges$, syncStatus$]).pipe(
 			debounceTime(ms('1s')),
-			filter(hasPendingChanges => hasPendingChanges),
+			filter(([hasPendingChanges, status]) => hasPendingChanges && status === 'alive'),
 			takeUntilDestroyed(),
 		).subscribe(() => void this.sync());
 	}
 
 	private async sync(): Promise<void> {
-		if (this.syncLive.status() !== 'alive') {
-			return;
-		}
-
 		if (this.syncing) {
 			return;
 		}
