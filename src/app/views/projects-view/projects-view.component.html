@@ -1,10 +1,11 @@
-@if (projects.length) {
-	@for (project of projects; track project.id) {
-		<app-project-card [project]="project"/>
+<div class="px-3 px-md-0">
+	@if (projects.length) {
+		@for (project of projects; track project.id) {
+			<app-project-card [project]="project"/>
+		}
+	} @else {
+		<section class="alert alert-info">
+			There are no projects yet.
+		</section>
 	}
-} @else {
-	<section class="alert alert-info">
-		There is no projects yet!
-	</section>
-}
-
+</div>

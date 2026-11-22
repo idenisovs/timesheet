@@ -1,88 +1,67 @@
-<section class="card border-0 mb-3">
-	<main class="card-body">
-		<div class="row">
-			<div class="col-12 d-flex flex-row align-items-baseline gap-2">
-				<h3 class="mb-0">
-					<a [routerLink]="'/projects/' + project().id" class="stretched-link">
-						{{ project().name }}
-					</a>
-				</h3>
+@let metrics = summary.hasValue() ? summary.value() : undefined;
+@let name = project().name || 'Untitled project';
 
-				<span>{{ project().description }}</span>
-			</div>
+<article class="card mb-3">
+	<header class="card-header text-break">
+		<div class="d-flex align-items-center gap-1">
+			<h2 class="h5 mb-0">{{ name }}</h2>
+			<a
+				class="stretched-link d-inline-flex flex-shrink-0 text-decoration-none"
+				[routerLink]="['/projects', project().id]"
+				[attr.aria-label]="'Open project ' + name"
+			>
+				<span class="material-symbols-outlined fs-6" aria-hidden="true">open_in_new</span>
+			</a>
 		</div>
 
-		<div class="row mt-2">
-			<div class="col-3">
-				<div class="card">
-					<div class="card-header">
-						Last updated at
-					</div>
-					<div class="card-body">
-						{{ project().updatedAt|date }}
-					</div>
-				</div>
+		@if (project().description; as description) {
+			<p class="text-body-secondary mb-0">{{ description }}</p>
+		}
+	</header>
+
+	<div class="card-body">
+		<dl class="row row-cols-2 row-cols-md-3 g-3 mb-0">
+			<div class="col">
+				<dt>Total issues</dt>
+				<dd class="mb-0">{{ metrics?.issueCount ?? '—' }}</dd>
 			</div>
 
-			<div class="col-3">
-				<div class="card">
-					<div class="card-header">
-						Total issues
-					</div>
-					<div class="card-body">
-						{{ issues().length }}
-					</div>
-				</div>
+			<div class="col">
+				<dt>Total duration</dt>
+				<dd class="mb-0">{{ metrics?.duration || '—' }}</dd>
 			</div>
 
-			<div class="col-3">
-				<div class="card">
-					<div class="card-header">
-						Total duration
-					</div>
-					<div class="card-body">
-						{{ totalDuration }}
-					</div>
-				</div>
+			<div class="col">
+				<dt>Average accuracy</dt>
+				<dd class="mb-0">
+					@if (metrics) {
+						{{ metrics.accuracy }} of 1000 ({{ metrics.accuracyRate | percent }})
+					} @else {
+						—
+					}
+				</dd>
 			</div>
 
-			<div class="col-3">
-				<div class="card">
-					<div class="card-header">
-						Average accuracy
-					</div>
-					<div class="card-body">
-						{{ averageAccuracy }} of 1000 ({{ averageAccuracyRate|percent }})
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="row mt-2">
-			<div class="col-3">
-				<div class="card">
-					<div class="card-header">
-						Created at
-					</div>
-					<div class="card-body">
-						{{ project().createdAt|date }}
-					</div>
-				</div>
+			<div class="col">
+				<dt>Created at</dt>
+				<dd class="mb-0">{{ project().createdAt | date }}</dd>
 			</div>
 
-			<div class="col-3">
-				<div class="card">
-					<div class="card-header">
-						Project keys
-					</div>
-					<div class="card-body">
-						@for (key of project().keys; track key) {
-							<span class="badge bg-primary me-1">{{ key }}</span>
+			<div class="col">
+				<dt>Last updated at</dt>
+				<dd class="mb-0">{{ project().updatedAt | date }}</dd>
+			</div>
+
+			<div class="col">
+				<dt>Project keys</dt>
+				<dd class="d-flex flex-wrap gap-1 mb-0">
+					@for (key of project().keys; track $index) {
+						@if (key) {
+							<span class="badge bg-primary text-wrap text-break">{{ key }}</span>
 						}
-					</div>
-				</div>
-
+					}
+				</dd>
 			</div>
-		</div>
-	</main>
-</section>
+		</dl>
+	</div>
+</article>

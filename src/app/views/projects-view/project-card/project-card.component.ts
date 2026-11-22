@@ -1,7 +1,8 @@
-import { Component, effect, inject, input, InputSignal, signal, WritableSignal, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, resource } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DatePipe, PercentPipe } from '@angular/common';
-import { Issue, Project } from '@entities';
+
+import { Project } from '@entities';
 import { IssuesService } from '@services/issues.service';
 import { IssueRepositoryService } from '@repository/issue-repository.service';
 
@@ -13,36 +14,29 @@ import { IssueRepositoryService } from '@repository/issue-repository.service';
 		PercentPipe,
 	],
 	templateUrl: './project-card.component.html',
-	changeDetection: ChangeDetectionStrategy.Eager,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	styleUrl: './project-card.component.scss',
 })
 export class ProjectCardComponent {
 	private issuesRepo = inject(IssueRepositoryService);
 	private issuesService = inject(IssuesService);
 
-	project: InputSignal<Project> = input.required<Project>();
+	readonly project = input.required<Project>();
 
-	issues: WritableSignal<Issue[]> = signal<Issue[]>([]);
+	protected readonly summary = resource({
+		params: () => this.project().keys,
+		loader: async ({ params: keys }) => {
+			const requests = keys.map(key => this.issuesRepo.getByKeyPrefix(key));
+			const groups = await Promise.all(requests);
+			const issues = groups.flat();
+			const accuracy = this.issuesService.calculateAverageEstimationScore(issues);
 
-	totalDuration: string = '';
-	averageAccuracy: number = 0;
-	averageAccuracyRate: number = 0;
-
-	constructor() {
-		effect(() => {
-			const keys = this.project().keys;
-			for (const key of keys) {
-				this.issuesRepo.getByKeyPrefix(key).then((issues: Issue[]) => {
-					this.issues.update(prev => [...prev, ...issues]);
-				});
-			}
-		});
-
-		effect(() => {
-			const issues = this.issues();
-			this.totalDuration = this.issuesService.calculateDuration(issues);
-			this.averageAccuracy = this.issuesService.calculateAverageEstimationScore(issues);
-			this.averageAccuracyRate = this.averageAccuracy / 1000;
-		});
-	}
+			return {
+				issueCount: issues.length,
+				duration: this.issuesService.calculateDuration(issues),
+				accuracy,
+				accuracyRate: accuracy / 1000,
+			};
+		},
+	});
 }
