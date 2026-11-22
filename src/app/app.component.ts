@@ -10,6 +10,9 @@ import { AppHeaderComponent } from '@components/app-header/app-header.component'
 import { ToastContainerComponent } from '@components/toast-container/toast-container.component';
 import { SyncService } from './sync/sync.service';
 import { SettingsService } from '@services/settings.service';
+import {
+	SyncStatusPanelComponent
+} from '@components/sync-status-panel/sync-status-panel.component';
 
 @Component({
 	selector: 'app-root',
@@ -17,7 +20,7 @@ import { SettingsService } from '@services/settings.service';
 	styleUrls: ['./app.component.scss'],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.Eager,
-	imports: [RouterOutlet, NavbarComponent, AppHeaderComponent, ToastContainerComponent],
+	imports: [RouterOutlet, NavbarComponent, AppHeaderComponent, ToastContainerComponent, SyncStatusPanelComponent],
 })
 export class AppComponent implements OnInit, OnDestroy {
 	private readonly actions = inject(ActionsService);

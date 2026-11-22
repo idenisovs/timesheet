@@ -12,7 +12,10 @@ export class SyncService {
 	private readonly changeRepo = inject(ChangeRepositoryService);
 	private readonly syncApi = inject(SyncApiService);
 	private readonly syncLive = inject(SyncLiveService);
+
 	private syncing = false;
+
+	readonly lastSyncedAt$ = from(this.changeRepo.lastSyncedAt$);
 
 	constructor() {
 		const pendingChanges$ = from(this.changeRepo.hasPendingChanges$);

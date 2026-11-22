@@ -20,6 +20,11 @@ export class ChangeRepositoryService {
 		return count > 0;
 	});
 
+	readonly lastSyncedAt$ = liveQuery(async () => {
+		const latest = await this.db.changes.orderBy('syncedAt').last();
+		return latest?.syncedAt ?? null;
+	});
+
 	async save(changes: Change[]): Promise<void> {
 		if (changes.length === 0) {
 			return;

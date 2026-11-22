@@ -1,6 +1,6 @@
 import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Subject } from 'rxjs';
+import { EMPTY, Subject } from 'rxjs';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Change } from '@entities';
@@ -31,7 +31,10 @@ describe('SyncService', () => {
 
 		TestBed.configureTestingModule({
 			providers: [
-				{ provide: ChangeRepositoryService, useValue: { hasPendingChanges$: pending, getPendingBatch } },
+				{
+					provide: ChangeRepositoryService,
+					useValue: { hasPendingChanges$: pending, lastSyncedAt$: EMPTY, getPendingBatch },
+				},
 				{ provide: SyncApiService, useValue: {} },
 			],
 		});
@@ -55,7 +58,10 @@ describe('SyncService', () => {
 
 		TestBed.configureTestingModule({
 			providers: [
-				{ provide: ChangeRepositoryService, useValue: { hasPendingChanges$: pending, getPendingBatch } },
+				{
+					provide: ChangeRepositoryService,
+					useValue: { hasPendingChanges$: pending, lastSyncedAt$: EMPTY, getPendingBatch },
+				},
 				{ provide: SyncApiService, useValue: {} },
 			],
 		});
@@ -85,7 +91,10 @@ describe('SyncService', () => {
 
 		TestBed.configureTestingModule({
 			providers: [
-				{ provide: ChangeRepositoryService, useValue: { hasPendingChanges$: pending, getPendingBatch, update } },
+				{
+					provide: ChangeRepositoryService,
+					useValue: { hasPendingChanges$: pending, lastSyncedAt$: EMPTY, getPendingBatch, update },
+				},
 				{ provide: SyncApiService, useValue: { sync } },
 			],
 		});
