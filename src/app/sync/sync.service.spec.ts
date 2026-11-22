@@ -98,16 +98,19 @@ describe('SyncService', () => {
 				{ provide: SyncApiService, useValue: { sync } },
 			],
 		});
-		TestBed.inject(SyncService);
+		const service = TestBed.inject(SyncService);
 		TestBed.tick();
+		expect(service.isSyncing()).toBe(false);
 		pending.next(true);
 		await vi.advanceTimersByTimeAsync(1000);
 
+		expect(service.isSyncing()).toBe(true);
 		expect(sync).toHaveBeenCalledWith(changes);
 		expect(getPendingBatch).toHaveBeenCalledTimes(1);
 		expect(update).not.toHaveBeenCalled();
 		response.next();
 		await vi.advanceTimersByTimeAsync(0);
+		expect(service.isSyncing()).toBe(false);
 		expect(getPendingBatch).toHaveBeenCalledTimes(2);
 		expect(update).toHaveBeenCalledWith(changes);
 		expect(changes[0].status).toBe('synced');

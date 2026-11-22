@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { inject, Injectable, signal } from '@angular/core';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { combineLatest, debounceTime, filter, firstValueFrom, from } from 'rxjs';
 import { ChangeRepositoryService } from '@repository/change-repository.service';
 import { SyncApiService } from './sync-api';
@@ -13,9 +13,13 @@ export class SyncService {
 	private readonly syncApi = inject(SyncApiService);
 	private readonly syncLive = inject(SyncLiveService);
 
-	private syncing = false;
+	private readonly syncing = signal(false);
 
-	readonly lastSyncedAt$ = from(this.changeRepo.lastSyncedAt$);
+	readonly isSyncing = this.syncing.asReadonly();
+	readonly lastSyncedAt = toSignal(
+		from(this.changeRepo.lastSyncedAt$),
+		{ initialValue: null }
+	);
 
 	constructor() {
 		const pendingChanges$ = from(this.changeRepo.hasPendingChanges$);
@@ -29,25 +33,28 @@ export class SyncService {
 	}
 
 	private async sync(): Promise<void> {
-		if (this.syncing) {
+		if (this.syncing()) {
 			return;
 		}
 
-		this.syncing = true;
+		this.syncing.set(true);
 
-		while (true) {
-			const changes = await this.changeRepo.getPendingBatch();
+		try {
+			while (true) {
+				const changes = await this.changeRepo.getPendingBatch();
 
-			if (changes.length === 0) {
-				this.syncing = false;
-				return;
+				if (changes.length === 0) {
+					return;
+				}
+
+				// ToDo: Error Handling
+				await firstValueFrom(this.syncApi.sync(changes));
+				// ToDo: Process Sync Service Response
+				this.markSynced(changes);
+				await this.changeRepo.update(changes);
 			}
-
-			// ToDo: Error Handling
-			await firstValueFrom(this.syncApi.sync(changes));
-			// ToDo: Process Sync Service Response
-			this.markSynced(changes);
-			await this.changeRepo.update(changes);
+		} finally {
+			this.syncing.set(false);
 		}
 	}
 

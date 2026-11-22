@@ -1,5 +1,9 @@
-@if (lastSyncedAt$ | async; as lastSyncedAt) {
-	<div class="text-end">
-		<span class="badge text-bg-success">Synced at {{ lastSyncedAt | date:'d MMM y, HH:mm' }}</span>
-	</div>
-}
+<div class="d-flex justify-content-end gap-2">
+	@if (isSyncing()) {
+		<span class="badge text-bg-primary">Syncing…</span>
+	}
+
+	@if (lastSyncedAt()) {
+		<span class="badge text-bg-success">Synced at {{ lastSyncedAt() | date:'d MMM y, HH:mm' }}</span>
+	}
+</div>
